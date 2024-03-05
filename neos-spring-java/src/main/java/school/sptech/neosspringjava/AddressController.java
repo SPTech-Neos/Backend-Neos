@@ -1,6 +1,8 @@
 package school.sptech.neosspringjava;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import school.sptech.neosspringjava.Address;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,38 +13,47 @@ public class AddressController {
     private List<Address> addresses = new ArrayList<>();
 
     @GetMapping("/")
-    public List<Address> getAllAddresses() {
-        return addresses;
+    public ResponseEntity<List<Address>> getAllAddresses() {
+        if (addresses.isEmpty()) {
+            return ResponseEntity.status(204).build();
+        } else {
+            return ResponseEntity.status(200).body(addresses);
+        }
     }
 
     @GetMapping("/{id}")
-    public Address getAddressById(@PathVariable int id) {
+    public ResponseEntity<Address> getAddressById(@PathVariable int id) {
         if (id >= 0 && id < addresses.size()) {
-            return addresses.get(id);
+            Address address = addresses.get(id);
+            return ResponseEntity.status(200).body(address);
+        } else {
+            return ResponseEntity.status(404).build();
         }
-        return null;
     }
 
     @PostMapping("/")
-    public Address createAddress(@RequestBody Address address) {
+    public ResponseEntity<Address> createAddress(@RequestBody Address address) {
         addresses.add(address);
-        return address;
+        return ResponseEntity.status(200).body(address);
     }
 
     @PutMapping("/{id}")
-    public Address updateAddress(@PathVariable int id, @RequestBody Address updatedAddress) {
+    public ResponseEntity<Address> updateAddress(@PathVariable int id, @RequestBody Address updatedAddress) {
         if (id >= 0 && id < addresses.size()) {
             addresses.set(id, updatedAddress);
-            return updatedAddress;
+            return ResponseEntity.status(200).body(updatedAddress);
+        } else {
+            return ResponseEntity.status(404).build();
         }
-        return null;
     }
 
     @DeleteMapping("/{id}")
-    public Address deleteAddress(@PathVariable int id) {
+    public ResponseEntity<Address> deleteAddress(@PathVariable int id) {
         if (id >= 0 && id < addresses.size()) {
-            return addresses.remove(id);
+            Address deletedAddress = addresses.remove(id);
+            return ResponseEntity.status(200).body(deletedAddress);
+        } else {
+            return ResponseEntity.status(404).build();
         }
-        return null;
     }
 }
