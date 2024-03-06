@@ -18,7 +18,7 @@ import school.sptech.neosspringjava.Company;
 
 @RestController
 @RequestMapping("/company")
-public class companyController {
+public class CompanyController {
 
     List<Company> lstCompany = new ArrayList<>();
 
