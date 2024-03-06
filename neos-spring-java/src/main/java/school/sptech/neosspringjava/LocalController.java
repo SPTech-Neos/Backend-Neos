@@ -28,11 +28,26 @@ public class LocalController {
         }
     }
 
-    @PostMapping("/")
-    public ResponseEntity <Local> createLocal(@RequestBody Local local) {
-        locals.add(local);
-        return ResponseEntity.status(200).body(local);
-    }
+        @PostMapping("/")
+        public ResponseEntity<Local> createLocal(@RequestBody Local local) {
+            Local show = null;
+            int finish = 0;
+
+            for (int i = 0; i < locals.size(); i++) {
+                show = locals.get(i);
+                if (locals.get(i).equals(local)) {
+                    finish++;
+                    break;
+                }
+            }
+
+            if (finish > 0) {
+                return ResponseEntity.status(200).body(show);
+            } else {
+                locals.add(local);
+                return ResponseEntity.status(201).body(local);
+            }
+        }
 
     @PutMapping("/id")
     public ResponseEntity<List<Local>> updateLocal(@PathVariable int id, @RequestBody Local local){

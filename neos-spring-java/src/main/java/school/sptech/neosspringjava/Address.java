@@ -1,17 +1,17 @@
 package school.sptech.neosspringjava;
 
 public class Address {
-    private String road;
+    private String street;
     private String neighborhood;
     private String city;
     private String state;
 
     public String getRoad() {
-        return road;
+        return street;
     }
 
     public void setRoad(String road) {
-        this.road = road;
+        this.street = road;
     }
 
     public String getNeighborhood() {
@@ -41,7 +41,7 @@ public class Address {
     @Override
     public String toString() {
         return "Address{" +
-                "road='" + road + '\'' +
+                "street='" + street + '\'' +
                 ", neighborhood='" + neighborhood + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +

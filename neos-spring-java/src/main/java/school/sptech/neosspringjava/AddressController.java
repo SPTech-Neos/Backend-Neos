@@ -33,8 +33,25 @@ public class AddressController {
 
     @PostMapping("/")
     public ResponseEntity<Address> createAddress(@RequestBody Address address) {
-        addresses.add(address);
-        return ResponseEntity.status(200).body(address);
+        Address show = null;
+        int finish = 0;
+        ;
+
+        for (int i = 0; i < addresses.size(); i++) {
+            show = addresses.get(i);
+            if (addresses.get(i).equals(address)) {
+                finish++;
+                break;
+            }
+        }
+
+        if (finish > 0) {
+            return ResponseEntity.status(200).body(show);
+        } else {
+            addresses.add(address);
+            return ResponseEntity.status(201).body(address);
+        }
+
     }
 
     @PutMapping("/{id}")
