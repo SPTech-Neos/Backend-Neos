@@ -1,6 +1,6 @@
 package school.sptech.neosspringjava;
 
-public class company {
+public class Company {
     private String name;
     private  String fantasyName;
     private  String cnpj;
