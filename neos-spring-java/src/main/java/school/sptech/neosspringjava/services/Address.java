@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava;
+package school.sptech.neosspringjava.services;
 
 public class Address {
     private String street;

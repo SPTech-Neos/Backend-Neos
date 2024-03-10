@@ -12,7 +12,7 @@
 	<artifactId>neos-spring-java</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>neos-spring-java</name>
-	<description>Java com Spring boot e dependencias de banco de dados</description>
+	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
@@ -38,6 +38,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
 
 	<build>
 		<plugins>

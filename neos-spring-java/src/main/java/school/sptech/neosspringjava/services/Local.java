@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava;
+package school.sptech.neosspringjava.services;
 
 public class Local {
     private String number;

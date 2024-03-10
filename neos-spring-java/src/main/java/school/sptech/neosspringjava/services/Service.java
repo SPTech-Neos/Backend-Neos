@@ -1,8 +1,7 @@
-package school.sptech.neosspringjava;
+package school.sptech.neosspringjava.services;
 
-public class Product {
+public class Service {
     private String name;
-    private Integer quantity;
     private Double value;
 
     public String getName() {
@@ -11,14 +10,6 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
     }
 
     public Double getValue() {
@@ -31,12 +22,9 @@ public class Product {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "Service{" +
                 "name='" + name + '\'' +
-                ", quantity=" + quantity +
                 ", value=" + value +
                 '}';
     }
-
-
 }
