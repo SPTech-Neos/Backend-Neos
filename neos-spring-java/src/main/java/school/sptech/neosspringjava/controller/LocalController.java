@@ -2,6 +2,7 @@ package school.sptech.neosspringjava.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import school.sptech.neosspringjava.Local;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/Local")
 public class LocalController {
-    List<Local> locals = new ArrayList<>();
-
+    private List<Local> locals = new ArrayList<>();
     @GetMapping("/")
     public ResponseEntity <List<Local>> getAllLocal() {
         if (locals.isEmpty()){return ResponseEntity.status(204).build();} else {
@@ -64,7 +64,7 @@ public class LocalController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Local> deleteLocal (@PathVariable int id) {
+    public ResponseEntity<Object> deleteLocal (@PathVariable int id) {
         if (id >= 0 && id < locals.size()) {
             return ResponseEntity.status(200).body(locals.remove(id));
         }else{ return ResponseEntity.status(204).build();
