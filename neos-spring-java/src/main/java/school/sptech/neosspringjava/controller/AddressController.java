@@ -12,7 +12,7 @@ import java.util.List;
 public class AddressController {
     private List<Address> addresses = new ArrayList<>();
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Address>> getAllAddresses() {
         return ResponseEntity.status(200).body(addresses);
     }
