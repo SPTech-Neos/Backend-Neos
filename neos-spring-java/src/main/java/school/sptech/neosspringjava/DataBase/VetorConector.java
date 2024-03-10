@@ -1,12 +1,13 @@
 package school.sptech.neosspringjava.DataBase;
 
-import school.sptech.neosspringjava.DataBase.DatabaseConnector;
+import java.sql.Connection;
 
 public class VetorConector implements DatabaseConnector {
 
     @Override
-    public void connect() {
+    public Connection connect() {
 
+        return null;
     }
 
     @Override

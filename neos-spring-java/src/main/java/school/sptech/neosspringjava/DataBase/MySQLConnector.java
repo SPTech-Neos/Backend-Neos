@@ -1,7 +1,5 @@
 package school.sptech.neosspringjava.DataBase;
 
-import school.sptech.neosspringjava.DataBase.DatabaseConnector;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,13 +11,15 @@ public class MySQLConnector implements DatabaseConnector {
 
     private Connection connection;
 
-    public void connect() {
+    public Connection connect() {
         try {
             connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
             System.out.println("Conexão com o MySQL estabelecida.");
+            return connection;
         } catch (SQLException e) {
             System.out.println("Erro ao conectar-se ao MySQL: " + e.getMessage());
         }
+        return null;
     }
 
     public void disconnect() {
