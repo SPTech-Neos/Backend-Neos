@@ -3,8 +3,6 @@ package school.sptech.neosspringjava.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,26 +12,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import school.sptech.neosspringjava.services.Company;
+import school.sptech.neosspringjava.services.company;
 
 @RestController
 @RequestMapping("/company")
 public class CompanyController {
 
-    List<Company> lstCompany = new ArrayList<>();
+    List<company> lstCompany = new ArrayList<>();
 
     @GetMapping("/")
-    public ResponseEntity<List<Company>> getAllCompany() {
+    public ResponseEntity<List<company>> getAllCompany() {
         return ResponseEntity.status(200).body(lstCompany);
     }
 
     @GetMapping("/{id}")
-    public Company getCompanyById(int id) {
+    public company getCompanyById(int id) {
         return lstCompany.get(id);
     }
 
     @GetMapping("/{cnpj}")
-    public ResponseEntity<Company> getCompanyByCnpj(String cnpj) {
+    public ResponseEntity<company> getCompanyByCnpj(String cnpj) {
 
         if (lstCompany.size() == 0) {
             return ResponseEntity.status(404).build();
@@ -45,7 +43,7 @@ public class CompanyController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Company> createCompany(@RequestBody Company company) {
+    public ResponseEntity<company> createCompany(@RequestBody company company) {
 
         boolean exists = lstCompany.stream().anyMatch(c -> c.getCnpj().equals(company.getCnpj()));
         if (exists) {
@@ -57,7 +55,7 @@ public class CompanyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Company> updateCompany(int id, @RequestBody Company company) {
+    public ResponseEntity<company> updateCompany(int id, @RequestBody company company) {
 
         if (lstCompany.size() == 0) {
             return ResponseEntity.status(404).build();
@@ -68,7 +66,7 @@ public class CompanyController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Company> deleteCompany(int id) {
+    public ResponseEntity<company> deleteCompany(int id) {
 
         if (lstCompany.size() == 0) {
             return ResponseEntity.status(404).build();

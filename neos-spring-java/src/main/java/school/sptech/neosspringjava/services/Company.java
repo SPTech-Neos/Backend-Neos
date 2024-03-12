@@ -5,6 +5,8 @@ public class Company {
     private  String fantasyName;
     private  String cnpj;
 
+    private  String Segment;
+
     public String getName() {
         return name;
     }
@@ -29,12 +31,21 @@ public class Company {
         this.cnpj = cnpj;
     }
 
+    public String getSegment() {
+        return Segment;
+    }
+
+    public void setSegment(String segment) {
+        Segment = segment;
+    }
+
     @Override
     public String toString() {
         return "company{" +
                 "name='" + name + '\'' +
                 ", fantasyName='" + fantasyName + '\'' +
                 ", cnpj='" + cnpj + '\'' +
+                ", Segment='" + Segment + '\'' +
                 '}';
     }
 }
