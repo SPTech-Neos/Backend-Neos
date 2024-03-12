@@ -1,6 +1,6 @@
 package school.sptech.neosspringjava.Modal;
 
-import school.sptech.neosspringjava.DataBase.DatabaseConnectionManager;
+import school.sptech.neosspringjava.database.DatabaseConnectionManager;
 import school.sptech.neosspringjava.services.User;
 
 import java.sql.Connection;
