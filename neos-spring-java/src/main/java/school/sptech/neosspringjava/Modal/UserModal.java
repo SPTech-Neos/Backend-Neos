@@ -146,7 +146,7 @@ public class UserModal {
 
         return user;
     }
-    
+
     public void deleteUser(int userId) {
         if (connectionManager.isConnected()) {
             Connection connection = connectionManager.getConnection();
