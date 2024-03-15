@@ -1,4 +1,5 @@
-package school.sptech.neosspringjava.database;
+package school.sptech.neosspringjava.DataBase;
+import school.sptech.neosspringjava.database.SQLServerConnector;
 
 import java.sql.Connection;
 
