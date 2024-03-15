@@ -1,8 +1,12 @@
 package school.sptech.neosspringjava.Modal;
 
+<<<<<<< HEAD
 import school.sptech.neosspringjava.DataBase.DatabaseConnectionManager;
 import school.sptech.neosspringjava.DataBase.DatabaseConnector;
 import school.sptech.neosspringjava.DataBase.VetorConector;
+=======
+import school.sptech.neosspringjava.database.DatabaseConnectionManager;
+>>>>>>> 8c079f6527d505873e66cade06c7113b6398b43b
 import school.sptech.neosspringjava.services.User;
 
 import java.sql.Connection;
