@@ -23,7 +23,7 @@ import school.sptech.neosspringjava.services.UserAuthenticationStrategy;
 @RequestMapping("/user")
 public class UserController {
 
-    private List<User> lstUsers = new ArrayList<>();
+    public List<User> lstUsers = new ArrayList<>();
     private UserAuthenticationStrategy authenticationStrategy;
 
     public UserController(UserAuthenticationStrategy authenticationStrategy) {
@@ -37,7 +37,10 @@ public class UserController {
      */
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
-        return ResponseEntity.status(200).body(lstUsers);
+        if (isLstUsersValid(lstUsers)) {
+            return ResponseEntity.status(200).body(lstUsers);
+        }
+        return ResponseEntity.status(404).build();
     }
 
     /*
@@ -50,9 +53,11 @@ public class UserController {
     @GetMapping("login/{email}/{password}")
     public ResponseEntity<User> getUser(@PathVariable("email") String email,
             @PathVariable("password") String password) {
-        for (User u : lstUsers) {
-            if (authenticationStrategy.authenticate(u, email, password)) {
-                return ResponseEntity.status(200).body(u);
+        if (isLstUsersValid(lstUsers)) {
+            for (User u : lstUsers) {
+                if (authenticationStrategy.authenticate(u, email, password)) {
+                    return ResponseEntity.status(200).body(u);
+                }
             }
         }
         return ResponseEntity.status(404).build();
@@ -71,12 +76,12 @@ public class UserController {
 
     @PostMapping("/list-of-users")
     public ResponseEntity<List<User>> addListUsers(@RequestBody User[] users) {
-        if (users == null || users.length == 0) {
-            return ResponseEntity.status(400).body(null);
+        if (isArrayOfUsersValid(users)) {
+            lstUsers.addAll(Arrays.asList(users));
+            return ResponseEntity.status(200).body(Arrays.asList(users));
         }
+        return ResponseEntity.status(400).body(null);
 
-        lstUsers.addAll(Arrays.asList(users));
-        return ResponseEntity.status(200).body(Arrays.asList(users));
     }
 
     /*
@@ -90,11 +95,13 @@ public class UserController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") Integer id, @RequestBody User updatedUser) {
-        for (int i = 0; i < lstUsers.size(); i++) {
-            User user = lstUsers.get(i);
-            if (user.getId().equals(id)) {
-                user.setName(updatedUser.getName());
-                return ResponseEntity.status(200).body(user);
+        if (isLstUsersValid(lstUsers)) {
+            for (int i = 0; i < lstUsers.size(); i++) {
+                User user = lstUsers.get(i);
+                if (user.getId().equals(id)) {
+                    user.setName(updatedUser.getName());
+                    return ResponseEntity.status(200).body(user);
+                }
             }
         }
         return ResponseEntity.status(404).build();
@@ -109,16 +116,37 @@ public class UserController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable("id") Integer id) {
-        for (User u : lstUsers) {
-            if (u.getId().equals(id)) {
-                lstUsers.remove(u);
-                return ResponseEntity.status(200).body(u);
+        if (isLstUsersValid(lstUsers)) {
+            for (User u : lstUsers) {
+                if (u.getId().equals(id)) {
+                    lstUsers.remove(u);
+                    return ResponseEntity.status(200).body(u);
+                }
             }
         }
+
         return ResponseEntity.status(404).build();
     }
 
     public void setAuthenticationStrategy(UserAuthenticationStrategy authenticationStrategy) {
         this.authenticationStrategy = authenticationStrategy;
+    }
+
+    private boolean isArrayOfUsersValid(User[] users) {
+        if (users == null || users.length == 0) {
+            return false;
+        }
+        if (users.length > 10) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isLstUsersValid(List<User> lstUsers) {
+        if (lstUsers == null || lstUsers.size() == 0) {
+            return false;
+        }
+
+        return true;
     }
 }
