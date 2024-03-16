@@ -1,8 +1,11 @@
-package school.sptech.neosspringjava.DataBase;
+package school.sptech.neosspringjava.database;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import school.sptech.neosspringjava.modal.User;
 
 public class MySQLConnector implements DatabaseConnector {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/db_name";
@@ -32,4 +35,26 @@ public class MySQLConnector implements DatabaseConnector {
             System.out.println("Erro ao desconectar-se do MySQL: " + e.getMessage());
         }
     }
+
+    @Override
+    public String verificarTipo() {
+        return "MYSQL";
+    }
+
+    @Override
+    public User executar(String insert, User user) {
+        return null;
+
+    }
+
+    @Override
+    public User executar(String operacao, int parametro) {
+        return null;
+    }
+
+    @Override
+    public User executar(String operacao, String nomeLog, String passwordLog) {
+        return null;
+    }
+
 }

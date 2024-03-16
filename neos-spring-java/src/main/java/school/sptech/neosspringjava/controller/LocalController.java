@@ -2,7 +2,8 @@ package school.sptech.neosspringjava.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import school.sptech.neosspringjava.services.Local;
+
+import school.sptech.neosspringjava.modal.Local;
 
 import java.util.ArrayList;
 import java.util.List;

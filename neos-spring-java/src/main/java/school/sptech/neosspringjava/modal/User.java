@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.services;
+package school.sptech.neosspringjava.modal;
 
 
 public class User {
@@ -9,9 +9,6 @@ public class User {
     private Integer permission;
     private String telephone;
     private String cpf;
-
-    public User(int id, String name, String email, String password, String permission, String telephone, String cpf) {
-    }
 
 
     public String getName() {

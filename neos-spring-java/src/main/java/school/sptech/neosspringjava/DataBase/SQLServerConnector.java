@@ -1,4 +1,8 @@
-package school.sptech.neosspringjava.DataBase;
+package school.sptech.neosspringjava.database;
+
+
+import school.sptech.neosspringjava.database.DatabaseConnector;
+import school.sptech.neosspringjava.modal.User;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,5 +34,25 @@ public class SQLServerConnector implements DatabaseConnector {
         } catch (SQLException e) {
             System.out.println("Erro ao desconectar-se do SQL Server: " + e.getMessage());
         }
+    }
+    @Override
+    public String verificarTipo() {
+        return "SQLSERVER";
+    }
+
+    @Override
+    public User executar(String insert, User user) {
+        return null;
+
+    }
+
+    @Override
+    public User executar(String operacao, int parametro) {
+        return null;
+    }
+
+    @Override
+    public User executar(String operacao, String nomeLog, String passwordLog) {
+        return null;
     }
 }
