@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.services;
+package school.sptech.neosspringjava.modal;
 
 
 public class User {

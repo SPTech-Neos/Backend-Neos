@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.services.strategy;
+package school.sptech.neosspringjava.services;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

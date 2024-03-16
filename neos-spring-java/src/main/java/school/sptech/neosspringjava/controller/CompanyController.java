@@ -3,8 +3,6 @@ package school.sptech.neosspringjava.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import school.sptech.neosspringjava.services.Company;
+import school.sptech.neosspringjava.modal.Company;
+
+
 
 @RestController
-@RequestMapping("/company")
+@RequestMapping("/Company")
 public class CompanyController {
 
     List<Company> lstCompany = new ArrayList<>();
@@ -45,26 +45,26 @@ public class CompanyController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Company> createCompany(@RequestBody Company company) {
+    public ResponseEntity<Company> createCompany(@RequestBody Company Company) {
 
-        boolean exists = lstCompany.stream().anyMatch(c -> c.getCnpj().equals(company.getCnpj()));
+        boolean exists = lstCompany.stream().anyMatch(c -> c.getCnpj().equals(Company.getCnpj()));
         if (exists) {
             return ResponseEntity.status(409).build();
         }
 
-        lstCompany.add(company);
-        return ResponseEntity.status(201).body(company);
+        lstCompany.add(Company);
+        return ResponseEntity.status(201).body(Company);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Company> updateCompany(int id, @RequestBody Company company) {
+    public ResponseEntity<Company> updateCompany(int id, @RequestBody Company Company) {
 
         if (lstCompany.size() == 0) {
             return ResponseEntity.status(404).build();
         }
 
-        lstCompany.set(id, company);
-        return ResponseEntity.status(200).body(company);
+        lstCompany.set(id, Company);
+        return ResponseEntity.status(200).body(Company);
     }
 
     @DeleteMapping("/{id}")

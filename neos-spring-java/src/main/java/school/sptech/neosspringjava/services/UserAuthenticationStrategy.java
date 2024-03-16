@@ -1,6 +1,6 @@
-package school.sptech.neosspringjava.services.strategy;
+package school.sptech.neosspringjava.services;
 
-import school.sptech.neosspringjava.services.User;
+import school.sptech.neosspringjava.modal.User;
 
 /*
  * Interface: UserAuthenticationStrategy

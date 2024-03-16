@@ -1,7 +1,7 @@
-package school.sptech.neosspringjava.services.strategy;
+package school.sptech.neosspringjava.services;
 
+import school.sptech.neosspringjava.modal.User;
 
-import school.sptech.neosspringjava.services.User;
 
 /*
  * Classe: EmailPasswordAuthenticationStrategy
