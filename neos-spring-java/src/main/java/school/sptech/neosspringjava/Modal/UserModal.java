@@ -95,7 +95,7 @@ public class UserModal {
                         String name = resultSet.getString("name");
                         String email = resultSet.getString("email");
                         String password = resultSet.getString("password");
-                        String permission = resultSet.getString("permission");
+                        Integer permission = resultSet.getInt("permission");
                         String telephone = resultSet.getString("telephone");
                         String cpf = resultSet.getString("cpf");
 
@@ -135,7 +135,7 @@ public class UserModal {
                         String name = resultSet.getString("name");
                         String email = resultSet.getString("email");
                         String password = resultSet.getString("password");
-                        String permission = resultSet.getString("permission");
+                        Integer permission = resultSet.getInt("permission");
                         String telephone = resultSet.getString("telephone");
                         String cpf = resultSet.getString("cpf");
 

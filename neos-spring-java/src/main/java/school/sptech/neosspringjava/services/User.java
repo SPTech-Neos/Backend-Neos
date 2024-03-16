@@ -10,9 +10,9 @@ public class User {
     private String telephone;
     private String cpf;
 
-    public User(int id, String name, String email, String password, String permission, String telephone, String cpf) {
+    public User(int id, String name, String email, String password, Integer permission, String telephone, String cpf) {
     }
-    public User(Integer id, String name, String email, String password, String permission, String telephone, String cpf) {
+    public User(Integer id, String name, String email, String password, Integer permission, String telephone, String cpf) {
     }
 
 
