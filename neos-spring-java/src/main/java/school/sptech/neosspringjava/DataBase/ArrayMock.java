@@ -1,6 +1,6 @@
 package school.sptech.neosspringjava.database;
 
-import school.sptech.neosspringjava.services.User;
+import school.sptech.neosspringjava.modal.User;
 
 public class ArrayMock {
 

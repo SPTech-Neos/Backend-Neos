@@ -1,7 +1,7 @@
 package school.sptech.neosspringjava.database;
-import school.sptech.neosspringjava.services.User;
-
 import java.sql.Connection;
+
+import school.sptech.neosspringjava.modal.User;
 
 public class VetorConector implements DatabaseConnector {
 

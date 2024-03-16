@@ -2,7 +2,7 @@ package school.sptech.neosspringjava.database;
 
 
 import school.sptech.neosspringjava.database.DatabaseConnector;
-import school.sptech.neosspringjava.services.User;
+import school.sptech.neosspringjava.modal.User;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
