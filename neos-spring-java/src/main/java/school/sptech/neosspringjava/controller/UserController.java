@@ -1,6 +1,8 @@
 package school.sptech.neosspringjava.controller;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -65,6 +67,16 @@ public class UserController {
     public ResponseEntity<User> addUser(@RequestBody User user) {
         lstUsers.add(user);
         return ResponseEntity.status(201).body(user);
+    }
+
+    @PostMapping("/list-of-users")
+    public ResponseEntity<List<User>> addListUsers(@RequestBody User[] users) {
+        if (users == null || users.length == 0) {
+            return ResponseEntity.status(400).body(null);
+        }
+
+        lstUsers.addAll(Arrays.asList(users));
+        return ResponseEntity.status(200).body(Arrays.asList(users));
     }
 
     /*
