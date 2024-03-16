@@ -29,6 +29,7 @@ import school.sptech.neosspringjava.services.strategy.UserAuthenticationStrategy
  * Metodos: getUsers, addUser, updateUser, deleteUser
  ^====================================================================================================^
  */
+
  @RestController
  @RequestMapping("/user")
  public class UserController {
@@ -75,10 +76,7 @@ import school.sptech.neosspringjava.services.strategy.UserAuthenticationStrategy
       */
      @PostMapping
      public ResponseEntity<User> addUser(@RequestBody User user) {
-
          lstUsers.add(user);
-         lstUsers.get(lstUsers.size());
-
          return ResponseEntity.status(201).body(user);
      }
  
@@ -126,4 +124,3 @@ import school.sptech.neosspringjava.services.strategy.UserAuthenticationStrategy
          this.authenticationStrategy = authenticationStrategy;
      }
  }
-

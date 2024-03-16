@@ -1,7 +1,7 @@
-package school.sptech.neosspringjava.DataBase;
+package school.sptech.neosspringjava.database;
 
 
-import school.sptech.neosspringjava.DataBase.DatabaseConnector;
+import school.sptech.neosspringjava.database.DatabaseConnector;
 import school.sptech.neosspringjava.services.User;
 
 import java.sql.Connection;

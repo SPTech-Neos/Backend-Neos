@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.DataBase;
+package school.sptech.neosspringjava.database;
 
 import school.sptech.neosspringjava.services.User;
 
