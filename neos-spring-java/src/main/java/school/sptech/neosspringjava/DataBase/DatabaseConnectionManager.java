@@ -14,7 +14,7 @@ public class DatabaseConnectionManager {
             SQLServerConnector sqlServerConnector = new SQLServerConnector();
             this.connector = sqlServerConnector;
         }else if (Ambiente == "DEV-VET"){
-
+            System.out.println("seu ambiente de trabalho atual é DEV-VET");
         }
         connect();
     }
@@ -31,6 +31,16 @@ public class DatabaseConnectionManager {
 
         }
         connect();
+    }
+
+    public String verificarTipo(){
+        if(Ambiente == "DEV-VET" ){
+            return "VETOR";
+        } else if (Ambiente == "DEV" ) {
+            return "MYSQL";
+        }else {
+            return "SQLSERVER";
+        }
     }
 
     public Connection connect() {

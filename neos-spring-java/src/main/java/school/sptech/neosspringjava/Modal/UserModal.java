@@ -12,10 +12,10 @@ public class UserModal {
 
         public void createUser(User user) {
             Connection connection = connectionManager.getConnection();
-            if (connection != null) {
+            if (connection != null || connection != null) {
                 try {
                     String sql = "INSERT INTO users (name, email, password, permission, telephone, cpf) VALUES (?, ?, ?, ?, ?, ?)";
-                    /*if de vetor*/if (connectionManager.getConector().verificarTipo() == "VETOR"){
+                    /*if de vetor*/if (connectionManager.verificarTipo() == "VETOR"){
                       connectionManager.getConector().executar("INSERT",user);
                     }else {
                     PreparedStatement statement = connection.prepareStatement(sql);
@@ -46,7 +46,7 @@ public class UserModal {
 
             try {
                 String sql = "UPDATE users SET name = ?, email = ?, password = ?, permission = ?, telephone = ?, cpf = ? WHERE id = ?";
-                /*if de vetor*/if (connectionManager.getConector().verificarTipo() == "VETOR"){
+                /*if de vetor*/if (connectionManager.verificarTipo() == "VETOR"){
                     connectionManager.getConector().executar("UPDATE",user);
                 }else {
                     PreparedStatement statement = connection.prepareStatement(sql);
@@ -123,7 +123,7 @@ public class UserModal {
 
             try {
                 String sql = "SELECT * FROM users WHERE nome = ? AND password =?" ;
-                /*if de vetor*/if (connectionManager.getConector().verificarTipo() == "VETOR"){
+                /*if de vetor*/if (connectionManager.verificarTipo() == "VETOR"){
                     connectionManager.getConector().executar("SELECT",nomeLog,passwordLog);
                 }else {
                     PreparedStatement statement = connection.prepareStatement(sql);
@@ -160,7 +160,7 @@ public class UserModal {
             Connection connection = connectionManager.getConnection();
 
             try {
-                /*if de vetor*/if (connectionManager.getConector().verificarTipo() == "VETOR"){
+                /*if de vetor*/if (connectionManager.verificarTipo() == "VETOR"){
                     connectionManager.getConector().executar("DELETE", userId);
                 }else {
                     String sql = "DELETE FROM users WHERE id = ?";
