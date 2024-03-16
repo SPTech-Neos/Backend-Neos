@@ -10,7 +10,7 @@ public interface DatabaseConnector {
     void disconnect();
     String verificarTipo();
 
-    void executar(String operacao, User user);
-    void executar(String operacao, int parametro);
-    void executar(String operacao,String nomeLog,String passwordLog);
+    User executar(String operacao, User user);
+    User executar(String operacao, int parametro);
+    User executar(String operacao,String nomeLog,String passwordLog);
 }

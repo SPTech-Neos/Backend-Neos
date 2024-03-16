@@ -42,18 +42,19 @@ public class MySQLConnector implements DatabaseConnector {
     }
 
     @Override
-    public void executar(String insert, User user) {
+    public User executar(String insert, User user) {
+        return null;
 
     }
 
     @Override
-    public void executar(String operacao, int parametro) {
-
+    public User executar(String operacao, int parametro) {
+        return null;
     }
 
     @Override
-    public void executar(String operacao, String nomeLog, String passwordLog) {
-
+    public User executar(String operacao, String nomeLog, String passwordLog) {
+        return null;
     }
 
 }

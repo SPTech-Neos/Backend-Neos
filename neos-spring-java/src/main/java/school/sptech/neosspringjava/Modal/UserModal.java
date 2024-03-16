@@ -10,13 +10,13 @@ import java.sql.SQLException;
 public class UserModal {
     private DatabaseConnectionManager connectionManager = new DatabaseConnectionManager() ;
 
-        public void createUser(User user) {
+        public User createUser(User user) {
             Connection connection = connectionManager.getConnection();
             if (connection != null || connection != null) {
                 try {
                     String sql = "INSERT INTO users (name, email, password, permission, telephone, cpf) VALUES (?, ?, ?, ?, ?, ?)";
                     /*if de vetor*/if (connectionManager.verificarTipo() == "VETOR"){
-                      connectionManager.getConector().executar("INSERT",user);
+                    return  connectionManager.getConector().executar("INSERT",user);
                     }else {
                     PreparedStatement statement = connection.prepareStatement(sql);
                     statement.setString(1, user.getName());
@@ -28,19 +28,24 @@ public class UserModal {
 
                     int rowsInserted = statement.executeUpdate();
                     if (rowsInserted > 0) {
-                        System.out.println("Usuário cadastrado com sucesso.");
-                    }
 
-                    statement.close();
+                        System.out.println("Usuário cadastrado com sucesso.");
+                        return user;
+                    }
+                        statement.close();
                     }
                 } catch (SQLException e) {
                     System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
+                    return null;
                 }
             } else {
                 System.out.println("Não foi possível cadastrar o usuário. A conexão não está estabelecida.");
+            return  null;
             }
+
+            return user;
         }
-    public void updateUser(User user) {
+    public User updateUser(User user) {
         if (connectionManager.isConnected()) {
             Connection connection = connectionManager.getConnection();
 
@@ -61,11 +66,13 @@ public class UserModal {
                     int rowsUpdated = statement.executeUpdate();
                     if (rowsUpdated > 0) {
                         System.out.println("Usuário atualizado com sucesso.");
+                        return user;
                     } else {
                         System.out.println("Nenhum usuário atualizado.");
+                        return user;
                     }
 
-                    statement.close();
+                    //statement.close();
                 }
             } catch (SQLException e) {
                 System.out.println("Erro ao atualizar usuário: " + e.getMessage());
@@ -73,6 +80,7 @@ public class UserModal {
         } else {
             System.out.println("Não foi possível atualizar o usuário. A conexão não está estabelecida.");
         }
+        return user;
     }
 
     public User getUser(int userId) {
@@ -83,9 +91,10 @@ public class UserModal {
 
             try {
                 String sql = "SELECT * FROM users WHERE id = ?";
-                /*if de vetor*/if (connectionManager.getConector().verificarTipo() == "VETOR"){
-                    connectionManager.getConector().executar("SELECT",user);
-                }else {
+                /*if de vetor*/
+                if (connectionManager.getConector().verificarTipo() == "VETOR") {
+                    return connectionManager.getConector().executar("SELECT", user);
+                } else {
                     PreparedStatement statement = connection.prepareStatement(sql);
                     statement.setInt(1, userId);
 
@@ -105,30 +114,34 @@ public class UserModal {
                     resultSet.close();
                     statement.close();
                 }
+
+                return user; // Retorna o objeto User encontrado
             } catch (SQLException e) {
                 System.out.println("Erro ao buscar usuário: " + e.getMessage());
+                return null;
             }
         } else {
             System.out.println("Não foi possível buscar o usuário. A conexão não está estabelecida.");
+            return null;
         }
-
-        return user;
     }
 
-    public User login (String nomeLog, String passwordLog) {
+    public User login(String nomeLog, String passwordLog) {
         User user = null;
 
         if (connectionManager.isConnected()) {
             Connection connection = connectionManager.getConnection();
 
             try {
-                String sql = "SELECT * FROM users WHERE nome = ? AND password =?" ;
-                /*if de vetor*/if (connectionManager.verificarTipo() == "VETOR"){
-                    connectionManager.getConector().executar("SELECT",nomeLog,passwordLog);
-                }else {
+                String sql = "SELECT * FROM users WHERE nome = ? AND password = ?";
+                /*if de vetor*/
+                if (connectionManager.verificarTipo() == "VETOR") {
+                    connectionManager.getConector().executar("SELECT", nomeLog, passwordLog);
+                } else {
                     PreparedStatement statement = connection.prepareStatement(sql);
                     statement.setString(1, nomeLog);
-                    statement.setString(1, passwordLog);
+                    statement.setString(2, passwordLog);
+
                     ResultSet resultSet = statement.executeQuery();
                     if (resultSet.next()) {
                         int id = resultSet.getInt("id");
@@ -145,6 +158,8 @@ public class UserModal {
                     resultSet.close();
                     statement.close();
                 }
+
+                return user; // Retorna o objeto User encontrado
             } catch (SQLException e) {
                 System.out.println("Erro ao buscar usuário: " + e.getMessage());
             }
@@ -152,9 +167,8 @@ public class UserModal {
             System.out.println("Não foi possível buscar o usuário. A conexão não está estabelecida.");
         }
 
-        return user;
+        return null;
     }
-
     public void deleteUser(int userId) {
         if (connectionManager.isConnected()) {
             Connection connection = connectionManager.getConnection();

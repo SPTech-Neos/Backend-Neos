@@ -1,83 +1,86 @@
-
 package school.sptech.neosspringjava.DataBase;
 
 import school.sptech.neosspringjava.services.User;
 
 public class ArrayMock {
 
-    User[] array = new User[10];
+    private User[] array;
+    private int size;
 
-    public void add(User obj) {
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] == null) {
+    public ArrayMock() {
+        array = new User[10];
+        size = 0;
+    }
+
+    public User add(User obj) {
+        if (size >= array.length) {
+            aumentarArray();
+        }
+
+        array[size] = obj;
+        size++;
+
+        return obj;
+    }
+
+    public User update(User obj) {
+        for (int i = 0; i < size; i++) {
+            if (array[i].getId() == obj.getId()) {
                 array[i] = obj;
-                break;
+                return obj;
             }
         }
-
+        return null;
     }
 
-    public void update(User obj){
-        for (int i = 0; i < array.length-1; i++) {
-            for (int j = 0; j < array.length-1-i; j++) {
-                if (array[j+1].getId()==obj.getId()){
-                    array[j+1] = obj;
-                }
-                if (array[j].getId() > array[j+1].getId()) {
-                    User auxiliar = array[j+1];
-                    array[j+1] = array[j];
-                    array[j] = auxiliar;
-                }
-            }
-        }
-    }
-
-    public void remove(int obj) {
-        for (int i = 0; i < array.length; i++) {
+    public User remove(int obj) {
+        for (int i = 0; i < size; i++) {
             if (array[i].getId() == obj) {
                 array[i] = null;
-                break;
+                // Mover os elementos para preencher o espaço vazio
+                for (int j = i; j < size - 1; j++) {
+                    array[j] = array[j + 1];
+                }
+                array[size - 1] = null;
+                size--;
+                return null;
             }
         }
+        return null;
     }
 
-    public void getById(int Id){
-        for (int i = 0; i < array.length; i++) {
-            if (array[i].getId() == Id){
-               // return array[i];
+    public User getById(int Id) {
+        for (int i = 0; i < size; i++) {
+            if (array[i].getId() == Id) {
+                return array[i];
             }
-            break;
         }
+        return null;
+    }
 
-    };
-    public void getByObject(User obj){
-        for (int i = 0; i < array.length; i++) {
-            if (array[i] == obj){
-                // return array[i];
+    public User getByObject(User obj) {
+        for (int i = 0; i < size; i++) {
+            if (array[i] == obj) {
+                return array[i];
             }
-            break;
         }
+        return null;
+    }
 
-    };
-
-    public void getLogin(String nomeLog, String passwordLog){
-        for (int i = 0; i < array.length; i++) {
-            if (array[i].getName() == nomeLog && array[i].getPassword() == passwordLog){
-                // return array[i];
+    public User getLogin(String nomeLog, String passwordLog) {
+        for (int i = 0; i < size; i++) {
+            if (array[i].getName().equals(nomeLog) && array[i].getPassword().equals(passwordLog)) {
+                return array[i];
             }
-            break;
         }
+        return null;
+    }
 
-    };
-
-
-
-
-    public void aumentarArray(){
+    private void aumentarArray() {
         User[] arraySub = array;
         array = new User[array.length * 2];
-        array = arraySub;
-
+        for (int i = 0; i < size; i++) {
+            array[i] = arraySub[i];
+        }
     }
 }
-

@@ -24,32 +24,30 @@ public class VetorConector implements DatabaseConnector {
     return "VETOR";
     }
 
-    public void executar(String operacao, User parametro){
+    public User executar(String operacao, User parametro){
         if (operacao == "INSERT"){
-            vet.add(parametro);
+            return vet.add(parametro);
         } else if (operacao == "UPDATE"){
-            vet.update(parametro);
+            return vet.update(parametro);
         } else if (operacao == "SELECT") {
-            vet.getByObject(parametro);
-        }
+           return vet.getByObject(parametro);
+        }else {return null;}
     };
-    public void executar(String operacao, int parametro){
+    public User executar(String operacao, int parametro){
         if (operacao == "SELECT") {
-            vet.getById(parametro);
+            return vet.getById(parametro);
         }else if (operacao == " DELETE"){
-            vet.remove(parametro);
-        }
+            return vet.remove(parametro);
+        }else {return null;}
     }
 
     @Override
-    public void executar(String operacao, String nomeLog, String passwordLog) {
+    public User executar(String operacao, String nomeLog, String passwordLog) {
         if (operacao == "SELECT") {
-            vet.getLogin(nomeLog,passwordLog);
-        }
+            return vet.getLogin(nomeLog,passwordLog);
+        }else {return null;}
     }
 
     ;
-
-
 
 }
