@@ -12,9 +12,9 @@ import lombok.Setter;
 @Table(name = "empresa")
 public class Empresa {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     @Setter
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idEmpresa;
     @Getter
     @Setter
