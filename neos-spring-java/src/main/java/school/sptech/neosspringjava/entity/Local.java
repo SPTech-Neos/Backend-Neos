@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "local")
-public class Local {
+public class Location {
 
     @Id
     @Getter
@@ -22,19 +22,19 @@ public class Local {
     @Getter
     @Setter
     @NotNull(message = "Número é obrigatório")
-    private int numero;
+    private int number;
     @Getter
     @Setter
-    private int andar;
+    private int floor;
     @Getter
     @Setter
-    private String bloco;
+    private String bloc;
     @Getter
     @Setter
     private String complemento;
     @Getter
     @Setter
     @NotNull(message = "FkEndereco é obrigatório")
-    private int fkEndereco;
+    private int fkAddress;
 
 }

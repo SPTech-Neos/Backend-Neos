@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import school.sptech.neosspringjava.entity.Endereco;
+import school.sptech.neosspringjava.entity.Address;
 import school.sptech.neosspringjava.repository.EnderecoRepository;
 
 /**
@@ -36,33 +36,33 @@ public class EnderecoController {
 
 
     @GetMapping
-    public ResponseEntity<List<Endereco>> listarEnderecos() {
-        List<Endereco> lstEnderecos = enderecoRepository.findAll();
-        return lstEnderecos.isEmpty() ? ResponseEntity.status(204).build()
-                : ResponseEntity.status(200).body(lstEnderecos);
+    public ResponseEntity<List<Address>> listarEnderecos() {
+        List<Address> lstAddresses = enderecoRepository.findAll();
+        return lstAddresses.isEmpty() ? ResponseEntity.status(204).build()
+                : ResponseEntity.status(200).body(lstAddresses);
     }
 
     @PostMapping
-    public ResponseEntity<Endereco> cadastrarEndereco(@Valid @RequestBody Endereco endereco) {
+    public ResponseEntity<Address> cadastrarEndereco(@Valid @RequestBody Address address) {
 
-        Endereco enderecoCadastrado = enderecoRepository.save(endereco);
-        return ResponseEntity.status(201).body(enderecoCadastrado);
+        Address addressCadastrado = enderecoRepository.save(address);
+        return ResponseEntity.status(201).body(addressCadastrado);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Endereco> atualizarEndereco(@PathVariable Integer id, @RequestBody Endereco endereco) {
+    public ResponseEntity<Address> atualizarEndereco(@PathVariable Integer id, @RequestBody Address address) {
 
         if (!enderecoRepository.existsById(id)) {
             return ResponseEntity.status(404).build();
         }
 
-        endereco.setIdEndereco(id);
-        Endereco enderecoAtualizado = enderecoRepository.save(endereco);
-        return ResponseEntity.status(200).body(enderecoAtualizado);
+        address.setIdEndereco(id);
+        Address addressAtualizado = enderecoRepository.save(address);
+        return ResponseEntity.status(200).body(addressAtualizado);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Endereco> deletarEndereco(@PathVariable Integer id) {
+    public ResponseEntity<Address> deletarEndereco(@PathVariable Integer id) {
 
         if (!enderecoRepository.existsById(id)) {
             return ResponseEntity.status(404).build();

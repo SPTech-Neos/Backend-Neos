@@ -12,23 +12,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "estabelecimento")
-public class Estabelecimento {
+@Table(name = "merchant")
+public class Merchant {
     @Id
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idEstabelecimento;
+    private int idMerchant;
     @Getter
     @Setter
     @NotBlank(message = "Nome é obrigatório")
     @NotEmpty(message = "Nome é obrigatório")
-    private String nome;
+    private String name;
 
     @Getter
     @Setter
     @NotNull(message = "FkEmpresa é obrigatório")
-    private int fkEmpresa;
+    private int fkMerchant;
     @Getter
     @Setter
     @NotNull(message = "FkLocal é obrigatório")

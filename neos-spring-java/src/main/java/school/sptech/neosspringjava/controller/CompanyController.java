@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import school.sptech.neosspringjava.entity.Empresa;
-import school.sptech.neosspringjava.repository.EmpresaRepository;
+import school.sptech.neosspringjava.entity.Company;
+import school.sptech.neosspringjava.repository.CompanyRepository;
 
 /**
  * @autor: @GabrielYukioMC
@@ -32,48 +32,48 @@ import school.sptech.neosspringjava.repository.EmpresaRepository;
 public class EmpresaController {
 
     @Autowired
-    private EmpresaRepository empresaRepository;
+    private CompanyRepository companyRepository;
 
     @GetMapping
-    public ResponseEntity<List<Empresa>> listarEmpresas() {
-        List<Empresa> lstEmpresas = empresaRepository.findAll();
-        return lstEmpresas.isEmpty() ? ResponseEntity.status(204).build()
-                : ResponseEntity.status(200).body(lstEmpresas);
+    public ResponseEntity<List<Company>> listarEmpresas() {
+        List<Company> lstCompanies = companyRepository.findAll();
+        return lstCompanies.isEmpty() ? ResponseEntity.status(204).build()
+                : ResponseEntity.status(200).body(lstCompanies);
     }
 
     @PostMapping
-    public ResponseEntity<Empresa> cadastrarEmpresa(@Valid @RequestBody Empresa empresa) {
+    public ResponseEntity<Company> cadastrarEmpresa(@Valid @RequestBody Company company) {
 
-        if (existeCNPJ(empresa.getCnpj())) {
+        if (existeCNPJ(company.getCnpj())) {
             return ResponseEntity.status(204).build();
         }
 
-        Empresa empresaCadastrada = empresaRepository.save(empresa);
-        return ResponseEntity.status(201).body(empresaCadastrada);
+        Company companyCadastrada = companyRepository.save(company);
+        return ResponseEntity.status(201).body(companyCadastrada);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Empresa> atualizarEmpresa(@PathVariable Integer id, @RequestBody Empresa empresa) {
+    public ResponseEntity<Company> atualizarEmpresa(@PathVariable Integer id, @RequestBody Company company) {
 
-        if (!empresaRepository.existsById(id)) {
+        if (!companyRepository.existsById(id)) {
             return ResponseEntity.status(404).build();
         }
 
         else {
-            empresa.setIdEmpresa(id);
-            Empresa empresaAtualizada = empresaRepository.save(empresa);
-            return ResponseEntity.status(200).body(empresaAtualizada);
+            company.setIdEmpresa(id);
+            Company companyAtualizada = companyRepository.save(company);
+            return ResponseEntity.status(200).body(companyAtualizada);
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarEmpresa(@PathVariable Integer id) {
-        empresaRepository.deleteById(id);
+        companyRepository.deleteById(id);
         return ResponseEntity.status(204).build();
     }
 
     private boolean existeCNPJ(String cnpj) {
-        for (Empresa e : empresaRepository.findAll()) {
+        for (Company e : companyRepository.findAll()) {
             if (e.getCnpj().equals(cnpj)) {
                 return true;
             }

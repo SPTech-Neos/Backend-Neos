@@ -15,12 +15,12 @@ public class Empresa {
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idEmpresa;
+    private int idCompany;
     @Getter
     @Setter
     @NotBlank(message = "Nome é obrigatório")
     @NotEmpty
-    private String nome;
+    private String name;
     @Getter
     @Setter
     @CNPJ(message = "CNPJ inválido")
