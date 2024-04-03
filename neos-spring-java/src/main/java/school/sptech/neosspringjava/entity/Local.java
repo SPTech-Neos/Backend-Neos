@@ -11,7 +11,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "local")
-public class Location {
+public class Local {
 
     @Id
     @Getter
@@ -31,7 +31,7 @@ public class Location {
     private String bloc;
     @Getter
     @Setter
-    private String complemento;
+    private String complement;
     @Getter
     @Setter
     @NotNull(message = "FkEndereco é obrigatório")

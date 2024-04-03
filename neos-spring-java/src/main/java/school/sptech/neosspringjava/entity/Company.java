@@ -9,8 +9,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "empresa")
-public class Empresa {
+@Table(name = "company")
+public class Company {
     @Id
     @Getter
     @Setter

@@ -11,50 +11,50 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import school.sptech.neosspringjava.entity.Merchant;
-import school.sptech.neosspringjava.repository.MerchantRopository;
+import school.sptech.neosspringjava.entity.Establishment;
+import school.sptech.neosspringjava.repository.EstablishmentRopository;
 
 @RestController
-@RequestMapping("/merchants")
-public class MerchantController {
+@RequestMapping("/Establishments")
+public class EstablishmentController {
 
     @Autowired
-    private MerchantRopository merchantRepository;
+    private EstablishmentRopository EstablishmentRepository;
 
     @GetMapping
-    public ResponseEntity<List<Merchant>> listMerchant() {
-        List<Merchant> lstMerchants = merchantRepository.findAll();
-        return lstMerchants.isEmpty() ? ResponseEntity.status(204).build()
-                : ResponseEntity.status(200).body(lstMerchants);
+    public ResponseEntity<List<Establishment>> listEstablishment() {
+        List<Establishment> lstEstablishments = EstablishmentRepository.findAll();
+        return lstEstablishments.isEmpty() ? ResponseEntity.status(204).build()
+                : ResponseEntity.status(200).body(lstEstablishments);
     }
 
     @PostMapping
-    public ResponseEntity<Merchant> postMerchant(Merchant merchant) {
+    public ResponseEntity<Establishment> postEstablishment(Establishment establishment) {
 
-        Merchant MerchantCadastrado = merchantRepository.save(merchant);
-        return ResponseEntity.status(201).body(MerchantCadastrado);
+        Establishment establishmentCadastrado = EstablishmentRepository.save(establishment);
+        return ResponseEntity.status(201).body(establishmentCadastrado);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Merchant> updateMechant(Integer id, Merchant Merchant) {
+    public ResponseEntity<Establishment> updateMechant(Integer id, Establishment Establishment) {
 
-        if (!merchantRepository.existsById(id)) {
+        if (!EstablishmentRepository.existsById(id)) {
             return ResponseEntity.status(404).build();
         }
 
-        Merchant.setIdMerchant(id);
-        Merchant merchantAtualizado = merchantRepository.save(Merchant);
-        return ResponseEntity.status(200).body(merchantAtualizado);
+        Establishment.setIdEstablishment(id);
+        Establishment establishmentAtualizado = EstablishmentRepository.save(Establishment);
+        return ResponseEntity.status(200).body(establishmentAtualizado);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Merchant> deleteMerchant(Integer id) {
+    public ResponseEntity<Establishment> deleteEstablishment(Integer id) {
 
-        if (!merchantRepository.existsById(id)) {
+        if (!EstablishmentRepository.existsById(id)) {
             return ResponseEntity.status(404).build();
         }
 
-        merchantRepository.deleteById(id);
+        EstablishmentRepository.deleteById(id);
         return ResponseEntity.status(200).build();
     }
 }
