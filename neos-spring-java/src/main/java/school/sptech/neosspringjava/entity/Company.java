@@ -9,18 +9,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "empresa")
-public class Empresa {
+@Table(name = "company")
+public class Company {
     @Id
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idEmpresa;
+    private int idCompany;
     @Getter
     @Setter
     @NotBlank(message = "Nome é obrigatório")
     @NotEmpty
-    private String nome;
+    private String name;
     @Getter
     @Setter
     @CNPJ(message = "CNPJ inválido")
