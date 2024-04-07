@@ -42,11 +42,12 @@ public class Employee {
     @NotBlank(message = "um funcionário precisa de um estabelecimento")
     @NotEmpty(message = "um funcionário precisa de um estabelecimento")
     private Integer fkEmployeeType;
-    @Override
-    public String toString() {
-        return "Employee [id=" + id + ", name=" + name + ", email=" + email + ", passaword=" + passaword
-                + ", fkEstablishment=" + fkEstablishment + ", fkEmployeeType=" + fkEmployeeType + "]";
-    }
+
+    // @Override
+    // public String toString() {
+    //     return "Employee [id=" + id + ", name=" + name + ", email=" + email + ", passaword=" + passaword
+    //             + ", fkEstablishment=" + fkEstablishment + ", fkEmployeeType=" + fkEmployeeType + "]";
+    // }
 
     
 
