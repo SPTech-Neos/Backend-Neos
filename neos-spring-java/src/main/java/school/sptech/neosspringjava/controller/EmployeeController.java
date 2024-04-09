@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.employee.Employee;
@@ -72,11 +71,6 @@ public class EmployeeController {
 
 
 
-    @PostMapping("/login")
-    public ResponseEntity<Employee> login(@RequestBody EmployeeRequest employeeRequest) {
-        Employee employee = employeeRepository.findByEmailAndPassword(employeeRequest.getEmail(), employeeRequest.getPassword());
-        return employee == null ? ResponseEntity.status(204).build() : ResponseEntity.status(200).body(employee);
-    }
 
 
     public class EmployeeRequest {
