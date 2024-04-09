@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.entity;
+package school.sptech.neosspringjava.domain.employeeType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +10,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-public class ServiceType {
+public class EmployeeType {
+
     @Id
     @Getter
     @Setter
@@ -18,12 +19,11 @@ public class ServiceType {
     private Integer id;
     @Getter
     @Setter
-    @NotBlank(message = "Nome do tipo de serviço é obrigatório")
-    @NotEmpty(message = "Nome do tipo de serviço é obrigatório")
+    @NotBlank(message = "Nome do tipo de funcionario é obrigatório")
+    @NotEmpty(message = "Nome do tipo de funcionario é obrigatório")
     private String name;
-    @Getter
-    @Setter
-    private Integer fkServiceCategory;
-
-
+    @Override
+    public String toString() {
+        return "EmployeeType [id=" + id + ", name=" + name + "]";
+    }
 }

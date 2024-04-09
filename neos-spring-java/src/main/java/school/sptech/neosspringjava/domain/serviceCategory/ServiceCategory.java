@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.entity;
+package school.sptech.neosspringjava.domain.serviceCategory;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-public class DiscountType {
+public class ServiceCategory {
 
     @Id
     @Getter
@@ -19,13 +19,7 @@ public class DiscountType {
     private Integer id;
     @Getter
     @Setter
-    @NotBlank(message = "Nome do tipo de Desconto é obrigatório")
-    @NotEmpty(message = "Nome do tipo de Desconto é obrigatório")
+    @NotBlank(message = "Nome é obrigatório")
+    @NotEmpty(message = "Nome é obrigatório")
     private String name;
-    @Override
-    public String toString() {
-        return "DiscountType [id=" + id + ", name=" + name + "]";
-    }
-    
-
 }

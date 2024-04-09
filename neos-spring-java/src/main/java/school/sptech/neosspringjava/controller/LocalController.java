@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import school.sptech.neosspringjava.entity.Local;
+import school.sptech.neosspringjava.domain.local.Local;
 import school.sptech.neosspringjava.repository.LocalRepository;
 
 @RestController

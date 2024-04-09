@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.entity;
+package school.sptech.neosspringjava.domain.client;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +11,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-public class Employee {
+public class Client {
 
     @Id
     @Getter
@@ -34,21 +34,13 @@ public class Employee {
     private String passaword;
     @Getter
     @Setter
-    @NotBlank(message = "um funcionário precisa de um estabelecimento")
-    @NotEmpty(message = "um funcionário precisa de um estabelecimento")
-    private Integer fkEstablishment;
-    @Getter
-    @Setter
-    @NotBlank(message = "um funcionário precisa de um estabelecimento")
-    @NotEmpty(message = "um funcionário precisa de um estabelecimento")
-    private Integer fkEmployeeType;
+    private Integer fkLocal;
+    @Override
+    public String toString() {
+        return "Client [id=" + id + ", name=" + name + ", email=" + email + ", passaword=" + passaword + ", fkLocal="
+                + fkLocal + "]";
+    }
 
-    // @Override
-    // public String toString() {
-    //     return "Employee [id=" + id + ", name=" + name + ", email=" + email + ", passaword=" + passaword
-    //             + ", fkEstablishment=" + fkEstablishment + ", fkEmployeeType=" + fkEmployeeType + "]";
-    // }
 
     
-
 }

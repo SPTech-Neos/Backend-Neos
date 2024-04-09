@@ -1,41 +1,38 @@
-package school.sptech.neosspringjava.entity;
+package school.sptech.neosspringjava.domain.address;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-public class Filter {
+@Table(name = "address")
+public class Address {
+
     @Id
     @Getter
     @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int idAddress;
+
     @Getter
     @Setter
-    @NotNull
-    @NotBlank
     @NotEmpty
-    private Double preco;
+    @NotBlank(message = "logradouro é obrigatório")
+    private String street;
     @Getter
     @Setter
-    private Integer fkEstablishment;
-    @Getter
-    @Setter
-    @NotNull
-    @NotBlank
     @NotEmpty
-    private Integer fkService;
-    @Override
-    public String toString() {
-        return "Filter [id=" + id + ", preco=" + preco + ", fkEstablishment=" + fkEstablishment + ", fkService="
-                + fkService + "]";
-    }
-    
+    @NotBlank(message = "cidade é obrigatório")
+    private String city;
+    @Getter
+    @Setter
+    @NotEmpty
+    @NotBlank(message = "estado é obrigatório")
+    private String state;
 }

@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.entity;
+package school.sptech.neosspringjava.domain.product;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

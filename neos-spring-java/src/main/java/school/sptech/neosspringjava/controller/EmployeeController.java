@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
-import school.sptech.neosspringjava.entity.Employee;
+import school.sptech.neosspringjava.domain.employee.Employee;
 import school.sptech.neosspringjava.repository.EmployeeRepository;
 
 

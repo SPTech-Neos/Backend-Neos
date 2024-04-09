@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.entity;
+package school.sptech.neosspringjava.domain.coupon;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,7 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-public class ServiceCategory {
+public class Coupon {
 
     @Id
     @Getter
@@ -19,7 +19,12 @@ public class ServiceCategory {
     private Integer id;
     @Getter
     @Setter
-    @NotBlank(message = "Nome é obrigatório")
-    @NotEmpty(message = "Nome é obrigatório")
+    @NotBlank(message = "Nome do cupom é obrigatório")
+    @NotEmpty(message = "Nome do cupom é obrigatório")
     private String name;
+    @Override
+    public String toString() {
+        return "Coupon [id=" + id + ", name=" + name + "]";
+    }
+    
 }

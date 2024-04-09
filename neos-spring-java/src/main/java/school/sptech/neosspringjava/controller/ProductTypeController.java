@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import school.sptech.neosspringjava.entity.ProductType;
+import school.sptech.neosspringjava.domain.productType.ProductType;
 import school.sptech.neosspringjava.repository.ProductTypeRopository;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.entity;
+package school.sptech.neosspringjava.domain.employeeServices;
 
 import java.sql.Date;
 import jakarta.persistence.Entity;

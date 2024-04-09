@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.entity;
+package school.sptech.neosspringjava.domain.company;
 
 import org.hibernate.validator.constraints.br.CNPJ;
 

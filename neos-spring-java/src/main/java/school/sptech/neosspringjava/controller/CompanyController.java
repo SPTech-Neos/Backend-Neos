@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import school.sptech.neosspringjava.entity.Company;
+import school.sptech.neosspringjava.domain.company.Company;
 import school.sptech.neosspringjava.repository.CompanyRepository;
 
 /**
