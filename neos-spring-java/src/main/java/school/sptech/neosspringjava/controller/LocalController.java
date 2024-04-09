@@ -1,75 +1,60 @@
 package school.sptech.neosspringjava.controller;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import school.sptech.neosspringjava.modal.Local;
-
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import school.sptech.neosspringjava.entity.Local;
+import school.sptech.neosspringjava.repository.LocalRepository;
+
 @RestController
-@RequestMapping("/Local")
+@RequestMapping("/locais")
 public class LocalController {
-    private List<Local> locals = new ArrayList<>();
-    @GetMapping("/")
-    public ResponseEntity <List<Local>> getAllLocal() {
-        if (locals.isEmpty()){return ResponseEntity.status(204).build();} else {
-        return ResponseEntity.status(200).body(locals);
-        }
+
+    @Autowired
+    private LocalRepository localRepository;
+
+    @GetMapping
+    public ResponseEntity<List<Local>> listarLocais() {
+        List<Local> lstLocais = localRepository.findAll();
+        return lstLocais.isEmpty() ? ResponseEntity.status(204).build()
+                : ResponseEntity.status(200).body(lstLocais);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Local> getLocalById(@PathVariable int id) {
-        if (locals.isEmpty()){return ResponseEntity.status(204).build();} else
-        if (id >= 0 && id < locals.size()) {
-            return ResponseEntity.status(200).body(locals.get(id));
-        } else {
-            return  ResponseEntity.status(404).build();
-        }
+    @PostMapping
+    public ResponseEntity<Local> cadastrarLocal(Local local) {
+
+        Local localCadastrado = localRepository.save(local);
+        return ResponseEntity.status(201).body(localCadastrado);
     }
 
-        @PostMapping("/")
-        public ResponseEntity<Local> createLocal(@RequestBody Local local) {
-            Local show = null;
-            int finish = 0;
+    @PutMapping("/{id}")
+    public ResponseEntity<Local> atualizarLocal(Integer id, Local local) {
 
-            for (int i = 0; i < locals.size(); i++) {
-                show = locals.get(i);
-                if (locals.get(i).equals(local)) {
-                    finish++;
-                    break;
-                }
-            }
-
-            if (finish > 0) {
-                return ResponseEntity.status(200).body(show);
-            } else {
-                locals.add(local);
-                return ResponseEntity.status(201).body(local);
-            }
+        if (!localRepository.existsById(id)) {
+            return ResponseEntity.status(404).build();
         }
 
-    @PutMapping("/id")
-    public ResponseEntity<List<Local>> updateLocal(@PathVariable int id, @RequestBody Local local){
-        if (locals.isEmpty()){return ResponseEntity.status(204).build();} else
-        if (id >= 0 && id < locals.size()) {
-            List<Local> oldAndNewLocal = new ArrayList<>();
-            oldAndNewLocal.add(locals.get(id));
-            oldAndNewLocal.add(local);
-            return ResponseEntity.status(200).body(oldAndNewLocal);
-        } else {
-            return  ResponseEntity.status(404).build();
-        }
-
+        local.setIdLocal(id);
+        Local localAtualizado = localRepository.save(local);
+        return ResponseEntity.status(200).body(localAtualizado);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteLocal (@PathVariable int id) {
-        if (id >= 0 && id < locals.size()) {
-            return ResponseEntity.status(200).body(locals.remove(id));
-        }else{ return ResponseEntity.status(204).build();
+    public ResponseEntity<Local> deletarLocal(Integer id) {
+
+        if (!localRepository.existsById(id)) {
+            return ResponseEntity.status(404).build();
         }
+
+        localRepository.deleteById(id);
+        return ResponseEntity.status(200).build();
     }
 }
- 
