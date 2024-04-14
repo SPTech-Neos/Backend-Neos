@@ -1,6 +1,7 @@
 package school.sptech.neosspringjava.domain.model.db;
-// TODO validar se é necessário
+
 // package school.sptech.neosspringjava.db;
+//  validar se é necessário
 // import java.sql.Connection;
 // import java.sql.DriverManager;
 // import java.sql.SQLException;
