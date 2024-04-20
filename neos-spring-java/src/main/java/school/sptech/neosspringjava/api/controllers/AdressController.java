@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import school.sptech.neosspringjava.domain.model.client.address.Address;
+import school.sptech.neosspringjava.domain.model.address.Address;
 import school.sptech.neosspringjava.domain.repository.AdressRepository;
 
 /**
