@@ -1,5 +1,6 @@
 package school.sptech.neosspringjava.domain.model.client;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,6 +26,7 @@ public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "client_id")
     private Integer id;
     
     @NotBlank(message = "Nome é obrigatório")
@@ -38,7 +40,7 @@ public class Client {
     @NotEmpty(message = "criar uma senha é obrigatório")
     private String password;
     @ManyToOne
-    private Local Local;
+    private Local local;
    
 
 

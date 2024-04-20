@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.swing.text.html.Option;
 
 import org.apache.catalina.connector.Response;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.controllers.mappers.ClientMapper;
 import school.sptech.neosspringjava.api.dtos.clientDTO.ClientLoginDTO;
@@ -33,13 +33,13 @@ public class ClientController {
     private final ClientMapper clientMapper;
     
     @GetMapping
-    public ResponseEntity<ClientResponse> getClientById(Integer id) {
-        Optional<Client> client = clientRepository.findById(id);
-        if(client.isEmpty()){
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<List<ClientResponse>> getAllClient(){
+        List<Client> clients = clientRepository.findAll();
+        if(clients.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-        return ResponseEntity.ok().body(clientMapper.toClientResponse(client.get()));
-    }
+        return ResponseEntity.ok().body(clientMapper.toClientResponse(clients));
+    } 
 
     @PostMapping("/login")
     public ResponseEntity<ClientResponse> Login(@RequestBody ClientLoginDTO clientLoginDTO) {

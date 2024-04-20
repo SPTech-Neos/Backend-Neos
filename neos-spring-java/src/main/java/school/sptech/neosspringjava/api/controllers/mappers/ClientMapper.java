@@ -1,6 +1,9 @@
 package school.sptech.neosspringjava.api.controllers.mappers;
 
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
 
 import school.sptech.neosspringjava.api.dtos.clientDTO.ClientResponse;
@@ -11,6 +14,10 @@ public class ClientMapper {
 
     public static ClientResponse toClientResponse(Client client) {
         return new ClientResponse(client.getId(), client.getName(), client.getEmail(), client.getPassword(), client.getLocal());
+    }
+
+    public static List<ClientResponse> toClientResponse(List<Client> clients) {
+        return clients.stream().map(ClientMapper::toClientResponse).collect(Collectors.toList());
     }
 
     // public static Client toClient(ClientResponse clientResponse) {
