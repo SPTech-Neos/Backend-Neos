@@ -7,6 +7,7 @@ import javax.swing.text.html.Option;
 import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +32,14 @@ public class ClientController {
     private final LocalRepository localRepository;
     private final ClientMapper clientMapper;
     
+    @GetMapping
+    public ResponseEntity<ClientResponse> getClientById(Integer id) {
+        Optional<Client> client = clientRepository.findById(id);
+        if(client.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(clientMapper.toClientResponse(client.get()));
+    }
 
     @PostMapping("/login")
     public ResponseEntity<ClientResponse> Login(@RequestBody ClientLoginDTO clientLoginDTO) {
