@@ -1,3 +1,5 @@
+-- massa de dados para teste do sistema     
+
 INSERT INTO company (name, cnpj) VALUES
 ('Empresa A', '12345678901234'),
 ('Empresa B', '98765432109876'),

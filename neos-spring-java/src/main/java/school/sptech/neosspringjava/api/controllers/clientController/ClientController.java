@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.controllers.mappers.ClientMapper;
-import school.sptech.neosspringjava.api.dtos.clientDTO.ClientLoginDTO;
-import school.sptech.neosspringjava.api.dtos.clientDTO.ClientRequest;
-import school.sptech.neosspringjava.api.dtos.clientDTO.ClientResponse;
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientLoginDTO;
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientRequest;
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientResponse;
+import school.sptech.neosspringjava.api.mappers.clientMapper.ClientMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
-import school.sptech.neosspringjava.domain.repository.LocalRepository;
 import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
+import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 
 @RestController
 @RequestMapping("/client")
@@ -30,7 +30,6 @@ public class ClientController {
 
     private final ClientRepository clientRepository;
     private final LocalRepository localRepository;
-    private final ClientMapper clientMapper;
     
     @GetMapping
     public ResponseEntity<List<ClientResponse>> getAllClient(){
@@ -38,7 +37,7 @@ public class ClientController {
         if(clients.isEmpty()){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
-        return ResponseEntity.ok().body(clientMapper.toClientResponse(clients));
+        return ResponseEntity.ok().body(ClientMapper.toClientResponse(clients));
     } 
 
     @PostMapping("/login")
@@ -49,7 +48,7 @@ public class ClientController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok().body(clientMapper.toClientResponse(client));
+        return ResponseEntity.ok().body(ClientMapper.toClientResponse(client));
 
     }
     @PostMapping
@@ -65,7 +64,7 @@ public class ClientController {
         client.setLocal(localRepository.findById(clientRequest.local()).orElse(null));
     
         clientRepository.save(client);
-        return ResponseEntity.ok(clientMapper.toClientResponse(client));
+        return ResponseEntity.ok(ClientMapper.toClientResponse(client));
     }
 
 }

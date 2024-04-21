@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.api.controllers.mappers;
+package school.sptech.neosspringjava.api.mappers.clientMapper;
 
 
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import school.sptech.neosspringjava.api.dtos.clientDTO.ClientResponse;
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientResponse;
 import school.sptech.neosspringjava.domain.model.client.Client;
 
 @Component

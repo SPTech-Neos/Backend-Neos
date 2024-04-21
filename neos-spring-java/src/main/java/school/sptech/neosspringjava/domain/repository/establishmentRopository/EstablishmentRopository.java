@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.domain.repository;
+package school.sptech.neosspringjava.domain.repository.establishmentRopository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

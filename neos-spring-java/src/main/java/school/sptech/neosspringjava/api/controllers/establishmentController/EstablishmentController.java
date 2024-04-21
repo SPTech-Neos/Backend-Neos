@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.api.controllers;
+package school.sptech.neosspringjava.api.controllers.establishmentController;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
-import school.sptech.neosspringjava.domain.repository.EstablishmentRopository;
+import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
 
 @RestController
 @RequestMapping("/Establishments")

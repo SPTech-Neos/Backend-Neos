@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.api.controllers;
+package school.sptech.neosspringjava.api.controllers.ProductTypeController;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import school.sptech.neosspringjava.domain.model.productType.ProductType;
-import school.sptech.neosspringjava.domain.repository.ProductTypeRopository;
+import school.sptech.neosspringjava.domain.repository.productTypeRopository.ProductTypeRopository;
 
 import java.util.List;
 

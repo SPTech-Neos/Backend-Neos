@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.api.controllers;
+package school.sptech.neosspringjava.api.controllers.adressController;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import school.sptech.neosspringjava.domain.model.address.Address;
-import school.sptech.neosspringjava.domain.repository.AdressRepository;
+import school.sptech.neosspringjava.domain.repository.adressRepository.AdressRepository;
 
 /**
  * @autor: @GabrielYukioMC
