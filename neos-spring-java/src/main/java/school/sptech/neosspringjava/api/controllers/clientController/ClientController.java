@@ -8,8 +8,11 @@ import org.apache.catalina.connector.Response;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -65,6 +68,39 @@ public class ClientController {
     
         clientRepository.save(client);
         return ResponseEntity.ok(ClientMapper.toClientResponse(client));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientResponse> getClientById(@PathVariable int id) {
+        Optional<Client> client = clientRepository.findById(id);
+        if(client.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(ClientMapper.toClientResponse(client.get()));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ClientResponse> updateClient(@PathVariable int id, @RequestBody ClientRequest clientRequest) {
+        Client client = clientRepository.findById(id).orElseThrow();
+        if(client == null){
+            return ResponseEntity.notFound().build();
+        }
+        client.setName(clientRequest.name());
+        client.setEmail(clientRequest.email());
+        client.setPassword(clientRequest.password());
+        client.setLocal(localRepository.findById(clientRequest.local()).orElse(null));
+        clientRepository.save(client);
+        return ResponseEntity.ok().body(ClientMapper.toClientResponse(client));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ClientResponse> deleteClient(@PathVariable int id) {
+        Client client = clientRepository.findById(id).orElseThrow();
+        if(client == null){
+            return ResponseEntity.notFound().build();
+        }
+        clientRepository.delete(client);
+        return ResponseEntity.ok().body(ClientMapper.toClientResponse(client));
     }
 
 }
