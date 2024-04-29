@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
-import school.sptech.neosspringjava.api.mappers.EmployeeMapper;
+import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 
