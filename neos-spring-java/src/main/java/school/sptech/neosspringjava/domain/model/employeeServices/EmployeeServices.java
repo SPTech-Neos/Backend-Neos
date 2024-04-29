@@ -1,31 +1,29 @@
 package school.sptech.neosspringjava.domain.model.employeeServices;
 
-import java.sql.Date;
+import java.util.Date;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class EmployeeServices {
     @Id
-    @Getter
-    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Getter
-    @Setter
     private Date hoursSpent;
-    @Getter
-    @Setter
     private Boolean expertise;
-    @Getter
-    @Setter
     private Integer fkEmployee;
-    @Getter
-    @Setter
     private Integer fkService;
 
 }

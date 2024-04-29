@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.api.mappers;
+package school.sptech.neosspringjava.api.mappers.employeeMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
