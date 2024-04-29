@@ -6,29 +6,28 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Service {
 
     @Id
-    @Getter
-    @Setter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Getter
-    @Setter
     @NotBlank(message = "É necessario haver uma especificação no serviço")
     @NotEmpty(message = "É necessario haver uma especificação no serviço")
     private String specification;
-    @Getter
-    @Setter
     private Integer fkServiceType;
-    @Override
-    public String toString() {
-        return "Service [id=" + id + ", specification=" + specification + ", fkServiceType=" + fkServiceType + "]";
-    }
+  
     
 
 }
