@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import school.sptech.neosspringjava.api.dtos.couponAvailableDto.CouponAvailableRequest;
 import school.sptech.neosspringjava.api.dtos.couponAvailableDto.CouponAvailableResponse;
 import school.sptech.neosspringjava.domain.model.couponAvailable.CouponAvailable;
 
