@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.api.dtos.clientDto;
+package school.sptech.neosspringjava.api.dtos.clientDTO;
 
 
 
