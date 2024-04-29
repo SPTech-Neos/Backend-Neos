@@ -26,7 +26,7 @@ public class Filter {
     @NotNull
     @NotBlank
     @NotEmpty
-    private Double value;
+    private Double price;
     private Integer fkEstablishment;
     @NotNull
     @NotBlank

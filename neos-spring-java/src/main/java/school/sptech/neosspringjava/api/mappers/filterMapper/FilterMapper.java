@@ -12,7 +12,7 @@ import school.sptech.neosspringjava.api.dtos.FilterDto.FilterResponse;
 public class FilterMapper {
 
     public FilterResponse  toResponse(Filter filter) {
-        return new FilterResponse(filter.getId(), filter.getValue(), filter.getFkEstablishment(), filter.getFkService());
+        return new FilterResponse(filter.getId(), filter.getPrice(), filter.getFkEstablishment(), filter.getFkService());
     }
 
     public List<FilterResponse> toResponseList(List<Filter> filters) {
@@ -20,6 +20,6 @@ public class FilterMapper {
     }
 
     public Filter toFilter(FilterRequest filterRequest) {
-        return Filter.builder().value(filterRequest.value()).fkEstablishment(filterRequest.fkEstablishment()).fkService(filterRequest.fkService()).build();
+        return Filter.builder().price(filterRequest.price()).fkEstablishment(filterRequest.fkEstablishment()).fkService(filterRequest.fkService()).build();
     }
 }
