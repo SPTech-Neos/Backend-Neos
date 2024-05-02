@@ -1,5 +1,6 @@
 package school.sptech.neosspringjava.domain.model.company;
 
+
 import org.hibernate.validator.constraints.br.CNPJ;
 
 import jakarta.persistence.*;

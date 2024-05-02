@@ -1,4 +1,5 @@
 package school.sptech.neosspringjava.api.dtos.LocalDto;
-public record LocalResponse(Integer id,int number, int floor, String bloc, String complement, Integer fkAddress) {
+import school.sptech.neosspringjava.domain.model.address.Address;
+public record LocalResponse(Integer id,int number, int floor, String bloc, String complement, Address address) {
 
 }

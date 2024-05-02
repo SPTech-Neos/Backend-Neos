@@ -1,5 +1,5 @@
 package school.sptech.neosspringjava.api.dtos.FilterDto;
 
-public record FilterResponse(Integer id, Double value, Integer fkEstablishment, Integer fkService) {
+public record FilterResponse(Integer id, Double price, Integer fkEstablishment, Integer fkService) {
 
 }
