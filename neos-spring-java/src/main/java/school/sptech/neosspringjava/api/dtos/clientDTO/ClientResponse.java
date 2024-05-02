@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.api.dtos.clientDTO;
+package school.sptech.neosspringjava.api.dtos.clientDto;
 
 import school.sptech.neosspringjava.domain.model.local.Local;
 
