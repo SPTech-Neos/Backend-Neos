@@ -10,7 +10,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import school.sptech.neosspringjava.domain.model.address.Address;
 
 
 @Entity
@@ -31,6 +30,6 @@ public class Local {
     private String bloc;
     private String complement;
     @NotNull(message = "FkEndereco é obrigatório")
-    private Address address;
+    private int fkAddress;
 
 }

@@ -20,5 +20,9 @@ public class ClientMapper {
         return clients.stream().map(ClientMapper::toClientResponse).collect(Collectors.toList());
     }
 
+    // public static Client toClient(ClientResponse clientResponse) {
+    //     return new Client( clientResponse.name(), clientResponse.email(), clientResponse.password(), clientResponse.local());
+    // }
+
 
 }

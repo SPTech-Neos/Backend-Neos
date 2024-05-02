@@ -13,9 +13,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import school.sptech.neosspringjava.domain.model.coupon.Coupon;
-import school.sptech.neosspringjava.domain.model.discountType.DiscountType;
-import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 
 @Entity
 @Getter
@@ -37,13 +34,13 @@ public class CouponAvailable {
     @NotNull
     @NotBlank
     @NotEmpty
-    private DiscountType discountType;
+    private Integer fkDiscount;
     @NotNull
     @NotBlank
     @NotEmpty
-    private Establishment establishment;
+    private Integer fkEstablishment;
     @NotNull
     @NotBlank
     @NotEmpty
-    private Coupon coupon;
+    private Integer fkCoupon;
 }

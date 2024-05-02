@@ -19,9 +19,6 @@ import school.sptech.neosspringjava.api.dtos.couponAvailableDto.CouponAvailableR
 import school.sptech.neosspringjava.api.mappers.couponAvailableMapper.CouponAvailableMapper;
 import school.sptech.neosspringjava.domain.model.couponAvailable.CouponAvailable;
 import school.sptech.neosspringjava.domain.repository.couponAvaliableRepository.CouponAvaliableRepository;
-import school.sptech.neosspringjava.domain.repository.couponRepository.CouponRepository;
-import school.sptech.neosspringjava.domain.repository.discountTypeRepository.DiscountTypeRepository;
-import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
 
 @RestController
 @RequestMapping("/couponAvailable")
@@ -30,47 +27,50 @@ public class CouponAvailableController {
 
     private final CouponAvailableMapper couponAvailableMapper;
     private final CouponAvaliableRepository  couponAvailableRepository;
-    private final CouponRepository couponRepository;
-    private final EstablishmentRopository establishmentRepository;
-    private final DiscountTypeRepository discountTypeRepository;
 
     @GetMapping
-    public ResponseEntity<List<CouponAvailableResponse>> getAll() {
-        return ResponseEntity.ok(couponAvailableMapper.toCouponAvailableResponse(couponAvailableRepository.findAll()));
+    public ResponseEntity<List<CouponAvailableResponse>> getAllCouponAvailable() {
+       
+        List<CouponAvailable> couponAvailable = couponAvailableRepository.findAll();
+
+        return ResponseEntity.ok().body(couponAvailableMapper.toCouponAvailableResponse(couponAvailable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CouponAvailableResponse> getById(@PathVariable Integer id) {
-        return ResponseEntity.ok(couponAvailableMapper.toCouponAvailableResponse(couponAvailableRepository.findById(id).get()));
+    public ResponseEntity<CouponAvailableResponse> getCouponAvailableById(@PathVariable int id) {
+        CouponAvailable couponAvailable = couponAvailableRepository.findById(id).orElseThrow();
+        if (couponAvailable == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(couponAvailableMapper.toCouponAvailableResponse(couponAvailable));
     }
 
     @PostMapping
-    public ResponseEntity<CouponAvailableResponse> create(@Valid @RequestBody CouponAvailableRequest couponAvailableRequest) {
-        CouponAvailable couponAvailable = CouponAvailable.builder()
-                .expirationDate(couponAvailableRequest.expirationDate())
-                .discount(couponAvailableRequest.discount())
-                .discountType(discountTypeRepository.findById(couponAvailableRequest.fkDiscount()).get())
-                .establishment(establishmentRepository.findById(couponAvailableRequest.fkEstablishment()).get())
-                .coupon(couponRepository.findById(couponAvailableRequest.fkCoupon()).get())
-                .build();
-        return ResponseEntity.ok(couponAvailableMapper.toCouponAvailableResponse(couponAvailableRepository.save(couponAvailable)));
+    public ResponseEntity<CouponAvailableResponse> createCouponAvailable(@Valid @RequestBody CouponAvailableRequest couponAvailableRequest) {
+        CouponAvailable couponAvailable = couponAvailableMapper.toCouponAvailable(couponAvailableRequest);
+        couponAvailableRepository.save(couponAvailable);
+        return ResponseEntity.ok().body(couponAvailableMapper.toCouponAvailableResponse(couponAvailable));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CouponAvailableResponse> update(@RequestBody CouponAvailableRequest couponAvailableRequest, @PathVariable Integer id) {
-        CouponAvailable couponAvailable = couponAvailableRepository.findById(id).get();
+    public ResponseEntity<CouponAvailableResponse> updateCouponAvailable(@PathVariable int id, @Valid @RequestBody CouponAvailableRequest couponAvailableRequest) {
+        CouponAvailable couponAvailable = couponAvailableRepository.findById(id).orElseThrow();
         couponAvailable.setExpirationDate(couponAvailableRequest.expirationDate());
         couponAvailable.setDiscount(couponAvailableRequest.discount());
-        couponAvailable.setDiscountType(discountTypeRepository.findById(couponAvailableRequest.fkDiscount()).get());
-        couponAvailable.setEstablishment(establishmentRepository.findById(couponAvailableRequest.fkEstablishment()).get());
-        couponAvailable.setCoupon(couponRepository.findById(couponAvailableRequest.fkCoupon()).get());
-        return ResponseEntity.ok(couponAvailableMapper.toCouponAvailableResponse(couponAvailableRepository.save(couponAvailable)));
+        couponAvailable.setFkDiscount(couponAvailableRequest.fkDiscount());
+        couponAvailable.setFkEstablishment(couponAvailableRequest.fkEstablishment());
+        couponAvailable.setFkCoupon(couponAvailableRequest.fkCoupon());
+        couponAvailableRepository.save(couponAvailable);
+        return ResponseEntity.ok().body(couponAvailableMapper.toCouponAvailableResponse(couponAvailable));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        couponAvailableRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<CouponAvailableResponse> deleteCouponAvailable(@PathVariable int id) {
+        CouponAvailable couponAvailable = couponAvailableRepository.findById(id).orElseThrow();
+        couponAvailableRepository.delete(couponAvailable);
+        return ResponseEntity.ok().body(couponAvailableMapper.toCouponAvailableResponse(couponAvailable));
     }
 
- }
+    
+}
+    
