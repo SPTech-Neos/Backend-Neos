@@ -2,9 +2,9 @@ package school.sptech.neosspringjava.api.controllers.clientController;
 
 import java.util.Optional;
 
-import javax.swing.text.html.Option;
+//import javax.swing.text.html.Option;
 
-import org.apache.catalina.connector.Response;
+//import org.apache.catalina.connector.Response;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientLoginDTO;
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientLoginDto;
 import school.sptech.neosspringjava.api.dtos.clientDto.ClientRequest;
 import school.sptech.neosspringjava.api.dtos.clientDto.ClientResponse;
 import school.sptech.neosspringjava.api.mappers.clientMapper.ClientMapper;
@@ -44,9 +44,9 @@ public class ClientController {
     } 
 
     @PostMapping("/login")
-    public ResponseEntity<ClientResponse> Login(@RequestBody ClientLoginDTO clientLoginDTO) {
+    public ResponseEntity<ClientResponse> Login(@RequestBody ClientLoginDto clientLoginDto) {
     
-        Client client = clientRepository.findByEmailAndPassword(clientLoginDTO.email(), clientLoginDTO.password());
+        Client client = clientRepository.findByEmailAndPassword(clientLoginDto.email(), clientLoginDto.password());
         if(client == null){
             return ResponseEntity.notFound().build();
         }

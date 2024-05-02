@@ -1,5 +1,5 @@
 package school.sptech.neosspringjava.api.dtos.clientDto;
 
-public record ClientLoginDTO(String email, String password) {
+public record ClientLoginDto(String email, String password) {
 
 }
