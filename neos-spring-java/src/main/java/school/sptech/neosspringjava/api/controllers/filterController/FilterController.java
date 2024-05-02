@@ -46,7 +46,7 @@ public class FilterController {
     @PutMapping("/{id}")
     public ResponseEntity<FilterResponse> updateFilter(@RequestParam Integer id, @RequestBody FilterRequest filterRequest) {
         Filter filter = filterRepository.findById(id).get();
-        filter.setValue(filterRequest.value());
+        filter.setPrice(filterRequest.price());
         filter.setFkEstablishment(filterRequest.fkEstablishment());
         filter.setFkService(filterRequest.fkService());
         return ResponseEntity.ok(filterMapper.toResponse(filterRepository.save(filter)));

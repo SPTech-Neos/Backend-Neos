@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // package school.sptech.neosspringjava.config;
 
 // import org.springframework.context.annotation.Bean;
@@ -33,3 +34,5 @@
 //                 .build();
 //     }
 // }
+=======
+>>>>>>> origin/Dtos
