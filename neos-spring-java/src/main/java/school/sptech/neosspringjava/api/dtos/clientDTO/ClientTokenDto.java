@@ -5,7 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ClientLoginDTO {
+public class ClientTokenDto {
+    private Integer clientId;
+    private  String name;
     private String email;
-    private String password;
+    private  String token;
+
+
 }

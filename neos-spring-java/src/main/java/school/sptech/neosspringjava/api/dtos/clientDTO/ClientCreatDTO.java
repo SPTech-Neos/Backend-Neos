@@ -3,9 +3,10 @@ package school.sptech.neosspringjava.api.dtos.clientDTO;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-public class ClientLoginDTO {
+@Getter
+public class ClientCreatDTO {
+    private String name;
     private String email;
     private String password;
 }
