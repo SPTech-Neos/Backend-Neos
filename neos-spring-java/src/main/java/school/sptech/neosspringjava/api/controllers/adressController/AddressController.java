@@ -32,9 +32,9 @@ import school.sptech.neosspringjava.domain.repository.adressRepository.AdressRep
  **/
 
 @RestController
-@RequestMapping("/adress")
+@RequestMapping("/address")
 @RequiredArgsConstructor
-public class AdressController {
+public class AddressController {
 
     private final AdressRepository adressRepository;
     private final AddressMapper addressMapper;

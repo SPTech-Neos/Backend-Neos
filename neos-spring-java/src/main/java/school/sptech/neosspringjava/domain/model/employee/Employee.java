@@ -37,12 +37,11 @@ public class Employee {
     @NotBlank(message = "criar uma senha é obrigatório")
     @NotEmpty(message = "criar uma senha é obrigatório")
     private String passaword;
-    @NotBlank(message = "um funcionário precisa de um estabelecimento")
-    @NotEmpty(message = "um funcionário precisa de um estabelecimento")
+    
+   
     @ManyToOne
     private Establishment establishment;
-    @NotBlank(message = "um funcionário precisa de um estabelecimento")
-    @NotEmpty(message = "um funcionário precisa de um estabelecimento")
+
     @ManyToOne
     private EmployeeType employeeType;
 

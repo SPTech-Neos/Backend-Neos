@@ -13,7 +13,7 @@ import school.sptech.neosspringjava.domain.model.employee.Employee;
 public class EmployeeMapper {
 
     public static EmployeeResponse toEmployeeResponse(Employee employee) {
-        return new EmployeeResponse(employee.getName(), employee.getEmail(), employee.getPassaword(), employee.getEstablishment(), employee.getEmployeeType());
+        return new EmployeeResponse(employee.getId(),employee.getName(), employee.getEmail(), employee.getPassaword(), employee.getEstablishment(), employee.getEmployeeType());
     }
 
     public static List<EmployeeResponse> toEmployeeResponse(List<Employee> employee) {

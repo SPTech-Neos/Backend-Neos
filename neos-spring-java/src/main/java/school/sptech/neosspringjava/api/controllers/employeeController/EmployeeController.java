@@ -29,7 +29,7 @@ import school.sptech.neosspringjava.domain.repository.establishmentRopository.Es
 
 
 @RestController
-@RequestMapping("/Employee")
+@RequestMapping("/employee")
 @RequiredArgsConstructor
 public class EmployeeController {
 
@@ -39,56 +39,59 @@ public class EmployeeController {
     private final EmployeeTypeRepository employeeTypeRepository;
     private final EstablishmentRopository establishmentRopository;
 
+
     @GetMapping
-    public ResponseEntity<List<EmployeeResponse>> findAll() {
-        return ResponseEntity.ok(employeeMapper.toEmployeeResponse(employeeRepository.findAll()));
+    public ResponseEntity<List<EmployeeResponse>> getAllEmployee() {
+       
+        List<Employee> employee = employeeRepository.findAll();
+
+        return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employee));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeResponse> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(employeeMapper.toEmployeeResponse(employeeRepository.findById(id).get()));
-    }
 
-
-    @PostMapping("/login")
-    public ResponseEntity<EmployeeResponse> login(@RequestBody EmployeeLogin employeeLogin) {
-        Employee employee = employeeRepository.findByEmailAndPassaword(employeeLogin.email(), employeeLogin.password());
-        if(employee == null){
+    public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable int id) {
+        Employee employee = employeeRepository.findById(id).orElseThrow();
+        if (employee == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(employeeMapper.toEmployeeResponse(employee));
-    }
-    @PostMapping
-    public ResponseEntity<EmployeeResponse> save(@RequestBody EmployeeRequest employeeRequest) {
-        Employee employee = Employee.builder()
-                .name(employeeRequest.name())
-                .email(employeeRequest.email())
-                .passaword(employeeRequest.password())
-                .establishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).get())
-                .employeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).get())
-                .build();
-        return ResponseEntity.ok(employeeMapper.toEmployeeResponse(employeeRepository.save(employee)));
+        return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employee));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<EmployeeResponse> update(@PathVariable Integer id, @RequestBody EmployeeRequest employeeRequest) {
-        Employee employee = employeeRepository.findById(id).get();
+    @PostMapping
+    public ResponseEntity<EmployeeResponse> createEmployee(@RequestBody EmployeeRequest employeeRequest) {
+        Employee employee = new Employee();
         employee.setName(employeeRequest.name());
         employee.setEmail(employeeRequest.email());
         employee.setPassaword(employeeRequest.password());
         employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).get());
         employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).get());
-        return ResponseEntity.ok(employeeMapper.toEmployeeResponse(employeeRepository.save(employee)));
+        return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employeeRepository.save(employee)));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable int id, @RequestBody EmployeeRequest employeeRequest) {
+        Employee employee = new Employee();
+        employee.setName(employeeRequest.name());
+        employee.setEmail(employeeRequest.email());
+        employee.setPassaword(employeeRequest.password());
+        employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).get());
+        employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).get());
+        employee.setId(id);
+        return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employeeRepository.save(employee)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEmployee(@PathVariable Integer id) {
-        Employee employee = employeeRepository.findById(id).orElse(null);
-        if(employee == null){
-            return ResponseEntity.notFound().build();
-        }
-        employeeRepository.delete(employee);
-        return ResponseEntity.noContent().build();
+    public void deleteEmployee(@PathVariable int id) {
+        employeeRepository.deleteById(id);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<EmployeeResponse> login(@RequestBody EmployeeLogin employeeLogin) {
+        Employee employee = employeeRepository.findByEmailAndPassaword(employeeLogin.email(), employeeLogin.password());
+        if (employee == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employee));
+    }
 }

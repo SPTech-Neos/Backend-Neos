@@ -32,7 +32,7 @@ public class Local {
     private String bloc;
     private String complement;
     @NotNull(message = "FkEndereco é obrigatório")
-    @ManyToOne
+    @ManyToOne  
     private Address address;
 
 }

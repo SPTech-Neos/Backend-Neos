@@ -20,7 +20,7 @@ import school.sptech.neosspringjava.domain.repository.establishmentRopository.Es
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 
 @RestController
-@RequestMapping("/Establishments")
+@RequestMapping("/establishments")
 @RequiredArgsConstructor
 public class EstablishmentController {
 
