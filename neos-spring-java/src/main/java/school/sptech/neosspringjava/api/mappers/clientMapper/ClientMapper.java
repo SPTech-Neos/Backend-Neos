@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import school.sptech.neosspringjava.api.dtos.clientDTO.ClientCreatDTO;
+import school.sptech.neosspringjava.api.dtos.clientDTO.ClientTokenDto;
 import school.sptech.neosspringjava.api.dtos.clientDto.ClientResponse;
 import school.sptech.neosspringjava.domain.model.client.Client;
 
@@ -18,6 +20,27 @@ public class ClientMapper {
 
     public static List<ClientResponse> toClientResponse(List<Client> clients) {
         return clients.stream().map(ClientMapper::toClientResponse).collect(Collectors.toList());
+    }
+
+    public static Client of(ClientCreatDTO clientCreatDTO){
+        Client client = new Client();
+
+        client.setEmail(clientCreatDTO.getEmail());
+        client.setName(clientCreatDTO.getName());
+        client.setPassword(clientCreatDTO.getPassword());
+
+        return client;
+    }
+
+    public static ClientTokenDto of(Client client, String token){
+        ClientTokenDto clientTokenDto = new ClientTokenDto();
+
+        clientTokenDto.setClientId(client.getId());
+        clientTokenDto.setEmail(client.getEmail());
+        clientTokenDto.setName(client.getName());
+        clientTokenDto.setToken(token);
+
+        return clientTokenDto;
     }
 
     // public static Client toClient(ClientResponse clientResponse) {
