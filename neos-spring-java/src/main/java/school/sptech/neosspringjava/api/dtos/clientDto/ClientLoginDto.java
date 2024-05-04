@@ -1,11 +1,11 @@
-package school.sptech.neosspringjava.api.dtos.clientDTO;
+package school.sptech.neosspringjava.api.dtos.clientDto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class ClientLoginDTO {
+public class ClientLoginDto {
     private String email;
     private String password;
 }

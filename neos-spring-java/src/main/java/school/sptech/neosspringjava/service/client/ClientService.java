@@ -9,9 +9,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import school.sptech.neosspringjava.api.configuration.security.jwt.GerenciadorTokenJwt;
-import school.sptech.neosspringjava.api.dtos.clientDTO.ClientCreatDTO;
-import school.sptech.neosspringjava.api.dtos.clientDTO.ClientLoginDTO;
-import school.sptech.neosspringjava.api.dtos.clientDTO.ClientTokenDto;
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientCreatDTO;
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientLoginDto;
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientTokenDto;
 import school.sptech.neosspringjava.api.mappers.clientMapper.ClientMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
@@ -42,7 +42,7 @@ public class ClientService {
     @Autowired
     AuthenticationManager authenticationManager;
 
-    public ClientTokenDto authenticate(ClientLoginDTO clientLoginDTO) {
+    public ClientTokenDto authenticate(ClientLoginDto clientLoginDTO) {
 
         final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
                 clientLoginDTO.getEmail(), clientLoginDTO.getPassword());

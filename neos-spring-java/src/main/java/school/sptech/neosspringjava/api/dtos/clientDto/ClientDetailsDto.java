@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.api.dtos.clientDTO;
+package school.sptech.neosspringjava.api.dtos.clientDto;
 
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.security.core.GrantedAuthority;
