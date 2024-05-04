@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import school.sptech.neosspringjava.api.dtos.employee.EmployeeLogin;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
@@ -48,6 +49,15 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeMapper.toEmployeeResponse(employeeRepository.findById(id).get()));
     }
 
+
+    @PostMapping("/login")
+    public ResponseEntity<EmployeeResponse> login(@RequestBody EmployeeLogin employeeLogin) {
+        Employee employee = employeeRepository.findByEmailAndPassaword(employeeLogin.email(), employeeLogin.password());
+        if(employee == null){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(employeeMapper.toEmployeeResponse(employee));
+    }
     @PostMapping
     public ResponseEntity<EmployeeResponse> save(@RequestBody EmployeeRequest employeeRequest) {
         Employee employee = Employee.builder()
