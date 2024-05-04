@@ -7,3 +7,4 @@ import school.sptech.neosspringjava.domain.model.productType.ProductType;
 public interface ProductTypeRepository extends JpaRepository<ProductType, Integer>  {
 
 }
+
