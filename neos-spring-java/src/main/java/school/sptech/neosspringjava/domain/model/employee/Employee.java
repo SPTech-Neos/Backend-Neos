@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -13,6 +14,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 
 @Entity
 @Getter
@@ -36,10 +39,12 @@ public class Employee {
     private String passaword;
     @NotBlank(message = "um funcionário precisa de um estabelecimento")
     @NotEmpty(message = "um funcionário precisa de um estabelecimento")
-    private Integer fkEstablishment;
+    @ManyToOne
+    private Establishment establishment;
     @NotBlank(message = "um funcionário precisa de um estabelecimento")
     @NotEmpty(message = "um funcionário precisa de um estabelecimento")
-    private Integer fkEmployeeType;
+    @ManyToOne
+    private EmployeeType employeeType;
 
 
     
