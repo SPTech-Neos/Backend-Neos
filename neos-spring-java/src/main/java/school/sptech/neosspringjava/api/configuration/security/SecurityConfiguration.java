@@ -53,10 +53,11 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/v3/api-docs/**"),
             new AntPathRequestMatcher("/actuator/*"),
             new AntPathRequestMatcher("/client/login"),
+            new AntPathRequestMatcher("/employee/login"),
             new AntPathRequestMatcher("/h2-console/**"),
             new AntPathRequestMatcher("/error/**"),
-            new AntPathRequestMatcher("/client", "POST")
-
+            new AntPathRequestMatcher("/client", "POST"),
+            new AntPathRequestMatcher("/employee", "POST")
     };
 
     @Bean
@@ -153,7 +154,7 @@ public class SecurityConfiguration {
         configuracao.setExposedHeaders(List.of(HttpHeaders.CONTENT_DISPOSITION));
 
         UrlBasedCorsConfigurationSource origem = new UrlBasedCorsConfigurationSource();
-        origem.registerCorsConfiguration("/ ** ", configuracao);
+        origem.registerCorsConfiguration("/**", configuracao);
 
         return origem;
     }

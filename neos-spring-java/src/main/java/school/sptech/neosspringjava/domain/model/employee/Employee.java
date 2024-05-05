@@ -13,6 +13,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 
 @Entity
 @Getter
@@ -42,6 +44,9 @@ public class Employee {
     private Integer fkEmployeeType;
 
 
-    
+    public void setEstablishment(Establishment establishment) {
+    }
 
+    public void setEmployeeType(EmployeeType employeeType) {
+    }
 }
