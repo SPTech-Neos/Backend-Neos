@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class ServiceType {
     @NotBlank(message = "Nome do tipo de serviço é obrigatório")
     @NotEmpty(message = "Nome do tipo de serviço é obrigatório")
     private String name;
+    @ManyToOne
     private Integer fkServiceCategory;
 
 
