@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientCreatDTO;
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientTokenDto;
 import school.sptech.neosspringjava.api.dtos.clientDto.ClientResponse;
 import school.sptech.neosspringjava.domain.model.client.Client;
 

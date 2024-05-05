@@ -4,7 +4,8 @@ import java.util.Optional;
 
 import javax.swing.text.html.Option;
 
-import org.apache.catalina.connector.Response;
+
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientLoginDTO;
+
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientCreatDTO;
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientLoginDto;
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientTokenDto;
 import school.sptech.neosspringjava.api.dtos.clientDto.ClientRequest;
 import school.sptech.neosspringjava.api.dtos.clientDto.ClientResponse;
 import school.sptech.neosspringjava.api.mappers.clientMapper.ClientMapper;
@@ -44,15 +48,9 @@ public class ClientController {
     } 
 
     @PostMapping("/login")
-    public ResponseEntity<ClientResponse> Login(@RequestBody ClientLoginDTO clientLoginDTO) {
-    
-        Client client = clientRepository.findByEmailAndPassword(clientLoginDTO.email(), clientLoginDTO.password());
-        if(client == null){
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok().body(ClientMapper.toClientResponse(client));
-
+    public ResponseEntity<ClientTokenDto> login(@RequestBody ClientLoginDto clientLoginDTO){
+        ClientTokenDto clientToken = this.clientService.authenticate(clientLoginDTO);
+        return ResponseEntity.status(200).body(clientToken);
     }
     @PostMapping
     public ResponseEntity<ClientResponse> createClient(@RequestBody ClientRequest clientRequest) {
