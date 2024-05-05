@@ -1,9 +1,12 @@
 package school.sptech.neosspringjava.api.dtos.employee;
 
-public record EmployeeResponse(String name,
+import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
+
+public record EmployeeResponse(Integer id,String name,
         String email,
         String password,
-        Integer fkEstablishment,
-        Integer fkEmployeeType) {
+        Establishment establishment,
+        EmployeeType employeeType) {
 
 }

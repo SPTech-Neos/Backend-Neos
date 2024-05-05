@@ -1,5 +1,8 @@
 package school.sptech.neosspringjava.api.dtos.produtcDto;
 
-public record ProductResponse(Integer id, String name,String brand, Integer fkProductType, Integer fkEstablishment) {
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
+import school.sptech.neosspringjava.domain.model.productType.ProductType;
+
+public record ProductResponse(Integer id, String name,String brand, ProductType productType, Establishment establishment) {
 
 }

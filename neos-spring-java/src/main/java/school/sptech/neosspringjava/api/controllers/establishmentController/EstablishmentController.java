@@ -11,50 +11,58 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
+import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRespose;
+import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentResquest;
+import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 
 @RestController
-@RequestMapping("/Establishments")
+@RequestMapping("/establishments")
+@RequiredArgsConstructor
 public class EstablishmentController {
 
-    @Autowired
-    private EstablishmentRopository EstablishmentRepository;
+  
+    private final EstablishmentRopository establishmentRopository;
+    private final EstablishmentMapper establishmentMapper;
+    private final LocalRepository localRepository;
+
 
     @GetMapping
-    public ResponseEntity<List<Establishment>> listEstablishment() {
-        List<Establishment> lstEstablishments = EstablishmentRepository.findAll();
-        return lstEstablishments.isEmpty() ? ResponseEntity.status(204).build()
-                : ResponseEntity.status(200).body(lstEstablishments);
+    public ResponseEntity<List<EstablishmentRespose>> findAll() {
+        return ResponseEntity.ok(establishmentMapper.toEstablishmentResponse(establishmentRopository.findAll()));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EstablishmentRespose> findById(Integer id) {
+        return ResponseEntity.ok(establishmentMapper.toEstablishmentResponse(establishmentRopository.findById(id).get()));
     }
 
     @PostMapping
-    public ResponseEntity<Establishment> postEstablishment(Establishment establishment) {
-
-        Establishment establishmentCadastrado = EstablishmentRepository.save(establishment);
-        return ResponseEntity.status(201).body(establishmentCadastrado);
+    public ResponseEntity<EstablishmentRespose> save(EstablishmentResquest establishmentResquest) {
+        Establishment establishment = Establishment.builder()
+                .name(establishmentResquest.name())
+                .local(localRepository.findById(establishmentResquest.fkLocal()).get())
+                .build();
+        return ResponseEntity.ok(establishmentMapper.toEstablishmentResponse(establishmentRopository.save(establishment)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Establishment> updateMechant(Integer id, Establishment Establishment) {
-
-        if (!EstablishmentRepository.existsById(id)) {
-            return ResponseEntity.status(404).build();
-        }
-
-        Establishment.setIdEstablishment(id);
-        Establishment establishmentAtualizado = EstablishmentRepository.save(Establishment);
-        return ResponseEntity.status(200).body(establishmentAtualizado);
+    public ResponseEntity<EstablishmentRespose> update(Integer id, EstablishmentResquest establishmentResquest) {
+        Establishment establishment = Establishment.builder()
+                .idEstablishment(id)
+                .name(establishmentResquest.name())
+                .local(localRepository.findById(establishmentResquest.fkLocal()).get())
+                .build();
+        return ResponseEntity.ok(establishmentMapper.toEstablishmentResponse(establishmentRopository.save(establishment)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Establishment> deleteEstablishment(Integer id) {
-
-        if (!EstablishmentRepository.existsById(id)) {
-            return ResponseEntity.status(404).build();
-        }
-
-        EstablishmentRepository.deleteById(id);
-        return ResponseEntity.status(200).build();
+    public void delete(Integer id) {
+        establishmentRopository.deleteById(id);
     }
+
+  
 }

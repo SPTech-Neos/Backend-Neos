@@ -1,13 +1,13 @@
-// package school.sptech.neosspringjava;
+package school.sptech.neosspringjava;
 
-// import org.junit.jupiter.api.Test;
-// import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-// @SpringBootTest
-// class NeosSpringJavaApplicationTests {
+@SpringBootTest
+class NeosSpringJavaApplicationTests {
 
-// 	@Test
-// 	void contextLoads() {
-// 	}
+	@Test
+	void contextLoads() {
+	}
 
-// }
+}

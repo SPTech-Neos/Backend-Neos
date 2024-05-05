@@ -18,7 +18,9 @@ import school.sptech.neosspringjava.api.dtos.FilterDto.FilterRequest;
 import school.sptech.neosspringjava.api.dtos.FilterDto.FilterResponse;
 import school.sptech.neosspringjava.api.mappers.filterMapper.FilterMapper;
 import school.sptech.neosspringjava.domain.model.filter.Filter;
+import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
 import school.sptech.neosspringjava.domain.repository.filterRepository.FilterRepository;
+import school.sptech.neosspringjava.domain.repository.serviceRepository.ServiceRepository;
 
 @RestController
 @RequestMapping("/filter")
@@ -27,30 +29,41 @@ public class FilterController {
 
     private final FilterMapper filterMapper;
     private final FilterRepository filterRepository;
+    private final EstablishmentRopository establishmentRopository;
+    private final ServiceRepository serviceRepository;
 
     @GetMapping
-    public ResponseEntity<List<FilterResponse>> getFilter() {
-        return ResponseEntity.ok(filterMapper.toResponseList(filterRepository.findAll()));
+    public ResponseEntity<List<FilterResponse>> findAll() {
+        return ResponseEntity.ok(filterMapper.toFilterResponse(filterRepository.findAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FilterResponse> getFilterById(@RequestParam Integer id) {
-        return ResponseEntity.ok(filterMapper.toResponse(filterRepository.findById(id).get()));
+    public ResponseEntity<FilterResponse> findById(@RequestParam Integer id) {
+        return ResponseEntity.ok(filterMapper.toFilterResponse(filterRepository.findById(id).get()));
     }
 
     @PostMapping
-    public ResponseEntity<FilterResponse> createFilter(@RequestBody FilterRequest filterRequest) {
-        return ResponseEntity.status(201).body(filterMapper.toResponse(filterRepository.save(filterMapper.toFilter(filterRequest))));
+    public ResponseEntity<FilterResponse> save(@RequestBody FilterRequest filterRequest) {
+        Filter filter = Filter.builder()
+                .price(filterRequest.price())
+                .establishment(establishmentRopository.findById(filterRequest.fkEstablishment()).get())
+                .service(serviceRepository.findById(filterRequest.fkService()).get())
+                .build();
+        return ResponseEntity.ok(filterMapper.toFilterResponse(filterRepository.save(filter)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FilterResponse> updateFilter(@RequestParam Integer id, @RequestBody FilterRequest filterRequest) {
-        Filter filter = filterRepository.findById(id).get();
-        filter.setPrice(filterRequest.price());
-        filter.setFkEstablishment(filterRequest.fkEstablishment());
-        filter.setFkService(filterRequest.fkService());
-        return ResponseEntity.ok(filterMapper.toResponse(filterRepository.save(filter)));
+    public ResponseEntity<FilterResponse> update(@RequestParam Integer id, @RequestBody FilterRequest filterRequest) {
+        Filter filter = Filter.builder()
+                .id(id)
+                .price(filterRequest.price())
+                .establishment(establishmentRopository.findById(filterRequest.fkEstablishment()).get())
+                .service(serviceRepository.findById(filterRequest.fkService()).get())
+                .build();
+        return ResponseEntity.ok(filterMapper.toFilterResponse(filterRepository.save(filter)));
     }
+    
+ 
 
     @DeleteMapping("/{id}")
     public void deleteFilter(@RequestParam Integer id) {
