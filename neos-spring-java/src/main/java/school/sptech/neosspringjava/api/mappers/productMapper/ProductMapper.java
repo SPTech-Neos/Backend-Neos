@@ -12,11 +12,15 @@ import school.sptech.neosspringjava.domain.model.product.Product;
 @Component
 public class ProductMapper {
 
-    public static ProductResponse toProductResponse(Product product) {
-        return new ProductResponse(product.getId(), product.getName(), product.getBrand(), product.getProductType(), product.getEstablishment());
+    public ProductResponse toResponse(Product product) {
+        return new ProductResponse(product.getId(), product.getName(), product.getBrand(), product.getFkProductType(), product.getFkEstablishment());
     }
 
-    public static List<ProductResponse> toProductResponse(List<Product> product) {
-        return product.stream().map(ProductMapper::toProductResponse).collect(Collectors.toList());
+    public List<ProductResponse> toResponseList(List<Product> products) {
+        return products.stream().map(this::toResponse).collect(Collectors.toList());
+    }
+
+    public Product toProduct(ProductRequest productRequest) {
+        return Product.builder().name(productRequest.name()).brand(productRequest.brand()).fkProductType(productRequest.fkProductType()).fkEstablishment(productRequest.fkEstablishment()).build();
     }
 }

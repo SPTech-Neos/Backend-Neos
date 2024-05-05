@@ -11,11 +11,15 @@ import school.sptech.neosspringjava.api.dtos.FilterDto.FilterResponse;
 @Component
 public class FilterMapper {
 
-    public static FilterResponse toFilterResponse(Filter filter) {
-        return new FilterResponse(filter.getId(), filter.getPrice(), filter.getEstablishment(), filter.getService());
+    public FilterResponse  toResponse(Filter filter) {
+        return new FilterResponse(filter.getId(), filter.getPrice(), filter.getFkEstablishment(), filter.getFkService());
     }
 
-    public static List<FilterResponse> toFilterResponse(List<Filter> filter) {
-        return filter.stream().map(FilterMapper::toFilterResponse).collect(Collectors.toList());
+    public List<FilterResponse> toResponseList(List<Filter> filters) {
+        return filters.stream().map(this::toResponse).collect(Collectors.toList());
+    }
+
+    public Filter toFilter(FilterRequest filterRequest) {
+        return Filter.builder().price(filterRequest.price()).fkEstablishment(filterRequest.fkEstablishment()).fkService(filterRequest.fkService()).build();
     }
 }

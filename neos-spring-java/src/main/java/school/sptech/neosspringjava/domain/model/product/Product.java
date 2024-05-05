@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -12,8 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import school.sptech.neosspringjava.domain.model.establishment.Establishment;
-import school.sptech.neosspringjava.domain.model.productType.ProductType;
 
 @Entity
 @Getter
@@ -30,11 +27,9 @@ public class Product {
     private String name;
     private String brand;
     @NotBlank
-    @ManyToOne
-    private ProductType productType;
+    private Integer fkProductType;
     @NotBlank
-    @ManyToOne
-    private Establishment establishment;
+    private Integer fkEstablishment;
     
    
    

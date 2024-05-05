@@ -24,7 +24,7 @@ public class ServiceCategory{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer categoryId;
     @NotBlank(message = "Nome é obrigatório")
     @NotEmpty(message = "Nome é obrigatório")
     private String name;

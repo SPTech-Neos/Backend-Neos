@@ -5,14 +5,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import school.sptech.neosspringjava.domain.model.employee.Employee;
-import school.sptech.neosspringjava.domain.model.service.Service;
 
 @Entity
 @Getter
@@ -26,10 +23,8 @@ public class EmployeeServices {
     private Integer id;
     private Date hoursSpent;
     private Boolean expertise;
-    @ManyToOne
-    private Employee employee;
-    @ManyToOne
-    private Service service;
+    private Integer fkEmployee;
+    private Integer fkService;
 
 }
 

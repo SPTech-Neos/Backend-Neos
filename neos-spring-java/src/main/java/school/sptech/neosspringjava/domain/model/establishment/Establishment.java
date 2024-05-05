@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -14,7 +13,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import school.sptech.neosspringjava.domain.model.local.Local;
 
 @Entity
 @Getter
@@ -30,7 +28,9 @@ public class Establishment {
     @NotBlank(message = "Nome é obrigatório")
     @NotEmpty(message = "Nome é obrigatório")
     private String name;
+
+    @NotNull(message = "FkEmpresa é obrigatório")
+    private int fkEstablishment;
     @NotNull(message = "FkLocal é obrigatório")
-    @ManyToOne
-    private Local local;
+    private int fkLocal;
 }

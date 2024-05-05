@@ -12,11 +12,15 @@ import school.sptech.neosspringjava.domain.model.local.Local;
 @Component
 public class LocalMapper {
 
-    public static LocalResponse toLocalResponse(Local local) {
-        return new LocalResponse(local.getIdLocal(), local.getNumber(), local.getFloor(), local.getBloc(), local.getComplement(), local.getAddress());
+    public LocalResponse toResponse(Local local) {
+        return new LocalResponse(local.getIdLocal(), local.getNumber(), local.getFloor(), local.getBloc(), local.getComplement(), local.getFkAddress());
     }
 
-    public static List<LocalResponse> toLocalResponse(List<Local> local) {
-        return local.stream().map(LocalMapper::toLocalResponse).collect(Collectors.toList());
+    public List<LocalResponse> toResponseList(List<Local> locals) {
+        return locals.stream().map(this::toResponse).collect(Collectors.toList());
+    }
+
+    public Local toLocal(LocalRequest localRequest) {
+        return Local.builder().number(localRequest.number()).floor(localRequest.floor()).bloc(localRequest.bloc()).complement(localRequest.complement()).fkAddress(localRequest.fkAddress()).build();
     }
 }

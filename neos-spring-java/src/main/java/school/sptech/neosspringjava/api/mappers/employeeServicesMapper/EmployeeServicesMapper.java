@@ -12,11 +12,21 @@ import school.sptech.neosspringjava.domain.model.employeeServices.EmployeeServic
 @Component
 public class EmployeeServicesMapper {
 
-    public static EmployeeServicesResponse toEmployeeServicesResponse(EmployeeServices employeeServices) {
-        return new EmployeeServicesResponse(employeeServices.getId(), employeeServices.getHoursSpent(), employeeServices.getExpertise(), employeeServices.getEmployee(), employeeServices.getService());
+    public EmployeeServices toEmployeeServices(EmployeeServicesRequest employeeServicesRequest) {
+        return EmployeeServices.builder()
+                .hoursSpent(employeeServicesRequest.hoursSpent())
+                .expertise(employeeServicesRequest.expertise())
+                .fkEmployee(employeeServicesRequest.fkEmployee())
+                .fkService(employeeServicesRequest.fkService())
+                .build();
     }
 
-    public static List<EmployeeServicesResponse> toEmployeeServicesResponse(List<EmployeeServices> employeeServices) {
-        return employeeServices.stream().map(EmployeeServicesMapper::toEmployeeServicesResponse).collect(Collectors.toList());
+    public EmployeeServicesResponse toEmployeeServicesResponse(EmployeeServices employeeServices) {
+        return new EmployeeServicesResponse(employeeServices.getId(), employeeServices.getHoursSpent(),
+                employeeServices.getExpertise(), employeeServices.getFkEmployee(), employeeServices.getFkService());
+    }
+
+    public List<EmployeeServicesResponse> toEmployeeServicesResponseList(List<EmployeeServices> employeeServices) {
+        return employeeServices.stream().map(this::toEmployeeServicesResponse).collect(Collectors.toList());
     }
 }
