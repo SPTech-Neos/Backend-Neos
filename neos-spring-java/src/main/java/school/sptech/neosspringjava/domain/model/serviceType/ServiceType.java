@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import school.sptech.neosspringjava.domain.model.serviceCategory.ServiceCategory;
 
 @Entity
 @Getter
@@ -27,7 +28,7 @@ public class ServiceType {
     @NotEmpty(message = "Nome do tipo de serviço é obrigatório")
     private String name;
     @ManyToOne
-    private Integer fkServiceCategory;
+    private ServiceCategory fkServiceCategory;
 
 
 }
