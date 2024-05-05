@@ -1,7 +1,10 @@
 package school.sptech.neosspringjava.api.controllers.scheduligController;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,6 +62,7 @@ public class ScheduligController {
                 .client(clientRepository.findById(scheduligRequest.idClient()).orElseThrow())
                 .service(serviceRepository.findById(scheduligRequest.idService()).orElseThrow())
                 .employee(employeeRepository.findById(scheduligRequest.idEmployee()).orElseThrow())
+                .dateTime(LocalDate.now())
                 .build();
 
         scheduling = schedulingRepository.save(scheduling);
@@ -75,6 +79,7 @@ public class ScheduligController {
         scheduling.setClient(clientRepository.findById(scheduligRequest.idClient()).orElseThrow());
         scheduling.setService(serviceRepository.findById(scheduligRequest.idService()).orElseThrow());
         scheduling.setEmployee(employeeRepository.findById(scheduligRequest.idEmployee()).orElseThrow());
+
         scheduling = schedulingRepository.save(scheduling);
         return ResponseEntity.ok().body(scheduligMapper.toScheduligResponse(scheduling));
     }

@@ -39,15 +39,4 @@ INSERT INTO client (name, email, password) VALUES
 ('Cliente D', 'cliente.d@example.com', 'senhaabc'),
 ('Cliente Funcionario', 'cliente.funcionario@example.com', '$2a$10$LKDiQGRIF9YiGivySF3UreeGcfbEL8XucUSNU6aUxEe9foyZhg9lC');
 
-INSERT INTO establishment (name, fk_establishment, fk_local) VALUES
-('Estabelecimento A', 1, 1),
-('Estabelecimento B', 2, 2);
 
-INSERT Into Employee_type (name) VALUES
-('Gerente'),
-('Funcionario');
-
-INSERT INTO employee (name,email, passaword, fk_employee_type, fk_establishment) VALUES
-('Funcionario A', 'gg@gmail.com', '123', 2, 1),
-('Gerente A', 'dd@gmail.com', '123', 1, 2),
-('Cliente Funcionario', 'cliente.funcionario@example.com', '123senha', 2, 2);
