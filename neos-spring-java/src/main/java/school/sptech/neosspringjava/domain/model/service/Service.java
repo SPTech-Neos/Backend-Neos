@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import school.sptech.neosspringjava.domain.model.serviceType.ServiceType;
 
 @Entity
 @Getter
@@ -26,7 +28,8 @@ public class Service {
     @NotBlank(message = "É necessario haver uma especificação no serviço")
     @NotEmpty(message = "É necessario haver uma especificação no serviço")
     private String specification;
-    private Integer fkServiceType;
+    @ManyToOne
+    private ServiceType serviceType;
   
     
 
