@@ -21,20 +21,12 @@ import school.sptech.neosspringjava.api.mappers.addressMapper.AddressMapper;
 import school.sptech.neosspringjava.domain.model.address.Address;
 import school.sptech.neosspringjava.domain.repository.adressRepository.AdressRepository;
 
-/**
- * @autor: @GabrielYukioMC
- * @data criação: 2024-03-31
- * @versão: 1.0.0
- * @descrição: Criação do controller EmpresaController
- * @/alterado por: @GabrielYukioMC
- * @data alteração: 2024-03-31
- * 
- **/
+
 
 @RestController
-@RequestMapping("/adress")
+@RequestMapping("/address")
 @RequiredArgsConstructor
-public class AdressController {
+public class AddressController {
 
     private final AdressRepository adressRepository;
     private final AddressMapper addressMapper;

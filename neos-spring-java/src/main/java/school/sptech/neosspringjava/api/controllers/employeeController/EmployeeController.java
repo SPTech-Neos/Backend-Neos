@@ -42,7 +42,6 @@ public class EmployeeController {
 
     @GetMapping
     public ResponseEntity<List<EmployeeResponse>> getAllEmployee() {
-
         List<Employee> employee = employeeRepository.findAll();
 
         return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employee));
@@ -94,4 +93,6 @@ public class EmployeeController {
         }
         return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employee));
     }
+
 }
+
