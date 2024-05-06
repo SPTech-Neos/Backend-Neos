@@ -27,7 +27,7 @@ public void generateSchedulingNote(Scheduling scheduling){
     lineVetor[3]=String.valueOf( scheduling.getService().getFilter().getPrice());
     linesList.add(lineVetor);
 csvGenerator csvG = new csvGenerator();
-//csvG.gerarCsv(linesList);
+csvG.gerarCsv(linesList,"nota");
 }
 
 @Autowired
@@ -58,7 +58,7 @@ public void generateSchedulingReport(Establishment establishment){
     }
 
     csvGenerator csvG = new csvGenerator();
-csvG.gerarCsv(linesList);
+    csvG.gerarCsv(linesList,"relatorio");
 
 };
 

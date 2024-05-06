@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class csvGenerator {
-    public static void gerarCsv(List<String[]> linhas) {
+    public static void gerarCsv(List<String[]> linhas, String nxx) {
 
         // Caminho do diretório "log" relativo ao diretório da classe
         String caminhoDiretorio = "log";
@@ -26,7 +26,7 @@ public class csvGenerator {
             }
 
             // Caminho completo do arquivo CSV
-            String caminhoArquivo = caminhoCompleto + File.separator + "Dados.csv";
+            String caminhoArquivo = caminhoCompleto + File.separator + nxx+".csv";
 
             FileWriter writer = new FileWriter(caminhoArquivo, append);
 
