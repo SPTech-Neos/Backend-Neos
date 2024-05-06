@@ -32,7 +32,8 @@ INSERT Into Employee_type (name) VALUES
 
 INSERT INTO employee (name,email, passaword, employee_type_id, establishment_id_establishment) VALUES
 ('Funcionario A', 'gg@gmail.com', '123', 2, 1),
-('Gerente A', 'dd@gmail.com', '123', 1, 2);
+('Gerente A', 'dd@gmail.com', '123', 1, 2),
+('Cliente Funcionario', 'cliente.funcionario@example.com', '123senha', 2, 2);
 
 INSERT INTO company (name, cnpj)
 VALUES
