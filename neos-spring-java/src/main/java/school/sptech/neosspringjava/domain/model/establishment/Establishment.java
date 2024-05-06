@@ -33,4 +33,5 @@ public class Establishment {
     @NotNull(message = "FkLocal é obrigatório")
     @ManyToOne
     private Local local;
+    
 }
