@@ -9,7 +9,7 @@ import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 
-    Employee findByEmailAndPassaword(String email, String password);
+    Employee findByEmailAndPassword(String email, String password);
 
     List<Employee> findByEstablishment(Establishment establishment);
 

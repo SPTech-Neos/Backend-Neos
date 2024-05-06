@@ -27,14 +27,10 @@ public class Filter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @NotNull
-    @NotBlank
-    @NotEmpty
     private Double price;
     @ManyToOne
     private Establishment establishment;
     @NotNull
-    @NotBlank
-    @NotEmpty
     @ManyToOne
     private Service service;
  

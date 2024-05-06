@@ -131,7 +131,7 @@ public class mocData  implements CommandLineRunner {
         Employee employee1 = Employee.builder()
                 .name("Funcionário 1")
                 .email("funcionario1@example.com")
-                .passaword("senhaFuncionario1")
+                .password("senhaFuncionario1")
                 .establishment(establishment1)
                 .employeeType(employeeType1)
                 .build();
@@ -140,7 +140,7 @@ public class mocData  implements CommandLineRunner {
         Employee employee2 = Employee.builder()
                 .name("Funcionário 2")
                 .email("funcionario2@example.com")
-                .passaword("senhaFuncionario2")
+                .password("senhaFuncionario2")
                 .establishment(establishment2)
                 .employeeType(employeeType2)
                 .build();

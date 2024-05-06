@@ -62,7 +62,7 @@ public class EmployeeController {
         Employee employee = new Employee();
         employee.setName(employeeRequest.name());
         employee.setEmail(employeeRequest.email());
-        employee.setPassaword(employeeRequest.password());
+        employee.setPassword(employeeRequest.password());
         employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).get());
         employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).get());
         return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employeeRepository.save(employee)));
@@ -73,7 +73,7 @@ public class EmployeeController {
         Employee employee = new Employee();
         employee.setName(employeeRequest.name());
         employee.setEmail(employeeRequest.email());
-        employee.setPassaword(employeeRequest.password());
+        employee.setPassword(employeeRequest.password());
         employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).get());
         employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).get());
         employee.setId(id);
@@ -87,7 +87,7 @@ public class EmployeeController {
 
     @PostMapping("/login")
     public ResponseEntity<EmployeeResponse> login(@RequestBody EmployeeLogin employeeLogin) {
-        Employee employee = employeeRepository.findByEmailAndPassaword(employeeLogin.email(), employeeLogin.password());
+        Employee employee = employeeRepository.findByEmailAndPassword(employeeLogin.email(), employeeLogin.password());
         if (employee == null) {
             return ResponseEntity.notFound().build();
         }
