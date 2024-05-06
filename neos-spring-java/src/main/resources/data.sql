@@ -15,11 +15,12 @@ INSERT INTO local (number, floor, bloc, complement, address_id_address) VALUES
 (4, 4, 'D', 'Apartamento', 4);
 
 INSERT INTO client (name, email, password) VALUES
-('Cliente A', 'cliente.a@example.com', 'senha123'),
+('Cliente A', 'cliente.a@example.com', '$2a$10$1h3qTcdIfxbfPyMKrDUAie5SzNfKyTk/HgvrtUSI.3ZyElQGy75We'),
 ('Cliente B', 'cliente.b@example.com', 'senha456'),
 ('Cliente C', 'cliente.c@example.com', 'senha789'),
 ('Cliente D', 'cliente.d@example.com', 'senhaabc'),
-('Cliente Funcionario', 'cliente.funcionario@example.com', '$2a$10$LKDiQGRIF9YiGivySF3UreeGcfbEL8XucUSNU6aUxEe9foyZhg9lC');
+('Cliente Funcionario', 'cliente.funcionario@example.com', '$2a$10$kb6w6bL6NG.p8ZjjMIQWs.496gUWEC9cXA1StRkgtRcJz1HOWQubS');
+
 
 INSERT INTO establishment (name, local_id_local) VALUES
 ('Estabelecimento A', 1),
