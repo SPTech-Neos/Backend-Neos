@@ -16,8 +16,13 @@ import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.produtcDto.ProductRequest;
 import school.sptech.neosspringjava.api.dtos.produtcDto.ProductResponse;
 import school.sptech.neosspringjava.api.mappers.productMapper.ProductMapper;
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.product.Product;
+import school.sptech.neosspringjava.domain.model.productType.ProductType;
+import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
 import school.sptech.neosspringjava.domain.repository.productRepository.ProductRepository;
+import school.sptech.neosspringjava.domain.repository.productTypeRepository.ProductTypeRepository;
+
 
 @RestController
 @RequestMapping("/product")
@@ -26,31 +31,43 @@ public class ProductController {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
+    private final ProductTypeRepository productTypeRepository;
+    private final EstablishmentRopository establishmentRopository;
+
 
     @GetMapping
-    public ResponseEntity<List<ProductResponse>> getProducts() {
-        return ResponseEntity.ok(productMapper.toResponseList(productRepository.findAll()));
+    public ResponseEntity<List<ProductResponse>> findAll() {
+        return ResponseEntity.ok(productMapper.toProductResponse(productRepository.findAll()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> getProductById(@RequestParam Integer id) {
-        return ResponseEntity.ok(productMapper.toResponse(productRepository.findById(id).get()));
+    public ResponseEntity<ProductResponse> findById(@RequestParam Integer id) {
+        return ResponseEntity.ok(productMapper.toProductResponse(productRepository.findById(id).get()));
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest productRequest) {
-        return ResponseEntity.status(201).body(productMapper.toResponse(productRepository.save(productMapper.toProduct(productRequest))));
+    public ResponseEntity<ProductResponse> save(@RequestBody ProductRequest productRequest) {
+        Product product = Product.builder()
+                .name(productRequest.name())
+                .brand(productRequest.brand())
+                .productType(productTypeRepository.findById(productRequest.fkProductType()).get())
+                .establishment(establishmentRopository.findById(productRequest.fkEstablishment()).get())
+                .build();
+        return ResponseEntity.ok(productMapper.toProductResponse(productRepository.save(product)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> updateProduct(@RequestParam Integer id, @RequestBody ProductRequest productRequest) {
-        Product productToUpdate = productRepository.findById(id).get();
-        productToUpdate.setName(productRequest.name());
-        productToUpdate.setBrand(productRequest.brand());
-        productToUpdate.setFkProductType(productRequest.fkProductType());
-        productToUpdate.setFkEstablishment(productRequest.fkEstablishment());
-        return ResponseEntity.ok(productMapper.toResponse(productRepository.save(productToUpdate)));
+    public ResponseEntity<ProductResponse> update(@RequestParam Integer id, @RequestBody ProductRequest productRequest) {
+        Product product = Product.builder()
+                .id(id)
+                .name(productRequest.name())
+                .brand(productRequest.brand())
+                .productType(productTypeRepository.findById(productRequest.fkProductType()).get())
+                .establishment(establishmentRopository.findById(productRequest.fkEstablishment()).get())
+                .build();
+        return ResponseEntity.ok(productMapper.toProductResponse(productRepository.save(product)));
     }
+
 
     @DeleteMapping("/{id}")
 

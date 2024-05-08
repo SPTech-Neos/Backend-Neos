@@ -16,7 +16,7 @@ import school.sptech.neosspringjava.api.dtos.productTypeDto.ProductTypeRequest;
 import school.sptech.neosspringjava.api.dtos.productTypeDto.ProductTypeResponse;
 import school.sptech.neosspringjava.api.mappers.productTypeMapper.ProductTypeMapper;
 import school.sptech.neosspringjava.domain.model.productType.ProductType;
-import school.sptech.neosspringjava.domain.repository.productTypeRopository.ProductTypeRopository;
+import school.sptech.neosspringjava.domain.repository.productTypeRepository.ProductTypeRepository;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductTypeController {
 
-    private final ProductTypeRopository productTypeRopository;
+    private final ProductTypeRepository productTypeRopository;
     private final ProductTypeMapper productTypeMapper;
 
     @GetMapping

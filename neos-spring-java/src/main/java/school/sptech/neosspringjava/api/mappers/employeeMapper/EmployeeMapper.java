@@ -13,23 +13,11 @@ import school.sptech.neosspringjava.domain.model.employee.Employee;
 public class EmployeeMapper {
 
     public static EmployeeResponse toEmployeeResponse(Employee employee) {
-        return new EmployeeResponse(employee.getName(), employee.getEmail(), employee.getPassaword(),
-                employee.getFkEstablishment(), employee.getFkEmployeeType());
+        return new EmployeeResponse(employee.getId(),employee.getName(), employee.getEmail(), employee.getPassword(), employee.getEstablishment(), employee.getEmployeeType());
     }
 
-    public static List<EmployeeResponse> toEmployeeResponse(List<Employee> employees) {
-        return employees.stream().map(EmployeeMapper::toEmployeeResponse).collect(Collectors.toList());
-    }
-
-
-    public static Employee toEmployee(EmployeeRequest employeeRequest) {
-       Employee employee = new Employee();
-        employee.setName(employeeRequest.name());
-        employee.setEmail(employeeRequest.email());
-        employee.setPassaword(employeeRequest.password());
-        employee.setFkEstablishment(employeeRequest.fkEstablishment());
-        employee.setFkEmployeeType(employeeRequest.fkEmployeeType());
-        return employee;
+    public static List<EmployeeResponse> toEmployeeResponse(List<Employee> employee) {
+        return employee.stream().map(EmployeeMapper::toEmployeeResponse).collect(Collectors.toList());
     }
 
  
