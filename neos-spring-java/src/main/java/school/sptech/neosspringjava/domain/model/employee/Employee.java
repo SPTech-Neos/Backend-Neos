@@ -36,7 +36,7 @@ public class Employee {
     private String email;
     @NotBlank(message = "criar uma senha é obrigatório")
     @NotEmpty(message = "criar uma senha é obrigatório")
-    private String passaword;
+    private String password;
     
    
     @ManyToOne
@@ -46,6 +46,9 @@ public class Employee {
     private EmployeeType employeeType;
 
 
-    
+    public void setEstablishment(Establishment establishment) {
+    }
 
+    public void setEmployeeType(EmployeeType employeeType) {
+    }
 }

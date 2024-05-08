@@ -12,7 +12,7 @@ import school.sptech.neosspringjava.domain.model.service.Service;
 public class ServiceMapper {
 
     public ServiceResponse toServiceResponse(Service service) {
-        return new ServiceResponse(service.getId(), service.getSpecification(), service.getServiceType());
+        return new ServiceResponse(service.getId(), service.getSpecification(), service.getServiceType(), service.getFilter());
     }
 
    public List<ServiceResponse> toServiceResponseList(List<Service> services) {

@@ -12,6 +12,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import school.sptech.neosspringjava.domain.model.filter.Filter;
 import school.sptech.neosspringjava.domain.model.serviceType.ServiceType;
 
 @Entity
@@ -30,6 +31,8 @@ public class Service {
     private String specification;
     @ManyToOne
     private ServiceType serviceType;
+    @ManyToOne 
+    private Filter filter;
   
     
 

@@ -3,24 +3,10 @@ package school.sptech.neosspringjava.config;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 public class csvGenerator {
-    public static void main(String[] args) {
-        LocalDateTime dataHoraAtual = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String dataHoraFormatada = dataHoraAtual.format(formatter);
-        // Dados de exemplo
-        List<String[]> linhas = new ArrayList();
-        
-        linhas.add(new String[]{"Data", "Nome", "Idade", "Email"});
-        linhas.add(new String[]{dataHoraFormatada,"João", "25", "joao@example.com"});
-        linhas.add(new String[]{dataHoraFormatada,"Maria", "30", "maria@example.com"});
-        linhas.add(new String[]{dataHoraFormatada,"raimundo", "30", "mundinho@nonato.com"});
-        linhas.add(new String[]{dataHoraFormatada,"Josefa", "30", "josefa@nonato.com"});
+    public static void gerarCsv(List<String[]> linhas, String nxx) {
 
         // Caminho do diretório "log" relativo ao diretório da classe
         String caminhoDiretorio = "log";
@@ -40,7 +26,7 @@ public class csvGenerator {
             }
 
             // Caminho completo do arquivo CSV
-            String caminhoArquivo = caminhoCompleto + File.separator + "Dados.csv";
+            String caminhoArquivo = caminhoCompleto + File.separator + nxx+".csv";
 
             FileWriter writer = new FileWriter(caminhoArquivo, append);
 

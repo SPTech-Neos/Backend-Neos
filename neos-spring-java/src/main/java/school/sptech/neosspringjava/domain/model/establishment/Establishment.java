@@ -30,7 +30,8 @@ public class Establishment {
     @NotBlank(message = "Nome é obrigatório")
     @NotEmpty(message = "Nome é obrigatório")
     private String name;
-    @NotNull(message = "FkLocal é obrigatório")
+
     @ManyToOne
     private Local local;
+    
 }
