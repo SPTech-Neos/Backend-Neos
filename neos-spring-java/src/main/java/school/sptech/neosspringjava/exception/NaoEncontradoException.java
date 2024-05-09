@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class NaoEncontradoException extends RuntimeException{
 
 
-    public NaoEncontradoException(String entidade) {
-      super(String.format("Não foi possível encontrar %s", entidade));
+    public NaoEncontradoException(String data) {
+      super(String.format("Não foi possível encontrar %s", data));
     }
 }
