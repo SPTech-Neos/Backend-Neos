@@ -1,7 +1,7 @@
 package school.sptech.neosspringjava.domain.model.scheduling;
 
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,5 +40,5 @@ public class Scheduling {
     @ManyToOne
     private Employee employee;
 
-    private LocalDate dateTime;
+    private LocalDateTime dateTime;
 }

@@ -48,7 +48,6 @@ public class ServiceController {
         Service service = new Service();
         service.setSpecification(serviceRequest.specification());
         service.setServiceType(serviceTypeRepository.findById(serviceRequest.fkServiceType()).get());
-        service.setFilter(filterRepository.findById(serviceRequest.fkFilter()).get());
         return ResponseEntity.status(201).body(serviceMapper.toServiceResponse(serviceRepository.save(service)));
     }
 
@@ -57,7 +56,6 @@ public class ServiceController {
         Service serviceToUpdate = serviceRepository.findById(id).get();
         serviceToUpdate.setSpecification(serviceRequest.specification());
         serviceToUpdate.setServiceType(serviceTypeRepository.findById(serviceRequest.fkServiceType()).get());
-        serviceToUpdate.setFilter(filterRepository.findById(serviceRequest.fkFilter()).get());
         return ResponseEntity.ok(serviceMapper.toServiceResponse(serviceRepository.save(serviceToUpdate)));
     }   
 

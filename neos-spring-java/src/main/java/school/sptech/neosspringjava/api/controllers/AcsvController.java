@@ -1,8 +1,6 @@
 package school.sptech.neosspringjava.api.controllers;
 
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +11,6 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
-import school.sptech.neosspringjava.domain.repository.schedulingRepository.SchedulingRepository;
 import school.sptech.neosspringjava.service.csv.csvOrganization;
 
 @RestController
@@ -21,9 +18,6 @@ import school.sptech.neosspringjava.service.csv.csvOrganization;
 public class AcsvController {
 
     csvOrganization csvOrg = new csvOrganization();
-
-    @Autowired
-    SchedulingRepository schedulingRepository;
 
     @GetMapping("/note")
     public ResponseEntity<String> gerarNota(@RequestBody List<Scheduling> scheduling) {

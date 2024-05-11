@@ -7,10 +7,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import school.sptech.neosspringjava.domain.model.filter.Filter;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
+import school.sptech.neosspringjava.domain.repository.filterRepository.FilterRepository;
 import school.sptech.neosspringjava.domain.repository.schedulingRepository.SchedulingRepository;
 
 public class csvOrganization {
@@ -18,8 +20,9 @@ public class csvOrganization {
     private EmployeeRepository employeeRepository;
     @Autowired
     private SchedulingRepository schedulingRepository;
+    @Autowired
+    private FilterRepository filterRepository;
     List<String[]> linesList = new ArrayList<>();
-
     // definindo a data atual
     LocalDateTime now = LocalDateTime.now();
     YearMonth yearMonth = YearMonth.from(now);
@@ -30,15 +33,23 @@ public class csvOrganization {
 
     public String generateSchedulingNote(List<Scheduling> schedulingList) {        
         linesList.clear();
-
+        List<Filter> filt = filterRepository.findAllByEstablishment(schedulingList.get(0).getEmployee().getEstablishment());
         for (Scheduling scheduling : schedulingList) {
+           String price = " ";
+            for (Filter filter : filt) {
+                if (scheduling.getEmployee().getEstablishment() == filter.getEstablishment() && scheduling.getService() == filter.getService()) {
+                    price = Double.toString(filter.getPrice());
+
+                }
+            }
         String lineVetor[] = new String[4];
         lineVetor[0] = scheduling.getClient().getName();
         lineVetor[1] = scheduling.getService().getServiceType().getServiceCategory().getName() + " " + scheduling.getService().getServiceType().getName() + " " + scheduling.getService().getSpecification();
         lineVetor[2] = scheduling.getEmployee().getName();
-        lineVetor[3] = String.valueOf(scheduling.getService().getFilter().getPrice());
+        lineVetor[3] = price;
         if (lineVetor[0] != null && !lineVetor[0].isEmpty() && lineVetor[1] != null && !lineVetor[1].isEmpty() && lineVetor[2] != null && !lineVetor[2].isEmpty() && lineVetor[3] != null && !lineVetor[3].isEmpty() && lineVetor[4] != null && !lineVetor[4].isEmpty()) {
-           // throw 
+           //throw
+            return "Não foi possivel gerar nota devido a todos os campos estarem vazios"; 
         } 
         linesList.add(lineVetor);
 
@@ -78,12 +89,21 @@ public class csvOrganization {
 
     public String makeLine(List<Scheduling> schedulingsList, Integer cont, Establishment establishment) {
         String retorno = "xxx";
+        List<Filter> filt = filterRepository.findAllByEstablishment(schedulingsList.get(0).getEmployee().getEstablishment());
+
         for (Scheduling scheduling : schedulingsList) {
+            String price = " ";
+            for (Filter filter : filt) {
+                if (scheduling.getEmployee().getEstablishment() == filter.getEstablishment() && scheduling.getService() == filter.getService()) {
+                    price = Double.toString(filter.getPrice());
+
+                }
+            }
             String lineVetor[] = new String[5];
             lineVetor[0] = scheduling.getClient().getName();
             lineVetor[1] = scheduling.getService().getServiceType().getServiceCategory().getName() + " " + scheduling.getService().getServiceType().getName() + " "+ scheduling.getService().getSpecification();
             lineVetor[2] = scheduling.getEmployee().getName();
-            lineVetor[3] = String.valueOf(scheduling.getService().getFilter().getPrice());
+            lineVetor[3] = price;
             lineVetor[4] = String.valueOf(scheduling.getDateTime());
             if (lineVetor[0] != null && !lineVetor[0].isEmpty() && lineVetor[1] != null && !lineVetor[1].isEmpty() && lineVetor[2] != null && !lineVetor[2].isEmpty() && lineVetor[3] != null && !lineVetor[3].isEmpty() && lineVetor[4] != null && !lineVetor[4].isEmpty()) {
               //  throw 

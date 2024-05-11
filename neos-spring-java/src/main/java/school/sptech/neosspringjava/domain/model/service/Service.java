@@ -31,8 +31,7 @@ public class Service {
     private String specification;
     @ManyToOne
     private ServiceType serviceType;
-    @ManyToOne 
-    private Filter filter;
+
   
     
 
