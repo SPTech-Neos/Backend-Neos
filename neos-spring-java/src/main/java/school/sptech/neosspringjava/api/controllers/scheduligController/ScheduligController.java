@@ -62,7 +62,7 @@ public class ScheduligController {
                 .client(clientRepository.findById(scheduligRequest.idClient()).orElseThrow())
                 .service(serviceRepository.findById(scheduligRequest.idService()).orElseThrow())
                 .employee(employeeRepository.findById(scheduligRequest.idEmployee()).orElseThrow())
-                .dateTime(LocalDate.now())
+                .dateTime(LocalDateTime.now())
                 .build();
 
         scheduling = schedulingRepository.save(scheduling);

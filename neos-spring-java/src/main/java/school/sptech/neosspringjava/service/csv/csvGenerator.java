@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.config;
+package school.sptech.neosspringjava.service.csv;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -6,7 +6,11 @@ import java.io.IOException;
 import java.util.List;
 
 public class csvGenerator {
-    public static void gerarCsv(List<String[]> linhas, String nxx) {
+    public static String gerarCsv(List<String[]> linhas, String nxx) {
+
+        if (linhas.isEmpty()) {
+           // throw 
+        }
 
         // Caminho do diretório "log" relativo ao diretório da classe
         String caminhoDiretorio = "log";
@@ -32,7 +36,8 @@ public class csvGenerator {
 
             // Escreve as linhas no arquivo
             for (String[] linha : linhas) {
-                writer.append(String.join(",", linha));
+                
+                writer.append(String.join(";", linha));
                 writer.append("\n");
             }
 
@@ -40,8 +45,10 @@ public class csvGenerator {
             writer.close();
 
             System.out.println("Arquivo CSV gerado com sucesso!");
+            return "Arquivo CSV gerado com sucesso!";
         } catch (IOException e) {
             System.err.println("Erro ao gerar o arquivo CSV: " + e.getMessage());
+            return "Erro ao gerar o arquivo CSV: " + e.getMessage(); 
         }
     }
 }
