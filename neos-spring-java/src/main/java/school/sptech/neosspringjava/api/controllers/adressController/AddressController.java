@@ -20,6 +20,7 @@ import school.sptech.neosspringjava.api.dtos.addressDto.AddressResponse;
 import school.sptech.neosspringjava.api.mappers.addressMapper.AddressMapper;
 import school.sptech.neosspringjava.domain.model.address.Address;
 import school.sptech.neosspringjava.domain.repository.adressRepository.AdressRepository;
+import school.sptech.neosspringjava.service.addressService.AddressService;
 
 
 
@@ -28,54 +29,28 @@ import school.sptech.neosspringjava.domain.repository.adressRepository.AdressRep
 @RequiredArgsConstructor
 public class AddressController {
 
-    private final AdressRepository adressRepository;
-    private final AddressMapper addressMapper;
+    private final AddressService addressService;
 
-    @GetMapping
-    public ResponseEntity<List<AddressResponse>> getAllAdress() {
-       
-        List<Address> address = adressRepository.findAll();
-
-        return ResponseEntity.ok().body(addressMapper.toAddressResponse(address));
+    @PostMapping
+    public ResponseEntity<AddressResponse> save(@Valid @RequestBody AddressRequest addressRequest) {
+        return ResponseEntity.ok(addressService.save(addressRequest));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AddressResponse> getAdressById(@PathVariable int id) {
-        Address address = adressRepository.findById(id).orElseThrow();
-        if (address == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body(addressMapper.toAddressResponse(address));
-    }
 
-    @PostMapping
-    public ResponseEntity<AddressResponse> createAdress(@Valid @RequestBody AddressRequest addressRequest) {
-        Address address = addressMapper.toAddress(addressRequest);
-        adressRepository.save(address);
-        return ResponseEntity.ok(addressMapper.toAddressResponse(address));
+    public ResponseEntity<AddressResponse> findById(@PathVariable Integer id) {
+        return ResponseEntity.ok(addressService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AddressResponse> updateAdress(@PathVariable int id, @Valid @RequestBody AddressRequest addressRequest) {
-        Address addressUpdate = adressRepository.findById(id).orElseThrow();
-        if (addressUpdate == null) {
-            return ResponseEntity.notFound().build();
-        }
-        addressUpdate.setStreet(addressRequest.street());
-        addressUpdate.setCity(addressRequest.city());
-        addressUpdate.setState(addressRequest.state());
-        adressRepository.save(addressUpdate);
-        return ResponseEntity.ok(addressMapper.toAddressResponse(addressUpdate));
+    public ResponseEntity<AddressResponse> update(@PathVariable Integer id, @Valid @RequestBody AddressRequest addressRequest) {
+        return ResponseEntity.ok(addressService.update(id, addressRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAdress(@PathVariable int id) {
-        Address address = adressRepository.findById(id).orElseThrow();
-        if (address == null) {
-            return ResponseEntity.notFound().build();
-        }
-        adressRepository.delete(address);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        addressService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     
