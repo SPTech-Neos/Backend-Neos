@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import school.sptech.neosspringjava.api.dtos.couponAvailableDto.CouponAvailableRequest;
+import school.sptech.neosspringjava.api.dtos.couponAvailableDto.CouponAvailableResponse;
 import school.sptech.neosspringjava.api.mappers.couponAvailableMapper.CouponAvailableMapper;
 import school.sptech.neosspringjava.domain.model.couponAvailable.CouponAvailable;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
@@ -21,35 +23,43 @@ import school.sptech.neosspringjava.domain.repository.couponAvaliableRepository.
 import school.sptech.neosspringjava.domain.repository.couponRepository.CouponRepository;
 import school.sptech.neosspringjava.domain.repository.discountTypeRepository.DiscountTypeRepository;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
-import school.sptech.neosspringjava.service.companyService.CouponService;
-import school.sptech.neosspringjava.api.dtos.couponDto.*;;
+import school.sptech.neosspringjava.service.coupon.CouponService;
+import school.sptech.neosspringjava.service.couponAvailableService.CouponAvailableService;
 
 @RestController
 @RequestMapping("/couponAvailable")
 @RequiredArgsConstructor
 public class CouponAvailableController {
 
-   private final CouponService couponService;
+    private final CouponAvailableService couponAvailableService;
 
     @PostMapping
-    public ResponseEntity<CouponResponse> save(@Valid @RequestBody CouponRequest couponRequest) {
-        return ResponseEntity.ok(couponService.save(couponRequest));
+    public ResponseEntity<CouponAvailableResponse> save(
+            @Valid @RequestBody CouponAvailableRequest couponAvailableRequest) {
+        return ResponseEntity.ok(couponAvailableService.save(couponAvailableRequest));
+
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CouponResponse> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(couponService.findById(id));
+    public ResponseEntity<CouponAvailableResponse> findById(@PathVariable Integer id) {
+        return ResponseEntity.ok(couponAvailableService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CouponResponse> update(@PathVariable Integer id, @Valid @RequestBody CouponRequest couponRequest) {
-        return ResponseEntity.ok(couponService.update(id, couponRequest));
+    public ResponseEntity<CouponAvailableResponse> update(@PathVariable Integer id,
+            @Valid @RequestBody CouponAvailableRequest couponAvailableRequest) {
+        return ResponseEntity.ok(couponAvailableService.update(id, couponAvailableRequest));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        couponService.delete(id);
+        couponAvailableService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping
+    public ResponseEntity<List<CouponAvailableResponse>> findAll() {
+        return ResponseEntity.ok(couponAvailableService.findAll());
+    }
+
 }
-    

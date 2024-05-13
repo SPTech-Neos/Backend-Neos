@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.service.companyService;
+package school.sptech.neosspringjava.service.coupon;
 
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
