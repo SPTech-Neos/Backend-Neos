@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.service;
+package school.sptech.neosspringjava.service.addressService;
 
 import org.springframework.stereotype.Service;
 
