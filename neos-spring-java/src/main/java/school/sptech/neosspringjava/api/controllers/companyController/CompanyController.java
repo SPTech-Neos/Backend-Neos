@@ -15,59 +15,39 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.companyDto.CompanyResponse;
+import school.sptech.neosspringjava.api.dtos.companyDto.*;
 import school.sptech.neosspringjava.api.mappers.companyMapper.CompanyMapper;
 import school.sptech.neosspringjava.domain.model.company.Company;
 import school.sptech.neosspringjava.domain.repository.companyRepository.CompanyRepository;
+import school.sptech.neosspringjava.service.companyService.CompanyService;
 
 @RestController
 @RequestMapping("/company")
 @RequiredArgsConstructor
 public class CompanyController {
 
-    private final CompanyRepository companyRepository;
+   private final CompanyService companyService;
 
-    @GetMapping
-    public ResponseEntity<List<CompanyResponse>> getAllCompany() {
-        List<Company> company = companyRepository.findAll();
-
-        return ResponseEntity.ok().body(CompanyMapper.toCompanyResponseList(company));
-    }
-
-   @GetMapping("/{id}")
-    public ResponseEntity<CompanyResponse> getCompanyById(@PathVariable int id) {
-        Company company = companyRepository.findById(id).orElseThrow();
-        if (company == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body(CompanyMapper.toCompanyResponse(company));
-    }
-   
     @PostMapping
-    public ResponseEntity<CompanyResponse> createCompany(@Valid @RequestBody Company company) {
-        companyRepository.save(company);
-        return ResponseEntity.ok(CompanyMapper.toCompanyResponse(company));
+    public ResponseEntity<CompanyResponse> save(@Valid @RequestBody CompanyRequest companyRequest) {
+        return ResponseEntity.ok(companyService.save(companyRequest));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CompanyResponse> findById(@PathVariable Integer id) {
+        return ResponseEntity.ok(companyService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CompanyResponse> updateCompany(@PathVariable int id, @Valid @RequestBody Company company) {
-        Company companyUpdate = companyRepository.findById(id).orElseThrow();
-        if (companyUpdate == null) {
-            return ResponseEntity.notFound().build();
-        }
-        companyUpdate.setName(company.getName());
-        companyUpdate.setCnpj(company.getCnpj());
-        companyRepository.save(companyUpdate);
-        return ResponseEntity.ok(CompanyMapper.toCompanyResponse(companyUpdate));
+    public ResponseEntity<CompanyResponse> update(@PathVariable Integer id, @Valid @RequestBody CompanyRequest companyRequest) {
+        return ResponseEntity.ok(companyService.update(id, companyRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteCompany(@PathVariable int id) {
-        Company company = companyRepository.findById(id).orElseThrow();
-        if (company == null) {
-            return ResponseEntity.notFound().build();
-        }
-        companyRepository.delete(company);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        companyService.delete(id);
+        return ResponseEntity.noContent().build();
     }
+
+
 }
