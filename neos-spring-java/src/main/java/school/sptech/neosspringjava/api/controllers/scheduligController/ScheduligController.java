@@ -42,7 +42,7 @@ public class ScheduligController {
        
         List<Scheduling> scheduling = schedulingRepository.findAll();
 
-        return ResponseEntity.ok().body(scheduligMapper.toScheduligResponse(scheduling));
+        return ResponseEntity.ok().body(scheduligMapper.toScheduligResponseList(scheduling));
     }
 
     @GetMapping("/{id}")

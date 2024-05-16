@@ -17,7 +17,7 @@ public class ScheduligMapper {
         return new ScheduligResponse(scheduling.getId(), scheduling.getClient(), scheduling.getService(), scheduling.getEmployee(), scheduling.getDateTime());
     }
 
-    public List<ScheduligResponse> toScheduligResponse(List<Scheduling> schedulings) {
+    public List<ScheduligResponse> toScheduligResponseList(List<Scheduling> schedulings) {
         return schedulings.stream().map(ScheduligMapper::toScheduligResponse).collect(Collectors.toList());
     }
 
