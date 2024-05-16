@@ -28,7 +28,7 @@ public class CompanyService {
         return companyMapper.toCompanyResponse(company);
     }
 
-    public CompanyResponse update(Integer id, CompanyRequest companyRequest) {
+   public CompanyResponse update(Integer id, CompanyRequest companyRequest) {
         Company company = companyRepository.findById(id).orElseThrow();
         company.setName(companyRequest.name());
         company.setCnpj(companyRequest.cnpj());

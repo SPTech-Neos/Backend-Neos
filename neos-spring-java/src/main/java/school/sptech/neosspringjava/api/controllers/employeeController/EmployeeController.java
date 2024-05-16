@@ -26,6 +26,7 @@ import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 
 
 @RestController
@@ -34,65 +35,33 @@ import school.sptech.neosspringjava.domain.repository.establishmentRopository.Es
 public class EmployeeController {
 
 
-    private final EmployeeRepository employeeRepository;
-    private final EmployeeMapper employeeMapper;
-    private final EmployeeTypeRepository employeeTypeRepository;
-    private final EstablishmentRopository establishmentRopository;
+private final EmployeeService employeeService;
 
-
-    @GetMapping
-    public ResponseEntity<List<EmployeeResponse>> getAllEmployee() {
-        List<Employee> employee = employeeRepository.findAll();
-
-        return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employee));
-    }
-
-    @GetMapping("/{id}")
-
-    public ResponseEntity<EmployeeResponse> getEmployeeById(@PathVariable int id) {
-        Employee employee = employeeRepository.findById(id).orElseThrow();
-        if (employee == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employee));
-    }
 
     @PostMapping
-    public ResponseEntity<EmployeeResponse> createEmployee(@RequestBody EmployeeRequest employeeRequest) {
-        Employee employee = new Employee();
-        employee.setName(employeeRequest.name());
-        employee.setEmail(employeeRequest.email());
-        employee.setPassword(employeeRequest.password());
-        employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).get());
-        employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).get());
-        return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employeeRepository.save(employee)));
+    public ResponseEntity<EmployeeResponse> save(@RequestBody EmployeeRequest employeeRequest) {
+        return ResponseEntity.ok(employeeService.save(employeeRequest));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable int id, @RequestBody EmployeeRequest employeeRequest) {
-        Employee employee = new Employee();
-        employee.setName(employeeRequest.name());
-        employee.setEmail(employeeRequest.email());
-        employee.setPassword(employeeRequest.password());
-        employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).get());
-        employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).get());
-        employee.setId(id);
-        return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employeeRepository.save(employee)));
+    public ResponseEntity<EmployeeResponse> update(@RequestBody EmployeeRequest employeeRequest, @PathVariable Integer id) {
+        return ResponseEntity.ok(employeeService.update(employeeRequest, id));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEmployee(@PathVariable int id) {
-        employeeRepository.deleteById(id);
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        employeeService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<EmployeeResponse> login(@RequestBody EmployeeLogin employeeLogin) {
-        Employee employee = employeeRepository.findByEmailAndPassword(employeeLogin.email(), employeeLogin.password());
-        if (employee == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employee));
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeResponse> findById(@PathVariable Integer id) {
+        return ResponseEntity.ok(employeeService.findById(id));
     }
 
+    @GetMapping
+    public ResponseEntity<List<EmployeeResponse>> findAll() {
+        return ResponseEntity.ok(employeeService.findAll());
+    }
 }
 

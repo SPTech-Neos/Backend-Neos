@@ -16,42 +16,39 @@ import school.sptech.neosspringjava.api.dtos.EmployeeTypeDto.EmployeeTypeRespons
 import school.sptech.neosspringjava.api.mappers.EmployeeTypeMapper.EmployeeTypeMapper;
 import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
 import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
+import school.sptech.neosspringjava.service.employeeTypeService.EmployeeTypeService;
 
 @RestController
 @RequestMapping("/employeeType")
 @RequiredArgsConstructor
 public class EmployeeTypeController {
 
-    private final EmployeeTypeMapper employeeTypeMapper;
-    private final EmployeeTypeRepository employeeTypeRepository;
-
-    @GetMapping
-    public ResponseEntity<List<EmployeeTypeResponse>> getEmployeeType() {
-        return ResponseEntity.ok(employeeTypeMapper.toResponseList(employeeTypeRepository.findAll()));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<EmployeeTypeResponse> getEmployeeTypeById(Integer id)
-    {
-        return ResponseEntity.ok(employeeTypeMapper.toResponse(employeeTypeRepository.findById(id).get()));
-    }
+   private final EmployeeTypeService employeeTypeService;
 
     @PostMapping
-    public ResponseEntity<EmployeeTypeResponse> createEmployeeType(EmployeeTypeRequest employeeTypeRequest) {
-        return ResponseEntity.status(201).body(employeeTypeMapper.toResponse(employeeTypeRepository.save(employeeTypeMapper.toEmployeeType(employeeTypeRequest))));
+    public ResponseEntity<EmployeeTypeResponse> save(EmployeeTypeRequest employeeTypeRequest) {
+        return ResponseEntity.ok(employeeTypeService.save(employeeTypeRequest));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeTypeResponse> updateEmployeeType(Integer id, EmployeeTypeRequest employeeTypeRequest) {
-        EmployeeType employeeType = employeeTypeRepository.findById(id).get();
-        employeeType.setName(employeeTypeRequest.name());
-        return ResponseEntity.ok(employeeTypeMapper.toResponse(employeeTypeRepository.save(employeeType)));
+    public ResponseEntity<EmployeeTypeResponse> update(EmployeeTypeRequest employeeTypeRequest, Integer id) {
+        return ResponseEntity.ok(employeeTypeService.update(employeeTypeRequest, id));
     }
 
     @DeleteMapping("/{id}")
-    public void deleteEmployeeType(Integer id) {
-        employeeTypeRepository.deleteById(id);
+    public ResponseEntity<Void> delete(Integer id) {
+        employeeTypeService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeTypeResponse> findById(Integer id) {
+        return ResponseEntity.ok(employeeTypeService.findById(id));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<EmployeeTypeResponse>> findAll() {
+        return ResponseEntity.ok(employeeTypeService.findAll());
+    }
 
  }

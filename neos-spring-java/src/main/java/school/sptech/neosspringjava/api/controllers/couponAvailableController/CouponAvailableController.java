@@ -23,56 +23,43 @@ import school.sptech.neosspringjava.domain.repository.couponAvaliableRepository.
 import school.sptech.neosspringjava.domain.repository.couponRepository.CouponRepository;
 import school.sptech.neosspringjava.domain.repository.discountTypeRepository.DiscountTypeRepository;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.service.coupon.CouponService;
+import school.sptech.neosspringjava.service.couponAvailableService.CouponAvailableService;
 
 @RestController
 @RequestMapping("/couponAvailable")
 @RequiredArgsConstructor
 public class CouponAvailableController {
 
-    private final CouponAvailableMapper couponAvailableMapper;
-    private final CouponAvaliableRepository  couponAvailableRepository;
-    private final DiscountTypeRepository discountTypeRepository;
-    private final CouponRepository couponRepository;
-    private final EstablishmentRopository establishmentRopository;
+    private final CouponAvailableService couponAvailableService;
 
-    @GetMapping
-    public ResponseEntity<List<CouponAvailableResponse>> findAll() {
-        return ResponseEntity.ok(couponAvailableMapper.toCouponAvailableResponse(couponAvailableRepository.findAll()));
+    @PostMapping
+    public ResponseEntity<CouponAvailableResponse> save(
+            @Valid @RequestBody CouponAvailableRequest couponAvailableRequest) {
+        return ResponseEntity.ok(couponAvailableService.save(couponAvailableRequest));
+
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CouponAvailableResponse> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(couponAvailableMapper.toCouponAvailableResponse(couponAvailableRepository.findById(id).get()));
-    }
-
-    @PostMapping
-    public ResponseEntity<CouponAvailableResponse> save(@Valid @RequestBody CouponAvailableRequest couponAvailableRequest) {
-        CouponAvailable couponAvailable = CouponAvailable.builder()
-                .discount(couponAvailableRequest.discount())
-                .discountType(discountTypeRepository.findById(couponAvailableRequest.fkDiscount()).get())
-                .establishment(establishmentRopository.findById(couponAvailableRequest.fkEstablishment()).get())
-                .coupon(couponRepository.findById(couponAvailableRequest.fkCoupon()).get())
-                .build();
-        return ResponseEntity.ok(couponAvailableMapper.toCouponAvailableResponse(couponAvailableRepository.save(couponAvailable)));
+        return ResponseEntity.ok(couponAvailableService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CouponAvailableResponse> update(@PathVariable Integer id, @Valid @RequestBody CouponAvailableRequest couponAvailableRequest) {
-        CouponAvailable couponAvailable = couponAvailableRepository.findById(id).get();
-        couponAvailable.setDiscount(couponAvailableRequest.discount());
-        couponAvailable.setDiscountType(discountTypeRepository.findById(couponAvailableRequest.fkDiscount()).get());
-        couponAvailable.setEstablishment(establishmentRopository.findById(couponAvailableRequest.fkEstablishment()).get());
-        couponAvailable.setCoupon(couponRepository.findById(couponAvailableRequest.fkCoupon()).get());
-        return ResponseEntity.ok(couponAvailableMapper.toCouponAvailableResponse(couponAvailableRepository.save(couponAvailable)));
+    public ResponseEntity<CouponAvailableResponse> update(@PathVariable Integer id,
+            @Valid @RequestBody CouponAvailableRequest couponAvailableRequest) {
+        return ResponseEntity.ok(couponAvailableService.update(id, couponAvailableRequest));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
-        couponAvailableRepository.deleteById(id);
+        couponAvailableService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping
+    public ResponseEntity<List<CouponAvailableResponse>> findAll() {
+        return ResponseEntity.ok(couponAvailableService.findAll());
+    }
 
-    
 }
-    
