@@ -33,6 +33,4 @@ public class Filter {
     @NotNull
     @ManyToOne
     private Service service;
- 
-    
 }
