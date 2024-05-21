@@ -47,7 +47,8 @@ public class ServiceController {
 
         Service service = new Service();
         service.setSpecification(serviceRequest.specification());
-        service.setServiceType(serviceTypeRepository.findById(serviceRequest.fkServiceType()).get());
+        // TODO: corrigir o erro abaixo
+        // service.setServiceType(serviceTypeRepository.findById(serviceRequest.fkServiceType()).get());
         return ResponseEntity.status(201).body(serviceMapper.toServiceResponse(serviceRepository.save(service)));
     }
 
@@ -55,7 +56,8 @@ public class ServiceController {
     public ResponseEntity<ServiceResponse> updateService(@RequestParam Integer id, @RequestBody ServiceRequest serviceRequest) {
         Service serviceToUpdate = serviceRepository.findById(id).get();
         serviceToUpdate.setSpecification(serviceRequest.specification());
-        serviceToUpdate.setServiceType(serviceTypeRepository.findById(serviceRequest.fkServiceType()).get());
+        // TODO: corrigir o erro abaixo
+        // serviceToUpdate.setServiceType(serviceTypeRepository.findById(serviceRequest.fkServiceType()).get());
         return ResponseEntity.ok(serviceMapper.toServiceResponse(serviceRepository.save(serviceToUpdate)));
     }   
 
