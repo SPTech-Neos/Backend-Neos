@@ -6,6 +6,6 @@ import java.util.List;
 import school.sptech.neosspringjava.domain.model.filter.Filter;
 import school.sptech.neosspringjava.domain.model.local.Local;
 
-public record EstablishmentResquest(String name, String cnpj, LocalTime startShift, LocalTime endShift, Local local, String description, List<Filter> filters) {
+public record EstablishmentResquest(String name, String cnpj, LocalTime startShift, LocalTime endShift, Double  assessment, Integer qtdAssessment,Local local, String description, List<Filter> filters) {
 
 }

@@ -35,6 +35,7 @@ public class Product {
     @NotBlank
     @ManyToOne
     private Establishment establishment;
+    Double price;
     
    
    

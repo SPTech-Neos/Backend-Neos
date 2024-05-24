@@ -11,12 +11,12 @@ import school.sptech.neosspringjava.domain.model.service.Service;
 @Component
 public class ServiceMapper {
 
-    public ServiceResponse toServiceResponse(Service service) {
+    public static ServiceResponse toServiceResponse(Service service) {
         return new ServiceResponse(service.getId(), service.getSpecification(), service.getServiceType());
     }
 
-   public List<ServiceResponse> toServiceResponseList(List<Service> services) {
-        return services.stream().map(this::toServiceResponse).collect(Collectors.toList());
+   public static List<ServiceResponse> toServiceResponseList(List<Service> services) {
+        return services.stream().map(ServiceMapper::toServiceResponse).collect(Collectors.toList());
     }
 
    

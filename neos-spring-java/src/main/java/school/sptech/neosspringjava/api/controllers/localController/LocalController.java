@@ -47,7 +47,7 @@ public class LocalController {
                 .floor(localRequest.floor())
                 .bloc(localRequest.bloc())
                 .complement(localRequest.complement())
-                .address(addresRepository.findById(localRequest.fkAddress()).get())
+                .address(localRequest.address())
                 .build();
         return ResponseEntity.ok(localMapper.toLocalResponse(localRepository.save(local)));
     }
@@ -60,7 +60,7 @@ public class LocalController {
                 .floor(localRequest.floor())
                 .bloc(localRequest.bloc())
                 .complement(localRequest.complement())
-                .address(addresRepository.findById(localRequest.fkAddress()).get())
+                .address(localRequest.address())
                 .build();
         return ResponseEntity.ok(localMapper.toLocalResponse(localRepository.save(local)));
     }

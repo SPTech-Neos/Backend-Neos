@@ -1,8 +1,10 @@
 package school.sptech.neosspringjava.api.dtos.produtcDto;
 
 import lombok.Builder;
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
+import school.sptech.neosspringjava.domain.model.productType.ProductType;
 
 @Builder
-public record ProductRequest( String name,String brand, Integer fkProductType, Integer fkEstablishment) {
+public record ProductRequest(Integer id, String name,String brand,  ProductType productType, Establishment establishment, Double price) {
 
 }

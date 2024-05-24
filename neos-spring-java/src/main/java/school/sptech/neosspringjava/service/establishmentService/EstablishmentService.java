@@ -22,6 +22,8 @@ public class EstablishmentService {
         establishment.setCnpj(establishmentResquest.cnpj());
         establishment.setStartShift(establishmentResquest.startShift());
         establishment.setEndShift(establishmentResquest.endShift());
+        establishment.setAssessment(establishmentResquest.assessment());
+        establishment.setQtdAssessment(establishmentResquest.qtdAssessment());
         establishment.setLocal(establishmentResquest.local());
         establishment.setDescription(establishmentResquest.description());
         establishment.setFilters(establishmentResquest.filters());
@@ -35,6 +37,8 @@ public class EstablishmentService {
         establishment.setCnpj(establishmentResquest.cnpj());
         establishment.setStartShift(establishmentResquest.startShift());
         establishment.setEndShift(establishmentResquest.endShift());
+        establishment.setAssessment(evaluativeCalculation(establishmentResquest.assessment(),establishmentResquest.qtdAssessment(),establishment.getAssessment(),establishment.getQtdAssessment()));
+        establishment.setQtdAssessment(establishment.getQtdAssessment()+establishmentResquest.qtdAssessment());
         establishment.setLocal(establishmentResquest.local());
         establishment.setDescription(establishmentResquest.description());
         establishment.setFilters(establishmentResquest.filters());
@@ -53,4 +57,8 @@ public class EstablishmentService {
     public List<EstablishmentRespose> findAll() {
         return EstablishmentMapper.toEstablishmentResponse(establishmentRopository.findAll());
     }
+
+    private Double evaluativeCalculation(Double voto, Integer numVotos, Double votoBanco, Integer numVotosBanco){
+       return ((votoBanco*numVotosBanco)+voto)/numVotosBanco+numVotos;
+    };
 }

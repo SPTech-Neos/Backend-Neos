@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
+import school.sptech.neosspringjava.domain.model.product.Product;
 import school.sptech.neosspringjava.domain.model.service.Service;
 
 @Entity
@@ -34,6 +35,9 @@ public class Scheduling {
 
     @ManyToOne  
     private Service service;
+    
+    @ManyToOne
+    private Product product;
 
     @ManyToOne
     private Employee employee;

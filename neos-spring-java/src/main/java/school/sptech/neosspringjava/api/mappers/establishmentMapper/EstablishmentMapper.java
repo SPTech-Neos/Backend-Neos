@@ -19,9 +19,9 @@ public class EstablishmentMapper {
 
         establishmentRespose.setId(establishment.getId());
         establishmentRespose.setName(establishment.getName());
-        establishmentRespose.setCnpj(establishment.getCnpj());
         establishmentRespose.setStartShift(establishment.getStartShift());
         establishmentRespose.setEndShift(establishment.getEndShift());
+        establishmentRespose.setAssessment(establishment.getAssessment());
         establishmentRespose.setLocal(establishment.getLocal());
         establishmentRespose.setDescription(establishment.getDescription());
         establishmentRespose.setFilters(toFilterDto(establishment.getFilters()));
@@ -45,5 +45,7 @@ public class EstablishmentMapper {
     public static List<EstablishmentRespose> toEstablishmentResponse(List<Establishment> establishment) {
         return establishment.stream().map(EstablishmentMapper::toEstablishmentResponse).collect(Collectors.toList());
     }
+
+    
 
 }

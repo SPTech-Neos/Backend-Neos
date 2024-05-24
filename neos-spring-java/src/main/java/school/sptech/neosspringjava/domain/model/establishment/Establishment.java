@@ -12,9 +12,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,6 +50,10 @@ public class Establishment {
     @NotBlank
     @NotEmpty
     private LocalTime endShift;
+    @Max(value = 5, message = "Numero ultrapassou o limite de 5")
+    @Min(value = 0, message = "Numero não atingiu o minimo 0")
+    private Double  assessment;
+    private Integer qtdAssessment;
     @ManyToOne
     private Local local;
     // private ??? profilePick;
