@@ -24,7 +24,7 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idAddress;
+    private int id;
 
     @NotEmpty
     @NotBlank(message = "logradouro é obrigatório")

@@ -24,7 +24,7 @@ public class Local {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idLocal;
+    private int id;
 
     @NotNull(message = "Número é obrigatório")
     private int number;

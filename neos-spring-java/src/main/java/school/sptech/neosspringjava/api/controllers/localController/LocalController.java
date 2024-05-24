@@ -55,7 +55,7 @@ public class LocalController {
     @PutMapping("/{id}")
     public ResponseEntity<LocalResponse> update(@RequestParam Integer id, @RequestBody LocalRequest localRequest) {
         Local local = Local.builder()
-                .idLocal(id)
+                .id(id)
                 .number(localRequest.number())
                 .floor(localRequest.floor())
                 .bloc(localRequest.bloc())
