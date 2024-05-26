@@ -57,7 +57,8 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/client/login"),
             new AntPathRequestMatcher("/employee/login"),
             new AntPathRequestMatcher("/client/**"),
-            new AntPathRequestMatcher("/employee/**")
+            new AntPathRequestMatcher("/employee/**"),
+            new AntPathRequestMatcher("/establishments/**")
     };
 
     @Bean

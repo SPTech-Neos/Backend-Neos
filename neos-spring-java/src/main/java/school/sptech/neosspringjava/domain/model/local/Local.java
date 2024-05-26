@@ -13,11 +13,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.address.Address;
 
-
 @Entity
 @Getter
 @Setter
-@Builder 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Local {
@@ -26,13 +25,17 @@ public class Local {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idLocal;
 
+    @NotNull(message = "CEP é obrigatório")
+    private String cep;
+
     @NotNull(message = "Número é obrigatório")
     private int number;
+
     private int floor;
     private String bloc;
     private String complement;
-    @NotNull(message = "FkEndereco é obrigatório")
-    @ManyToOne  
-    private Address address;
 
+    @NotNull(message = "FkEndereco é obrigatório")
+    @ManyToOne
+    private Address address;
 }

@@ -4,6 +4,7 @@ package school.sptech.neosspringjava.api.controllers.employeeController;
 
 import java.util.List;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -70,14 +71,20 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<EmployeeResponse> updateEmployee(@PathVariable int id, @RequestBody EmployeeRequest employeeRequest) {
-        Employee employee = new Employee();
+        Employee employee = employeeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Employee not found with id: " + id));
+
+        // Atualiza os campos do funcionário com base nos dados recebidos na solicitação
         employee.setName(employeeRequest.name());
         employee.setEmail(employeeRequest.email());
         employee.setPassword(employeeRequest.password());
-        employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).get());
-        employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).get());
-        employee.setId(id);
-        return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employeeRepository.save(employee)));
+        employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).orElseThrow());
+        employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).orElseThrow());
+
+        // Salva as alterações no funcionário
+        employeeRepository.save(employee);
+
+        // Retorna a resposta com os dados atualizados do funcionário
+        return ResponseEntity.ok().body(employeeMapper.toEmployeeResponse(employee));
     }
 
     @DeleteMapping("/{id}")
