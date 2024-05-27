@@ -18,7 +18,6 @@ import school.sptech.neosspringjava.api.dtos.LocalDto.LocalRequest;
 import school.sptech.neosspringjava.api.dtos.LocalDto.LocalResponse;
 import school.sptech.neosspringjava.api.mappers.localMapper.LocalMapper;
 import school.sptech.neosspringjava.domain.model.local.Local;
-import school.sptech.neosspringjava.domain.repository.adressRepository.AdressRepository;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 
 @RestController
@@ -28,7 +27,6 @@ public class LocalController {
 
     private final LocalRepository localRepository;
     private final LocalMapper localMapper;
-    private final AdressRepository addresRepository;
 
     @GetMapping
     public ResponseEntity<List<LocalResponse>> findAll() {

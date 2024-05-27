@@ -1,5 +1,5 @@
 -- Inserir endereços
-INSERT INTO Address (street, city, state) VALUES ('123 Main St', 'Anytown', 'State');
+INSERT INTO Address (id,street, city, state) VALUES (1,'123 Main St', 'Anytown', 'State');
 
 -- Inserir locais
 INSERT INTO Local (number, floor, bloc, complement, address_id) VALUES (101, 1, 'A', 'Near the entrance', (SELECT id FROM Address WHERE street='123 Main St'));

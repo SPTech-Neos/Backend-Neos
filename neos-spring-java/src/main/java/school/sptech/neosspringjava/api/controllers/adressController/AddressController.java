@@ -19,7 +19,6 @@ import school.sptech.neosspringjava.api.dtos.addressDto.AddressRequest;
 import school.sptech.neosspringjava.api.dtos.addressDto.AddressResponse;
 import school.sptech.neosspringjava.api.mappers.addressMapper.AddressMapper;
 import school.sptech.neosspringjava.domain.model.address.Address;
-import school.sptech.neosspringjava.domain.repository.adressRepository.AdressRepository;
 import school.sptech.neosspringjava.service.addressService.AddressService;
 
 
@@ -33,13 +32,19 @@ public class AddressController {
 
     @PostMapping
     public ResponseEntity<AddressResponse> save(@Valid @RequestBody AddressRequest addressRequest) {
+        System.out.println(addressRequest);
         return ResponseEntity.ok(addressService.save(addressRequest));
     }
 
     @GetMapping("/{id}")
-
     public ResponseEntity<AddressResponse> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(addressService.findById(id));
+        AddressResponse addressResponse = addressService.findById(id);
+        return addressResponse != null ? ResponseEntity.ok(addressResponse) : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AddressResponse>> findAll() {
+        return ResponseEntity.ok(addressService.findAll());
     }
 
     @PutMapping("/{id}")

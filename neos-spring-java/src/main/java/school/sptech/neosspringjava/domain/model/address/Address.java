@@ -23,8 +23,8 @@ import lombok.Setter;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
     @NotEmpty
     @NotBlank(message = "logradouro é obrigatório")

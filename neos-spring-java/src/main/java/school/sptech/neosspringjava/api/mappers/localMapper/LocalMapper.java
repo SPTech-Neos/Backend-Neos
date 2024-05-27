@@ -13,7 +13,7 @@ import school.sptech.neosspringjava.domain.model.local.Local;
 public class LocalMapper {
 
     public static LocalResponse toLocalResponse(Local local) {
-        return new LocalResponse(local.getIdLocal(), local.getNumber(), local.getFloor(), local.getBloc(), local.getComplement(), local.getAddress());
+        return new LocalResponse(local.getId(), local.getNumber(), local.getFloor(), local.getBloc(), local.getComplement(), local.getAddress());
     }
 
     public static List<LocalResponse> toLocalResponse(List<Local> local) {
