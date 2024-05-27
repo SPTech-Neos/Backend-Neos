@@ -40,7 +40,6 @@ INSERT INTO Scheduling (client_client_id, service_id, employee_id, date_time)
 VALUES (
     (SELECT client_id FROM Client WHERE name='John Doe'),
     (SELECT id FROM Service WHERE specification='Complete physical examination'),
-    (SELECT id FROM Product WHERE name='Blood Test'),
     (SELECT id FROM Employee WHERE name='Dr. Smith'),
     '2024-05-24T08:00:00'
 );
