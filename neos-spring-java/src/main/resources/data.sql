@@ -36,7 +36,7 @@ VALUES ('Dr. Smith', 'dr.smith@example.com', 'password456',
 INSERT INTO Product (name, price) VALUES ('Blood Test', 49.99);
 
 -- Inserir agendamentos
-INSERT INTO Scheduling (client_client_id, service_id, product_id, employee_id, date_time) 
+INSERT INTO Scheduling (client_client_id, service_id, employee_id, date_time) 
 VALUES (
     (SELECT client_id FROM Client WHERE name='John Doe'),
     (SELECT id FROM Service WHERE specification='Complete physical examination'),
