@@ -31,42 +31,48 @@ public class csvOrganization {
     LocalDateTime endDate = now.withDayOfMonth(lastDayOfMonth).withHour(23).withMinute(59)
             .withSecond(59).withNano(999999999);
 
-    public String generateSchedulingNote(List<Scheduling> schedulingList) {        
+    public String generateSchedulingNote(List<Scheduling> schedulingList) {
         linesList.clear();
-        List<Filter> filt = filterRepository.findAllByEstablishment(schedulingList.get(0).getEmployee().getEstablishment());
+        List<Filter> filt = filterRepository
+                .findAllByEstablishment(schedulingList.get(0).getEmployee().getEstablishment());
         for (Scheduling scheduling : schedulingList) {
-           String price = " ";
+            String price = " ";
             for (Filter filter : filt) {
-                if (scheduling.getEmployee().getEstablishment() == filter.getEstablishment() && scheduling.getService() == filter.getService()) {
-                    price ="R$" + Double.toString(filter.getPrice());
+                if (scheduling.getEmployee().getEstablishment() == filter.getEstablishment()
+                        && scheduling.getService() == filter.getService()) {
+                    price = "R$" + Double.toString(filter.getPrice());
 
                 }
             }
-        String lineVetor[] = new String[4];
-        lineVetor[0] = scheduling.getClient().getName();
-        lineVetor[1] = scheduling.getService() != null ? scheduling.getService().getServiceType().getServiceCategory().getName() + " " + scheduling.getService().getServiceType().getName() + " " + scheduling.getService().getSpecification() : (scheduling.getProduct() != null ? scheduling.getProduct().getName() : "");        
-        lineVetor[2] = scheduling.getEmployee().getName();
-        lineVetor[3] = price +(scheduling.getProduct() != null ? "R$" + Double.toString(scheduling.getProduct().getPrice()) : "");
-        if (lineVetor[0] != null && !lineVetor[0].isEmpty() && lineVetor[1] != null && !lineVetor[1].isEmpty() && lineVetor[2] != null && !lineVetor[2].isEmpty() && lineVetor[3] != null && !lineVetor[3].isEmpty() && lineVetor[4] != null && !lineVetor[4].isEmpty()) {
-           //throw
-            return "Não foi possivel gerar nota devido a todos os campos estarem vazios"; 
-        } 
-        linesList.add(lineVetor);
+            String lineVetor[] = new String[4];
+            lineVetor[0] = scheduling.getClient().getName();
+            lineVetor[1] = scheduling.getService().getServiceType().getServiceCategory().getName() + " "
+                    + scheduling.getService().getServiceType().getName() + " "
+                    + scheduling.getService().getSpecification();
+            lineVetor[2] = scheduling.getEmployee().getName();
+            lineVetor[3] = price;
+            if (lineVetor[0] != null && !lineVetor[0].isEmpty() && lineVetor[1] != null && !lineVetor[1].isEmpty()
+                    && lineVetor[2] != null && !lineVetor[2].isEmpty() && lineVetor[3] != null
+                    && !lineVetor[3].isEmpty() && lineVetor[4] != null && !lineVetor[4].isEmpty()) {
+                // throw
+                return "Não foi possivel gerar nota devido a todos os campos estarem vazios";
+            }
+            linesList.add(lineVetor);
 
-    }
-    csvGenerator csvG = new csvGenerator();
-    return csvG.gerarCsv(linesList, "nota");
-    
+        }
+        csvGenerator csvG = new csvGenerator();
+        return csvG.gerarCsv(linesList, "nota");
+
     }
 
     public String generateSchedulingReport(Establishment establishment) {
 
         linesList.clear();
 
-        return schedulingForEmployee(establishment,null);
+        return schedulingForEmployee(establishment, null);
 
-        //csvGenerator csvG = new csvGenerator();
-        //csvG.gerarCsv(linesList, "relatorio");
+        // csvGenerator csvG = new csvGenerator();
+        // csvG.gerarCsv(linesList, "relatorio");
 
     };
 
@@ -84,31 +90,37 @@ public class csvOrganization {
         List<Scheduling> schedulingsList = schedulingRepository.findByEmployeeAndDateRange(employee, startDate,
                 endDate);
 
-       return makeLine(schedulingsList, contador, establishment);
+        return makeLine(schedulingsList, contador, establishment);
     }
 
     public String makeLine(List<Scheduling> schedulingsList, Integer cont, Establishment establishment) {
         String retorno = "xxx";
-        List<Filter> filt = filterRepository.findAllByEstablishment(schedulingsList.get(0).getEmployee().getEstablishment());
+        List<Filter> filt = filterRepository
+                .findAllByEstablishment(schedulingsList.get(0).getEmployee().getEstablishment());
 
         for (Scheduling scheduling : schedulingsList) {
             String price = " ";
             for (Filter filter : filt) {
-                if (scheduling.getEmployee().getEstablishment() == filter.getEstablishment() && scheduling.getService() == filter.getService()) {
+                if (scheduling.getEmployee().getEstablishment() == filter.getEstablishment()
+                        && scheduling.getService() == filter.getService()) {
                     price = Double.toString(filter.getPrice());
 
                 }
             }
             String lineVetor[] = new String[5];
             lineVetor[0] = scheduling.getClient().getName();
-            lineVetor[1] = scheduling.getService() != null ? scheduling.getService().getServiceType().getServiceCategory().getName() + " " + scheduling.getService().getServiceType().getName() + " " + scheduling.getService().getSpecification() : (scheduling.getProduct() != null ? scheduling.getProduct().getName() : "");        
+            lineVetor[1] = scheduling.getService().getServiceType().getServiceCategory().getName() + " "
+                    + scheduling.getService().getServiceType().getName() + " "
+                    + scheduling.getService().getSpecification();
             lineVetor[2] = scheduling.getEmployee().getName();
-            lineVetor[3] = price +(scheduling.getProduct() != null ? "R$" + Double.toString(scheduling.getProduct().getPrice()) : "");    
+            lineVetor[3] = price;
             lineVetor[4] = String.valueOf(scheduling.getDateTime());
-            if (lineVetor[0] != null && !lineVetor[0].isEmpty() && lineVetor[1] != null && !lineVetor[1].isEmpty() && lineVetor[2] != null && !lineVetor[2].isEmpty() && lineVetor[3] != null && !lineVetor[3].isEmpty() && lineVetor[4] != null && !lineVetor[4].isEmpty()) {
-              //  throw 
-              return "Erro ao fazer a linha devido a todos os campos estarem vazios";
-            } 
+            if (lineVetor[0] != null && !lineVetor[0].isEmpty() && lineVetor[1] != null && !lineVetor[1].isEmpty()
+                    && lineVetor[2] != null && !lineVetor[2].isEmpty() && lineVetor[3] != null
+                    && !lineVetor[3].isEmpty() && lineVetor[4] != null && !lineVetor[4].isEmpty()) {
+                // throw
+                return "Erro ao fazer a linha devido a todos os campos estarem vazios";
+            }
             linesList.add(lineVetor);
         }
         if (cont > 0) {

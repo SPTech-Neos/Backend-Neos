@@ -35,9 +35,6 @@ public class Scheduling {
 
     @ManyToOne  
     private Service service;
-    
-    @ManyToOne
-    private Product product;
 
     @ManyToOne
     private Employee employee;

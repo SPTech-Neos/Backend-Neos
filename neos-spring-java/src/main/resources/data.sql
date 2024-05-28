@@ -36,11 +36,10 @@ VALUES ('Dr. Smith', 'dr.smith@example.com', 'password456',
 INSERT INTO Product (name, price) VALUES ('Blood Test', 49.99);
 
 -- Inserir agendamentos
-INSERT INTO Scheduling (client_client_id, service_id, product_id, employee_id, date_time)
+INSERT INTO Scheduling (client_client_id, service_id, employee_id, date_time)
 VALUES (
            (SELECT client_id FROM Client WHERE name='John Doe'),
            (SELECT id FROM Service WHERE specification='Complete physical examination'),
-           (SELECT id FROM Product WHERE name='Blood Test'),
            (SELECT id FROM Employee WHERE name='Dr. Smith'),
            '2024-05-24T08:00:00'
        );
@@ -79,5 +78,4 @@ INSERT INTO employee (name,email, password, employee_type_id, establishment_id) 
 ('Funcionario A', 'gg@gmail.com', '123', 2, 2),
 ('Gerente A', 'dd@gmail.com', '123', 1, 3),
 ('Cliente Funcionario', 'cliente.funcionario@example.com', '123senha', 2, 3);
-
 
