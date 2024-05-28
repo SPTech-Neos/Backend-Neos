@@ -1,7 +1,5 @@
 package school.sptech.neosspringjava.api.controllers.employeeController;
 
-
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 public class EmployeeController {
 
 
-private final EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
 
     @PostMapping
@@ -63,5 +61,13 @@ private final EmployeeService employeeService;
     public ResponseEntity<List<EmployeeResponse>> findAll() {
         return ResponseEntity.ok(employeeService.findAll());
     }
-}
 
+    @PostMapping("/login")
+    public ResponseEntity<EmployeeResponse> login(@RequestBody EmployeeLogin employeeLogin) {
+        EmployeeResponse employee = employeeService.findByEmailAndPassword(employeeLogin.email(), employeeLogin.password());
+        if (employee == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(employee);
+    }
+}

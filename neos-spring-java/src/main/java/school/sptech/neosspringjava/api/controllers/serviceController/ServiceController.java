@@ -3,12 +3,7 @@ package school.sptech.neosspringjava.api.controllers.serviceController;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceRequest;
@@ -32,7 +27,7 @@ public class ServiceController {
        return ResponseEntity.ok().body(servServ.save(serviceRequest));
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ServiceResponse> updateService (@PathVariable Integer id, @RequestBody ServiceRequest serviceRequest){
         ServiceRequest STReq = new ServiceRequest(id, serviceRequest.specification(), serviceRequest.serviceType());
         return  ResponseEntity.ok().body(servServ.save(STReq));
@@ -44,7 +39,7 @@ public class ServiceController {
         
     }
 
-    @PostMapping("/delete/id")
+    @DeleteMapping("/id")
     public ResponseEntity<String> deleteService (@PathVariable Integer id){
         return ResponseEntity.ok().body(servServ.deleteByid(id));
     }

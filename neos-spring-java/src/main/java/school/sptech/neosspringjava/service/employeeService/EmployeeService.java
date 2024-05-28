@@ -55,6 +55,11 @@ public class EmployeeService {
          return employeeMapper.toEmployeeResponse(employeeRepository.findById(id).orElseThrow());
     }
 
+    public EmployeeResponse findByEmailAndPassword(String email, String password) {
+        return employeeMapper.toEmployeeResponse(employeeRepository.findByEmailAndPassword(email, password));
+    }
+
+
     public List<EmployeeResponse> findAll() {
          return employeeMapper.toEmployeeResponse(employeeRepository.findAll());
     }

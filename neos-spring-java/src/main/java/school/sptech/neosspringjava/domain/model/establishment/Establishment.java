@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.br.CNPJ;
 
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +27,10 @@ import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.filter.Filter;
 import school.sptech.neosspringjava.domain.model.local.Local;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -37,27 +42,40 @@ public class Establishment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotBlank(message = "Nome é obrigatório")
-    @NotEmpty(message = "Nome é obrigatório")
-    private String name;
-    @CNPJ
-    private String cnpj;
+    
     @NotNull(message = "Nome é obrigatório")
     @NotBlank(message = "Nome é obrigatório")
     @NotEmpty(message = "Nome é obrigatório")
+    private String name;
+    
+    @CNPJ
+    private String cnpj;
+
+    @NotNull
+    @NotBlank
+    @NotEmpty
     private LocalTime startShift;
+    
     @NotNull
     @NotBlank
     @NotEmpty
     private LocalTime endShift;
+    
     @Max(value = 5, message = "Numero ultrapassou o limite de 5")
     @Min(value = 0, message = "Numero não atingiu o minimo 0")
     private Double  assessment;
     private Integer qtdAssessment;
+    
     @ManyToOne
     private Local local;
-    // private ??? profilePick;
+    
     private String description;
+    
     @OneToMany(mappedBy = "establishment")
     private List<Filter> filters;
+
+    private String profilePic;
+
+    @ElementCollection
+    private List<Integer> fkServices;
 }

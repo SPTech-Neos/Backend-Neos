@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentResquest;
+import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRespose;
 import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
@@ -16,7 +16,7 @@ public class EstablishmentService {
 
     private final EstablishmentRopository establishmentRopository;
 
-    public EstablishmentRespose save(EstablishmentResquest establishmentResquest) {
+    public EstablishmentRespose save(EstablishmentRequest establishmentResquest) {
         Establishment establishment = new Establishment();
         establishment.setName(establishmentResquest.name());
         establishment.setCnpj(establishmentResquest.cnpj());
@@ -31,7 +31,7 @@ public class EstablishmentService {
         return EstablishmentMapper.toEstablishmentResponse(establishmentRopository.save(establishment));
     }
 
-    public EstablishmentRespose update(EstablishmentResquest establishmentResquest, Integer id) {
+    public EstablishmentRespose update(EstablishmentRequest establishmentResquest, Integer id) {
         Establishment establishment = establishmentRopository.findById(id).orElseThrow();
         establishment.setName(establishmentResquest.name());
         establishment.setCnpj(establishmentResquest.cnpj());
