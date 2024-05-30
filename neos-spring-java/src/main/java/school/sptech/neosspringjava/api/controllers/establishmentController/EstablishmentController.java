@@ -39,12 +39,9 @@ public class EstablishmentController {
     }
 
     @PostMapping
-    public ResponseEntity<EstablishmentRespose> save(@RequestBody EstablishmentRequest establishmentRequest) {
-        Establishment establishment = Establishment.builder()
-                .name(establishmentRequest.name())
-                .local(establishmentRequest.local())
-                .build();
-        return ResponseEntity.ok(establishmentMapper.toEstablishmentResponse(establishmentRopository.save(establishment)));
+    public ResponseEntity<EstablishmentRespose> saveEstablishment(@RequestBody EstablishmentRequest establishmentRequest) {
+        EstablishmentRespose establishmentResponse = establishmentService.save(establishmentRequest);
+        return ResponseEntity.ok(establishmentResponse);
     }
 
     @PutMapping("/{id}")

@@ -27,6 +27,7 @@ public class ServiceType {
     @NotBlank(message = "Nome do tipo de serviço é obrigatório")
     @NotEmpty(message = "Nome do tipo de serviço é obrigatório")
     private String name;
+
     @ManyToOne
     private ServiceCategory ServiceCategory;
 

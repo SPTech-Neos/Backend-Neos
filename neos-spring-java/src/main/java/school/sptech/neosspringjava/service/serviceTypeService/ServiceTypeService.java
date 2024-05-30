@@ -6,32 +6,38 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import school.sptech.neosspringjava.api.dtos.serviceCategoryDto.ServiceCategoryRequest;
+import school.sptech.neosspringjava.api.dtos.serviceCategoryDto.ServiceCategoryResponse;
 import school.sptech.neosspringjava.api.dtos.serviceTypeDto.ServiceTypeRequest;
 import school.sptech.neosspringjava.api.dtos.serviceTypeDto.ServiceTypeResponse;
+import school.sptech.neosspringjava.api.mappers.serviceCategoryMapper.ServiceCategoryMapper;
 import school.sptech.neosspringjava.api.mappers.serviceMapper.ServiceMapper;
 import school.sptech.neosspringjava.api.mappers.serviceTypeMapper.ServiceTypeMapper;
 import school.sptech.neosspringjava.domain.model.serviceCategory.ServiceCategory;
 import school.sptech.neosspringjava.domain.model.serviceType.ServiceType;
 import school.sptech.neosspringjava.domain.repository.ServiceTypeRepository.ServiceTypeRepository;
+import school.sptech.neosspringjava.domain.repository.serviceCategoryRepository.ServiceCategoryRepository;
+import school.sptech.neosspringjava.exception.NaoEncontradoException;
 
 @Service
 @RequiredArgsConstructor
 public class ServiceTypeService {
 
     private final ServiceTypeRepository serviceTypeRepository;
+    private final ServiceCategoryRepository serviceCategoryRepository;
+    private final ServiceTypeMapper serviceTypeMapper;
 
     public ServiceTypeResponse save(ServiceTypeRequest serviceTypeRequest) {
-        ServiceType serviceType;
-        if (serviceTypeRequest.id() != null) {
-            serviceType = ServiceType.builder().id(serviceTypeRequest.id()).name(serviceTypeRequest.name())
-                    .ServiceCategory(serviceTypeRequest.ServiceCategory()).build();
-            serviceTypeRepository.save(serviceType);
-        } else {
-            serviceType = ServiceType.builder().name(serviceTypeRequest.name())
-                    .ServiceCategory(serviceTypeRequest.ServiceCategory()).build();
-            serviceTypeRepository.save(serviceType);
+        try {
+            ServiceType serviceType = new ServiceType();
+            serviceType.setName(serviceTypeRequest.name());
+            serviceType.setServiceCategory(serviceCategoryRepository.findById(serviceTypeRequest.fkServiceCategory()).orElseThrow());
+
+            return serviceTypeMapper.toServiceTypeResponse(serviceTypeRepository.save(serviceType));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Erro ao salvar o serviço: " + e.getMessage());
         }
-        return ServiceTypeMapper.toServiceTypeResponse(serviceType);
     }
 
     public List<ServiceTypeResponse> findAll() {
@@ -43,6 +49,21 @@ public class ServiceTypeService {
         Optional<ServiceType> serviceTypeOp = serviceTypeRepository.findById(id);
         ServiceType serviceType = serviceTypeOp.get();
         return ServiceTypeMapper.toServiceTypeResponse(serviceType);
+    }
+
+    public ServiceTypeResponse update(ServiceTypeRequest serviceTypeRequest, Integer id) {
+
+        ServiceType serviceType = serviceTypeRepository.findById(id).orElseThrow();
+
+        if (serviceTypeRequest.fkServiceCategory() != null) {
+            serviceType.setServiceCategory(serviceCategoryRepository.findById(serviceTypeRequest.fkServiceCategory()).orElseThrow(() ->
+                    new NaoEncontradoException("ServiceCategory not found with id " + serviceTypeRequest.fkServiceCategory())));
+        }
+
+        serviceType.setName(serviceTypeRequest.name());
+
+
+        return ServiceTypeMapper.toServiceTypeResponse(serviceTypeRepository.save(serviceType));
     }
 
     public String deleteByid(Integer id) {

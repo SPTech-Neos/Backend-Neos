@@ -8,13 +8,17 @@ import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentReque
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRespose;
 import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
+import school.sptech.neosspringjava.domain.model.local.Local;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 
 @Service
 @RequiredArgsConstructor
 public class EstablishmentService {
 
     private final EstablishmentRopository establishmentRopository;
+    private final LocalRepository localRepository;
+    private final EstablishmentMapper establishmentMapper;
 
     public EstablishmentRespose save(EstablishmentRequest establishmentResquest) {
         Establishment establishment = new Establishment();
@@ -28,7 +32,19 @@ public class EstablishmentService {
         establishment.setDescription(establishmentResquest.description());
         establishment.setFilters(establishmentResquest.filters());
 
-        return EstablishmentMapper.toEstablishmentResponse(establishmentRopository.save(establishment));
+        Local existingLocal = localRepository.findByAddress(establishmentResquest.local().getAddress());
+
+        if (existingLocal == null) {
+            Local newLocal = new Local();
+            newLocal.setAddress(establishmentResquest.local().getAddress());
+            existingLocal = localRepository.save(newLocal);
+        }
+
+        establishment.setLocal(existingLocal);
+
+        Establishment savedEstablishment = establishmentRopository.save(establishment);
+
+        return establishmentMapper.toEstablishmentResponse(savedEstablishment);
     }
 
     public EstablishmentRespose update(EstablishmentRequest establishmentResquest, Integer id) {

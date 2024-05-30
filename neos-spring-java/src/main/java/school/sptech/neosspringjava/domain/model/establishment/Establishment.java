@@ -52,13 +52,9 @@ public class Establishment {
     private String cnpj;
 
     @NotNull
-    @NotBlank
-    @NotEmpty
     private LocalTime startShift;
     
     @NotNull
-    @NotBlank
-    @NotEmpty
     private LocalTime endShift;
     
     @Max(value = 5, message = "Numero ultrapassou o limite de 5")

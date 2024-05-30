@@ -44,11 +44,4 @@ public class Employee {
 
     @ManyToOne
     private EmployeeType employeeType;
-
-
-    public void setEstablishment(Establishment establishment) {
-    }
-
-    public void setEmployeeType(EmployeeType employeeType) {
-    }
 }

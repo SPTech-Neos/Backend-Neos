@@ -3,12 +3,7 @@ package school.sptech.neosspringjava.api.controllers.serviceCategoryController;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.serviceCategoryDto.ServiceCategoryRequest;
@@ -32,10 +27,9 @@ public class ServiceCategoryController {
        return ResponseEntity.ok().body(servCategoryServ.save(serviceCategoryRequest));
     }
 
-    @PostMapping("/update/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<ServiceCategoryResponse> updateServiceCategory (@PathVariable Integer id, @RequestBody ServiceCategoryRequest serviceCategoryRequest){
-        ServiceCategoryRequest STReq = new ServiceCategoryRequest(id, serviceCategoryRequest.name());
-        return  ResponseEntity.ok().body(servCategoryServ.save(STReq));
+        return  ResponseEntity.ok().body(servCategoryServ.update(serviceCategoryRequest, id));
     }
 
     @GetMapping("/{id}")
@@ -44,7 +38,7 @@ public class ServiceCategoryController {
         
     }
 
-    @PostMapping("/delete/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteServiceCategory (@PathVariable Integer id){
         return ResponseEntity.ok().body(servCategoryServ.deleteByid(id));
     }

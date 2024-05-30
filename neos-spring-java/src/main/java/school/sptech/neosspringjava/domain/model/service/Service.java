@@ -29,6 +29,7 @@ public class Service {
     @NotBlank(message = "É necessario haver uma especificação no serviço")
     @NotEmpty(message = "É necessario haver uma especificação no serviço")
     private String specification;
+
     @ManyToOne
     private ServiceType serviceType;
 

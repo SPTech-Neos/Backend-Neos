@@ -1,6 +1,7 @@
 package school.sptech.neosspringjava.service.employeeService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.exception.NaoEncontradoException;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class EmployeeService {
 
    private final EmployeeRepository employeeRepository;
    private final EmployeeMapper employeeMapper;
-   private final EstablishmentRopository establishmentRopository;
+   private final EstablishmentRopository establishmentRepository;
    private final EmployeeTypeRepository employeeTypeRepository;
 
     public EmployeeResponse save(EmployeeRequest employeeRequest) {
@@ -28,23 +30,45 @@ public class EmployeeService {
             employee.setName(employeeRequest.name());
             employee.setEmail(employeeRequest.email());
             employee.setPassword(employeeRequest.password());
-            employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).orElseThrow());
+            employee.setEstablishment(establishmentRepository.findById(employeeRequest.fkEstablishment()).orElseThrow());
 
             employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).orElseThrow());
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }
 
+
     public EmployeeResponse update(EmployeeRequest employeeRequest, Integer id) {
-       
-        Employee employee = employeeRepository.findById(id).orElseThrow();
-            employee.setName(employeeRequest.name());
-            employee.setEmail(employeeRequest.email());
-            employee.setPassword(employeeRequest.password());
 
-            employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).orElseThrow());
+        Optional<Employee> existingEmployee = employeeRepository.findById(id);
+        if (existingEmployee.isPresent()) {
+            Employee employee = existingEmployee.get();
 
-            employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).orElseThrow());
-        return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
+            if (employeeRequest.name() != null) {
+                employee.setName(employeeRequest.name());
+            }
+
+            if (employeeRequest.email() != null) {
+                employee.setEmail(employeeRequest.email());
+            }
+
+            if (employeeRequest.password() != null) {
+                employee.setPassword(employeeRequest.password());
+            }
+
+            if (employeeRequest.fkEstablishment() != null) {
+                employee.setEstablishment(establishmentRepository.findById(employeeRequest.fkEstablishment()).orElseThrow(() ->
+                        new NaoEncontradoException("Establishment not found with id " + employeeRequest.fkEstablishment())));
+            }
+
+            if (employeeRequest.fkEmployeeType() != null) {
+                employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).orElseThrow(() ->
+                        new NaoEncontradoException("EmployeeType not found with id " + employeeRequest.fkEmployeeType())));
+            }
+
+            return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
+        } else {
+            throw new NaoEncontradoException("Employee not found with id " + id);
+        }
     }
 
     public void delete(Integer id) {
