@@ -37,11 +37,15 @@ public class CompanyService {
     }
 
    public CompanyResponse update(Integer id, CompanyRequest companyRequest) {
-        Company company = companyRepository.findById(id).orElseThrow();
+        try {
+            Company company = companyRepository.findById(id).orElseThrow();
         company.setName(companyRequest.name());
         company.setCnpj(companyRequest.cnpj());
         companyRepository.save(company);
         return companyMapper.toCompanyResponse(company);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public void delete(Integer id) {

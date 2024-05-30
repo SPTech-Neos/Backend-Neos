@@ -46,7 +46,8 @@ public class CompanyController {
 
     @PutMapping("/{id}")
     public ResponseEntity<CompanyResponse> update(@PathVariable Integer id, @Valid @RequestBody CompanyRequest companyRequest) {
-        return ResponseEntity.ok(companyService.update(id, companyRequest));
+        CompanyResponse companyResponse = companyService.update(id, companyRequest);
+        return (companyResponse == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(companyResponse);
     }
 
     @DeleteMapping("/{id}")
