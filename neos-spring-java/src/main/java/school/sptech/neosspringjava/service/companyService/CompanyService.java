@@ -1,5 +1,7 @@
 package school.sptech.neosspringjava.service.companyService;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.domain.repository.companyRepository.CompanyRepository;
@@ -24,8 +26,14 @@ public class CompanyService {
     }
 
     public CompanyResponse findById(Integer id) {
+       
+        try {
         Company company = companyRepository.findById(id).orElseThrow();
-        return companyMapper.toCompanyResponse(company);
+
+            return companyMapper.toCompanyResponse(company);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
    public CompanyResponse update(Integer id, CompanyRequest companyRequest) {
@@ -41,4 +49,7 @@ public class CompanyService {
         companyRepository.delete(company);
     }
 
+    public List<CompanyResponse> findAll() {
+        return companyMapper.toCompanyResponseList(companyRepository.findAll());
+    }
 }

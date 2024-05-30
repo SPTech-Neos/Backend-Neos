@@ -33,9 +33,15 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.save(companyRequest));
     }
 
+    @GetMapping
+    public ResponseEntity<List<CompanyResponse>> findAll() {
+        return ResponseEntity.ok(companyService.findAll());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<CompanyResponse> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(companyService.findById(id));
+        CompanyResponse companyResponse = companyService.findById(id);
+        return (companyResponse == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(companyResponse);
     }
 
     @PutMapping("/{id}")
