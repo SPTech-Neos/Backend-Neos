@@ -12,11 +12,11 @@ public record EstablishmentRequest(
         String cnpj,
         LocalTime startShift,
         LocalTime endShift,
-        Local local,
+        Integer fkLocal,
         String profilePic,
         String description,
         List<Integer> fkServices,
         Double  assessment,
         Integer qtdAssessment,
-        List<Filter> filters) {
+        List<Integer> fkFilters) {
 }

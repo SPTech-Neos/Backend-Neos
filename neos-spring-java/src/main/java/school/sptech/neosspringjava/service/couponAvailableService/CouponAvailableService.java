@@ -8,7 +8,7 @@ import school.sptech.neosspringjava.domain.model.couponAvailable.CouponAvailable
 import school.sptech.neosspringjava.domain.repository.couponAvaliableRepository.*;
 import school.sptech.neosspringjava.domain.repository.couponRepository.CouponRepository;
 import school.sptech.neosspringjava.domain.repository.discountTypeRepository.DiscountTypeRepository;
-import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.api.dtos.couponAvailableDto.*;
 import school.sptech.neosspringjava.api.mappers.couponAvailableMapper.CouponAvailableMapper;
 
@@ -21,7 +21,7 @@ public class CouponAvailableService {
     private final CouponAvaliableRepository  couponAvailableRepository;
     private final DiscountTypeRepository discountTypeRepository;
     private final CouponRepository couponRepository;
-    private final EstablishmentRopository establishmentRopository;
+    private final EstablishmentRepository establishmentRopository;
 
     public List<CouponAvailableResponse> findAll() {
         return couponAvailableMapper.toCouponAvailableResponse(couponAvailableRepository.findAll());

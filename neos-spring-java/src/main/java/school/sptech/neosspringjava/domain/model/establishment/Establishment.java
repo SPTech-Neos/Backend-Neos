@@ -3,16 +3,9 @@ package school.sptech.neosspringjava.domain.model.establishment;
 import java.time.LocalTime;
 import java.util.List;
 
+import jakarta.persistence.*;
 import org.hibernate.validator.constraints.br.CNPJ;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -26,6 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.filter.Filter;
 import school.sptech.neosspringjava.domain.model.local.Local;
+import school.sptech.neosspringjava.domain.model.service.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -61,17 +55,17 @@ public class Establishment {
     @Min(value = 0, message = "Numero não atingiu o minimo 0")
     private Double  assessment;
     private Integer qtdAssessment;
-    
+
+    private String description;
+    private String profilePic;
+
     @ManyToOne
     private Local local;
     
-    private String description;
-    
-    @OneToMany(mappedBy = "establishment")
+    @OneToMany
     private List<Filter> filters;
 
-    private String profilePic;
+    @OneToMany
+    private List<Service> services;
 
-    @ElementCollection
-    private List<Integer> fkServices;
 }

@@ -2,7 +2,6 @@ package school.sptech.neosspringjava.service.employeeService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,7 @@ import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
-import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.exception.NaoEncontradoException;
 
 @Service
@@ -22,7 +21,7 @@ public class EmployeeService {
 
    private final EmployeeRepository employeeRepository;
    private final EmployeeMapper employeeMapper;
-   private final EstablishmentRopository establishmentRepository;
+   private final EstablishmentRepository establishmentRepository;
    private final EmployeeTypeRepository employeeTypeRepository;
 
     public EmployeeResponse save(EmployeeRequest employeeRequest) {

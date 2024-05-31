@@ -2,21 +2,13 @@ package school.sptech.neosspringjava.api.controllers.employeeController;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeLogin;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
-import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
-import school.sptech.neosspringjava.domain.model.employee.Employee;
-import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
-import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
-import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
 import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 
 
