@@ -36,6 +36,11 @@ public class AddressController {
         return ResponseEntity.ok(addressService.save(addressRequest));
     }
 
+    @GetMapping
+    public ResponseEntity<List<AddressResponse>> findAll() {
+        return ResponseEntity.ok(addressService.findAll());
+    }
+
     @GetMapping("/{id}")
 
     public ResponseEntity<AddressResponse> findById(@PathVariable Integer id) {
