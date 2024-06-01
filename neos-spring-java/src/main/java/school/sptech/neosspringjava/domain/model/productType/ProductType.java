@@ -24,8 +24,7 @@ public class ProductType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_type_id")
     private Integer id;
-    @NotBlank(message = "Nome do tipo do produto é obrigatório")
-    @NotEmpty(message = "Nome do tipo do produto é obrigatório")
+
     private String name;
     private String specification;
     
