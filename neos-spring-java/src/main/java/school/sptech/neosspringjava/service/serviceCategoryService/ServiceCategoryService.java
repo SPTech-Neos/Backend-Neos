@@ -18,37 +18,43 @@ public class ServiceCategoryService {
 
     private final ServiceCategoryRepository serviceCategoryRepository;
 
+    public List<ServiceCategoryResponse> findAll() {
+        List<ServiceCategory> serviceCategories = serviceCategoryRepository.findAll();
+        return ServiceCategoryMapper.toServiceResponseList(serviceCategories);
+    }
+
     public ServiceCategoryResponse save(ServiceCategoryRequest serviceCategoryRequest) {
-        ServiceCategory serviceCategory;
-        if (serviceCategoryRequest.id() != null) {
-            serviceCategory = ServiceCategory.builder().id(serviceCategoryRequest.id()).name(serviceCategoryRequest.name()).build();
-            serviceCategoryRepository.save(serviceCategory);
-        } else {
-            serviceCategory = null;
-        }
+        ServiceCategory serviceCategory = ServiceCategoryMapper.toServiceCategory(serviceCategoryRequest);
+        serviceCategory = serviceCategoryRepository.save(serviceCategory);
         return ServiceCategoryMapper.toServiceCategoryResponse(serviceCategory);
     }
 
-    public List<ServiceCategoryResponse> findAll() {
-        List<ServiceCategory> serviceCategory = serviceCategoryRepository.findAll();
-        return ServiceCategoryMapper.toServiceResponseList(serviceCategory);
+    public ServiceCategoryResponse update(ServiceCategoryRequest serviceCategoryRequest, Integer id) {
+        Optional<ServiceCategory> serviceCategoryOptional = serviceCategoryRepository.findById(id);
+        if (serviceCategoryOptional.isPresent()) {
+            ServiceCategory serviceCategory = serviceCategoryOptional.get();
+            serviceCategory.setName(serviceCategoryRequest.name());
+            serviceCategory = serviceCategoryRepository.save(serviceCategory);
+            return ServiceCategoryMapper.toServiceCategoryResponse(serviceCategory);
+        }
+        return null;
+    }
+
+    public void delete(Integer id) {
+        serviceCategoryRepository.deleteById(id);
+
     }
 
     public ServiceCategoryResponse findById(Integer id) {
-        Optional<ServiceCategory> serviceCategoryOp = serviceCategoryRepository.findById(id);
-        ServiceCategory serviceCategory = serviceCategoryOp.get();
-        return ServiceCategoryMapper.toServiceCategoryResponse(serviceCategory);
+        Optional<ServiceCategory> serviceCategoryOptional = serviceCategoryRepository.findById(id);
+        if (serviceCategoryOptional.isPresent()) {
+            ServiceCategory serviceCategory = serviceCategoryOptional.get();
+            return ServiceCategoryMapper.toServiceCategoryResponse(serviceCategory);
+        }
+        return null;
     }
 
-    public String deleteByid(Integer id) {
-        ServiceCategoryResponse str = findById(id);
-        if (str == null) {
-            return "id não encontrado";
-        } else {
-            serviceCategoryRepository.deleteById(id);
-            return "tipo de serviço excluido";
-        }
-    }
+    
 
 }
 

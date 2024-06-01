@@ -1,5 +1,6 @@
 package school.sptech.neosspringjava.domain.model.serviceCategory;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,8 +25,10 @@ public class ServiceCategory{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "service_category_id")
     private Integer id;
     @NotBlank(message = "Nome é obrigatório")
     @NotEmpty(message = "Nome é obrigatório")
+    @Column(name = "service_category_name")
     private String name;
 }
