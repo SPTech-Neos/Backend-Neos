@@ -1,13 +1,14 @@
 CREATE DATABASE blume;
 USE blume;
+
 CREATE TABLE company(
-  company_id INT PRIMARY KEY auto_increment ,
+  company_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL,
   cnpj CHAR(14) NOT NULL
 );
 
 CREATE TABLE address(
-  address_id INT PRIMARY KEY auto_increment ,
+  address_id INT PRIMARY KEY auto_increment,
   public_place VARCHAR(45) NOT NULL,
   city VARCHAR(45) NOT NULL,
   state CHAR(2) NOT NULL,
@@ -21,17 +22,17 @@ CREATE TABLE local(
   block VARCHAR(2),
   complement VARCHAR(45),
   address_fk INT NOT NULL,
-  FOREIGN KEY (address_fk) REFERENCES address(address_id)
+  FOREIGN KEY (address_fk) REFERENCES address(address_id) ON DELETE CASCADE
 );
 
 CREATE TABLE establishment(
   establishment_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL,
   company_fk INT,
-  img_url VARCHAR(100), 
+  img_url VARCHAR(100),
   local_fk INT NOT NULL,
-  FOREIGN KEY (company_fk) REFERENCES company(company_id),
-  FOREIGN KEY (local_fk) REFERENCES local(local_id)
+  FOREIGN KEY (company_fk) REFERENCES company(company_id) ON DELETE CASCADE,
+  FOREIGN KEY (local_fk) REFERENCES local(local_id) ON DELETE CASCADE
 );
 
 CREATE TABLE product_type(
@@ -44,12 +45,12 @@ CREATE TABLE product(
   product_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45),
   brand VARCHAR(45),
-    img_url VARCHAR(100), 
+  img_url VARCHAR(100),
   value DECIMAL,
   type_fk INT,
   establishment_fk INT,
-  FOREIGN KEY (type_fk) REFERENCES product_type(product_type_id),
-  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id)
+  FOREIGN KEY (type_fk) REFERENCES product_type(product_type_id) ON DELETE CASCADE,
+  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id) ON DELETE CASCADE
 );
 
 CREATE TABLE client(
@@ -57,9 +58,9 @@ CREATE TABLE client(
   name VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
   password VARCHAR(45) NOT NULL,
-  img_url VARCHAR(100), 
+  img_url VARCHAR(100),
   local_fk INT NOT NULL,
-  FOREIGN KEY (local_fk) REFERENCES local(local_id)  
+  FOREIGN KEY (local_fk) REFERENCES local(local_id) ON DELETE CASCADE
 );
 
 CREATE TABLE rating(
@@ -67,12 +68,12 @@ CREATE TABLE rating(
   nota INT NOT NULL,
   establishment_fk INT,
   client_fk INT,
-  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id),
-  FOREIGN KEY (client_fk) REFERENCES client(client_id),
+  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id) ON DELETE CASCADE,
+  FOREIGN KEY (client_fk) REFERENCES client(client_id) ON DELETE CASCADE,
   PRIMARY KEY (rating_id, establishment_fk, client_fk)
 );
 
-CREATE TABLE employeeType(
+CREATE TABLE employee_type(
   employee_type_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL
 );
@@ -82,11 +83,11 @@ CREATE TABLE employee(
   name VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
   password VARCHAR(45) NOT NULL,
-    img_url VARCHAR(100), 
-  establishment_fk INT NOT NULL, 
+  img_url VARCHAR(100),
+  establishment_fk INT NOT NULL,
   employee_type_fk INT NOT NULL,
-  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id),
-  FOREIGN KEY (employee_type_fk) REFERENCES employeeType(employee_type_id)
+  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id) ON DELETE CASCADE,
+  FOREIGN KEY (employee_type_fk) REFERENCES employee_type(employee_type_id) ON DELETE CASCADE
 );
 
 CREATE TABLE serviceCategory(
@@ -95,19 +96,18 @@ CREATE TABLE serviceCategory(
 );
 
 CREATE TABLE serviceType(
-  service_type_id INT PRIMARY KEY  auto_increment,
+  service_type_id INT PRIMARY KEY auto_increment,
   service_type_name VARCHAR(45) NOT NULL,
   category_fk INT,
-  FOREIGN KEY (category_fk) REFERENCES serviceCategory(service_category_id)
+  FOREIGN KEY (category_fk) REFERENCES serviceCategory(service_category_id) ON DELETE CASCADE
 );
 
 CREATE TABLE service(
-  service_id INT PRIMARY KEY  auto_increment,
+  service_id INT PRIMARY KEY auto_increment,
   specification VARCHAR(45) NOT NULL,
-  img_url VARCHAR(100), 
+  img_url VARCHAR(100),
   type_fk INT,
-  FOREIGN KEY (type_fk) REFERENCES serviceType(service_type_id)
-
+  FOREIGN KEY (type_fk) REFERENCES serviceType(service_type_id) ON DELETE CASCADE
 );
 
 CREATE TABLE employeeServices(
@@ -116,8 +116,8 @@ CREATE TABLE employeeServices(
   expertise TINYINT NOT NULL,
   employee_fk INT,
   service_fk INT,
-  FOREIGN KEY (employee_fk) REFERENCES employee(employee_id),
-  FOREIGN KEY (service_fk) REFERENCES service(service_id),
+  FOREIGN KEY (employee_fk) REFERENCES employee(employee_id) ON DELETE CASCADE,
+  FOREIGN KEY (service_fk) REFERENCES service(service_id) ON DELETE CASCADE,
   PRIMARY KEY(employee_services_id, employee_fk, service_fk)
 );
 
@@ -125,136 +125,94 @@ CREATE TABLE filter(
   filter_id INT auto_increment,
   price FLOAT NOT NULL,
   establishment_fk INT,
-  service_fk INT  NOT NULL,
-  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id),
-  FOREIGN KEY (service_fk) REFERENCES service(service_id),
+  service_fk INT NOT NULL,
+  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id) ON DELETE CASCADE,
+  FOREIGN KEY (service_fk) REFERENCES service(service_id) ON DELETE CASCADE,
   PRIMARY KEY(filter_id, establishment_fk, service_fk)
 );
 
-CREATE TABLE schedulingStatuS(
-  schedulingStatus_id INT PRIMARY KEY auto_increment ,
+CREATE TABLE schedulingStatus(
+  schedulingStatus_id INT PRIMARY KEY auto_increment,
   description VARCHAR(100)
 );
 
 CREATE TABLE scheduling(
-  scheduling_id INT ,
+  scheduling_id INT auto_increment PRIMARY KEY,
   date_time DATETIME NOT NULL,
   value DECIMAL,
   service_fk INT,
   status_fk INT,
   client_fk INT,
   employee_fk INT,
-  FOREIGN KEY (status_fk) REFERENCES schedulingStatus(schedulingStatus_id),
-  FOREIGN KEY (service_fk) REFERENCES service(service_id),
-  FOREIGN KEY (client_fk) REFERENCES client(client_id),
-  FOREIGN KEY (employee_fk) REFERENCES employee(employee_id),
-  PRIMARY KEY (service_fk, client_fk, employee_fk)
+  FOREIGN KEY (status_fk) REFERENCES schedulingStatus(schedulingStatus_id) ON DELETE CASCADE,
+  FOREIGN KEY (service_fk) REFERENCES service(service_id) ON DELETE CASCADE,
+  FOREIGN KEY (client_fk) REFERENCES client(client_id) ON DELETE CASCADE,
+  FOREIGN KEY (employee_fk) REFERENCES employee(employee_id) ON DELETE CASCADE
 );
-
 
 CREATE TABLE payment(
-  payment_id INT ,
+  payment_id INT auto_increment PRIMARY KEY,
   value DECIMAL,
   date_payment DATETIME,
-  product_fk INT, 
+  product_fk INT,
   client_fk INT,
   establishment_fk INT,
-  FOREIGN KEY (client_fk) REFERENCES client(client_id),
-  FOREIGN KEY (product_fk) REFERENCES product(product_id),
-  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id),
-  PRIMARY KEY (product_fk, payment_id, establishment_fk, client_fk)
+  FOREIGN KEY (client_fk) REFERENCES client(client_id) ON DELETE CASCADE,
+  FOREIGN KEY (product_fk) REFERENCES product(product_id) ON DELETE CASCADE,
+  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id) ON DELETE CASCADE
 );
 
-Insert INTO Company (name, cnpj) VALUES
+-- Inserir dados de exemplo
+INSERT INTO company (name, cnpj) VALUES
 ('Empresa A', '50037903000115');
 
-INSERT into rating (nota, establishment_fk, client_fk) VALUES
-(5, 1, 1),
-(4, 1, 2);
+INSERT INTO address (public_place, city, state, street) VALUES
+('123 Main St', 'Anytown', 'ST', '123 Main St');
 
+INSERT INTO local (number, floor, block, complement, address_fk) VALUES
+(101, 1, 'A', 'Near the entrance', 1);
 
+INSERT INTO establishment (name, company_fk, img_url, local_fk) VALUES
+('Estabelecimento A', 1, 'http://example.com/image.jpg', 1);
 
+INSERT INTO product_type (name, specification) VALUES
+('Tipo de Produto A', 'Especificação A');
 
+INSERT INTO product (name, brand, img_url, value, type_fk, establishment_fk) VALUES
+('Produto A', 'Marca A', 'http://example.com/product.jpg', 100.0, 1, 1);
 
--- -- Inserir endereços
--- INSERT INTO Address (street, city, state) VALUES ('123 Main St', 'Anytown', 'State');
+INSERT INTO client (name, email, password, img_url, local_fk) VALUES
+('Cliente A', 'cliente.a@example.com', 'senha123', 'http://example.com/client.jpg', 1);
 
--- -- Inserir locais
--- INSERT INTO Local (cep, number, floor, bloc, complement, address_id) VALUES ('CEP A', 101, 1, 'A', 'Near the entrance', (SELECT id FROM Address WHERE street='123 Main St'));
+INSERT INTO rating (nota, establishment_fk, client_fk) VALUES
+(5, 1, 1);
 
--- -- Inserir categorias de serviço
--- INSERT INTO Service_Category (name) VALUES ('Healthcare');
+INSERT INTO employee_type (name) VALUES
+('Tipo de Funcionário A');
 
--- -- Inserir tipos de serviço
--- INSERT INTO Service_Type (name, service_category_id) VALUES ('General Checkup', (SELECT id FROM Service_Category WHERE name='Healthcare'));
+INSERT INTO employee (name, email, password, img_url, establishment_fk, employee_type_fk) VALUES
+('Funcionário A', 'funcionario.a@example.com', 'senha123', 'http://example.com/employee.jpg', 1, 1);
 
--- -- Inserir serviços
--- INSERT INTO Service (specification, service_type_id) VALUES ('Complete physical examination', (SELECT id FROM Service_Type WHERE name='General Checkup'));
+INSERT INTO serviceCategory (service_category_name) VALUES
+('Categoria de Serviço A');
 
--- -- Inserir filtros
--- INSERT INTO Filter (price, service_id) VALUES (99.99, (SELECT id FROM Service WHERE specification='Complete physical examination'));
+INSERT INTO serviceType (service_type_name, category_fk) VALUES
+('Tipo de Serviço A', 1);
 
--- -- Inserir clientes
--- INSERT INTO Client (name, email, password, local_id) VALUES ('John Doe', 'john.doe@example.com', 'password123', (SELECT id FROM Local WHERE number=101));
+INSERT INTO service (specification, img_url, type_fk) VALUES
+('Especificação do Serviço A', 'http://example.com/service.jpg', 1);
 
--- -- Insert data into Employee_Type
--- INSERT INTO Employee_Type (name) VALUES ('Doctor');
+INSERT INTO employeeServices (hours_spent, expertise, employee_fk, service_fk) VALUES
+(NOW(), 5, 1, 1);
 
--- -- Insert data into Establishment
--- INSERT INTO Establishment (name, assessment, end_shift, local_id, qtd_assessment, start_shift, cnpj, description)
--- VALUES ('Health Clinic', 4.5, '18:00:00', (SELECT id FROM Local WHERE number=101), 20, '08:00:00', '12345678901234', 'A general health clinic');
+INSERT INTO filter (price, establishment_fk, service_fk) VALUES
+(100.0, 1, 1);
 
--- -- Insert data into Employee
--- INSERT INTO Employee (name, email, password, employee_type_id, establishment_id)
--- VALUES ('Dr. Smith', 'dr.smith@example.com', 'password456',
---         (SELECT id FROM Employee_Type WHERE name='manicure'),
---         (SELECT id FROM Establishment WHERE name='Health Clinic'));
+INSERT INTO schedulingStatus (description) VALUES
+('Status de Agendamento A');
 
--- -- Inserir produtos (exemplo)
--- INSERT INTO Product (name, price) VALUES ('Blood Test', 49.99);
+INSERT INTO scheduling (date_time, value, service_fk, status_fk, client_fk, employee_fk) VALUES
+(NOW(), 200.0, 1, 1, 1, 1);
 
--- -- Inserir agendamentos
--- INSERT INTO Scheduling (client_client_id, service_id, employee_id, date_time)
--- VALUES (
---            (SELECT client_id FROM Client WHERE name='John Doe'),
---            (SELECT id FROM Service WHERE specification='Complete physical examination'),
---            (SELECT id FROM Employee WHERE name='Dr. Smith'),
---            '2024-05-24T08:00:00'
---        );
-
-
-
--- INSERT INTO address (street, city, state) VALUES
--- ('Rua A', 'Cidade A', 'AA'),
--- ('Rua B', 'Cidade B', 'BB'),
--- ('Rua C', 'Cidade C', 'CC'),
--- ('Rua D', 'Cidade D', 'DD');
-
--- INSERT INTO local (cep, number, floor, bloc, complement, address_id) VALUES
---                                                                                  ('CEP A', 1, 1, 'A', 'Casa', 1),
---                                                                                  ('CEP B', 2, 2, 'B', 'Apartamento', 2),
---                                                                                  ('CEP C', 3, 3, 'C', 'Casa', 3),
---                                                                                  ('CEP D', 4, 4, 'D', 'Apartamento', 4);
-
--- INSERT INTO client (name, email, password) VALUES
--- ('Cliente A', 'cliente.a@example.com', '$2a$10$1h3qTcdIfxbfPyMKrDUAie5SzNfKyTk/HgvrtUSI.3ZyElQGy75We'),
--- ('Cliente B', 'cliente.b@example.com', 'senha456'),
--- ('Cliente C', 'cliente.c@example.com', 'senha789'),
--- ('Cliente D', 'cliente.d@example.com', 'senhaabc'),
--- ('Cliente Funcionario', 'cliente.funcionario@example.com', '$2a$10$kb6w6bL6NG.p8ZjjMIQWs.496gUWEC9cXA1StRkgtRcJz1HOWQubS');
-
-
--- INSERT INTO establishment (name,end_shift, start_shift, local_id, qtd_assessment, assessment, cnpj) VALUES
--- ('Estabelecimento A', '18:00:00', '08:00:00', 1, 20, 4.8, '12345678901239'),
--- ('Estabelecimento B', '18:00:00', '08:00:00', 2, 20, 4.5, '12385678901239');
-
--- INSERT Into Employee_type (name) VALUES
--- ('Gerente'),
--- ('Funcionario');
-
--- INSERT INTO employee (name,email, password, employee_type_id, establishment_id) VALUES
--- ('Funcionario A', 'gg@gmail.com', '123', 2, 2),
--- ('Gerente A', 'dd@gmail.com', '123', 1, 3),
--- ('Cliente Funcionario', 'cliente.funcionario@example.com', '123senha', 2, 3);
-
-
+INSERT INTO payment (value, date_payment, product_fk, client_fk, establishment_fk) VALUES
+(150.0, NOW(), 1, 1, 1);
