@@ -117,7 +117,6 @@ public class ClientController {
         client.setName(clientRequest.name());
         client.setEmail(clientRequest.email());
         client.setPassword(clientRequest.password());
-        client.setImgUrl(clientRequest.imgUrl());
         client.setLocal(localRepository.findById(clientRequest.local()).orElse(null));
         clientRepository.save(client);
         return ResponseEntity.ok().body(ClientMapper.toClientResponse(client));
