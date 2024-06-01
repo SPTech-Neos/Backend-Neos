@@ -24,16 +24,32 @@ public class RatingService {
     private final EstablishmentRopository establishmentRopository;
     private final ClientRepository clientRepository;
 
-    public RatingResponse createRating(RatingRequest ratingRequest) {
-
-        Establishment establishment = establishmentRopository.findById(ratingRequest.establishment()).orElseThrow(() -> new RuntimeException("Establishment not found"));
-
-        Client client = clientRepository.findById(ratingRequest.client()).orElseThrow(() -> new RuntimeException("Client not found"));
-        Rating rating = new Rating();
+    public RatingResponse save(RatingRequest ratingRequest) {
+          Rating rating = new Rating();
+        if (ratingRequest.establishment() != null ) {
+        Establishment establishment = establishmentRopository.findById(ratingRequest.establishment())
+                .orElseThrow(() -> new RuntimeException("Establishment not found"));
+                  rating.setEstablishment(establishment);
+        }else{
+            Establishment establishment = establishmentRopository.findById(1)
+                .orElseThrow(() -> new RuntimeException("Establishment not found"));
+            rating.setEstablishment(establishment);
+        }
+        if ( ratingRequest.client() != null) {
+              Client client = clientRepository.findById(ratingRequest.client())
+                .orElseThrow(() -> new RuntimeException("Client not found"));
+                rating.setClient(client);
+        }
+        else{
+            Client client = clientRepository.findById(1)
+                .orElseThrow(() -> new RuntimeException("Client not found"));
+                rating.setClient(client);
+        }
+      
         rating.setNota(ratingRequest.nota());
-        rating.setEstablishment(establishment);
-        rating.setClient(client);
 
+        
+    
         return ratingMapper.toResponse(ratingRepository.save(rating));
     }
 
@@ -42,7 +58,12 @@ public class RatingService {
     }
 
     public RatingResponse findRatingById(Integer id) {
-        return ratingMapper.toResponse(ratingRepository.findById(id).orElseThrow(() -> new RuntimeException("Rating not found")));
+       try {
+            Rating rating = ratingRepository.findById(id).orElseThrow(() -> new RuntimeException("Rating not found"));
+            return ratingMapper.toResponse(rating);
+        } catch (Exception e) {
+            throw new RuntimeException("Rating not found");
+        }
 
     }
 

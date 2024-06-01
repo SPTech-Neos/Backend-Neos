@@ -168,7 +168,9 @@ CREATE TABLE payment(
 Insert INTO Company (name, cnpj) VALUES
 ('Empresa A', '50037903000115');
 
-
+INSERT into rating (nota, establishment_fk, client_fk) VALUES
+(5, 1, 1),
+(4, 1, 2);
 
 
 
