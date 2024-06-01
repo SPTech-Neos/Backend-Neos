@@ -90,16 +90,16 @@ CREATE TABLE employee(
   FOREIGN KEY (employee_type_fk) REFERENCES employee_type(employee_type_id) ON DELETE CASCADE
 );
 
-CREATE TABLE serviceCategory(
+CREATE TABLE service_category(
   service_category_id INT PRIMARY KEY auto_increment,
   service_category_name VARCHAR(45) NOT NULL
 );
 
-CREATE TABLE serviceType(
+CREATE TABLE service_type(
   service_type_id INT PRIMARY KEY auto_increment,
   service_type_name VARCHAR(45) NOT NULL,
   category_fk INT,
-  FOREIGN KEY (category_fk) REFERENCES serviceCategory(service_category_id) ON DELETE CASCADE
+  FOREIGN KEY (category_fk) REFERENCES service_category(service_category_id) ON DELETE CASCADE
 );
 
 CREATE TABLE service(
@@ -107,10 +107,10 @@ CREATE TABLE service(
   specification VARCHAR(45) NOT NULL,
   img_url VARCHAR(100),
   type_fk INT,
-  FOREIGN KEY (type_fk) REFERENCES serviceType(service_type_id) ON DELETE CASCADE
+  FOREIGN KEY (type_fk) REFERENCES service_type(service_type_id) ON DELETE CASCADE
 );
 
-CREATE TABLE employeeServices(
+CREATE TABLE employee_services(
   employee_services_id INT auto_increment,
   hours_spent DATETIME NOT NULL,
   expertise TINYINT NOT NULL,
@@ -131,8 +131,8 @@ CREATE TABLE filter(
   PRIMARY KEY(filter_id, establishment_fk, service_fk)
 );
 
-CREATE TABLE schedulingStatus(
-  schedulingStatus_id INT PRIMARY KEY auto_increment,
+CREATE TABLE scheduling_status(
+  scheduling_status_id INT PRIMARY KEY auto_increment,
   description VARCHAR(100)
 );
 
@@ -144,7 +144,7 @@ CREATE TABLE scheduling(
   status_fk INT,
   client_fk INT,
   employee_fk INT,
-  FOREIGN KEY (status_fk) REFERENCES schedulingStatus(schedulingStatus_id) ON DELETE CASCADE,
+  FOREIGN KEY (status_fk) REFERENCES scheduling_status(scheduling_status_id) ON DELETE CASCADE,
   FOREIGN KEY (service_fk) REFERENCES service(service_id) ON DELETE CASCADE,
   FOREIGN KEY (client_fk) REFERENCES client(client_id) ON DELETE CASCADE,
   FOREIGN KEY (employee_fk) REFERENCES employee(employee_id) ON DELETE CASCADE
@@ -193,22 +193,22 @@ INSERT INTO employee_type (name) VALUES
 INSERT INTO employee (name, email, password, img_url, establishment_fk, employee_type_fk) VALUES
 ('Funcionário A', 'funcionario.a@example.com', 'senha123', 'http://example.com/employee.jpg', 1, 1);
 
-INSERT INTO serviceCategory (service_category_name) VALUES
+INSERT INTO service_category (service_category_name) VALUES
 ('Categoria de Serviço A');
 
-INSERT INTO serviceType (service_type_name, category_fk) VALUES
+INSERT INTO service_type (service_type_name, category_fk) VALUES
 ('Tipo de Serviço A', 1);
 
 INSERT INTO service (specification, img_url, type_fk) VALUES
 ('Especificação do Serviço A', 'http://example.com/service.jpg', 1);
 
-INSERT INTO employeeServices (hours_spent, expertise, employee_fk, service_fk) VALUES
+INSERT INTO employee_services (hours_spent, expertise, employee_fk, service_fk) VALUES
 (NOW(), 5, 1, 1);
 
 INSERT INTO filter (price, establishment_fk, service_fk) VALUES
 (100.0, 1, 1);
 
-INSERT INTO schedulingStatus (description) VALUES
+INSERT INTO scheduling_status (description) VALUES
 ('Status de Agendamento A');
 
 INSERT INTO scheduling (date_time, value, service_fk, status_fk, client_fk, employee_fk) VALUES

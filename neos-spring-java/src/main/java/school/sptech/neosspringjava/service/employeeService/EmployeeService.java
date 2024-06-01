@@ -10,6 +10,7 @@ import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
+import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
 import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
@@ -24,13 +25,22 @@ public class EmployeeService {
    private final EmployeeTypeRepository employeeTypeRepository;
 
     public EmployeeResponse save(EmployeeRequest employeeRequest) {
-         Employee employee = new Employee();
-            employee.setName(employeeRequest.name());
-            employee.setEmail(employeeRequest.email());
-            employee.setPassword(employeeRequest.password());
-            employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).orElseThrow());
+        if (employeeRequest.employeeType() == null) {
+            throw new IllegalArgumentException("Employee type must not be null");
+        }
 
-            employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).orElseThrow());
+        EmployeeType employeeType = employeeTypeRepository.findById(employeeRequest.employeeType())
+                .orElseThrow(() -> new RuntimeException("Employee type not found"));
+
+        Employee employee = new Employee();
+        employee.setEmail(employeeRequest.email());
+        employee.setEmployeeType((employeeType==null)?employeeType : employeeTypeRepository.findById(1).orElseThrow());
+        employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).orElseThrow());
+        employee.setImgUrl(employeeRequest.imgUrl());
+        employee.setName(employeeRequest.name());
+        employee.setPassword(employeeRequest.password());
+
+        System.out.println(employee);
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }
 
@@ -40,10 +50,9 @@ public class EmployeeService {
             employee.setName(employeeRequest.name());
             employee.setEmail(employeeRequest.email());
             employee.setPassword(employeeRequest.password());
-
+            employee.setImgUrl(employeeRequest.imgUrl());
             employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).orElseThrow());
-
-            employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).orElseThrow());
+            employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.employeeType()).orElseThrow());
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }
 

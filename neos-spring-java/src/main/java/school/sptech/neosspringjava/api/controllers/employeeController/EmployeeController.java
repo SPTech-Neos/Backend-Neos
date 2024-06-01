@@ -19,11 +19,7 @@ import lombok.Setter;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeLogin;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
-import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
-import school.sptech.neosspringjava.domain.model.employee.Employee;
-import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
-import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
-import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+
 import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 
 
