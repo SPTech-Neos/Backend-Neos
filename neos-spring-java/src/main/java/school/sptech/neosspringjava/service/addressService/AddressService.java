@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.domain.repository.adressRepository.AdressRepository;
+import school.sptech.neosspringjava.domain.repository.adressRepository.AddressRepository;
 import school.sptech.neosspringjava.domain.model.address.Address;
 import school.sptech.neosspringjava.api.dtos.addressDto.*;
 import school.sptech.neosspringjava.api.mappers.addressMapper.AddressMapper;;
@@ -14,7 +14,7 @@ import school.sptech.neosspringjava.api.mappers.addressMapper.AddressMapper;;
 @RequiredArgsConstructor
 public class AddressService {
 
-    private final AdressRepository addressRepository;
+    private final AddressRepository addressRepository;
     private final AddressMapper addressMapper;
 
     public AddressResponse save(AddressRequest addressRequest) {

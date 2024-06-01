@@ -19,7 +19,6 @@ import school.sptech.neosspringjava.api.dtos.addressDto.AddressRequest;
 import school.sptech.neosspringjava.api.dtos.addressDto.AddressResponse;
 import school.sptech.neosspringjava.api.mappers.addressMapper.AddressMapper;
 import school.sptech.neosspringjava.domain.model.address.Address;
-import school.sptech.neosspringjava.domain.repository.adressRepository.AdressRepository;
 import school.sptech.neosspringjava.service.addressService.AddressService;
 
 
