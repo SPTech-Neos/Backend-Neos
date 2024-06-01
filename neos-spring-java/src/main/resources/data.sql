@@ -28,7 +28,7 @@ CREATE TABLE establishment(
   establishment_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL,
   company_fk INT,
-  imgUrl VARCHAR(100), 
+  img_url VARCHAR(100), 
   local_fk INT NOT NULL,
   FOREIGN KEY (company_fk) REFERENCES company(company_id),
   FOREIGN KEY (local_fk) REFERENCES local(local_id)
@@ -44,7 +44,7 @@ CREATE TABLE product(
   product_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45),
   brand VARCHAR(45),
-    imgUrl VARCHAR(100), 
+    img_url VARCHAR(100), 
   value DECIMAL,
   type_fk INT,
   establishment_fk INT,
@@ -57,7 +57,7 @@ CREATE TABLE client(
   name VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
   password VARCHAR(45) NOT NULL,
-  imgUrl VARCHAR(100), 
+  img_url VARCHAR(100), 
   local_fk INT NOT NULL,
   FOREIGN KEY (local_fk) REFERENCES local(local_id)  
 );
@@ -82,7 +82,7 @@ CREATE TABLE employee(
   name VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
   password VARCHAR(45) NOT NULL,
-    imgUrl VARCHAR(100), 
+    img_url VARCHAR(100), 
   establishment_fk INT NOT NULL, 
   employee_type_fk INT NOT NULL,
   FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id),
@@ -104,7 +104,7 @@ CREATE TABLE serviceType(
 CREATE TABLE service(
   service_id INT PRIMARY KEY  auto_increment,
   specification VARCHAR(45) NOT NULL,
-  imgUrl VARCHAR(100), 
+  img_url VARCHAR(100), 
   type_fk INT,
   FOREIGN KEY (type_fk) REFERENCES serviceType(service_type_id)
 
