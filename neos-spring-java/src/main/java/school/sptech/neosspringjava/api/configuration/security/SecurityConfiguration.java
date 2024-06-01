@@ -65,7 +65,9 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/local/**"),
             new AntPathRequestMatcher("/local"),
             new AntPathRequestMatcher("/company/**"),
-            new AntPathRequestMatcher("/company")
+            new AntPathRequestMatcher("/company"),
+            new AntPathRequestMatcher("/ProductType/**"),
+            new AntPathRequestMatcher("/productType")
 
     };
 

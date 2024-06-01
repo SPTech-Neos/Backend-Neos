@@ -34,7 +34,7 @@ CREATE TABLE establishment(
   FOREIGN KEY (local_fk) REFERENCES local(local_id)
 );
 
-CREATE TABLE productType(
+CREATE TABLE product_type(
   product_type_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL,
   specification VARCHAR(45) NOT NULL
@@ -48,7 +48,7 @@ CREATE TABLE product(
   value DECIMAL,
   type_fk INT,
   establishment_fk INT,
-  FOREIGN KEY (type_fk) REFERENCES productType(product_type_id),
+  FOREIGN KEY (type_fk) REFERENCES product_type(product_type_id),
   FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id)
 );
 
