@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.api.controllers;
+package school.sptech.neosspringjava.api.controllers.scheduligController;
 
 import java.util.List;
 

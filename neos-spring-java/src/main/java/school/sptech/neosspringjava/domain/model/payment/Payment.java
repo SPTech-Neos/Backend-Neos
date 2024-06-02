@@ -1,7 +1,7 @@
-package school.sptech.neosspringjava.domain.model.scheduling;
-
+package school.sptech.neosspringjava.domain.model.payment;
 
 import java.time.LocalDateTime;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,10 +16,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.client.Client;
-import school.sptech.neosspringjava.domain.model.employee.Employee;
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.product.Product;
-import school.sptech.neosspringjava.domain.model.service.Service;
-import school.sptech.neosspringjava.domain.model.schedulingStatus.* ;
 
 @Entity
 @Getter
@@ -27,28 +25,25 @@ import school.sptech.neosspringjava.domain.model.schedulingStatus.* ;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Scheduling {
-
-    @Id
+public class Payment {
+@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "scheduling_id")
+    @Column(name = "payment_id")
     private Integer id;
-    
+    @Column(name = "date_payment")
+    private LocalDateTime dateTime;
+
     @ManyToOne
-    @JoinColumn(name = "status_fk")
-    private schedulingStatus schedulingStatus;
+    @JoinColumn(name = "product_fk")
+    private Product product;
 
     @ManyToOne
     @JoinColumn(name = "client_fk")
     private Client client;
 
-    @ManyToOne  
-    @JoinColumn(name = "service_fk")
-    private Service service;
-
     @ManyToOne
-    @JoinColumn(name = "employee_fk")
-    private Employee employee;
+    @JoinColumn(name = "establishment_fk")
+    private Establishment establishment;
 
-    private LocalDateTime dateTime;
+
 }
