@@ -82,8 +82,11 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/service/**"),
             new AntPathRequestMatcher("/service"),
             new AntPathRequestMatcher("/employeeServices/**"),
-            new AntPathRequestMatcher("/employeeServices")
-
+            new AntPathRequestMatcher("/employeeServices"),
+            new AntPathRequestMatcher("/filter/**"),
+            new AntPathRequestMatcher("/schedulingStatus"),
+            new AntPathRequestMatcher("/schedulingStatus/**"),
+            new AntPathRequestMatcher("/filter")
 
     };
 
