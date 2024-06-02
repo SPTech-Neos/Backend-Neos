@@ -78,7 +78,9 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/serviceCategory/**"),
             new AntPathRequestMatcher("/serviceCategory"),
             new AntPathRequestMatcher("/serviceType/**"),
-            new AntPathRequestMatcher("/serviceType")
+            new AntPathRequestMatcher("/serviceType"),
+            new AntPathRequestMatcher("/service/**"),
+            new AntPathRequestMatcher("/service")
 
 
     };

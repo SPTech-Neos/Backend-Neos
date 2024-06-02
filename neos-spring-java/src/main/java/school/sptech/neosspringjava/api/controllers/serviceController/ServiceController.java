@@ -29,8 +29,7 @@ public class ServiceController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ServiceResponse> updateService (@PathVariable Integer id, @RequestBody ServiceRequest serviceRequest){
-        ServiceRequest STReq = new ServiceRequest(id, serviceRequest.specification(), serviceRequest.serviceType());
-        return  ResponseEntity.ok().body(servServ.save(STReq));
+        return ResponseEntity.ok().body(servServ.update(id, serviceRequest));
     }
 
     @GetMapping("/{id}")
@@ -39,8 +38,9 @@ public class ServiceController {
         
     }
 
-    @DeleteMapping("/id")
-    public ResponseEntity<String> deleteService (@PathVariable Integer id){
-        return ResponseEntity.ok().body(servServ.deleteByid(id));
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteService (@PathVariable Integer id){
+        servServ.deleteByid(id);
+        return ResponseEntity.ok().build();
     }
 }

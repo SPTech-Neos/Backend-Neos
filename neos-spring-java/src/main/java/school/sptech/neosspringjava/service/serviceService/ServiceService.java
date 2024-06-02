@@ -8,25 +8,24 @@ import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceRequest;
 import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
 import school.sptech.neosspringjava.api.mappers.serviceMapper.ServiceMapper;
 import school.sptech.neosspringjava.domain.model.service.Service;
+import school.sptech.neosspringjava.domain.repository.ServiceTypeRepository.ServiceTypeRepository;
 import school.sptech.neosspringjava.domain.repository.serviceRepository.ServiceRepository;
 
 @org.springframework.stereotype.Service
 @RequiredArgsConstructor
 public class ServiceService {
     private final ServiceRepository serviceRepository;
+    private final ServiceMapper ServiceMapper;
+    private final ServiceTypeRepository serviceTypeRepository;
 
     public ServiceResponse save(ServiceRequest serviceRequest) {
-        Service service;
-        if (serviceRequest.id() != null) {
-            service = Service.builder().id(serviceRequest.id()).specification(serviceRequest.specification())
-                    .serviceType(serviceRequest.serviceType()).build();
+       Service service = new Service();
+         service.setSpecification(serviceRequest.specification());
+            service.setImgUrl(serviceRequest.imgUrl());
+            service.setServiceType(serviceTypeRepository.findById(serviceRequest.serviceType()).get());
             serviceRepository.save(service);
-        } else {
-            service = Service.builder().specification(serviceRequest.specification())
-                    .serviceType(serviceRequest.serviceType()).build();
-            serviceRepository.save(service);
-        }
-        return ServiceMapper.toServiceResponse(service);
+            return ServiceMapper.toServiceResponse(service);
+
     }
 
     public List<ServiceResponse> findAll() {
@@ -37,6 +36,16 @@ public class ServiceService {
     public ServiceResponse findById(Integer id) {
         Optional<Service> serviceOp = serviceRepository.findById(id);
         Service service = serviceOp.get();
+        return ServiceMapper.toServiceResponse(service);
+    }
+
+    public ServiceResponse update(Integer id, ServiceRequest serviceRequest) {
+        Optional<Service> serviceOp = serviceRepository.findById(id);
+        Service service = serviceOp.get();
+        service.setSpecification(serviceRequest.specification());
+        service.setImgUrl(serviceRequest.imgUrl());
+        service.setServiceType(serviceTypeRepository.findById(serviceRequest.serviceType()).get());
+        serviceRepository.save(service);
         return ServiceMapper.toServiceResponse(service);
     }
 
