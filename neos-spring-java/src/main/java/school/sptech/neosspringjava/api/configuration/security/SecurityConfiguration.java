@@ -80,7 +80,9 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/serviceType/**"),
             new AntPathRequestMatcher("/serviceType"),
             new AntPathRequestMatcher("/service/**"),
-            new AntPathRequestMatcher("/service")
+            new AntPathRequestMatcher("/service"),
+            new AntPathRequestMatcher("/employeeServices/**"),
+            new AntPathRequestMatcher("/employeeServices")
 
 
     };
