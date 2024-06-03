@@ -31,6 +31,7 @@ public class ServiceType {
     @NotEmpty(message = "Nome do tipo de serviço é obrigatório")
     @Column(name = "service_type_name")
     private String name;
+
     @ManyToOne
     @JoinColumn(name = "category_fk")
     private ServiceCategory ServiceCategory;

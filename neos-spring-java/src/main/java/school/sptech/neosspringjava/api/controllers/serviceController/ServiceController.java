@@ -27,7 +27,7 @@ public class ServiceController {
        return ResponseEntity.ok().body(servServ.save(serviceRequest));
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<ServiceResponse> updateService (@PathVariable Integer id, @RequestBody ServiceRequest serviceRequest){
         return ResponseEntity.ok().body(servServ.update(id, serviceRequest));
     }
@@ -42,5 +42,6 @@ public class ServiceController {
     public ResponseEntity<Void> deleteService (@PathVariable Integer id){
         servServ.deleteByid(id);
         return ResponseEntity.ok().build();
+
     }
 }

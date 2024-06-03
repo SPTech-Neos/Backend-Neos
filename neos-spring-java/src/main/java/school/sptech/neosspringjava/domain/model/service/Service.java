@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.filter.Filter;
 import school.sptech.neosspringjava.domain.model.serviceType.ServiceType;
 
@@ -33,11 +34,9 @@ public class Service {
     @NotEmpty(message = "É necessario haver uma especificação no serviço")
     private String specification;
     private  String imgUrl;
+
     @ManyToOne
     @JoinColumn(name = "type_fk")
     private ServiceType serviceType;
-
-  
-    
 
 }

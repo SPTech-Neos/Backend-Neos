@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.serviceTypeDto.ServiceTypeRequest;
 import school.sptech.neosspringjava.api.dtos.serviceTypeDto.ServiceTypeResponse;
@@ -35,6 +36,7 @@ public class ServiceTypeController {
        return ResponseEntity.ok().body(servTypeServ.save(serviceTypeRequest));
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<ServiceTypeResponse> getServiceTypeById(@PathVariable Integer id){
        return ResponseEntity.ok().body(servTypeServ.findById(id));
@@ -45,6 +47,7 @@ public class ServiceTypeController {
     public ResponseEntity<ServiceTypeResponse> updateServiceType (@RequestBody ServiceTypeRequest serviceTypeRequest, @PathVariable Integer id){
         return ResponseEntity.ok().body(servTypeServ.update(serviceTypeRequest, id));
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteServiceType (@PathVariable Integer id){

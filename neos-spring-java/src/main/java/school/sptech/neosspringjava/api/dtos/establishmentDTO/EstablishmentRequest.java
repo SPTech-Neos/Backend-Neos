@@ -13,4 +13,5 @@ public record EstablishmentRequest(
         String imgUrl,
         Integer localId
      ) {
+
 }

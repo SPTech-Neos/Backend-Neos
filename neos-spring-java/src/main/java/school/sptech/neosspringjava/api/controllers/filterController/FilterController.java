@@ -2,7 +2,6 @@ package school.sptech.neosspringjava.api.controllers.filterController;
 
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,7 @@ import school.sptech.neosspringjava.api.dtos.FilterDto.FilterRequest;
 import school.sptech.neosspringjava.api.dtos.FilterDto.FilterResponse;
 import school.sptech.neosspringjava.api.mappers.filterMapper.FilterMapper;
 import school.sptech.neosspringjava.domain.model.filter.Filter;
-import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.filterRepository.FilterRepository;
 import school.sptech.neosspringjava.domain.repository.serviceRepository.ServiceRepository;
 
@@ -29,7 +28,7 @@ public class FilterController {
 
     private final FilterMapper filterMapper;
     private final FilterRepository filterRepository;
-    private final EstablishmentRopository establishmentRopository;
+    private final EstablishmentRepository establishmentRopository;
     private final ServiceRepository serviceRepository;
 
     @GetMapping
