@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import school.sptech.neosspringjava.api.dtos.serviceCategoryDto.ServiceCategoryRequest;
 import school.sptech.neosspringjava.api.dtos.serviceCategoryDto.ServiceCategoryResponse;
 import school.sptech.neosspringjava.domain.model.serviceCategory.ServiceCategory;
 import school.sptech.neosspringjava.domain.model.serviceType.ServiceType;
@@ -20,4 +21,18 @@ public class ServiceCategoryMapper {
                               .map(ServiceCategoryMapper::toServiceCategoryResponse)
                               .collect(Collectors.toList());
     }
+
+    public static ServiceCategory toServiceCategory(ServiceCategoryRequest serviceCategoryRequest) {
+        return ServiceCategory.builder()
+                              .name(serviceCategoryRequest.name())
+                              .build();
+    }
+
+   public static  List<ServiceCategory> toServiceCategoryList(List<ServiceCategoryRequest> serviceCategoryRequestList) {
+        return serviceCategoryRequestList.stream()
+                              .map(ServiceCategoryMapper::toServiceCategory)
+                              .collect(Collectors.toList());
+    }
+
+ 
 }

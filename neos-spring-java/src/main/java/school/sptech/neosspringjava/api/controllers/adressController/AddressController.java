@@ -19,7 +19,6 @@ import school.sptech.neosspringjava.api.dtos.addressDto.AddressRequest;
 import school.sptech.neosspringjava.api.dtos.addressDto.AddressResponse;
 import school.sptech.neosspringjava.api.mappers.addressMapper.AddressMapper;
 import school.sptech.neosspringjava.domain.model.address.Address;
-import school.sptech.neosspringjava.domain.repository.adressRepository.AdressRepository;
 import school.sptech.neosspringjava.service.addressService.AddressService;
 
 
@@ -34,6 +33,11 @@ public class AddressController {
     @PostMapping
     public ResponseEntity<AddressResponse> save(@Valid @RequestBody AddressRequest addressRequest) {
         return ResponseEntity.ok(addressService.save(addressRequest));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AddressResponse>> findAll() {
+        return ResponseEntity.ok(addressService.findAll());
     }
 
     @GetMapping("/{id}")

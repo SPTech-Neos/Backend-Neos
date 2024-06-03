@@ -1,5 +1,5 @@
 package school.sptech.neosspringjava.api.dtos.serviceCategoryDto;
 
-public record ServiceCategoryRequest (String name){
+public record ServiceCategoryRequest ( String name){
 
 }

@@ -10,6 +10,7 @@ import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
+import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
 import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
@@ -25,49 +26,38 @@ public class EmployeeService {
    private final EmployeeTypeRepository employeeTypeRepository;
 
     public EmployeeResponse save(EmployeeRequest employeeRequest) {
-         Employee employee = new Employee();
-            employee.setName(employeeRequest.name());
-            employee.setEmail(employeeRequest.email());
-            employee.setPassword(employeeRequest.password());
-            employee.setEstablishment(establishmentRepository.findById(employeeRequest.fkEstablishment()).orElseThrow());
+        if (employeeRequest.employeeType() == null) {
+            throw new IllegalArgumentException("Employee type must not be null");
+        }
 
-            employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).orElseThrow());
+        EmployeeType employeeType = employeeTypeRepository.findById(employeeRequest.employeeType())
+                .orElseThrow(() -> new RuntimeException("Employee type not found"));
+
+        Employee employee = new Employee();
+        employee.setEmail(employeeRequest.email());
+        employee.setEmployeeType((employeeType==null)?employeeType : employeeTypeRepository.findById(1).orElseThrow());
+        employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).orElseThrow());
+        employee.setImgUrl(employeeRequest.imgUrl());
+        employee.setName(employeeRequest.name());
+        employee.setPassword(employeeRequest.password());
+
+        System.out.println(employee);
+
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }
 
 
     public EmployeeResponse update(EmployeeRequest employeeRequest, Integer id) {
+       
+        Employee employee = employeeRepository.findById(id).orElseThrow();
+            employee.setName(employeeRequest.name());
+            employee.setEmail(employeeRequest.email());
+            employee.setPassword(employeeRequest.password());
+            employee.setImgUrl(employeeRequest.imgUrl());
+            employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).orElseThrow());
+            employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.employeeType()).orElseThrow());
+        return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
 
-        Optional<Employee> existingEmployee = employeeRepository.findById(id);
-        if (existingEmployee.isPresent()) {
-            Employee employee = existingEmployee.get();
-
-            if (employeeRequest.name() != null) {
-                employee.setName(employeeRequest.name());
-            }
-
-            if (employeeRequest.email() != null) {
-                employee.setEmail(employeeRequest.email());
-            }
-
-            if (employeeRequest.password() != null) {
-                employee.setPassword(employeeRequest.password());
-            }
-
-            if (employeeRequest.fkEstablishment() != null) {
-                employee.setEstablishment(establishmentRepository.findById(employeeRequest.fkEstablishment()).orElseThrow(() ->
-                        new NaoEncontradoException("Establishment not found with id " + employeeRequest.fkEstablishment())));
-            }
-
-            if (employeeRequest.fkEmployeeType() != null) {
-                employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.fkEmployeeType()).orElseThrow(() ->
-                        new NaoEncontradoException("EmployeeType not found with id " + employeeRequest.fkEmployeeType())));
-            }
-
-            return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
-        } else {
-            throw new NaoEncontradoException("Employee not found with id " + id);
-        }
     }
 
     public void delete(Integer id) {

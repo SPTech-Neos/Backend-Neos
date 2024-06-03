@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import school.sptech.neosspringjava.domain.model.address.Address;
 
-public interface AdressRepository extends JpaRepository<Address, Integer>{
+public interface AddressRepository extends JpaRepository<Address, Integer>{
 
 }
