@@ -61,9 +61,37 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/employee/**"),
             new AntPathRequestMatcher("/establishments"),
             new AntPathRequestMatcher("/establishments/**"),
-
+            new AntPathRequestMatcher("/address/**"), // apenas para testes daqui para baixo
+            new AntPathRequestMatcher("/address"),
+            new AntPathRequestMatcher("/local/**"),
+            new AntPathRequestMatcher("/local"),
+            new AntPathRequestMatcher("/company/**"),
+            new AntPathRequestMatcher("/company"),
+            new AntPathRequestMatcher("/ProductType/**"),
+            new AntPathRequestMatcher("/productType"),
+            new AntPathRequestMatcher("/products/**"),
+            new AntPathRequestMatcher("/products"),
+            new AntPathRequestMatcher("/rating/**"),
+            new AntPathRequestMatcher("/rating"),
+            new AntPathRequestMatcher("/employeeType/**"),
+            new AntPathRequestMatcher("/employeeType"),
+            new AntPathRequestMatcher("/serviceCategory/**"),
+            new AntPathRequestMatcher("/serviceCategory"),
+            new AntPathRequestMatcher("/serviceType/**"),
+            new AntPathRequestMatcher("/serviceType"),
+            new AntPathRequestMatcher("/service/**"),
             new AntPathRequestMatcher("/service"),
-            new AntPathRequestMatcher("/service/**")
+            new AntPathRequestMatcher("/employeeServices/**"),
+            new AntPathRequestMatcher("/employeeServices"),
+            new AntPathRequestMatcher("/filter/**"),
+            new AntPathRequestMatcher("/schedulingStatus"),
+            new AntPathRequestMatcher("/schedulingStatus/**"),
+            new AntPathRequestMatcher("/scheduling"),
+            new AntPathRequestMatcher("/scheduling/**"),
+            new AntPathRequestMatcher("/payment"),
+            new AntPathRequestMatcher("/payment/**"),
+            new AntPathRequestMatcher("/filter")
+
     };
 
     @Bean

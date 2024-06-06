@@ -1,7 +1,7 @@
 package school.sptech.neosspringjava.service.employeeService;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -13,8 +13,7 @@ import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
 import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
-import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
-import school.sptech.neosspringjava.exception.NaoEncontradoException;
+import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +21,7 @@ public class EmployeeService {
 
    private final EmployeeRepository employeeRepository;
    private final EmployeeMapper employeeMapper;
-   private final EstablishmentRepository establishmentRepository;
+   private final EstablishmentRopository establishmentRopository;
    private final EmployeeTypeRepository employeeTypeRepository;
 
     public EmployeeResponse save(EmployeeRequest employeeRequest) {
@@ -42,10 +41,8 @@ public class EmployeeService {
         employee.setPassword(employeeRequest.password());
 
         System.out.println(employee);
-
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }
-
 
     public EmployeeResponse update(EmployeeRequest employeeRequest, Integer id) {
        
@@ -57,7 +54,6 @@ public class EmployeeService {
             employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).orElseThrow());
             employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.employeeType()).orElseThrow());
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
-
     }
 
     public void delete(Integer id) {

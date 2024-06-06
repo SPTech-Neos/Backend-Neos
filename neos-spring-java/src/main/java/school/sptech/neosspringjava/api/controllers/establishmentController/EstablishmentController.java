@@ -3,6 +3,7 @@ package school.sptech.neosspringjava.api.controllers.establishmentController;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,7 @@ import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRespo
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
 import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
-import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
+import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 import school.sptech.neosspringjava.service.establishmentService.EstablishmentService;
 
@@ -21,7 +22,6 @@ import school.sptech.neosspringjava.service.establishmentService.EstablishmentSe
 public class EstablishmentController {
 
   
-
     private final EstablishmentService establishmentService;
 
 
@@ -43,7 +43,6 @@ public class EstablishmentController {
     }
 
     @PostMapping
-
     public ResponseEntity<EstablishmentRespose> save(@RequestBody EstablishmentRequest establishmentRequest) {
         return ResponseEntity.ok(establishmentService.save(establishmentRequest));
     }
@@ -51,7 +50,6 @@ public class EstablishmentController {
     @PutMapping("/{id}")
     public ResponseEntity<EstablishmentRespose> update(@RequestBody EstablishmentRequest establishmentRequest, @PathVariable Integer id) {
         return ResponseEntity.ok(establishmentService.update(establishmentRequest, id));
-
     }
 
 
