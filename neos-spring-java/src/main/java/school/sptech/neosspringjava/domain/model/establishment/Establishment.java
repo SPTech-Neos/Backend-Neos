@@ -3,7 +3,6 @@ package school.sptech.neosspringjava.domain.model.establishment;
 import java.time.LocalTime;
 import java.util.List;
 
-import jakarta.persistence.*;
 import org.hibernate.validator.constraints.br.CNPJ;
 
 import jakarta.persistence.Column;
@@ -16,7 +15,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -31,7 +29,6 @@ import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.company.Company;
 import school.sptech.neosspringjava.domain.model.filter.Filter;
 import school.sptech.neosspringjava.domain.model.local.Local;
-import school.sptech.neosspringjava.domain.model.service.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -65,5 +62,4 @@ public class Establishment {
     @ManyToOne
     private Local local;
   
-
 }

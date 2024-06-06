@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
-import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
+import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
 import school.sptech.neosspringjava.service.csv.csvOrganization;
 
 @RestController
@@ -36,7 +36,7 @@ public class AcsvController {
     }
 
     @Autowired
-    EstablishmentRepository establishmentRopository;
+    EstablishmentRopository establishmentRopository;
 
     @GetMapping("/report")
     public ResponseEntity<String> gerarRelatorio(@RequestBody Establishment foundEstablishment) {
