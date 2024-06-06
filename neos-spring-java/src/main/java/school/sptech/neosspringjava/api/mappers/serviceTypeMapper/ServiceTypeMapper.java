@@ -5,18 +5,23 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import school.sptech.neosspringjava.api.dtos.serviceTypeDto.ServiceTypeRequest;
 import school.sptech.neosspringjava.api.dtos.serviceTypeDto.ServiceTypeResponse;
 import school.sptech.neosspringjava.domain.model.serviceType.ServiceType;
 
 @Component
 public class ServiceTypeMapper {
-    public static ServiceTypeResponse toServiceTypeResponse(ServiceType serviceType) {
-       return new ServiceTypeResponse(serviceType.getId(), serviceType.getName(), serviceType.getServiceCategory());
+   
+    public ServiceTypeResponse toResponse(ServiceType serviceType) {
+        return new ServiceTypeResponse(serviceType.getId(), serviceType.getName(), serviceType.getServiceCategory());
     }
 
-    public static List<ServiceTypeResponse> toServiceResponseList(List<ServiceType> serviceTypeList) {
+    public List<ServiceTypeResponse> toResponse(List<ServiceType> serviceTypeList) {
         return serviceTypeList.stream()
-                              .map(ServiceTypeMapper::toServiceTypeResponse)
+                              .map(this::toResponse)
                               .collect(Collectors.toList());
     }
+
+    
+   
 }

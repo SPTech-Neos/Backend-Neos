@@ -3,6 +3,7 @@ package school.sptech.neosspringjava.api.controllers.serviceCategoryController;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.serviceCategoryDto.ServiceCategoryRequest;
 import school.sptech.neosspringjava.api.dtos.serviceCategoryDto.ServiceCategoryResponse;
 import school.sptech.neosspringjava.service.serviceCategoryService.ServiceCategoryService;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 @RequestMapping("/serviceCategory")
@@ -32,10 +35,10 @@ public class ServiceCategoryController {
        return ResponseEntity.ok().body(servCategoryServ.save(serviceCategoryRequest));
     }
 
-    @PostMapping("/update/{id}")
-    public ResponseEntity<ServiceCategoryResponse> updateServiceCategory (@PathVariable Integer id, @RequestBody ServiceCategoryRequest serviceCategoryRequest){
-        ServiceCategoryRequest STReq = new ServiceCategoryRequest(id, serviceCategoryRequest.name());
-        return  ResponseEntity.ok().body(servCategoryServ.save(STReq));
+    @PutMapping("/{id}")
+    
+    public ResponseEntity<ServiceCategoryResponse> updateServiceCategory (@RequestBody ServiceCategoryRequest serviceCategoryRequest, @PathVariable Integer id){
+        return ResponseEntity.ok().body(servCategoryServ.update(serviceCategoryRequest, id));
     }
 
     @GetMapping("/{id}")
@@ -44,8 +47,9 @@ public class ServiceCategoryController {
         
     }
 
-    @PostMapping("/delete/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteServiceCategory (@PathVariable Integer id){
-        return ResponseEntity.ok().body(servCategoryServ.deleteByid(id));
+        servCategoryServ.delete(id);
+        return ResponseEntity.ok().build();
     }
 }

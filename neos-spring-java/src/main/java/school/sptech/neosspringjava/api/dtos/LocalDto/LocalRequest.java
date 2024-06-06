@@ -4,6 +4,6 @@ import lombok.Builder;
 import school.sptech.neosspringjava.domain.model.address.Address;
 
 @Builder
-public record LocalRequest(int number, int floor, String bloc, String complement, Address address) {
+public record LocalRequest(int number, int floor, String block, String complement, Integer address) {
 
 }

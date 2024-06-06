@@ -33,14 +33,21 @@ public class CompanyController {
         return ResponseEntity.ok(companyService.save(companyRequest));
     }
 
+    @GetMapping
+    public ResponseEntity<List<CompanyResponse>> findAll() {
+        return ResponseEntity.ok(companyService.findAll());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<CompanyResponse> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(companyService.findById(id));
+        CompanyResponse companyResponse = companyService.findById(id);
+        return (companyResponse == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(companyResponse);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CompanyResponse> update(@PathVariable Integer id, @Valid @RequestBody CompanyRequest companyRequest) {
-        return ResponseEntity.ok(companyService.update(id, companyRequest));
+        CompanyResponse companyResponse = companyService.update(id, companyRequest);
+        return (companyResponse == null) ? ResponseEntity.notFound().build() : ResponseEntity.ok(companyResponse);
     }
 
     @DeleteMapping("/{id}")

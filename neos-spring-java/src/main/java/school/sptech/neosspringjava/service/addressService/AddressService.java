@@ -1,8 +1,7 @@
 package school.sptech.neosspringjava.service.addressService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,14 @@ public class AddressService {
     private final AddressMapper addressMapper;
 
     public AddressResponse save(AddressRequest addressRequest) {
-        Address address = addressMapper.toAddress(addressRequest);
+
+        Address address = Address.builder()
+                .publicPlace(addressRequest.publicPlace())
+                .street(addressRequest.street())
+                .city(addressRequest.city())
+                .state(addressRequest.state())
+                .build();
+
         addressRepository.save(address);
         System.out.println(address);
         System.out.println( addressMapper.toAddressResponse(address));
@@ -29,13 +35,11 @@ public class AddressService {
 
     public List<AddressResponse> findAll() {
         List<Address> addresses = addressRepository.findAll();
-        List<AddressResponse> addressResponseList = new ArrayList<>();
-        for (Address address : addresses) {
-            addressResponseList.add(addressMapper.toAddressResponse(address));
-        }
-        return addressResponseList;
-        
+
+        return addressMapper.toAddressResponse(addresses);
     }
+
+
     public AddressResponse findById(Integer id) {
         Optional<Address> address = addressRepository.findById(id);
         if (address.isPresent()) {

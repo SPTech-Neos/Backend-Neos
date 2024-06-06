@@ -12,19 +12,25 @@ import school.sptech.neosspringjava.domain.model.address.Address;
 @Component
 public class AddressMapper {
 
-    public AddressResponse toAddressResponse(Address address) {
-        return new AddressResponse(address.getId(), address.getStreet(), address.getCity(), address.getState());
+
+    public static AddressResponse toAddressResponse(Address address) {
+        return new AddressResponse(address.getId(), address.getPublicPlace(), address.getStreet(), address.getCity(), address.getState());
+
     }
 
     public List<AddressResponse> toAddressResponse(List<Address> addresses) {
         return addresses.stream().map(this::toAddressResponse).collect(Collectors.toList());
     }
 
-    public Address toAddress(AddressRequest addressRequest) {
-        Address address = new Address();
-        address.setStreet(addressRequest.street());
-        address.setCity(addressRequest.city());
-        address.setState(addressRequest.state());
-        return address;
+
+    public static Address toAddress(AddressRequest addressRequest) {
+
+        return Address.builder()
+                .publicPlace(addressRequest.publicPlace())
+                .street(addressRequest.street())
+                .city(addressRequest.city())
+                .state(addressRequest.state())
+                .build();
+
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import school.sptech.neosspringjava.api.dtos.companyDto.CompanyRequest;
 import school.sptech.neosspringjava.api.dtos.companyDto.CompanyResponse;
 import school.sptech.neosspringjava.domain.model.company.Company;
 
@@ -11,7 +12,7 @@ import school.sptech.neosspringjava.domain.model.company.Company;
 public class CompanyMapper {
 
     public static CompanyResponse toCompanyResponse(Company company) {
-        return new CompanyResponse(company.getIdCompany(), company.getName(), company.getCnpj());
+        return new CompanyResponse(company.getCompanyId(), company.getName(), company.getCnpj());
     }
 
     public static List<CompanyResponse> toCompanyResponseList(List<Company> company) {

@@ -6,6 +6,7 @@ import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 public record EmployeeResponse(Integer id,String name,
         String email,
         String password,
+        String imgUrl,
         Establishment establishment,
         EmployeeType employeeType) {
 

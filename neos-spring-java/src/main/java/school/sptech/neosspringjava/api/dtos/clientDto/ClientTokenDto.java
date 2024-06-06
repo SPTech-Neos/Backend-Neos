@@ -10,6 +10,4 @@ public class ClientTokenDto {
     private  String name;
     private String email;
     private  String token;
-
-
 }

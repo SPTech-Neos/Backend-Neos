@@ -55,7 +55,7 @@ public class IntegracaoImageApiService {
 
             String fileDownloadUri = (String) uploadResult.get("url");
 
-            return "Upload completo!! link para Download : " + fileDownloadUri;
+            return fileDownloadUri;
         } catch (Exception e) {
             return "não foi possivel fazer o upload do arquivo";
         }

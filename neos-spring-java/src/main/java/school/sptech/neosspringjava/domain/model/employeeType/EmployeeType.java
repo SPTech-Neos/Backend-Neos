@@ -1,5 +1,6 @@
 package school.sptech.neosspringjava.domain.model.employeeType;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,6 +23,7 @@ public class EmployeeType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "employee_type_id")
     private Integer id;
     @NotBlank(message = "Nome do tipo de funcionario é obrigatório")
     @NotEmpty(message = "Nome do tipo de funcionario é obrigatório")

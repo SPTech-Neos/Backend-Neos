@@ -24,6 +24,7 @@ import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
 import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.schedulingRepository.SchedulingRepository;
+import school.sptech.neosspringjava.domain.repository.schedulingStatusRepository.SchedulingStatusRepository;
 import school.sptech.neosspringjava.domain.repository.serviceRepository.ServiceRepository;
 
 @RestController
@@ -35,6 +36,7 @@ public class ScheduligController {
     private final ClientRepository clientRepository;
     private final ServiceRepository serviceRepository;
     private final EmployeeRepository employeeRepository;
+    private final SchedulingStatusRepository schedulingStatusRepository;
     private final ScheduligMapper scheduligMapper;
 
     @GetMapping
@@ -58,13 +60,12 @@ public class ScheduligController {
     @PostMapping
     public ResponseEntity<ScheduligResponse> createSchedulig(@Valid @RequestBody ScheduligRequest scheduligRequest) {
    
-        Scheduling scheduling = Scheduling.builder()
-                .client(clientRepository.findById(scheduligRequest.idClient()).orElseThrow())
-                .service(serviceRepository.findById(scheduligRequest.idService()).orElseThrow())
-                .employee(employeeRepository.findById(scheduligRequest.idEmployee()).orElseThrow())
-                .dateTime(LocalDateTime.now())
-                .build();
-
+        Scheduling scheduling = new Scheduling();
+        scheduling.setService(serviceRepository.findById(scheduligRequest.idService()).orElseThrow());
+        scheduling.setEmployee(employeeRepository.findById(scheduligRequest.idEmployee()).orElseThrow());
+        scheduling.setClient(clientRepository.findById(scheduligRequest.idClient()).orElseThrow());
+        scheduling.setSchedulingStatus(schedulingStatusRepository.findById(scheduligRequest.idScheduligStatus()).orElseThrow());
+        scheduling.setDateTime((scheduligRequest.dateTime()==null)?LocalDateTime.now():scheduligRequest.dateTime());
         scheduling = schedulingRepository.save(scheduling);
         return ResponseEntity.ok().body(scheduligMapper.toScheduligResponse(scheduling));
     }
@@ -76,10 +77,11 @@ public class ScheduligController {
         if (scheduling == null) {
             return ResponseEntity.notFound().build();
         }
-        scheduling.setClient(clientRepository.findById(scheduligRequest.idClient()).orElseThrow());
         scheduling.setService(serviceRepository.findById(scheduligRequest.idService()).orElseThrow());
         scheduling.setEmployee(employeeRepository.findById(scheduligRequest.idEmployee()).orElseThrow());
-
+        scheduling.setClient(clientRepository.findById(scheduligRequest.idClient()).orElseThrow());
+        scheduling.setSchedulingStatus(schedulingStatusRepository.findById(scheduligRequest.idScheduligStatus()).orElseThrow());
+        scheduling.setDateTime((scheduligRequest.dateTime()==null)?LocalDateTime.now():scheduligRequest.dateTime());
         scheduling = schedulingRepository.save(scheduling);
         return ResponseEntity.ok().body(scheduligMapper.toScheduligResponse(scheduling));
     }
