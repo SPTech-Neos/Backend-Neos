@@ -40,7 +40,7 @@ public class SecurityConfiguration {
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
 
-    private static final AntPathRequestMatcher[] URLS_PERMITIDAS = {
+    private static final AntPathRequestMatcher[] URLS_PERMITIDAS = new AntPathRequestMatcher[]{
             new AntPathRequestMatcher("/swagger-ui/**"),
             new AntPathRequestMatcher("/swagger-ui.html"),
             new AntPathRequestMatcher("/swagger-resources"),
@@ -52,12 +52,46 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/webjars/**"),
             new AntPathRequestMatcher("/v3/api-docs/**"),
             new AntPathRequestMatcher("/actuator/*"),
-            new AntPathRequestMatcher("/client/login"),
-            new AntPathRequestMatcher("/employee/login"),
             new AntPathRequestMatcher("/h2-console/**"),
             new AntPathRequestMatcher("/error/**"),
+            new AntPathRequestMatcher("/client/login"),
+            new AntPathRequestMatcher("/client/**"),
             new AntPathRequestMatcher("/client", "POST"),
-            new AntPathRequestMatcher("/employee", "POST")
+            new AntPathRequestMatcher("/employee"),
+            new AntPathRequestMatcher("/employee/**"),
+            new AntPathRequestMatcher("/establishments"),
+            new AntPathRequestMatcher("/establishments/**"),
+            new AntPathRequestMatcher("/address/**"), // apenas para testes daqui para baixo
+            new AntPathRequestMatcher("/address"),
+            new AntPathRequestMatcher("/local/**"),
+            new AntPathRequestMatcher("/local"),
+            new AntPathRequestMatcher("/company/**"),
+            new AntPathRequestMatcher("/company"),
+            new AntPathRequestMatcher("/ProductType/**"),
+            new AntPathRequestMatcher("/productType"),
+            new AntPathRequestMatcher("/products/**"),
+            new AntPathRequestMatcher("/products"),
+            new AntPathRequestMatcher("/rating/**"),
+            new AntPathRequestMatcher("/rating"),
+            new AntPathRequestMatcher("/employeeType/**"),
+            new AntPathRequestMatcher("/employeeType"),
+            new AntPathRequestMatcher("/serviceCategory/**"),
+            new AntPathRequestMatcher("/serviceCategory"),
+            new AntPathRequestMatcher("/serviceType/**"),
+            new AntPathRequestMatcher("/serviceType"),
+            new AntPathRequestMatcher("/service/**"),
+            new AntPathRequestMatcher("/service"),
+            new AntPathRequestMatcher("/employeeServices/**"),
+            new AntPathRequestMatcher("/employeeServices"),
+            new AntPathRequestMatcher("/filter/**"),
+            new AntPathRequestMatcher("/schedulingStatus"),
+            new AntPathRequestMatcher("/schedulingStatus/**"),
+            new AntPathRequestMatcher("/scheduling"),
+            new AntPathRequestMatcher("/scheduling/**"),
+            new AntPathRequestMatcher("/payment"),
+            new AntPathRequestMatcher("/payment/**"),
+            new AntPathRequestMatcher("/filter")
+
     };
 
     @Bean

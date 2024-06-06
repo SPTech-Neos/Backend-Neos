@@ -13,7 +13,7 @@ import school.sptech.neosspringjava.domain.model.address.Address;
 public class AddressMapper {
 
     public static AddressResponse toAddressResponse(Address address) {
-        return new AddressResponse(address.getIdAddress(), address.getStreet(), address.getCity(), address.getState());
+        return new AddressResponse(address.getId(), address.getPublicPlace(), address.getStreet(), address.getCity(), address.getState());
     }
 
     public static List<AddressResponse> toAddressResponse(List<Address> addresses) {
@@ -23,6 +23,7 @@ public class AddressMapper {
     public static Address toAddress(AddressRequest addressRequest) {
 
         return Address.builder()
+                .publicPlace(addressRequest.publicPlace())
                 .street(addressRequest.street())
                 .city(addressRequest.city())
                 .state(addressRequest.state())

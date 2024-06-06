@@ -19,52 +19,34 @@ import school.sptech.neosspringjava.api.dtos.couponDto.CouponResponse;
 import school.sptech.neosspringjava.api.mappers.couponMapper.CuponMapper;
 import school.sptech.neosspringjava.domain.model.coupon.Coupon;
 import school.sptech.neosspringjava.domain.repository.couponRepository.CouponRepository;
+import school.sptech.neosspringjava.service.companyService.*;
+import school.sptech.neosspringjava.service.coupon.CouponService;
 
 @RestController
 @RequestMapping("/cupon")
 @RequiredArgsConstructor
 public class CouponController {
 
-    private final CouponRepository cuponRepository;
-    private final CuponMapper cuponMapper;
+    private final CouponService couponService;
 
-    @GetMapping
-    public ResponseEntity<List<CouponResponse>> getAllCupon() {
-       
-        List<Coupon> cupon = cuponRepository.findAll();
-
-        return ResponseEntity.ok().body(cuponMapper.toCouponResponse(cupon));
+    @PostMapping
+    public ResponseEntity<CouponResponse> save(@Valid @RequestBody CouponRequest couponRequest) {
+        return ResponseEntity.ok(couponService.save(couponRequest));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CouponResponse> getCuponById(@PathVariable int id) {
-        Coupon cupon = cuponRepository.findById(id).orElseThrow();
-        if (cupon == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body(cuponMapper.toCouponResponse(cupon));
-    }
-
-    @PostMapping
-    public ResponseEntity<CouponResponse> createCupon(@Valid @RequestBody CouponRequest cuponRequest) {
-        Coupon cupon = cuponMapper.toCoupon(cuponRequest);
-        cuponRepository.save(cupon);
-        return ResponseEntity.ok().body(cuponMapper.toCouponResponse(cupon));
+    public ResponseEntity<CouponResponse> findById(@PathVariable Integer id) {
+        return ResponseEntity.ok(couponService.findById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CouponResponse> updateCupon(@PathVariable int id, @Valid @RequestBody CouponRequest cuponRequest) {
-        Coupon cupon = cuponRepository.findById(id).orElseThrow();
-        cupon.setName(cuponRequest.name());
-        cuponRepository.save(cupon);
-        return ResponseEntity.ok().body(cuponMapper.toCouponResponse(cupon));
+    public ResponseEntity<CouponResponse> update(@PathVariable Integer id, @Valid @RequestBody CouponRequest couponRequest) {
+        return ResponseEntity.ok(couponService.update(id, couponRequest));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCupon(@PathVariable int id) {
-        Coupon cupon = cuponRepository.findById(id).orElseThrow();
-        cuponRepository.delete(cupon);
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        couponService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    
 }

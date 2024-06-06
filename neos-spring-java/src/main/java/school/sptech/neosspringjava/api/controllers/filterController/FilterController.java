@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class FilterController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FilterResponse> findById(@RequestParam Integer id) {
+    public ResponseEntity<FilterResponse> findById(@PathVariable Integer id) {
         return ResponseEntity.ok(filterMapper.toFilterResponse(filterRepository.findById(id).get()));
     }
 
@@ -53,20 +53,19 @@ public class FilterController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<FilterResponse> update(@RequestParam Integer id, @RequestBody FilterRequest filterRequest) {
-        Filter filter = Filter.builder()
-                .id(id)
-                .price(filterRequest.price())
-                .establishment(establishmentRopository.findById(filterRequest.fkEstablishment()).get())
-                .service(serviceRepository.findById(filterRequest.fkService()).get())
-                .build();
+    public ResponseEntity<FilterResponse> update(@PathVariable Integer id, @RequestBody FilterRequest filterRequest) {
+        Filter filter = filterRepository.findById(id).get();
+        filter.setPrice(filterRequest.price());
+        filter.setEstablishment(establishmentRopository.findById(filterRequest.fkEstablishment()).get());
+        filter.setService(serviceRepository.findById(filterRequest.fkService()).get());
         return ResponseEntity.ok(filterMapper.toFilterResponse(filterRepository.save(filter)));
+
     }
     
  
 
     @DeleteMapping("/{id}")
-    public void deleteFilter(@RequestParam Integer id) {
+    public void deleteFilter(@PathVariable Integer id) {
         filterRepository.deleteById(id);
     }
 }
