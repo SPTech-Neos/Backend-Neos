@@ -2,7 +2,6 @@ package school.sptech.neosspringjava.service.addressService;
 
 import java.util.List;
 
-
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -19,34 +18,24 @@ public class AddressService {
     private final AddressMapper addressMapper;
 
     public AddressResponse save(AddressRequest addressRequest) {
-
         Address address = Address.builder()
                 .publicPlace(addressRequest.publicPlace())
                 .street(addressRequest.street())
                 .city(addressRequest.city())
                 .state(addressRequest.state())
                 .build();
-
         addressRepository.save(address);
-        System.out.println(address);
-        System.out.println( addressMapper.toAddressResponse(address));
         return addressMapper.toAddressResponse(address);
     }
 
     public List<AddressResponse> findAll() {
         List<Address> addresses = addressRepository.findAll();
-
         return addressMapper.toAddressResponse(addresses);
     }
 
-
     public AddressResponse findById(Integer id) {
-        Optional<Address> address = addressRepository.findById(id);
-        if (address.isPresent()) {
-            return addressMapper.toAddressResponse(address.get());
-        } else {
-            return null;
-        }
+        Address address = addressRepository.findById(id).orElseThrow();
+        return addressMapper.toAddressResponse(address);
     }
 
     public AddressResponse update(Integer id, AddressRequest addressRequest) {
@@ -59,8 +48,8 @@ public class AddressService {
     }
 
     public void delete(Integer id) {
-        
-        addressRepository.deleteById(id);
+        Address address = addressRepository.findById(id).orElseThrow();
+        addressRepository.delete(address);
     }
 
     

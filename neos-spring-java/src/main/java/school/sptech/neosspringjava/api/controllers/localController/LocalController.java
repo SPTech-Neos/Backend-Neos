@@ -27,9 +27,7 @@ import school.sptech.neosspringjava.service.localService.LocalService;
 @RequiredArgsConstructor
 public class LocalController {
 
-
     private final LocalService localService;
-
 
     @GetMapping
     public ResponseEntity<List<LocalResponse>> findAll() {
