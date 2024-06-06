@@ -12,13 +12,16 @@ import school.sptech.neosspringjava.domain.model.address.Address;
 @Component
 public class AddressMapper {
 
+
     public static AddressResponse toAddressResponse(Address address) {
         return new AddressResponse(address.getId(), address.getPublicPlace(), address.getStreet(), address.getCity(), address.getState());
+
     }
 
-    public static List<AddressResponse> toAddressResponse(List<Address> addresses) {
-        return addresses.stream().map(AddressMapper::toAddressResponse).collect(Collectors.toList());
+    public List<AddressResponse> toAddressResponse(List<Address> addresses) {
+        return addresses.stream().map(this::toAddressResponse).collect(Collectors.toList());
     }
+
 
     public static Address toAddress(AddressRequest addressRequest) {
 
@@ -28,5 +31,6 @@ public class AddressMapper {
                 .city(addressRequest.city())
                 .state(addressRequest.state())
                 .build();
+
     }
 }

@@ -6,4 +6,5 @@ import school.sptech.neosspringjava.domain.model.address.Address;
 
 public interface AddressRepository extends JpaRepository<Address, Integer>{
 
+
 }

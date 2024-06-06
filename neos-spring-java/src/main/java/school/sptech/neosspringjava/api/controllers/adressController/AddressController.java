@@ -32,6 +32,7 @@ public class AddressController {
 
     @PostMapping
     public ResponseEntity<AddressResponse> save(@Valid @RequestBody AddressRequest addressRequest) {
+        System.out.println(addressRequest);
         return ResponseEntity.ok(addressService.save(addressRequest));
     }
 
@@ -41,9 +42,14 @@ public class AddressController {
     }
 
     @GetMapping("/{id}")
-
     public ResponseEntity<AddressResponse> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(addressService.findById(id));
+        AddressResponse addressResponse = addressService.findById(id);
+        return addressResponse != null ? ResponseEntity.ok(addressResponse) : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<AddressResponse>> findAll() {
+        return ResponseEntity.ok(addressService.findAll());
     }
 
     @PutMapping("/{id}")

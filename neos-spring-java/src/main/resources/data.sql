@@ -1,5 +1,7 @@
+
 CREATE DATABASE blume;
 USE blume;
+
 
 CREATE TABLE company(
   company_id INT PRIMARY KEY auto_increment,
