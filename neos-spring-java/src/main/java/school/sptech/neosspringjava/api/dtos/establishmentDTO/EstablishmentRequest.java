@@ -9,14 +9,9 @@ import java.util.List;
 
 public record EstablishmentRequest(
         String name,
-        String cnpj,
-        LocalTime startShift,
-        LocalTime endShift,
-        Local local,
-        String profilePic,
-        String description,
-        List<Integer> fkServices,
-        Double  assessment,
-        Integer qtdAssessment,
-        List<Filter> filters) {
+        Integer companyId,
+        String imgUrl,
+        Integer localId
+     ) {
+
 }

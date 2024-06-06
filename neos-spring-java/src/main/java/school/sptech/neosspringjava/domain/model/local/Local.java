@@ -1,10 +1,13 @@
 package school.sptech.neosspringjava.domain.model.local;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,17 +26,21 @@ public class Local {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "local_id")
+    private Integer id;
 
-    @NotNull(message = "CEP é obrigatório")
-    private String cep;
-
+  
     @NotNull(message = "Número é obrigatório")
     private int number;
     private int floor;
-    private String bloc;
+    
+    private String block;
     private String complement;
+
+
     @NotNull(message = "FkEndereco é obrigatório")
+    
+    @JoinColumn(name ="address_fk")
     @ManyToOne
     private Address address;
 }

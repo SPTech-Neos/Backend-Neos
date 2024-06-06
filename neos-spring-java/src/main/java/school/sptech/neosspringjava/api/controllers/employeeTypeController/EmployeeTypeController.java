@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -26,23 +28,23 @@ public class EmployeeTypeController {
    private final EmployeeTypeService employeeTypeService;
 
     @PostMapping
-    public ResponseEntity<EmployeeTypeResponse> save(EmployeeTypeRequest employeeTypeRequest) {
+    public ResponseEntity<EmployeeTypeResponse> save(@RequestBody EmployeeTypeRequest employeeTypeRequest) {
         return ResponseEntity.ok(employeeTypeService.save(employeeTypeRequest));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeTypeResponse> update(EmployeeTypeRequest employeeTypeRequest, Integer id) {
+    public ResponseEntity<EmployeeTypeResponse> update(@RequestBody EmployeeTypeRequest employeeTypeRequest, @PathVariable Integer id) {
         return ResponseEntity.ok(employeeTypeService.update(employeeTypeRequest, id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         employeeTypeService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmployeeTypeResponse> findById(Integer id) {
+    public ResponseEntity<EmployeeTypeResponse> findById(@PathVariable Integer id) {
         return ResponseEntity.ok(employeeTypeService.findById(id));
     }
 

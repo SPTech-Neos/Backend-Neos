@@ -1,5 +1,6 @@
 package school.sptech.neosspringjava.domain.model.productType;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,9 +22,9 @@ import lombok.Setter;
 public class ProductType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "product_type_id")
     private Integer id;
-    @NotBlank(message = "Nome do tipo do produto é obrigatório")
-    @NotEmpty(message = "Nome do tipo do produto é obrigatório")
+
     private String name;
     private String specification;
     

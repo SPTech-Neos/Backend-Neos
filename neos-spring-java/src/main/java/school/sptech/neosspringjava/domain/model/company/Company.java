@@ -22,7 +22,8 @@ import lombok.Setter;
 public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int idCompany;
+    @Column(name = "company_id")
+    private int companyId;
     @NotBlank(message = "Nome é obrigatório")
     @NotEmpty
     private String name;

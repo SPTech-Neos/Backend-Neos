@@ -3,7 +3,6 @@ package school.sptech.neosspringjava.api.controllers.establishmentController;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +11,7 @@ import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRespo
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
 import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
-import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 import school.sptech.neosspringjava.service.establishmentService.EstablishmentService;
 
@@ -22,9 +21,7 @@ import school.sptech.neosspringjava.service.establishmentService.EstablishmentSe
 public class EstablishmentController {
 
   
-    private final EstablishmentRopository establishmentRopository;
-    private final EstablishmentMapper establishmentMapper;
-    private final LocalRepository localRepository;
+
     private final EstablishmentService establishmentService;
 
 
@@ -35,37 +32,33 @@ public class EstablishmentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EstablishmentRespose> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(establishmentService.findById(id));
+        try {
+            return ResponseEntity.ok(establishmentService.findById(id));
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+
+
+        
     }
 
     @PostMapping
+
     public ResponseEntity<EstablishmentRespose> save(@RequestBody EstablishmentRequest establishmentRequest) {
-        Establishment establishment = Establishment.builder()
-                .name(establishmentRequest.name())
-                .local(establishmentRequest.local())
-                .build();
-        return ResponseEntity.ok(establishmentMapper.toEstablishmentResponse(establishmentRopository.save(establishment)));
+        return ResponseEntity.ok(establishmentService.save(establishmentRequest));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EstablishmentRespose> update(@PathVariable Integer id, @RequestBody EstablishmentRequest establishmentRequest) {
-        Optional<Establishment> optionalEstablishment = establishmentRopository.findById(id);
-        if (optionalEstablishment.isPresent()) {
-            Establishment establishment = optionalEstablishment.get();
-            establishment.setName(establishmentRequest.name());
-            establishment.setLocal(establishmentRequest.local());
-            Establishment updatedEstablishment = establishmentRopository.save(establishment);
-            return ResponseEntity.ok(establishmentMapper.toEstablishmentResponse(updatedEstablishment));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<EstablishmentRespose> update(@RequestBody EstablishmentRequest establishmentRequest, @PathVariable Integer id) {
+        return ResponseEntity.ok(establishmentService.update(establishmentRequest, id));
 
     }
 
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
+    public  ResponseEntity<Void> delete(@PathVariable Integer id) {
         establishmentService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
   
