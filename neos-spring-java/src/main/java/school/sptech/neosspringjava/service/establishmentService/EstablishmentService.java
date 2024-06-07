@@ -96,7 +96,6 @@ public class EstablishmentService {
         }
 
         establishment = establishmentRopository.save(establishment);
-
         return establishmentMapper.toEstablishmentResponse(establishment);
     }
 
@@ -106,11 +105,8 @@ public class EstablishmentService {
     }
 
     public EstablishmentRespose findById(Integer id) {
-
         Establishment establishment = establishmentRopository.findById(id).orElseThrow(() -> new RuntimeException("Estabelecimento não encontrado"));
-
         return establishmentMapper.toEstablishmentResponse(establishment);
-      
     }
 
     public List<EstablishmentRespose> findAll() {

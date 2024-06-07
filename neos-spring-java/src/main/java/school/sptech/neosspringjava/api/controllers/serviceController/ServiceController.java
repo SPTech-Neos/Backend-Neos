@@ -1,6 +1,7 @@
 package school.sptech.neosspringjava.api.controllers.serviceController;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,12 @@ public class ServiceController {
     @PutMapping("/{id}")
     public ResponseEntity<ServiceResponse> updateService (@PathVariable Integer id, @RequestBody ServiceRequest serviceRequest){
         return ResponseEntity.ok().body(servServ.update(id, serviceRequest));
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ServiceResponse> partialUpdateService(@PathVariable Integer id, @RequestBody Map<String, Object> updates) {
+        ServiceResponse updatedService = servServ.partialUpdate(id, updates);
+        return ResponseEntity.ok(updatedService);
     }
 
     @GetMapping("/{id}")
