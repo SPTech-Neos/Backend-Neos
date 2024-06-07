@@ -9,8 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import school.sptech.neosspringjava.api.configuration.security.jwt.GerenciadorTokenJwt;
+
 import school.sptech.neosspringjava.api.dtos.clientDto.ClientCreatDTO;
 import school.sptech.neosspringjava.api.dtos.clientDto.ClientLoginDto;
+import school.sptech.neosspringjava.api.dtos.clientDto.ClientResponse;
 import school.sptech.neosspringjava.api.dtos.clientDto.ClientTokenDto;
 import school.sptech.neosspringjava.api.mappers.clientMapper.ClientMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
@@ -24,18 +26,18 @@ public class ClientService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-
-    public void creat(ClientCreatDTO clientCreatDTO){
-        final Client newClient = ClientMapper.of(clientCreatDTO);
+    @Autowired
+    private ClientMapper clientMapper;
+    
+    public ClientResponse create(ClientCreatDTO clientCreatDTO) {
+        Client newClient = clientMapper.of(clientCreatDTO);
 
         String passwordEncrypted = passwordEncoder.encode(newClient.getPassword());
-
         newClient.setPassword(passwordEncrypted);
 
-        this.clientRepository.save(newClient);
+        Client savedClient =  clientRepository.save(newClient);
+        return clientMapper.toClientResponse(savedClient);
     }
-
-
 
     @Autowired
     GerenciadorTokenJwt gerenciadorTokenJwt;

@@ -92,15 +92,16 @@ public class ClientController {
     private ClientService clientService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @Valid ClientCreatDTO clientCreatDTO){
-        this.clientService.creat(clientCreatDTO);
-        return ResponseEntity.status(201).build();
+    public ResponseEntity<ClientResponse> create(@RequestBody @Valid ClientCreatDTO clientCreateDTO) {
+        ClientResponse response = clientService.create(clientCreateDTO);
+        return ResponseEntity.status(201).body(response);
     }
 
 
 
     @GetMapping("/{id}")
     public ResponseEntity<ClientResponse> getClientById(@PathVariable int id) {
+
         Optional<Client> client = clientRepository.findById(id);
         if(client.isEmpty()){
             return ResponseEntity.notFound().build();
