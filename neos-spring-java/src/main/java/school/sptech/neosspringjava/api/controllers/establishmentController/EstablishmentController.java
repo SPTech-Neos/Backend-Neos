@@ -52,6 +52,11 @@ public class EstablishmentController {
         return ResponseEntity.ok(establishmentService.update(establishmentRequest, id));
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<EstablishmentRespose> partialUpdate(@RequestBody EstablishmentRequest establishmentRequest, @PathVariable Integer id) {
+        return ResponseEntity.ok(establishmentService.partialUpdate(establishmentRequest, id));
+    }
+
 
     @DeleteMapping("/{id}")
     public  ResponseEntity<Void> delete(@PathVariable Integer id) {
