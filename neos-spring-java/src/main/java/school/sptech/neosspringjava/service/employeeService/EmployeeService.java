@@ -34,13 +34,13 @@ public class EmployeeService {
 
         Employee employee = new Employee();
         employee.setEmail(employeeRequest.email());
-        employee.setEmployeeType((employeeType==null)?employeeType : employeeTypeRepository.findById(1).orElseThrow());
-        employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).orElseThrow());
+        employee.setEmployeeType(employeeType);
+        employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment())
+                .orElseThrow(() -> new RuntimeException("Establishment not found")));
         employee.setImgUrl(employeeRequest.imgUrl());
         employee.setName(employeeRequest.name());
         employee.setPassword(employeeRequest.password());
 
-        System.out.println(employee);
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }
 
