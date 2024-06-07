@@ -1,8 +1,11 @@
 package school.sptech.neosspringjava.service.employeeService;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import io.swagger.v3.core.util.ReflectionUtils;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -53,6 +56,38 @@ public class EmployeeService {
             employee.setImgUrl(employeeRequest.imgUrl());
             employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).orElseThrow());
             employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.employeeType()).orElseThrow());
+        return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
+    }
+
+    public EmployeeResponse partialUpdate(Map<String, Object> updates, Integer id) {
+        Employee employee = employeeRepository.findById(id).orElseThrow();
+
+        if (updates.containsKey("name")) {
+            employee.setName((String) updates.get("name"));
+        }
+
+        if (updates.containsKey("email")) {
+            employee.setEmail((String) updates.get("email"));
+        }
+
+        if (updates.containsKey("password")) {
+            employee.setPassword((String) updates.get("password"));
+        }
+
+        if (updates.containsKey("imgUrl")) {
+            employee.setImgUrl((String) updates.get("imgUrl"));
+        }
+
+        if (updates.containsKey("fkEstablishment")) {
+            Integer fkEstablishment = (Integer) updates.get("fkEstablishment");
+            employee.setEstablishment(establishmentRopository.findById(fkEstablishment).orElseThrow());
+        }
+
+        if (updates.containsKey("employeeType")) {
+            Integer employeeType = (Integer) updates.get("employeeType");
+            employee.setEmployeeType(employeeTypeRepository.findById(employeeType).orElseThrow());
+        }
+
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }
 
