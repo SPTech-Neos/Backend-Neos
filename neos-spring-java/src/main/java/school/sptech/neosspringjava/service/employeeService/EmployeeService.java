@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import io.swagger.v3.core.util.ReflectionUtils;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,8 @@ public class EmployeeService {
    private final EmployeeMapper employeeMapper;
    private final EstablishmentRopository establishmentRopository;
    private final EmployeeTypeRepository employeeTypeRepository;
+   private final PasswordEncoder passwordEncoder;
+
 
     public EmployeeResponse save(EmployeeRequest employeeRequest) {
         if (employeeRequest.employeeType() == null) {
@@ -34,6 +38,8 @@ public class EmployeeService {
 
         EmployeeType employeeType = employeeTypeRepository.findById(employeeRequest.employeeType())
                 .orElseThrow(() -> new RuntimeException("Employee type not found"));
+        
+        String passwordEncrypted = passwordEncoder.encode(employeeRequest.password());
 
         Employee employee = new Employee();
         employee.setEmail(employeeRequest.email());
@@ -42,7 +48,7 @@ public class EmployeeService {
                 .orElseThrow(() -> new RuntimeException("Establishment not found")));
         employee.setImgUrl(employeeRequest.imgUrl());
         employee.setName(employeeRequest.name());
-        employee.setPassword(employeeRequest.password());
+        employee.setPassword(passwordEncrypted);
 
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }

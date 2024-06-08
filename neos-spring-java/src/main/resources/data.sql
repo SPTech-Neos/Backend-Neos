@@ -57,7 +57,7 @@ CREATE TABLE client(
   client_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
-  password VARCHAR(200) NOT NULL,
+  password VARCHAR(300) NOT NULL,
   img_url VARCHAR(100),
   local_fk INT NOT NULL,
   FOREIGN KEY (local_fk) REFERENCES local(local_id) ON DELETE CASCADE
@@ -82,7 +82,7 @@ CREATE TABLE employee(
   employee_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
-  password VARCHAR(45) NOT NULL,
+  password VARCHAR(300) NOT NULL,
   img_url VARCHAR(100),
   establishment_fk INT NOT NULL,
   employee_type_fk INT NOT NULL,
@@ -203,11 +203,13 @@ INSERT INTO employee_type (name) VALUES
 ('Esteticista'),
 ('Maquiador(a)');
 
+-- senha123
+
 INSERT INTO employee (name, email, password, img_url, establishment_fk, employee_type_fk) VALUES
-('Funcionário A', 'funcionario.a@example.com', 'senha123', 'http://example.com/employee.jpg', 1, 1),
-('Pedro Santos', 'pedro.santos@example.com', 'senhaabc', 'http://example.com/pedro_santos.jpg', 1, 2),
-('Camila Oliveira', 'camila.oliveira@example.com', 'senhadef', 'http://example.com/camila_oliveira.jpg', 2, 3),
-('Rafael Lima', 'rafael.lima@example.com', 'senhaghi', 'http://example.com/rafael_lima.jpg', 2, 1);
+('Funcionário A', 'funcionario.a@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/employee.jpg', 1, 1),
+('Pedro Santos', 'pedro.santos@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/pedro_santos.jpg', 1, 2),
+('Camila Oliveira', 'camila.oliveira@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/camila_oliveira.jpg', 2, 3),
+('Rafael Lima', 'rafael.lima@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/rafael_lima.jpg', 2, 1);
 
 INSERT INTO service_category (service_category_name) VALUES
 ('Cabelo'),

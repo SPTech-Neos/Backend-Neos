@@ -6,15 +6,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import school.sptech.neosspringjava.service.client.authentication.AuthenticationService;
+import school.sptech.neosspringjava.service.user.authentication.AuthenticationService;
 
 public class AuthenticationProvider implements org.springframework.security.authentication.AuthenticationProvider {
 
-    private final AuthenticationService clientAuthenticationService;
+    private final AuthenticationService userAuthenticationService;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthenticationProvider(AuthenticationService clientAuthenticationService, PasswordEncoder passwordEncoder) {
-        this.clientAuthenticationService = clientAuthenticationService;
+    public AuthenticationProvider(AuthenticationService userAuthenticationService, PasswordEncoder passwordEncoder) {
+        this.userAuthenticationService = userAuthenticationService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -23,7 +23,7 @@ public class AuthenticationProvider implements org.springframework.security.auth
         final String username = authentication.getName();
         final String password = authentication.getCredentials().toString();
 
-        UserDetails userDetails = this.clientAuthenticationService.loadUserByUsername(username);
+        UserDetails userDetails = this.userAuthenticationService.loadUserByUsername(username);
         if (this.passwordEncoder.matches(password, userDetails.getPassword())){
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         }else{
