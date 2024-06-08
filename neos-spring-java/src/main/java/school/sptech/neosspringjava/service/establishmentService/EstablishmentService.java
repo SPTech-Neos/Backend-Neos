@@ -1,22 +1,11 @@
 package school.sptech.neosspringjava.service.establishmentService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-
-import com.cloudinary.api.exceptions.NotFound;
-
-import ch.qos.logback.core.filter.Filter;
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.FilterDto.FilterResponse;
-import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRespose;
-import school.sptech.neosspringjava.api.dtos.produtcDto.ProductResponse;
-import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
 import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.domain.model.company.Company;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
@@ -24,11 +13,7 @@ import school.sptech.neosspringjava.domain.model.local.Local;
 import school.sptech.neosspringjava.domain.repository.companyRepository.CompanyRepository;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
-import school.sptech.neosspringjava.service.employeeService.EmployeeService;
-import school.sptech.neosspringjava.service.filterService.FilterService;
 import school.sptech.neosspringjava.service.integracaoImageApi.IntegracaoImageApiService;
-import school.sptech.neosspringjava.service.productService.ProductService;
-import school.sptech.neosspringjava.service.serviceService.ServiceService;
 
 @Service
 @RequiredArgsConstructor
@@ -38,9 +23,7 @@ public class EstablishmentService {
     private final EstablishmentMapper establishmentMapper;
     private final LocalRepository localRepository;
     private final CompanyRepository companyRepository;
-    private final EmployeeService employeeService;
-    private final FilterService filterService;
-    private final ProductService productService;
+
 
     public EstablishmentRespose save(EstablishmentRequest establishmentRequest) {
         Establishment establishment = new Establishment();
@@ -136,53 +119,5 @@ public class EstablishmentService {
 
     private Double evaluativeCalculation(Double voto, Integer numVotos, Double votoBanco, Integer numVotosBanco){
        return ((votoBanco*numVotosBanco)+voto)/numVotosBanco+numVotos;
-    }
-
-
-    public List<EstablishmentFullResponse> findAllFull(Integer id) {
-        List<EstablishmentFullResponse> retorno = new ArrayList<>();
-
-        try{
-            Optional<Establishment> establishment = establishmentRopository.findById(id);
-
-
-            if (id ==null) {
-                throw new IllegalArgumentException("ID do estabelecimento não pode ser nulo");
-            }
-
-            if (establishment.isEmpty()) {
-                throw new NotFound("Estabelecimento não encontrado");
-            }
-            EstablishmentRespose establishmentRespose = establishmentMapper.toEstablishmentResponse(establishment.get());
-
-            List<EmployeeResponse> employees = employeeService.findAllByEstablishment(id);
-            if (establishment == null) {
-                throw new NotFound("Estabelecimento não encontrado");
-            }
-
-
-            List<FilterResponse> filters = filterService.findAllByEstablishment(establishment.get());
-            if (filters.isEmpty()) {
-                throw new NotFound("Filtros não encontrados");
-            }
-
-
-            List<ProductResponse> products = productService.findAllByEstablishment(establishment.get());
-
-            if (products.isEmpty()) {
-                throw new NotFound("Produtos não encontrados");
-                
-            }
-
-            EstablishmentFullResponse establishmentFullResponse = new EstablishmentFullResponse(establishmentRespose , employees, filters, products);
-            retorno.add(establishmentFullResponse);
-          return retorno;
-        
-        }catch (Exception e){
-            throw new RuntimeException("Erro ao buscar estabelecimentos");
-        }
-
-
-
-    }
+    };
 }
