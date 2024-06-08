@@ -1,6 +1,7 @@
 package school.sptech.neosspringjava.service.employeeService;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,8 +13,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import school.sptech.neosspringjava.api.dtos.employee.EmployeeRelacionamento;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
+import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
 import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
@@ -21,6 +24,7 @@ import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.service.EmployeeServService.EmployeeServService;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +35,8 @@ public class EmployeeService {
    private final EstablishmentRopository establishmentRopository;
    private final EmployeeTypeRepository employeeTypeRepository;
    private final PasswordEncoder passwordEncoder;
+   private final EmployeeServService employeeServService;
+   
 
 
     public EmployeeResponse save(EmployeeRequest employeeRequest) {
@@ -116,14 +122,24 @@ public class EmployeeService {
          return employeeMapper.toEmployeeResponse(employeeRepository.findAll());
     }
     
-    public List<EmployeeResponse> findAllByEstablishment(Integer fkEstablishment) {
+    public List<EmployeeRelacionamento> findAllByEstablishment(Integer fkEstablishment) {
     try {
         Optional<Establishment> establishment = establishmentRopository.findById(fkEstablishment);
         if (establishment.isEmpty()) {
             throw new NullPointerException("Establishment not found");
         }
         List<Employee> employees = employeeRepository.findAllByEstablishment(establishment.get());
-        return employeeMapper.toEmployeeResponse(employees);
+     
+
+       List<EmployeeRelacionamento> employeeRelacionamentos = new ArrayList<>();
+        for (Employee employee : employees) {
+            List<ServiceResponse> services = employeeServService.findByEmployee(employee);
+            EmployeeRelacionamento employeeRelacionamento = new EmployeeRelacionamento(employee.getId(), employee.getName(), employee.getEmail(), employee.getPassword(), employee.getImgUrl(), employee.getEstablishment(), employee.getEmployeeType(), services);
+            employeeRelacionamentos.add(employeeRelacionamento);
+        }
+
+
+        return employeeRelacionamentos;
         } catch (Exception e) {
             throw new RuntimeException("Error");
     }

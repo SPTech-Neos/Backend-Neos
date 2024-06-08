@@ -11,6 +11,7 @@ import com.cloudinary.api.exceptions.NotFound;
 import ch.qos.logback.core.filter.Filter;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.FilterDto.FilterResponse;
+import school.sptech.neosspringjava.api.dtos.employee.EmployeeRelacionamento;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
@@ -155,7 +156,7 @@ public class EstablishmentService {
             }
             EstablishmentRespose establishmentRespose = establishmentMapper.toEstablishmentResponse(establishment.get());
 
-            List<EmployeeResponse> employees = employeeService.findAllByEstablishment(id);
+            List<EmployeeRelacionamento> employees = employeeService.findAllByEstablishment(id);
             if (establishment == null) {
                 throw new NotFound("Estabelecimento não encontrado");
             }
@@ -173,6 +174,8 @@ public class EstablishmentService {
                 throw new NotFound("Produtos não encontrados");
                 
             }
+
+
 
             EstablishmentFullResponse establishmentFullResponse = new EstablishmentFullResponse(establishmentRespose , employees, filters, products);
             retorno.add(establishmentFullResponse);
