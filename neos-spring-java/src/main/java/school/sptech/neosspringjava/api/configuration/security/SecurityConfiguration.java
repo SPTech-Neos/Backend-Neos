@@ -57,7 +57,7 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/h2-console/**"),
             new AntPathRequestMatcher("/error/**"),
             new AntPathRequestMatcher("/client/login"),
-            new AntPathRequestMatcher("/client/ **"),
+            new AntPathRequestMatcher("/client/**"),
             new AntPathRequestMatcher("/client", "POST"),
             new AntPathRequestMatcher("/employee/**"),
             new AntPathRequestMatcher("/employee"),
