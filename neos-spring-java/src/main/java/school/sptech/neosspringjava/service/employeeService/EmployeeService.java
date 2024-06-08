@@ -3,9 +3,12 @@ package school.sptech.neosspringjava.service.employeeService;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import io.swagger.v3.core.util.ReflectionUtils;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -14,6 +17,7 @@ import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
@@ -26,6 +30,8 @@ public class EmployeeService {
    private final EmployeeMapper employeeMapper;
    private final EstablishmentRopository establishmentRopository;
    private final EmployeeTypeRepository employeeTypeRepository;
+   private final PasswordEncoder passwordEncoder;
+
 
     public EmployeeResponse save(EmployeeRequest employeeRequest) {
         if (employeeRequest.employeeType() == null) {
@@ -34,6 +40,8 @@ public class EmployeeService {
 
         EmployeeType employeeType = employeeTypeRepository.findById(employeeRequest.employeeType())
                 .orElseThrow(() -> new RuntimeException("Employee type not found"));
+        
+        String passwordEncrypted = passwordEncoder.encode(employeeRequest.password());
 
         Employee employee = new Employee();
         employee.setEmail(employeeRequest.email());
@@ -42,7 +50,7 @@ public class EmployeeService {
                 .orElseThrow(() -> new RuntimeException("Establishment not found")));
         employee.setImgUrl(employeeRequest.imgUrl());
         employee.setName(employeeRequest.name());
-        employee.setPassword(employeeRequest.password());
+        employee.setPassword(passwordEncrypted);
 
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }
@@ -108,6 +116,17 @@ public class EmployeeService {
          return employeeMapper.toEmployeeResponse(employeeRepository.findAll());
     }
     
-    
+    public List<EmployeeResponse> findAllByEstablishment(Integer fkEstablishment) {
+    try {
+        Optional<Establishment> establishment = establishmentRopository.findById(fkEstablishment);
+        if (establishment.isEmpty()) {
+            throw new NullPointerException("Establishment not found");
+        }
+        List<Employee> employees = employeeRepository.findAllByEstablishment(establishment.get());
+        return employeeMapper.toEmployeeResponse(employees);
+        } catch (Exception e) {
+            throw new RuntimeException("Error");
+    }
+    }
 
 }
