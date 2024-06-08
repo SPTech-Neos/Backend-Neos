@@ -1,3 +1,4 @@
+DROP DATABASE blume;
 CREATE DATABASE blume;
 USE blume;
 
@@ -222,19 +223,19 @@ INSERT INTO service_type (service_type_name, category_fk) VALUES
 ('Maquiagem Social', 3);
 
 INSERT INTO service (specification, img_url, type_fk) VALUES
-('Corte Masculino', 'http://example.com/corte_masculino.jpg', 4),
-('Hidratação Capilar', 'http://example.com/hidratacao_capilar.jpg', 5),
-('Maquiagem para Festas', 'http://example.com/maquiagem_festas.jpg', 6);
+('Corte Masculino', 'http://example.com/corte_masculino.jpg', 1),
+('Hidratação Capilar', 'http://example.com/hidratacao_capilar.jpg', 1),
+('Maquiagem para Festas', 'http://example.com/maquiagem_festas.jpg', 2);
 
 INSERT INTO employee_services (hours_spent, expertise, employee_fk, service_fk) VALUES
-(NOW(), 5, 3, 4),
-(NOW(), 6, 4, 5),
-(NOW(), 7, 2, 6),
-(NOW(), 8, 3, 5);
+(NOW(), 5, 3, 1),
+(NOW(), 6, 4, 2),
+(NOW(), 7, 2, 1),
+(NOW(), 8, 3, 1);
 
 INSERT INTO filter (price, establishment_fk, service_fk) VALUES
-(80.0, 1, 5),
-(100.0, 2, 6);
+(80.0, 1, 1),
+(100.0, 2, 2);
 
 INSERT INTO scheduling_status (description) VALUES
 ('Agendado'),
@@ -243,8 +244,8 @@ INSERT INTO scheduling_status (description) VALUES
 
 INSERT INTO scheduling (date_time, value, service_fk, status_fk, client_fk, employee_fk) VALUES
 (NOW(), 200.0, 1, 1, 1, 1),
-(NOW(), 150.0, 6, 1, 2, 3);
+(NOW(), 150.0, 1, 1, 2, 1);
 
 INSERT INTO payment (value, date_payment, product_fk, client_fk, establishment_fk) VALUES
 (150.0, NOW(), 1, 1, 1),
-(120.0, NOW(), 2, 2, 2);;
+(120.0, NOW(), 2, 2, 2);
