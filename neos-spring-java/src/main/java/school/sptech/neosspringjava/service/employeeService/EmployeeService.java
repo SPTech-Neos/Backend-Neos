@@ -3,6 +3,7 @@ package school.sptech.neosspringjava.service.employeeService;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import io.swagger.v3.core.util.ReflectionUtils;
@@ -16,6 +17,7 @@ import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
@@ -114,6 +116,17 @@ public class EmployeeService {
          return employeeMapper.toEmployeeResponse(employeeRepository.findAll());
     }
     
-    
+    public List<EmployeeResponse> findAllByEstablishment(Integer fkEstablishment) {
+    try {
+        Optional<Establishment> establishment = establishmentRopository.findById(fkEstablishment);
+        if (establishment.isEmpty()) {
+            throw new NullPointerException("Establishment not found");
+        }
+        List<Employee> employees = employeeRepository.findAllByEstablishment(establishment.get());
+        return employeeMapper.toEmployeeResponse(employees);
+        } catch (Exception e) {
+            throw new RuntimeException("Error");
+    }
+    }
 
 }
