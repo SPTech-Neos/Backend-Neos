@@ -1,32 +1,40 @@
-package school.sptech.neosspringjava.api.dtos.usersDto;
+package school.sptech.neosspringjava.api.dtos.employee;
 
+import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Getter;
 import lombok.Setter;
-import school.sptech.neosspringjava.api.dtos.employee.EmployeeLogin;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
+import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 
 import java.util.Collection;
 import java.util.List;
 
 @Getter
 @Setter
-public class UsersDetailsDto implements UserDetails {
+public class EmployeeDetailsDto implements UserDetails {
     private final String name;
     private final String email;
-    private final String password;
+    private final  String password;
+    private final String imgUrl;
+    private final Establishment establishment;
+    private final EmployeeType employeeType;
 
-    public UsersDetailsDto(String name, String email, String password){
-        this.name = name;
-        this.email = email;
-        this.password = password;
+    public EmployeeDetailsDto(Employee employee) {
+        this.name = employee.getName();
+        this.email = employee.getEmail();
+        this.password = employee.getPassword();
+        this.imgUrl = employee.getImgUrl();
+        this.establishment = employee.getEstablishment();
+        this.employeeType = employee.getEmployeeType();
     }
-
-
-
+    public String getName() {
+        return name;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -35,7 +43,6 @@ public class UsersDetailsDto implements UserDetails {
 
     @Override
     public String getPassword() {
-
         return password;
     }
 
@@ -64,3 +71,4 @@ public class UsersDetailsDto implements UserDetails {
         return true;
     }
 }
+
