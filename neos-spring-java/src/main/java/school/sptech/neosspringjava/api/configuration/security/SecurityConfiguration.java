@@ -1,5 +1,4 @@
 package school.sptech.neosspringjava.api.configuration.security;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,23 +22,17 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import school.sptech.neosspringjava.api.configuration.security.jwt.GerenciadorTokenJwt;
 import school.sptech.neosspringjava.service.user.authentication.AuthenticationService;
-
 import java.util.Arrays;
 import java.util.List;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfiguration {
-
     private static final String ORIGENS_PERMITIDAS = "*";
-
     @Autowired
     private AuthenticationService authenticationService;
-
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
-
     private static final AntPathRequestMatcher[] URLS_PERMITIDAS = {
             new AntPathRequestMatcher("/swagger-ui/**"),
             new AntPathRequestMatcher("/swagger-ui.html"),
@@ -59,10 +52,43 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/client/login"),
             new AntPathRequestMatcher("/client/ **"),
             new AntPathRequestMatcher("/client", "POST"),
-            new AntPathRequestMatcher("/employee/**"),
             new AntPathRequestMatcher("/employee"),
-            new AntPathRequestMatcher("/users/login/**"),
-            new AntPathRequestMatcher("/users/**"),
+            new AntPathRequestMatcher("/employee/**"),
+            new AntPathRequestMatcher("/establishments"),
+            new AntPathRequestMatcher("/establishments/**"),
+
+            new AntPathRequestMatcher("/address/**"), // apenas para testes daqui para baixo
+            new AntPathRequestMatcher("/address"),
+            new AntPathRequestMatcher("/local/**"),
+            new AntPathRequestMatcher("/local"),
+            new AntPathRequestMatcher("/company/**"),
+            new AntPathRequestMatcher("/company"),
+            new AntPathRequestMatcher("/ProductType/**"),
+            new AntPathRequestMatcher("/productType"),
+            new AntPathRequestMatcher("/products/**"),
+            new AntPathRequestMatcher("/products"),
+            new AntPathRequestMatcher("/rating/**"),
+            new AntPathRequestMatcher("/rating"),
+            new AntPathRequestMatcher("/employeeType/**"),
+            new AntPathRequestMatcher("/employeeType"),
+            new AntPathRequestMatcher("/serviceCategory/**"),
+            new AntPathRequestMatcher("/serviceCategory"),
+            new AntPathRequestMatcher("/serviceType/**"),
+            new AntPathRequestMatcher("/serviceType"),
+            new AntPathRequestMatcher("/service/**"),
+
+            new AntPathRequestMatcher("/service"),
+            new AntPathRequestMatcher("/employeeServices/**"),
+            new AntPathRequestMatcher("/employeeServices"),
+            new AntPathRequestMatcher("/filter/**"),
+            new AntPathRequestMatcher("/schedulingStatus"),
+            new AntPathRequestMatcher("/schedulingStatus/**"),
+            new AntPathRequestMatcher("/scheduling"),
+            new AntPathRequestMatcher("/scheduling/**"),
+            new AntPathRequestMatcher("/payment"),
+            new AntPathRequestMatcher("/payment/**"),
+            new AntPathRequestMatcher("/filter")
+
     };
 
     @Bean
