@@ -26,19 +26,26 @@ public class AuthenticationProvider implements org.springframework.security.auth
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         final String[] credentials = authentication.getName().split(";");
+        System.out.println("AuthenticationProvider >>credentials"+credentials[0]);
+        System.out.println("AuthenticationProvider >>credentials"+credentials[1]);
+
         final String username = credentials[0];
         final String type = credentials[1];
         final String password = authentication.getCredentials().toString();
+
 
     
         UserDetails userDetails = null;
         if (isClient(type)) {
             userDetails = this.authenticationService.loadUserByUsername(username+";"+type);
-        } else if (isEmployee(username)) {
+        } else if (isEmployee(type)) {
             userDetails = this.authenticationService.loadUserByUsername(username+";"+type);
         }
         
         if (userDetails != null && this.passwordEncoder.matches(password, userDetails.getPassword())){
+            System.out.println("AuthenticationProvider >> userDetails>>"+userDetails);
+            System.out.println("AuthenticationProvider >> userDetails.getAuthorities()>>"+userDetails.getUsername());
+
             return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         } else {
             throw new BadCredentialsException("Usuário ou senha inválidos");
@@ -50,7 +57,10 @@ public class AuthenticationProvider implements org.springframework.security.auth
     }
     
     private boolean isEmployee(String type) {
+        System.out.println("isemployee"+("employee".equals(type)));
+        System.out.println("isemployee"+(type));
         return "employee".equals(type);
+
     }    
     
 

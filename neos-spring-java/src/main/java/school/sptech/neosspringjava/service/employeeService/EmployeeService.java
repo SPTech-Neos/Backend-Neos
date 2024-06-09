@@ -51,9 +51,12 @@ public class EmployeeService {
     @Autowired
     AuthenticationManager authenticationManager;
  
-       public EmployeeTokenDto authenticate(EmployeeLogin employeeLogin) {
+    public EmployeeTokenDto authenticate(EmployeeLogin employeeLogin) {
         final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(employeeLogin.email() + ";employee", employeeLogin.password());
+        System.out.println("credentials "+credentials);
         final Authentication authentication = this.authenticationManager.authenticate(credentials);
+        System.out.println("authentication == "+authentication);
+        System.out.println("authentication == "+authentication.getCredentials());
 
         Employee employeeAuthentication = employeeRepository.findByEmail(employeeLogin.email())
                 .orElseThrow(() -> new ResponseStatusException(404, "Email do usuário não cadastrado", null));

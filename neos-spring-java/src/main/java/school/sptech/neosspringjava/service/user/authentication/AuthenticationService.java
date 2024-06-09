@@ -50,7 +50,7 @@ public class AuthenticationService implements UserDetailsService {
             throw new UsernameNotFoundException(String.format("Usuário: s? não encontrado", username));
         }
 
-        return new UsersDetailsDto(employeeOpt.get().getName(), employeeOpt.get().getEmail(),employeeOpt.get().getPassword() );
+        return new UsersDetailsDto(employeeOpt.get().getName(), employeeOpt.get().getEmail()+";"+username.split(";")[1],employeeOpt.get().getPassword() );
         }else
         
         if(username.split(";")[1].equals("client"))
@@ -62,7 +62,7 @@ public class AuthenticationService implements UserDetailsService {
                throw new UsernameNotFoundException(String.format("Usuário: s? não encontrado", username));
            }
    
-           return new UsersDetailsDto(clientOpt.get().getName(),clientOpt.get().getEmail(),clientOpt.get().getPassword() );
+           return new UsersDetailsDto(clientOpt.get().getName(),clientOpt.get().getEmail()+";"+username.split(";")[1],clientOpt.get().getPassword() );
        } else {
         throw new UsernameNotFoundException("Tipo de usuário desconhecido: " + username.split(";")[1]);
     }

@@ -38,6 +38,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         if (Objects.nonNull(requestTokenHeader) && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
+            System.out.println("sapora"+jwtToken);
 
             try {
                 username = jwtTokenManager.getUsernameFromToken(jwtToken);
