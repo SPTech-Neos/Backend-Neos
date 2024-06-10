@@ -1,6 +1,8 @@
 package school.sptech.neosspringjava.service.client;
 
+import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -9,12 +11,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import school.sptech.neosspringjava.api.configuration.security.jwt.GerenciadorTokenJwt;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientCreatDTO;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientLoginDto;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientTokenDto;
+
+import school.sptech.neosspringjava.api.dtos.clientDto.*;
+import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
+import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponse;
+import school.sptech.neosspringjava.api.dtos.produtcDto.ProductResponse;
+import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
 import school.sptech.neosspringjava.api.mappers.clientMapper.ClientMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
+import school.sptech.neosspringjava.exception.NaoEncontradoException;
+
+import java.util.List;
 
 @Service
 public class ClientService {
@@ -24,18 +32,18 @@ public class ClientService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-
-    public void creat(ClientCreatDTO clientCreatDTO){
-        final Client newClient = ClientMapper.of(clientCreatDTO);
+    @Autowired
+    private ClientMapper clientMapper;
+    
+    public ClientResponse create(ClientCreatDTO clientCreatDTO) {
+        Client newClient = clientMapper.of(clientCreatDTO);
 
         String passwordEncrypted = passwordEncoder.encode(newClient.getPassword());
-
         newClient.setPassword(passwordEncrypted);
 
-        this.clientRepository.save(newClient);
+        Client savedClient =  clientRepository.save(newClient);
+        return clientMapper.toClientResponse(savedClient);
     }
-
-
 
     @Autowired
     GerenciadorTokenJwt gerenciadorTokenJwt;
@@ -44,8 +52,7 @@ public class ClientService {
 
     public ClientTokenDto authenticate(ClientLoginDto clientLoginDTO) {
 
-        final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
-                clientLoginDTO.getEmail(), clientLoginDTO.getPassword());
+        final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(clientLoginDTO.getEmail()+";client", clientLoginDTO.getPassword());
         final Authentication authentication = this.authenticationManager.authenticate(credentials);
 
         Client clientAuthetication =
@@ -53,7 +60,8 @@ public class ClientService {
         .orElseThrow(
                 () -> new ResponseStatusException(404, "Email do usuário não cadastrado", null)
         );
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+        
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         final String token = gerenciadorTokenJwt.generateToken(authentication);
 

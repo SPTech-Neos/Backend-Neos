@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentRequest;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentResponse;
+import school.sptech.neosspringjava.api.dtos.scheduligDto.ScheduligResponse;
 import school.sptech.neosspringjava.service.paymentService.PaymentService;
 
 @RestController
@@ -56,6 +57,18 @@ public class PaymentController {
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         paymentService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<List<PaymentResponse>> getSchedulesByClientId(@PathVariable Integer clientId) {
+        List<PaymentResponse> payments = paymentService.getPaymentsByClientId(clientId);
+        return ResponseEntity.ok(payments);
+    }
+
+    @GetMapping("/establishment/{establishmentId}")
+    public ResponseEntity<List<PaymentResponse>> getSchedulesByEstablishmentId(@PathVariable Integer establishmentId) {
+        List<PaymentResponse> payments = paymentService.getPaymentsByEstablishmentId(establishmentId);
+        return ResponseEntity.ok(payments);
     }
 
 }

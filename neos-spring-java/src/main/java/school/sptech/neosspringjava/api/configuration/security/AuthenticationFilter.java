@@ -13,7 +13,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 import school.sptech.neosspringjava.api.configuration.security.jwt.GerenciadorTokenJwt;
-import school.sptech.neosspringjava.service.client.authentication.AuthenticationService;
+// import school.sptech.neosspringjava.service.client.authentication.AuthenticationService;
+import school.sptech.neosspringjava.service.user.authentication.AuthenticationService;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -37,10 +38,13 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         if (Objects.nonNull(requestTokenHeader) && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
+            System.out.println("sapora"+jwtToken);
 
             try {
                 username = jwtTokenManager.getUsernameFromToken(jwtToken);
             } catch (ExpiredJwtException exception) {
+
+                System.out.println("caiu no catch");
 
                 LOGGER.info("[FALHA AUTENTICACAO] - Token expirado, usuario: {} - {}",
                         exception.getClaims().getSubject(), exception.getMessage());
@@ -50,6 +54,11 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
         }
+
+        System.out.println(username+"username");
+        System.out.println(SecurityContextHolder.getContext().getAuthentication()+"esse trem aqui");
+        System.out.println(request+"o tal do request");
+        System.out.println(response+"O tal do response");
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     addUsernameInContext(request, username, jwtToken);
                 }
@@ -57,6 +66,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         }
 
             private void addUsernameInContext(HttpServletRequest request, String username, String jwtToken) {
+                System.out.println("AQUI Ó"+username);
                 UserDetails userDetails = authenticationService.loadUserByUsername(username);
 
                 if (jwtTokenManager.validateToken( jwtToken, userDetails)) {

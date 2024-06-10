@@ -22,7 +22,9 @@ public class csvOrganization {
     private SchedulingRepository schedulingRepository;
     @Autowired
     private FilterRepository filterRepository;
+
     List<String[]> linesList = new ArrayList<>();
+
     // definindo a data atual
     LocalDateTime now = LocalDateTime.now();
     YearMonth yearMonth = YearMonth.from(now);
@@ -51,12 +53,16 @@ public class csvOrganization {
                     + scheduling.getService().getSpecification();
             lineVetor[2] = scheduling.getEmployee().getName();
             lineVetor[3] = price;
+            lineVetor[4] = String.valueOf(scheduling.getDateTime());
+
+
             if (lineVetor[0] != null && !lineVetor[0].isEmpty() && lineVetor[1] != null && !lineVetor[1].isEmpty()
                     && lineVetor[2] != null && !lineVetor[2].isEmpty() && lineVetor[3] != null
                     && !lineVetor[3].isEmpty() && lineVetor[4] != null && !lineVetor[4].isEmpty()) {
-                // throw
+            
                 return "Não foi possivel gerar nota devido a todos os campos estarem vazios";
             }
+            
             linesList.add(lineVetor);
 
         }
@@ -71,9 +77,6 @@ public class csvOrganization {
 
         return schedulingForEmployee(establishment, null);
 
-        // csvGenerator csvG = new csvGenerator();
-        // csvG.gerarCsv(linesList, "relatorio");
-
     };
 
     public String schedulingForEmployee(Establishment establishment, Integer contador) {
@@ -87,16 +90,14 @@ public class csvOrganization {
 
         Employee employee = emploList.get(contador);
 
-        List<Scheduling> schedulingsList = schedulingRepository.findByEmployeeAndDateRange(employee, startDate,
-                endDate);
+        List<Scheduling> schedulingsList = schedulingRepository.findByEmployeeAndDateRange(employee, startDate, endDate);
 
         return makeLine(schedulingsList, contador, establishment);
     }
 
     public String makeLine(List<Scheduling> schedulingsList, Integer cont, Establishment establishment) {
         String retorno = "xxx";
-        List<Filter> filt = filterRepository
-                .findAllByEstablishment(schedulingsList.get(0).getEmployee().getEstablishment());
+        List<Filter> filt = filterRepository.findAllByEstablishment(schedulingsList.get(0).getEmployee().getEstablishment());
 
         for (Scheduling scheduling : schedulingsList) {
             String price = " ";

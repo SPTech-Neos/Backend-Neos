@@ -6,15 +6,20 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentRequest;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentResponse;
+import school.sptech.neosspringjava.api.dtos.scheduligDto.ScheduligResponse;
+import school.sptech.neosspringjava.api.mappers.scheduligMapper.ScheduligMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.payment.Payment;
 import school.sptech.neosspringjava.domain.model.product.Product;
+import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
 import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
 import school.sptech.neosspringjava.domain.repository.paymentRepository.PaymentRepository;
 import school.sptech.neosspringjava.domain.repository.productRepository.ProductRepository;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +60,7 @@ public class PaymentService {
         return new PaymentResponse(
                 payment.getId(),
                 payment.getDateTime(),
+                payment.getValue(),
                 payment.getProduct(),
                 payment.getClient(),
                 payment.getEstablishment()
@@ -69,6 +75,7 @@ public class PaymentService {
         return new PaymentResponse(
                 payment.getId(),
                 payment.getDateTime(),
+                payment.getValue(),
                 payment.getProduct(),
                 payment.getClient(),
                 payment.getEstablishment()
@@ -106,6 +113,7 @@ public class PaymentService {
         return new PaymentResponse(
                 updatedPayment.getId(),
                 updatedPayment.getDateTime(),
+                payment.getValue(),
                 updatedPayment.getProduct(),
                 updatedPayment.getClient(),
                 updatedPayment.getEstablishment()
@@ -119,6 +127,7 @@ public class PaymentService {
                 .map(payment -> new PaymentResponse(
                         payment.getId(),
                         payment.getDateTime(),
+                        payment.getValue(),
                         payment.getProduct(),
                         payment.getClient(),
                         payment.getEstablishment()
@@ -127,6 +136,61 @@ public class PaymentService {
     }
 
         
+
+    public List<PaymentResponse> findAllByEstablishment(Establishment establishment, LocalDateTime initialDate) {
+       
+
+        List<Payment> payments = paymentRepository.findAllByEstablishmentAndDateTimeGreaterThanEqualOrderByDateTimeDesc(establishment, initialDate);
+
+        return payments.stream()
+                .map(payment -> new PaymentResponse(
+                        payment.getId(),
+                        payment.getDateTime(),
+                        payment.getValue(),
+                        payment.getProduct(),
+                        payment.getClient(),
+                        payment.getEstablishment()
+                ))
+                .toList();
+    }
+
+    public List<PaymentResponse> getPaymentsByClientId(Integer clientId) {
+        List<Payment> paymentsEntity = paymentRepository.findByClientId(clientId);
+        List<PaymentResponse> payments = new ArrayList<>();
+
+        for (Payment payment : paymentsEntity) {
+            PaymentResponse paymentResponse = new PaymentResponse(
+                    payment.getId(),
+                    payment.getDateTime(),
+                    payment.getValue(),
+                    payment.getProduct(),
+                    payment.getClient(),
+                    payment.getEstablishment()
+            );
+            payments.add(paymentResponse);
+        }
+
+        return payments;
+    }
+
+    public List<PaymentResponse> getPaymentsByEstablishmentId(Integer establishmentId) {
+        List<Payment> paymentsEntity = paymentRepository.findByEstablishmentId(establishmentId);
+        List<PaymentResponse> payments = new ArrayList<>();
+
+        for (Payment payment : paymentsEntity) {
+            PaymentResponse paymentResponse = new PaymentResponse(
+                    payment.getId(),
+                    payment.getDateTime(),
+                    payment.getValue(),
+                    payment.getProduct(),
+                    payment.getClient(),
+                    payment.getEstablishment()
+            );
+            payments.add(paymentResponse);
+        }
+
+        return payments;
+    }
 
 
 }

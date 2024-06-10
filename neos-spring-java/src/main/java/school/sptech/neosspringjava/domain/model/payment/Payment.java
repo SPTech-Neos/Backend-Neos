@@ -32,6 +32,7 @@ public class Payment {
     private Integer id;
     @Column(name = "date_payment")
     private LocalDateTime dateTime;
+    private Double value;
 
     @ManyToOne
     @JoinColumn(name = "product_fk")

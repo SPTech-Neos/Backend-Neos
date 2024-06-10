@@ -1,5 +1,6 @@
 package school.sptech.neosspringjava.service.EmployeeServService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -8,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.dtos.employeeServicesDto.EmployeeServicesRequest;
 import school.sptech.neosspringjava.api.dtos.employeeServicesDto.EmployeeServicesResponse;
+import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
 import school.sptech.neosspringjava.api.mappers.employeeServicesMapper.EmployeeServicesMapper;
+import school.sptech.neosspringjava.api.mappers.serviceMapper.ServiceMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.employeeServices.EmployeeServices;
 import school.sptech.neosspringjava.domain.repository.EmployeeServicesRepository.EmployeeServicesRepository;
@@ -23,6 +26,7 @@ public class EmployeeServService {
     private final EmployeeServicesMapper employeeServicesMapper;
     private final EmployeeRepository    employeeRepository;
     private final ServiceRepository serviceRepository;
+    private final ServiceMapper serviceMapper;
 
     public EmployeeServicesResponse save(EmployeeServicesRequest employeeServicesRequest) {
         EmployeeServices employeeServices = new EmployeeServices();
@@ -53,6 +57,17 @@ public class EmployeeServService {
 
     public List<EmployeeServicesResponse> findAll() {
         return employeeServicesMapper.toEmployeeServicesResponse(employeeServicesRepository.findAll());
+    }
+
+    public List<ServiceResponse> findByEmployee(Employee employee) {
+        List<EmployeeServices> employeeServices = employeeServicesRepository.findAllByEmployee(employee);
+
+        List<ServiceResponse> services = new ArrayList<>();
+        for (EmployeeServices employeeService : employeeServices) {
+            services.add(serviceMapper.toServiceResponse(employeeService.getService()));
+        }
+
+        return services;
     }
     
 }

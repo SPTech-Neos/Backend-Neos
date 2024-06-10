@@ -21,11 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientCreatDTO;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientLoginDto;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientTokenDto;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientRequest;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientResponse;
+import school.sptech.neosspringjava.api.dtos.clientDto.*;
+// import school.sptech.neosspringjava.api.dtos.clientDto.ClientLoginTolken;
 import school.sptech.neosspringjava.api.mappers.clientMapper.ClientMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
@@ -37,6 +34,8 @@ import school.sptech.neosspringjava.service.client.ClientService;
 @RequiredArgsConstructor
 public class ClientController {
 
+    @Autowired
+    private ClientService clientService;
 
     private final ClientRepository clientRepository;
     private final LocalRepository localRepository;
@@ -88,19 +87,18 @@ public class ClientController {
         return ResponseEntity.status(200).body(clientToken);
     }
 
-    @Autowired
-    private ClientService clientService;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody @Valid ClientCreatDTO clientCreatDTO){
-        this.clientService.creat(clientCreatDTO);
-        return ResponseEntity.status(201).build();
+    public ResponseEntity<ClientResponse> create(@RequestBody @Valid ClientCreatDTO clientCreateDTO) {
+        ClientResponse response = clientService.create(clientCreateDTO);
+        return ResponseEntity.status(201).body(response);
     }
 
 
 
     @GetMapping("/{id}")
     public ResponseEntity<ClientResponse> getClientById(@PathVariable int id) {
+
         Optional<Client> client = clientRepository.findById(id);
         if(client.isEmpty()){
             return ResponseEntity.notFound().build();
