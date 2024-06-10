@@ -1,7 +1,5 @@
 package school.sptech.neosspringjava.service.establishmentService;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,27 +13,22 @@ import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.FilterDto.FilterResponse;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRelacionamento;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.DashboardResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponseList;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRespose;
-import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentResponse;
 import school.sptech.neosspringjava.api.dtos.produtcDto.ProductResponse;
 import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.domain.model.company.Company;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.local.Local;
-import school.sptech.neosspringjava.domain.model.payment.Payment;
 import school.sptech.neosspringjava.domain.repository.companyRepository.CompanyRepository;
 import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 import school.sptech.neosspringjava.service.filterService.FilterService;
 import school.sptech.neosspringjava.service.integracaoImageApi.IntegracaoImageApiService;
-import school.sptech.neosspringjava.service.paymentService.PaymentService;
 import school.sptech.neosspringjava.service.productService.ProductService;
-import school.sptech.neosspringjava.service.schedulingStatusService.SchedulingService;
 import school.sptech.neosspringjava.service.serviceService.ServiceService;
 
 @Service
@@ -49,9 +42,6 @@ public class EstablishmentService {
     private final EmployeeService employeeService;
     private final FilterService filterService;
     private final ProductService productService;
-    private final PaymentService paymentService;
-    private final ServiceService serviceService;
-    private final SchedulingService schedulingService;
 
     public EstablishmentRespose save(EstablishmentRequest establishmentRequest) {
         Establishment establishment = new Establishment();
@@ -223,39 +213,9 @@ public class EstablishmentService {
         }
     }
 
-//     public record DashboardResponse(
-//     Double percentageOccupation,
-//     Double totalIncome,
-//     Double cancellationRate,
-//     Double cancellationByEmployee,
-//     Double totalIncomeByServiceCategory
-
-
-    public DashboardResponse getDashboard(Integer id, LocalDateTime initialDate) {
-        Establishment establishment = establishmentRopository.findById(id).orElseThrow(() -> new RuntimeException("Estabelecimento não encontrado"));
-
-
-        Double percentageOccupation = 0.0;
-        Double totalIncome = 0.0;
-        Double cancellationRate = 0.0;
-        Double cancellationByEmployee = 0.0;
-        Double totalIncomeByServiceCategory = 0.0;
-
-        List<PaymentResponse> payments = paymentService.findAllByEstablishment(establishment, initialDate);
-
-
-        for (PaymentResponse payment : payments) {
-            totalIncome += payment.value();
-        }
-
-
-       
 
 
 
-        return new DashboardResponse(percentageOccupation, totalIncome, cancellationRate, cancellationByEmployee, totalIncomeByServiceCategory);
-  
-    }
     private List<EmployeeRelacionamento> findEmployeesByEstablishments(List<EstablishmentRespose> establishments) {
         List<Integer> establishmentIds = establishments.stream().map(EstablishmentRespose::id).collect(Collectors.toList());
         return employeeService.findAllByEstablishmentIds(establishmentIds);
