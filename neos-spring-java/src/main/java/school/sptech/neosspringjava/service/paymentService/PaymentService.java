@@ -134,12 +134,7 @@ public class PaymentService {
         
 
     public List<PaymentResponse> findAllByEstablishment(Establishment establishment, LocalDateTime initialDate) {
-        //busca pelos pagamentos 
-        // de um estabelecimento 
-        // com uma data inicial de maneira que 
-        // ordene por data decrescente 
-        // e retorne uma lista de pagamentos
-        // List<Payment> payments = paymentRepository.findAllByEstablishmentOrderByDateTimeDesc(establishment);
+       
 
         List<Payment> payments = paymentRepository.findAllByEstablishmentAndDateTimeGreaterThanEqualOrderByDateTimeDesc(establishment, initialDate);
 
