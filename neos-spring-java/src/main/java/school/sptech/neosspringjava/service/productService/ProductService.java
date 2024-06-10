@@ -78,4 +78,9 @@ public class ProductService {
     public void deleteById(Integer id) {
         productRepository.deleteById(id);
     }
+
+    public List<ProductResponse> findAllByEstablishment(Establishment establishment) {
+    
+        return ProductMapper.toProductResponse(productRepository.findAllByEstablishment(establishment));
+    }
 }

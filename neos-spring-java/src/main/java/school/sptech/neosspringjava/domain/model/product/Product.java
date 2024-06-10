@@ -40,12 +40,5 @@ public class Product {
     @ManyToOne
     @JoinColumn(name = "establishment_fk")
     private Establishment establishment;
-    
-    
-   
-   
-
-    
-
 
 }

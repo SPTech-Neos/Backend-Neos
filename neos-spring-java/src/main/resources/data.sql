@@ -1,3 +1,4 @@
+DROP DATABASE blume;
 CREATE DATABASE blume;
 USE blume;
 
@@ -57,7 +58,7 @@ CREATE TABLE client(
   client_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
-  password VARCHAR(45) NOT NULL,
+  password VARCHAR(300) NOT NULL,
   img_url VARCHAR(100),
   local_fk INT NOT NULL,
   FOREIGN KEY (local_fk) REFERENCES local(local_id) ON DELETE CASCADE
@@ -82,7 +83,7 @@ CREATE TABLE employee(
   employee_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
-  password VARCHAR(45) NOT NULL,
+  password VARCHAR(300) NOT NULL,
   img_url VARCHAR(100),
   establishment_fk INT NOT NULL,
   employee_type_fk INT NOT NULL,
@@ -164,55 +165,87 @@ CREATE TABLE payment(
 
 -- Inserir dados de exemplo
 INSERT INTO company (name, cnpj) VALUES
-('Empresa A', '50037903000115');
+('Salão de Beleza Bella Vista', '12345678901234'),
+('Salão de Beleza Charme & Elegância', '98765432109876');
 
 INSERT INTO address (public_place, city, state, street) VALUES
-('123 Main St', 'Anytown', 'ST', '123 Main St');
+('Rua das Flores, 123', 'Cidade Alegria', 'SP', 'Rua das Flores'),
+('Avenida Central, 456', 'Vila da Beleza', 'RJ', 'Avenida Central');
 
 INSERT INTO local (number, floor, block, complement, address_fk) VALUES
-(101, 1, 'A', 'Near the entrance', 1);
+(101, 1, NULL, 'Próximo à recepção', 1),
+(202, 2, NULL, 'Próximo à área de atendimento', 2);
 
 INSERT INTO establishment (name, company_fk, img_url, local_fk) VALUES
-('Estabelecimento A', 1, 'http://example.com/image.jpg', 1);
+('Bella Vista', 1, 'http://example.com/bella_vista.jpg', 1),
+('Charme & Elegância', 2, 'http://example.com/charme_e_elegancia.jpg', 2);
 
 INSERT INTO product_type (name, specification) VALUES
-('Tipo de Produto A', 'Especificação A');
+('Cabelo', 'Produtos para cabelo'),
+('Maquiagem', 'Produtos de maquiagem'),
+('Unhas', 'Produtos para unhas');
 
 INSERT INTO product (name, brand, img_url, value, type_fk, establishment_fk) VALUES
-('Produto A', 'Marca A', 'http://example.com/product.jpg', 100.0, 1, 1);
+('Shampoo', 'LOréal', 'http://example.com/shampoo.jpg', 50.0, 1, 1),
+('Base líquida', 'MAC', 'http://example.com/base.jpg', 80.0, 2, 2),
+('Esmalte', 'Risque', 'http://example.com/esmalte.jpg', 20.0, 3, 1);
 
 INSERT INTO client (name, email, password, img_url, local_fk) VALUES
-('Cliente A', 'cliente.a@example.com', 'senha123', 'http://example.com/client.jpg', 1);
+('Cliente A', 'cliente.a@example.com', 'senha123', 'http://example.com/client.jpg', 1),
+('Cliente', 'cliente@example.com', '$2a$10$18fD7KSKFmwwW8lwIPZhw.nSXWxKhU/ifh4DKaNGxOByludy3Q4Di', 'http://example.com/client.jpg', 2);
+
 
 INSERT INTO rating (nota, establishment_fk, client_fk) VALUES
-(5, 1, 1);
+(5, 1, 1),
+(4, 2, 2);
 
 INSERT INTO employee_type (name) VALUES
-('Tipo de Funcionário A');
+('Cabeleireiro(a)'),
+('Esteticista'),
+('Maquiador(a)');
+
+-- senha123
 
 INSERT INTO employee (name, email, password, img_url, establishment_fk, employee_type_fk) VALUES
-('Funcionário A', 'funcionario.a@example.com', 'senha123', 'http://example.com/employee.jpg', 1, 1);
+('Funcionário A', 'funcionario.a@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/employee.jpg', 1, 1),
+('Pedro Santos', 'pedro.santos@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/pedro_santos.jpg', 1, 2),
+('Camila Oliveira', 'camila.oliveira@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/camila_oliveira.jpg', 2, 3),
+('Rafael Lima', 'rafael.lima@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/rafael_lima.jpg', 2, 1);
 
 INSERT INTO service_category (service_category_name) VALUES
-('Categoria de Serviço A');
+('Cabelo'),
+('Estética Facial'),
+('Maquiagem');
 
 INSERT INTO service_type (service_type_name, category_fk) VALUES
-('Tipo de Serviço A', 1);
+('Corte de Cabelo', 1),
+('Limpeza de Pele', 2),
+('Maquiagem Social', 3);
 
 INSERT INTO service (specification, img_url, type_fk) VALUES
-('Especificação do Serviço A', 'http://example.com/service.jpg', 1);
+('Corte Masculino', 'http://example.com/corte_masculino.jpg', 1),
+('Hidratação Capilar', 'http://example.com/hidratacao_capilar.jpg', 1),
+('Maquiagem para Festas', 'http://example.com/maquiagem_festas.jpg', 2);
 
 INSERT INTO employee_services (hours_spent, expertise, employee_fk, service_fk) VALUES
-(NOW(), 5, 1, 1);
+(NOW(), 5, 3, 1),
+(NOW(), 6, 4, 2),
+(NOW(), 7, 2, 1),
+(NOW(), 8, 3, 1);
 
 INSERT INTO filter (price, establishment_fk, service_fk) VALUES
-(100.0, 1, 1);
+(80.0, 1, 1),
+(100.0, 2, 2);
 
 INSERT INTO scheduling_status (description) VALUES
-('Status de Agendamento A');
+('Agendado'),
+('Confirmado'),
+('Cancelado');
 
 INSERT INTO scheduling (date_time, value, service_fk, status_fk, client_fk, employee_fk) VALUES
-(NOW(), 200.0, 1, 1, 1, 1);
+(NOW(), 200.0, 1, 1, 1, 1),
+(NOW(), 150.0, 1, 1, 2, 1);
 
 INSERT INTO payment (value, date_payment, product_fk, client_fk, establishment_fk) VALUES
-(150.0, NOW(), 1, 1, 1);
+(150.0, NOW(), 1, 1, 1),
+(120.0, NOW(), 2, 2, 2);

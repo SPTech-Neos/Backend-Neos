@@ -1,25 +1,19 @@
 package school.sptech.neosspringjava.api.controllers.employeeController;
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import school.sptech.neosspringjava.api.dtos.employee.EmployeeDetailsDto;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeLogin;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
-
+import school.sptech.neosspringjava.api.dtos.employee.EmployeeTokenDto;
 import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 
 
@@ -42,6 +36,11 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.update(employeeRequest, id));
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<EmployeeResponse> partialUpdate(@RequestBody Map<String, Object> updates, @PathVariable Integer id) {
+        return ResponseEntity.ok(employeeService.partialUpdate(updates, id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         employeeService.delete(id);
@@ -57,10 +56,10 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeResponse>> findAll() {
         return ResponseEntity.ok(employeeService.findAll());
     }
-
+ 
     @PostMapping("/login")
-    public ResponseEntity<EmployeeResponse> login(@RequestBody EmployeeLogin employeeLogin) {
-        EmployeeResponse employee = employeeService.findByEmailAndPassword(employeeLogin.email(), employeeLogin.password());
+    public ResponseEntity<EmployeeTokenDto> login(@RequestBody EmployeeLogin employeeLogin) {
+        EmployeeTokenDto employee = employeeService.authenticate(employeeLogin);
         if (employee == null) {
             return ResponseEntity.notFound().build();
         }
