@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import school.sptech.neosspringjava.api.dtos.scheduligDto.ScheduligResponse;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
 
@@ -17,4 +18,8 @@ List<Scheduling> findByEmployeeAndDateTimeBetween(Employee employee, LocalDateTi
 
     @Query("SELECT s FROM Scheduling s WHERE s.employee = :employee AND s.dateTime BETWEEN :startDate AND :endDate")
     List<Scheduling> findByEmployeeAndDateRange(@Param("employee") Employee employee, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
+
+    List<Scheduling> findByClientId(Integer clientId);
+
+    List<Scheduling> findByEmployeeId(Integer employeeId);
 }

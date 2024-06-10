@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.payment.Payment;
+import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
 
 public interface PaymentRepository extends JpaRepository<Payment, Integer>{
 
@@ -14,4 +15,7 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer>{
 
     List<Payment> findAllByEstablishmentAndDateTimeGreaterThanEqualOrderByDateTimeDesc(Establishment establishment, LocalDateTime start);
 
+    List<Payment> findByClientId(Integer clientId);
+
+    List<Payment> findByEstablishmentId(Integer clientId);
 }

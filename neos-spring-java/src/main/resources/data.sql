@@ -245,8 +245,10 @@ INSERT INTO scheduling_status (description) VALUES
 ('Cancelado');
 
 INSERT INTO scheduling (date_time, value, service_fk, status_fk, client_fk, employee_fk) VALUES
-(NOW(), 200.0, 1, 1, 1, 1),
-(NOW(), 150.0, 1, 1, 2, 1);
+(NOW(), 200.0, 1, 2, 1, 1),
+(NOW() + INTERVAL 1 HOUR, 189.99, 1, 1, 1, 2),
+(NOW(), 150.0, 1, 3, 2, 2),
+(NOW() + INTERVAL 1 HOUR, 101.0, 1, 1, 2, 1);
 
 INSERT INTO payment (value, date_payment, product_fk, client_fk, establishment_fk) VALUES
 (150.0, NOW(), 1, 1, 1),
