@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Queue;
+import java.util.Stack;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Collectors;
 
 import io.swagger.v3.core.util.ReflectionUtils;
@@ -160,20 +163,44 @@ public class EmployeeService {
             throw new NullPointerException("Establishment not found");
         }
         List<Employee> employees = employeeRepository.findAllByEstablishment(establishment.get());
-     
+        // Usar uma fila para processar os funcionários
+        Queue<Employee> queue = new LinkedBlockingQueue<>(employees);
 
-       List<EmployeeRelacionamento> employeeRelacionamentos = new ArrayList<>();
-        for (Employee employee : employees) {
+        // Usar uma pilha para armazenar os resultados temporariamente
+        Stack<EmployeeRelacionamento> stack = new Stack<>();
+
+        while (!queue.isEmpty()) {
+            Employee employee = queue.poll();
             List<ServiceResponse> services = employeeServService.findByEmployee(employee);
-            EmployeeRelacionamento employeeRelacionamento = new EmployeeRelacionamento(employee.getId(), employee.getName(), employee.getEmail(), employee.getPassword(), employee.getImgUrl(), employee.getEstablishment(), employee.getEmployeeType(), services);
-            employeeRelacionamentos.add(employeeRelacionamento);
+            EmployeeRelacionamento employeeRelacionamento = new EmployeeRelacionamento(
+                    employee.getId(), employee.getName(), employee.getEmail(), employee.getPassword(),
+                    employee.getImgUrl(), employee.getEstablishment(), employee.getEmployeeType(), services
+            );
+            stack.push(employeeRelacionamento);
         }
 
+        // Converter a pilha de volta para uma lista
+        List<EmployeeRelacionamento> employeeRelacionamentos = new ArrayList<>();
+        while (!stack.isEmpty()) {
+            employeeRelacionamentos.add(stack.pop());
+        }
 
         return employeeRelacionamentos;
+
+
         } catch (Exception e) {
             throw new RuntimeException("Error");
     }
     }
 
+    public List<EmployeeRelacionamento> findAllByEstablishmentIds(List<Integer> establishmentIds) {
+        List<EmployeeRelacionamento> allEmployees = new ArrayList<>();
+
+        for (Integer establishmentId : establishmentIds) {
+            List<EmployeeRelacionamento> employeesForEstablishment = findAllByEstablishment(establishmentId);
+            allEmployees.addAll(employeesForEstablishment);
+        }
+
+        return allEmployees;
+    }
 }

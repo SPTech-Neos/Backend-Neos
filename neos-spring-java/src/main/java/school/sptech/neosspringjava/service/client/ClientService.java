@@ -1,6 +1,8 @@
 package school.sptech.neosspringjava.service.client;
 
+import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,13 +12,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import school.sptech.neosspringjava.api.configuration.security.jwt.GerenciadorTokenJwt;
 
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientCreatDTO;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientLoginDto;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientResponse;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientTokenDto;
+import school.sptech.neosspringjava.api.dtos.clientDto.*;
+import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
+import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponse;
+import school.sptech.neosspringjava.api.dtos.produtcDto.ProductResponse;
+import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
 import school.sptech.neosspringjava.api.mappers.clientMapper.ClientMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
+import school.sptech.neosspringjava.exception.NaoEncontradoException;
+
+import java.util.List;
 
 @Service
 public class ClientService {

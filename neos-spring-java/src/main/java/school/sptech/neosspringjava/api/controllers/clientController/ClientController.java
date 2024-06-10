@@ -21,12 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientCreatDTO;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientLoginDto;
+import school.sptech.neosspringjava.api.dtos.clientDto.*;
 // import school.sptech.neosspringjava.api.dtos.clientDto.ClientLoginTolken;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientTokenDto;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientRequest;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientResponse;
 import school.sptech.neosspringjava.api.mappers.clientMapper.ClientMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;

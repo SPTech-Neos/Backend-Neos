@@ -26,6 +26,7 @@ import school.sptech.neosspringjava.domain.repository.employeeRepository.Employe
 import school.sptech.neosspringjava.domain.repository.schedulingRepository.SchedulingRepository;
 import school.sptech.neosspringjava.domain.repository.schedulingStatusRepository.SchedulingStatusRepository;
 import school.sptech.neosspringjava.domain.repository.serviceRepository.ServiceRepository;
+import school.sptech.neosspringjava.service.schedulingService.SchedulingService;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,6 +39,7 @@ public class ScheduligController {
     private final EmployeeRepository employeeRepository;
     private final SchedulingStatusRepository schedulingStatusRepository;
     private final ScheduligMapper scheduligMapper;
+    private final SchedulingService schedulingService;
 
     @GetMapping
     public ResponseEntity<List<ScheduligResponse>> getAllSchedulig() {
@@ -48,7 +50,6 @@ public class ScheduligController {
     }
 
     @GetMapping("/{id}")
-
     public ResponseEntity<ScheduligResponse> getScheduligById(@PathVariable int id) {
         Scheduling scheduling = schedulingRepository.findById(id).orElseThrow();
         if (scheduling == null) {
@@ -94,5 +95,17 @@ public class ScheduligController {
         }
         schedulingRepository.delete(scheduling);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<List<ScheduligResponse>> getSchedulesByClientId(@PathVariable Integer clientId) {
+        List<ScheduligResponse> schedules = schedulingService.getSchedulesByClientId(clientId);
+        return ResponseEntity.ok(schedules);
+    }
+
+    @GetMapping("/employee/{employeeId}")
+    public ResponseEntity<List<ScheduligResponse>> getSchedulesByEmployeeId(@PathVariable Integer employeeId) {
+        List<ScheduligResponse> schedules = schedulingService.getSchedulesByEmployeeId(employeeId);
+        return ResponseEntity.ok(schedules);
     }
 }
