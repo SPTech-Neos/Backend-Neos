@@ -155,17 +155,17 @@ public class EstablishmentService {
 
             List<EmployeeRelacionamento> employees = employeeService.findAllByEstablishment(id);
             if (employees.isEmpty()) {
-                throw new NotFound("Funcionários não encontrados");
+                employees = new ArrayList<>();
             }
 
             List<FilterResponse> filters = filterService.findAllByEstablishment(establishment);
             if (filters.isEmpty()) {
-                throw new NotFound("Filtros não encontrados");
+                filters = new ArrayList<>();
             }
 
             List<ProductResponse> products = productService.findAllByEstablishment(establishment);
             if (products.isEmpty()) {
-                throw new NotFound("Produtos não encontrados");
+                products = new ArrayList<>();
             }
 
             EstablishmentRespose establishmentRespose = establishmentMapper.toEstablishmentResponse(establishment);

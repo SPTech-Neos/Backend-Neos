@@ -230,10 +230,10 @@ INSERT INTO service (specification, img_url, type_fk) VALUES
 ('Maquiagem para Festas', 'https://moda20.com.br/wp-content/uploads/2023/02/Tendencias-de-Moda.jpg', 2);
 
 INSERT INTO employee_services (hours_spent, expertise, employee_fk, service_fk) VALUES
-(NOW(), 5, 3, 1),
-(NOW(), 6, 4, 2),
-(NOW(), 7, 2, 1),
-(NOW(), 8, 3, 1);
+(NOW(), 5, 1, 1),
+(NOW(), 6, 2, 2),
+(NOW(), 7, 3, 1),
+(NOW(), 8, 4, 1);
 
 INSERT INTO filter (price, establishment_fk, service_fk) VALUES
 (80.0, 1, 1),
