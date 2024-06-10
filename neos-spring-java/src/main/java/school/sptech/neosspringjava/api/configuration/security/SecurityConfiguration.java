@@ -41,7 +41,7 @@ public class SecurityConfiguration {
     @Autowired
     private AuthenticationEntryPoint authenticationEntryPoint;
 
-    private static final AntPathRequestMatcher[] URLS_PERMITIDAS = new AntPathRequestMatcher[]{
+    private static final AntPathRequestMatcher[] URLS_PERMITIDAS = new AntPathRequestMatcher[] {
             new AntPathRequestMatcher("/swagger-ui/**"),
             new AntPathRequestMatcher("/swagger-ui.html"),
             new AntPathRequestMatcher("/swagger-resources"),
@@ -93,8 +93,9 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/scheduling/**"),
             new AntPathRequestMatcher("/payment"),
             new AntPathRequestMatcher("/payment/**"),
-            new AntPathRequestMatcher("/filter")
-
+            new AntPathRequestMatcher("/filter"),
+            new AntPathRequestMatcher("/**/**"),
+            new AntPathRequestMatcher("/**")
     };
 
     @Bean
@@ -106,8 +107,7 @@ public class SecurityConfiguration {
                         .requestMatchers(URLS_PERMITIDAS)
                         .permitAll()
                         .anyRequest()
-                        .authenticated()
-                )
+                        .authenticated())
                 .exceptionHandling(handling -> handling
                         .authenticationEntryPoint(authenticationEntryPoint))
                 .sessionManagement(management -> management
@@ -116,39 +116,40 @@ public class SecurityConfiguration {
         return http.build();
     }
 
-//    @Bean
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.headers()
-//                .frameOptions().disable()
-//                .and()
-//                .cors()
-//                .configurationSource(request -> buildCorsConfiguration())
-//                .and()
-//                .csrf()
-//                .disable()
-//                .authorizeHttpRequests(authorize -> authorize
-//                .requestMatchers(URLS_PERMITIDAS)
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated()
-//        )
-//                .exceptionHandling()
-//                .authenticationEntryPoint(authenticationEntryPoint)
-//                .and()
-//                .sessionManagement( )
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//
-//        http.addFilterBefore(jwtAuthenticationFilterBean(), UsernamePasswordAuthenticationFilter.class);
-//
-//        return http.build();
-//    }
+    // @Bean
+    // public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    // http.headers()
+    // .frameOptions().disable()
+    // .and()
+    // .cors()
+    // .configurationSource(request -> buildCorsConfiguration())
+    // .and()
+    // .csrf()
+    // .disable()
+    // .authorizeHttpRequests(authorize -> authorize
+    // .requestMatchers(URLS_PERMITIDAS)
+    // .permitAll()
+    // .anyRequest()
+    // .authenticated()
+    // )
+    // .exceptionHandling()
+    // .authenticationEntryPoint(authenticationEntryPoint)
+    // .and()
+    // .sessionManagement( )
+    // .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    //
+    // http.addFilterBefore(jwtAuthenticationFilterBean(),
+    // UsernamePasswordAuthenticationFilter.class);
+    //
+    // return http.build();
+    // }
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
-        AuthenticationManagerBuilder authenticationManagerBuilder =
-                http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.authenticationProvider(new
-                AuthenticationProvider(authenticationService, passwordEncoder()));
+        AuthenticationManagerBuilder authenticationManagerBuilder = http
+                .getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder
+                .authenticationProvider(new AuthenticationProvider(authenticationService, passwordEncoder()));
         return authenticationManagerBuilder.build();
     }
 
