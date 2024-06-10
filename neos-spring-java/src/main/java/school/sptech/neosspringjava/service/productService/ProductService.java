@@ -1,11 +1,13 @@
 package school.sptech.neosspringjava.service.productService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import school.sptech.neosspringjava.api.dtos.FilterDto.FilterResponse;
 import school.sptech.neosspringjava.api.dtos.produtcDto.ProductRequest;
 import school.sptech.neosspringjava.api.dtos.produtcDto.ProductResponse;
 import school.sptech.neosspringjava.api.mappers.productMapper.ProductMapper;
@@ -83,4 +85,16 @@ public class ProductService {
     
         return ProductMapper.toProductResponse(productRepository.findAllByEstablishment(establishment));
     }
+
+    public List<ProductResponse> findAllByEstablishments(List<Establishment> establishments) {
+        List<ProductResponse> allProducts = new ArrayList<>();
+
+        for (Establishment establishment : establishments) {
+            List<ProductResponse> productsForEstablishment = findAllByEstablishment(establishment);
+            allProducts.addAll(productsForEstablishment);
+        }
+
+        return allProducts;
+    }
+
 }

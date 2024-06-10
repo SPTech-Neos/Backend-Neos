@@ -30,7 +30,7 @@ CREATE TABLE establishment(
   establishment_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL,
   company_fk INT,
-  img_url VARCHAR(100),
+  img_url VARCHAR(250),
   local_fk INT NOT NULL,
   FOREIGN KEY (company_fk) REFERENCES company(company_id) ON DELETE CASCADE,
   FOREIGN KEY (local_fk) REFERENCES local(local_id) ON DELETE CASCADE
@@ -177,8 +177,10 @@ INSERT INTO local (number, floor, block, complement, address_fk) VALUES
 (202, 2, NULL, 'Próximo à área de atendimento', 2);
 
 INSERT INTO establishment (name, company_fk, img_url, local_fk) VALUES
-('Bella Vista', 1, 'http://example.com/bella_vista.jpg', 1),
-('Charme & Elegância', 2, 'http://example.com/charme_e_elegancia.jpg', 2);
+('Bella Vista', 1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu334ZQlSkSb78tgi9yUVS0EaK4N8iM5X9OQ&s', 1),
+('Charme & Elegância', 2, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIv_PcZ6EhC9NbapS0k0IjqESMt5f2pqrTxdUQ4Yhg5V3qIkiI1TVx_gCNg15IFEywIvI&usqp=CAU', 2),
+('Barbealira', 1, 'https://www.guiadasemana.com.br/contentFiles/image/opt_w1024h1024/2017/02/FEA/49393_shutterstock-barbearia.jpg', 1),
+('Cabeleireira Leila', 1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQJHbu_cfteLtz2lVnEpf29OQd4O1TrzlypHb5XUW0B7A_1pGuAXYWL20-BPYShn69CEs&usqp=CAU', 1);
 
 INSERT INTO product_type (name, specification) VALUES
 ('Cabelo', 'Produtos para cabelo'),
