@@ -12,6 +12,7 @@ import com.cloudinary.api.exceptions.NotFound;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.FilterDto.FilterResponse;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRelacionamento;
+import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponseList;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
@@ -26,7 +27,9 @@ import school.sptech.neosspringjava.domain.repository.establishmentRopository.Es
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 import school.sptech.neosspringjava.service.filterService.FilterService;
+import school.sptech.neosspringjava.service.integracaoImageApi.IntegracaoImageApiService;
 import school.sptech.neosspringjava.service.productService.ProductService;
+import school.sptech.neosspringjava.service.serviceService.ServiceService;
 
 @Service
 @RequiredArgsConstructor
@@ -209,6 +212,8 @@ public class EstablishmentService {
             throw new RuntimeException("Erro ao buscar estabelecimentos", e);
         }
     }
+
+
 
 
     private List<EmployeeRelacionamento> findEmployeesByEstablishments(List<EstablishmentRespose> establishments) {
