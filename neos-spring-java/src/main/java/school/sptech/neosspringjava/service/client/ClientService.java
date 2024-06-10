@@ -46,8 +46,7 @@ public class ClientService {
 
     public ClientTokenDto authenticate(ClientLoginDto clientLoginDTO) {
 
-        final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(
-                clientLoginDTO.getEmail(), clientLoginDTO.getPassword());
+        final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(clientLoginDTO.getEmail()+";client", clientLoginDTO.getPassword());
         final Authentication authentication = this.authenticationManager.authenticate(credentials);
 
         Client clientAuthetication =
@@ -55,7 +54,8 @@ public class ClientService {
         .orElseThrow(
                 () -> new ResponseStatusException(404, "Email do usuário não cadastrado", null)
         );
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+        
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         final String token = gerenciadorTokenJwt.generateToken(authentication);
 

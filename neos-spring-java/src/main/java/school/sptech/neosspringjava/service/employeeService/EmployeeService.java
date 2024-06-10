@@ -9,13 +9,22 @@ import java.util.stream.Collectors;
 
 import io.swagger.v3.core.util.ReflectionUtils;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import lombok.RequiredArgsConstructor;
+import school.sptech.neosspringjava.api.configuration.security.jwt.GerenciadorTokenJwt;
+import school.sptech.neosspringjava.api.dtos.employee.EmployeeLogin;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRelacionamento;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
+import school.sptech.neosspringjava.api.dtos.employee.EmployeeTokenDto;
 import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
 import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
@@ -36,6 +45,28 @@ public class EmployeeService {
    private final EmployeeTypeRepository employeeTypeRepository;
    private final PasswordEncoder passwordEncoder;
    private final EmployeeServService employeeServService;
+
+    @Autowired
+    GerenciadorTokenJwt gerenciadorTokenJwt;
+    @Autowired
+    AuthenticationManager authenticationManager;
+ 
+    public EmployeeTokenDto authenticate(EmployeeLogin employeeLogin) {
+        final UsernamePasswordAuthenticationToken credentials = new UsernamePasswordAuthenticationToken(employeeLogin.email() + ";employee", employeeLogin.password());
+        System.out.println("credentials "+credentials);
+        final Authentication authentication = this.authenticationManager.authenticate(credentials);
+        System.out.println("authentication == "+authentication);
+        System.out.println("authentication == "+authentication.getCredentials());
+
+        Employee employeeAuthentication = employeeRepository.findByEmail(employeeLogin.email())
+                .orElseThrow(() -> new ResponseStatusException(404, "Email do usuário não cadastrado", null));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        final String token = gerenciadorTokenJwt.generateToken(authentication);
+
+        return EmployeeMapper.of(employeeAuthentication, token);
+    }
    
 
 
