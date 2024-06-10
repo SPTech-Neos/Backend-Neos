@@ -23,9 +23,6 @@ public class EstablishmentMapper {
         );
     }
 
-
- 
-
     public List<EstablishmentRespose> toEstablishmentResponseList(List<Establishment> establishments) {
         return establishments.stream().map(this::toEstablishmentResponse).collect(Collectors.toList());
     }
@@ -38,6 +35,12 @@ public class EstablishmentMapper {
             .imgUrl(establishmentRespose.imgUrl())
             .local(establishmentRespose.local())
             .build();
+    }
+
+    public List<Establishment> toEstablishment(List<EstablishmentRespose> establishmentResposes) {
+        return establishmentResposes.stream()
+                .map(this::toEstablishment)
+                .collect(Collectors.toList());
     }
 
 }

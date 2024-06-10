@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
+import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponseList;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRespose;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
@@ -65,9 +66,13 @@ public class EstablishmentController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/api/full")
+    public ResponseEntity<List<EstablishmentFullResponseList>> findFull() {
+        return ResponseEntity.ok(establishmentService.findFull());
+    }
 
     @GetMapping("/api/full/{id}")
-    public ResponseEntity<List< EstablishmentFullResponse>> findAllFull(@PathVariable Integer id) {
+    public ResponseEntity<List<EstablishmentFullResponse>> findAllFull(@PathVariable Integer id) {
         return ResponseEntity.ok(establishmentService.findAllFull(id));
     }
   

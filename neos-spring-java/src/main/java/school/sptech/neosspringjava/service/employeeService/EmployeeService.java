@@ -176,4 +176,14 @@ public class EmployeeService {
     }
     }
 
+    public List<EmployeeRelacionamento> findAllByEstablishmentIds(List<Integer> establishmentIds) {
+        List<EmployeeRelacionamento> allEmployees = new ArrayList<>();
+
+        for (Integer establishmentId : establishmentIds) {
+            List<EmployeeRelacionamento> employeesForEstablishment = findAllByEstablishment(establishmentId);
+            allEmployees.addAll(employeesForEstablishment);
+        }
+
+        return allEmployees;
+    }
 }

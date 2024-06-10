@@ -5,23 +5,23 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.cloudinary.api.exceptions.NotFound;
 
-import ch.qos.logback.core.filter.Filter;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.FilterDto.FilterResponse;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRelacionamento;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.DashboardResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponse;
+import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponseList;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRespose;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentResponse;
 import school.sptech.neosspringjava.api.dtos.produtcDto.ProductResponse;
-import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
 import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.domain.model.company.Company;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
@@ -151,48 +151,75 @@ public class EstablishmentService {
 
 
     public List<EstablishmentFullResponse> findAllFull(Integer id) {
-        List<EstablishmentFullResponse> retorno = new ArrayList<>();
-
-        try{
-            Optional<Establishment> establishment = establishmentRopository.findById(id);
-
-
-            if (id ==null) {
+        try {
+            if (id == null) {
                 throw new IllegalArgumentException("ID do estabelecimento não pode ser nulo");
             }
 
-            if (establishment.isEmpty()) {
+            Optional<Establishment> establishmentOptional = establishmentRopository.findById(id);
+            if (establishmentOptional.isEmpty()) {
                 throw new NotFound("Estabelecimento não encontrado");
             }
-            EstablishmentRespose establishmentRespose = establishmentMapper.toEstablishmentResponse(establishment.get());
+
+            Establishment establishment = establishmentOptional.get();
 
             List<EmployeeRelacionamento> employees = employeeService.findAllByEstablishment(id);
-            if (establishment == null) {
-                throw new NotFound("Estabelecimento não encontrado");
+            if (employees.isEmpty()) {
+                throw new NotFound("Funcionários não encontrados");
             }
 
-
-            List<FilterResponse> filters = filterService.findAllByEstablishment(establishment.get());
+            List<FilterResponse> filters = filterService.findAllByEstablishment(establishment);
             if (filters.isEmpty()) {
                 throw new NotFound("Filtros não encontrados");
             }
 
-
-            List<ProductResponse> products = productService.findAllByEstablishment(establishment.get());
-
+            List<ProductResponse> products = productService.findAllByEstablishment(establishment);
             if (products.isEmpty()) {
                 throw new NotFound("Produtos não encontrados");
-                
             }
 
+            EstablishmentRespose establishmentRespose = establishmentMapper.toEstablishmentResponse(establishment);
+
+            EstablishmentFullResponse establishmentFullResponse = new EstablishmentFullResponse(
+                    establishmentRespose,
+                    employees,
+                    filters,
+                    products
+            );
+
+            return List.of(establishmentFullResponse);
+
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar estabelecimentos", e);
+        }
+    }
 
 
-            EstablishmentFullResponse establishmentFullResponse = new EstablishmentFullResponse(establishmentRespose , employees, filters, products);
-            retorno.add(establishmentFullResponse);
-          return retorno;
-        
-        }catch (Exception e){
-            throw new RuntimeException("Erro ao buscar estabelecimentos");
+    public List<EstablishmentFullResponseList> findFull() {
+        try {
+            List<Establishment> establishments = establishmentRopository.findAll();
+            List<EstablishmentFullResponseList> establishmentFullResponseLists = new ArrayList<>();
+
+            for (Establishment establishment : establishments) {
+                EstablishmentRespose establishmentResponse = establishmentMapper.toEstablishmentResponse(establishment);
+
+                List<EmployeeRelacionamento> employees = findEmployeesByEstablishments(List.of(establishmentResponse));
+                List<FilterResponse> filters = findFiltersByEstablishments(List.of(establishmentResponse));
+                List<ProductResponse> products = findProductsByEstablishments(List.of(establishmentResponse));
+
+                EstablishmentFullResponseList establishmentFullResponseList = new EstablishmentFullResponseList(
+                        List.of(establishmentResponse),
+                        employees,
+                        filters,
+                        products
+                );
+
+                establishmentFullResponseLists.add(establishmentFullResponseList);
+            }
+
+            return establishmentFullResponseLists;
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao buscar estabelecimentos", e);
         }
     }
 
@@ -228,6 +255,24 @@ public class EstablishmentService {
 
         return new DashboardResponse(percentageOccupation, totalIncome, cancellationRate, cancellationByEmployee, totalIncomeByServiceCategory);
   
+    }
+    private List<EmployeeRelacionamento> findEmployeesByEstablishments(List<EstablishmentRespose> establishments) {
+        List<Integer> establishmentIds = establishments.stream().map(EstablishmentRespose::id).collect(Collectors.toList());
+        return employeeService.findAllByEstablishmentIds(establishmentIds);
+    }
 
+    private List<FilterResponse> findFiltersByEstablishments(List<EstablishmentRespose> establishmentsResponse) {
+        List<Establishment> establishments = establishmentsResponse.stream()
+                .map(establishmentResponse -> establishmentMapper.toEstablishment(establishmentResponse))
+                .collect(Collectors.toList());
+        return filterService.findAllByEstablishments(establishments);
+    }
+
+    private List<ProductResponse> findProductsByEstablishments(List<EstablishmentRespose> establishmentsResponse) {
+        List<Establishment> establishments = establishmentsResponse.stream()
+                .map(establishmentResponse -> establishmentMapper.toEstablishment(establishmentResponse))
+                .collect(Collectors.toList());
+
+        return productService.findAllByEstablishments(establishments);
     }
 }
