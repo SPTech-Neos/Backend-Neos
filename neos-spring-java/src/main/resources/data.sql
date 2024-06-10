@@ -46,7 +46,7 @@ CREATE TABLE product(
   product_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45),
   brand VARCHAR(45),
-  img_url VARCHAR(100),
+  img_url VARCHAR(250),
   value DECIMAL,
   type_fk INT,
   establishment_fk INT,
@@ -59,7 +59,7 @@ CREATE TABLE client(
   name VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
   password VARCHAR(300) NOT NULL,
-  img_url VARCHAR(100),
+  img_url VARCHAR(250),
   local_fk INT NOT NULL,
   FOREIGN KEY (local_fk) REFERENCES local(local_id) ON DELETE CASCADE
 );
@@ -84,7 +84,7 @@ CREATE TABLE employee(
   name VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
   password VARCHAR(300) NOT NULL,
-  img_url VARCHAR(100),
+  img_url VARCHAR(250),
   establishment_fk INT NOT NULL,
   employee_type_fk INT NOT NULL,
   FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id) ON DELETE CASCADE,
@@ -106,7 +106,7 @@ CREATE TABLE service_type(
 CREATE TABLE service(
   service_id INT PRIMARY KEY auto_increment,
   specification VARCHAR(45) NOT NULL,
-  img_url VARCHAR(100),
+  img_url VARCHAR(250),
   type_fk INT,
   FOREIGN KEY (type_fk) REFERENCES service_type(service_type_id) ON DELETE CASCADE
 );
@@ -188,9 +188,9 @@ INSERT INTO product_type (name, specification) VALUES
 ('Unhas', 'Produtos para unhas');
 
 INSERT INTO product (name, brand, img_url, value, type_fk, establishment_fk) VALUES
-('Shampoo', 'LOréal', 'http://example.com/shampoo.jpg', 50.0, 1, 1),
-('Base líquida', 'MAC', 'http://example.com/base.jpg', 80.0, 2, 2),
-('Esmalte', 'Risque', 'http://example.com/esmalte.jpg', 20.0, 3, 1);
+('Shampoo', 'LOréal', 'https://images.tcdn.com.br/img/img_prod/1017481/kit_absolut_repair_shampoo_1_5l_mascara_500g_condicionador_1_5l_l_oreal_professional_2935_1_2ef166991604a8236b6fc08cb297bd6f.jpg', 50.0, 1, 1),
+('Base líquida', 'MAC', 'https://epocacosmeticos.vteximg.com.br/arquivos/ids/568595-320-320/base-liquida-mac-studio-radiance37--1-.jpg?v=638304007998430000', 80.0, 2, 2),
+('Esmalte', 'Risque', 'https://drogariaspacheco.vteximg.com.br/arquivos/ids/1199328-1000-1000/208647---esmalte-risque-cintilante-perola-8ml-5.jpg?v=638394706034030000', 20.0, 3, 1);
 
 INSERT INTO client (name, email, password, img_url, local_fk) VALUES
 ('Cliente A', 'cliente.a@example.com', 'senha123', 'http://example.com/client.jpg', 1),
@@ -209,9 +209,9 @@ INSERT INTO employee_type (name) VALUES
 -- senha123
 
 INSERT INTO employee (name, email, password, img_url, establishment_fk, employee_type_fk) VALUES
-('Funcionário A', 'funcionario.a@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/employee.jpg', 1, 1),
-('Pedro Santos', 'pedro.santos@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/pedro_santos.jpg', 1, 2),
-('Camila Oliveira', 'camila.oliveira@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/camila_oliveira.jpg', 2, 3),
+('Funcionário A', 'funcionario.a@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'https://nucleocursos.com.br/blog/wp-content/uploads/2022/10/Profissao-Cabeleireiro-Tudo-o-que-voce-precisa-saber.jpeg', 1, 1),
+('Pedro Santos', 'pedro.santos@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'https://img.freepik.com/fotos-gratis/barbeiro-profissional-com-ferramentas-de-barbeiro-close-up_1303-20984.jpgg', 1, 2),
+('Camila Oliveira', 'camila.oliveira@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'https://www.primecursos.com.br/arquivos/uploads/2013/08/cabeleireiro.jpg', 2, 3),
 ('Rafael Lima', 'rafael.lima@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/rafael_lima.jpg', 2, 1);
 
 INSERT INTO service_category (service_category_name) VALUES
@@ -225,9 +225,9 @@ INSERT INTO service_type (service_type_name, category_fk) VALUES
 ('Maquiagem Social', 3);
 
 INSERT INTO service (specification, img_url, type_fk) VALUES
-('Corte Masculino', 'http://example.com/corte_masculino.jpg', 1),
-('Hidratação Capilar', 'http://example.com/hidratacao_capilar.jpg', 1),
-('Maquiagem para Festas', 'http://example.com/maquiagem_festas.jpg', 2);
+('Corte Masculino', 'https://static1.purepeople.com.br/articles/5/34/50/15/@/3932061-as-tendencias-em-corte-de-cabelo-masculi-1200x630-2.jpg', 1),
+('Hidratação Capilar', 'https://itmae.com.br/wp-content/uploads/2016/01/cabelo-sal%C3%A3o-hidrata%C3%A7%C3%A3o.jpg', 1),
+('Maquiagem para Festas', 'https://moda20.com.br/wp-content/uploads/2023/02/Tendencias-de-Moda.jpg', 2);
 
 INSERT INTO employee_services (hours_spent, expertise, employee_fk, service_fk) VALUES
 (NOW(), 5, 3, 1),
