@@ -15,6 +15,7 @@ import school.sptech.neosspringjava.domain.repository.establishmentRopository.Es
 import school.sptech.neosspringjava.domain.repository.paymentRepository.PaymentRepository;
 import school.sptech.neosspringjava.domain.repository.productRepository.ProductRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,7 @@ public class PaymentService {
         return new PaymentResponse(
                 payment.getId(),
                 payment.getDateTime(),
+                payment.getValue(),
                 payment.getProduct(),
                 payment.getClient(),
                 payment.getEstablishment()
@@ -69,6 +71,7 @@ public class PaymentService {
         return new PaymentResponse(
                 payment.getId(),
                 payment.getDateTime(),
+                payment.getValue(),
                 payment.getProduct(),
                 payment.getClient(),
                 payment.getEstablishment()
@@ -106,6 +109,7 @@ public class PaymentService {
         return new PaymentResponse(
                 updatedPayment.getId(),
                 updatedPayment.getDateTime(),
+                payment.getValue(),
                 updatedPayment.getProduct(),
                 updatedPayment.getClient(),
                 updatedPayment.getEstablishment()
@@ -119,6 +123,7 @@ public class PaymentService {
                 .map(payment -> new PaymentResponse(
                         payment.getId(),
                         payment.getDateTime(),
+                        payment.getValue(),
                         payment.getProduct(),
                         payment.getClient(),
                         payment.getEstablishment()
@@ -127,6 +132,28 @@ public class PaymentService {
     }
 
         
+
+    public List<PaymentResponse> findAllByEstablishment(Establishment establishment, LocalDateTime initialDate) {
+        //busca pelos pagamentos 
+        // de um estabelecimento 
+        // com uma data inicial de maneira que 
+        // ordene por data decrescente 
+        // e retorne uma lista de pagamentos
+        // List<Payment> payments = paymentRepository.findAllByEstablishmentOrderByDateTimeDesc(establishment);
+
+        List<Payment> payments = paymentRepository.findAllByEstablishmentAndDateTimeGreaterThanEqualOrderByDateTimeDesc(establishment, initialDate);
+
+        return payments.stream()
+                .map(payment -> new PaymentResponse(
+                        payment.getId(),
+                        payment.getDateTime(),
+                        payment.getValue(),
+                        payment.getProduct(),
+                        payment.getClient(),
+                        payment.getEstablishment()
+                ))
+                .toList();
+    }
 
 
 }

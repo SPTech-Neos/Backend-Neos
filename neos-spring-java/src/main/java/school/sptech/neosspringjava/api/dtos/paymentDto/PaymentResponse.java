@@ -9,6 +9,7 @@ import school.sptech.neosspringjava.domain.model.product.Product;
 public record PaymentResponse(
     Integer id,
     LocalDateTime dateTime,
+    Double value,
     Product product,
     Client client,
     Establishment establishment
