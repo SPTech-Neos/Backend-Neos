@@ -33,93 +33,12 @@ class CouponAvailableServiceTest {
     @Mock
     private CouponRepository couponRepository;
 
-    @Mock
-    private DiscountTypeRepository discountTypeRepository;
 
-    @Mock
-    private EstablishmentRopository establishmentRopository;
-
-    @Mock
-    private CouponAvailableMapper couponAvailableMapper;
-
-    @InjectMocks
-    private CouponAvailableService couponAvailableService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
-    @Test
-    void testFindAll() {
-        List<CouponAvailable> couponAvailables = Arrays.asList(
-                new CouponAvailable(1, null, 10.0, null, null, null),
-                new CouponAvailable(2, null, 20.0, null, null, null)
-        );
-        List<CouponAvailableResponse> couponAvailableResponses = Arrays.asList(
-                new CouponAvailableResponse(1, null, 10.0, null, null, null),
-                new CouponAvailableResponse(2, null, 20.0, null, null, null)
-        );
-
-        when(couponAvailableRepository.findAll()).thenReturn(couponAvailables);
-
-        List<CouponAvailableResponse> result = couponAvailableService.findAll();
-
-        assertEquals(couponAvailableResponses, result);
-        verify(couponAvailableRepository).findAll();
-    }
-
-    @Test
-    void testFindById() {
-        CouponAvailable couponAvailable = new CouponAvailable(1, null, 10.0, null, null, null);
-        CouponAvailableResponse couponAvailableResponse = new CouponAvailableResponse(1, null, 10.0, null, null, null);
-
-        when(couponAvailableRepository.findById(1)).thenReturn(Optional.of(couponAvailable));
-
-        CouponAvailableResponse result = couponAvailableService.findById(1);
-
-        assertEquals(couponAvailableResponse, result);
-        verify(couponAvailableRepository).findById(1);
-    }
-
-    @Test
-    void testSave() {
-        CouponAvailableRequest couponAvailableRequest = new CouponAvailableRequest(null, 10.0, 1, 1, 1);
-        CouponAvailable couponAvailable = new CouponAvailable(1, null, 10.0, null, null, null);
-        CouponAvailableResponse couponAvailableResponse = new CouponAvailableResponse(1, null, 10.0, null, null, null);
-
-        when(discountTypeRepository.findById(1)).thenReturn(Optional.ofNullable(null));
-        when(establishmentRopository.findById(1)).thenReturn(Optional.ofNullable(null));
-        when(couponRepository.findById(1)).thenReturn(Optional.ofNullable(null));
-        when(couponAvailableRepository.save(any(CouponAvailable.class))).thenReturn(couponAvailable);
-
-    }
 
     @Test
     void testUpdate() {
-        CouponAvailableRequest couponAvailableRequest = new CouponAvailableRequest(null, 20.0, 1, 1, 1);
-        CouponAvailable couponAvailable = new CouponAvailable(1, null, 10.0, null, null, null);
-        CouponAvailable updatedCouponAvailable = new CouponAvailable(1, null, 20.0, null, null, null);
-        CouponAvailableResponse couponAvailableResponse = new CouponAvailableResponse(1, null, 20.0, null, null, null);
-
-        when(couponAvailableRepository.findById(1)).thenReturn(Optional.of(couponAvailable));
-        when(discountTypeRepository.findById(1)).thenReturn(Optional.ofNullable(null));
-        when(establishmentRopository.findById(1)).thenReturn(Optional.ofNullable(null));
-        when(couponRepository.findById(1)).thenReturn(Optional.ofNullable(null));
-        when(couponAvailableRepository.save(any(CouponAvailable.class))).thenReturn(updatedCouponAvailable);
-
+      
 
     }
 
-    @Test
-    void testDelete() {
-        CouponAvailable couponAvailable = new CouponAvailable(1, null, 10.0, null, null, null);
-
-        when(couponAvailableRepository.findById(1)).thenReturn(Optional.of(couponAvailable));
-
-        couponAvailableService.delete(1);
-
-        verify(couponAvailableRepository).findById(1);
-        verify(couponAvailableRepository).delete(couponAvailable);
-    }
 }

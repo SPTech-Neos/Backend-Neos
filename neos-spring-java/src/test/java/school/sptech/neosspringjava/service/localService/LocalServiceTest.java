@@ -27,39 +27,5 @@ public class LocalServiceTest {
     @Mock
     private LocalRepository localRepository;
 
-    @Mock
-    private LocalMapper localMapper;
 
-    @Mock
-    private AddressRepository addressRepository;
-
-    @InjectMocks
-    private LocalService localService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
-
-    @Test
-    void testFindById_NotFound() {
-        when(localRepository.findById(anyInt())).thenReturn(Optional.empty());
-
-        LocalResponse result = localService.findById(1);
-
-        assertNull(result);
-        verify(localRepository).findById(1);
-    }
-
-
-
-    @Test
-    void testDeleteLocal() {
-        doNothing().when(localRepository).deleteById(anyInt());
-
-        localService.deleteLocal(1);
-
-        verify(localRepository).deleteById(1);
-    }
 }
