@@ -6,7 +6,7 @@ import school.sptech.neosspringjava.api.dtos.produtcDto.ProductResponse;
 
 import java.util.List;
 
-public record EstablishmentFullResponseList(List<EstablishmentRespose> establishmentResponses,
+public record EstablishmentFullResponseList(List<EstablishmentResponse> establishmentResponses,
                                             List<EmployeeRelacionamento> employees,
                                             List<FilterResponse> filters,
                                             List<ProductResponse> products) {

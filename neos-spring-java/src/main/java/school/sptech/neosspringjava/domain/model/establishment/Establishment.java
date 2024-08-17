@@ -29,6 +29,7 @@ import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.company.Company;
 import school.sptech.neosspringjava.domain.model.filter.Filter;
 import school.sptech.neosspringjava.domain.model.local.Local;
+import school.sptech.neosspringjava.domain.model.status.Status;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -51,14 +52,15 @@ public class Establishment {
     @NotBlank(message = "Nome é obrigatório")
     @NotEmpty(message = "Nome é obrigatório")
     private String name;
-    
-    @JoinColumn(name = "company_fk")
-    @ManyToOne
-    private Company company;
 
+    @JoinColumn(name = "fkStatus")
+    @ManyToOne
+    private Status status;
+
+    @Column(name = "imgUrl")
     private String imgUrl;
 
-    @JoinColumn(name = "local_fk")
+    @JoinColumn(name = "fkLocal")
     @ManyToOne
     private Local local;
   

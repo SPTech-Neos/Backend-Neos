@@ -20,9 +20,8 @@ public class AddressService {
     public AddressResponse save(AddressRequest addressRequest) {
         Address address = Address.builder()
                 .publicPlace(addressRequest.publicPlace())
-                .street(addressRequest.street())
                 .city(addressRequest.city())
-                .state(addressRequest.state())
+                .uf(addressRequest.uf())
                 .build();
         addressRepository.save(address);
         return addressMapper.toAddressResponse(address);
@@ -40,9 +39,8 @@ public class AddressService {
 
     public AddressResponse update(Integer id, AddressRequest addressRequest) {
         Address address = addressRepository.findById(id).orElseThrow();
-        address.setStreet(addressRequest.street());
         address.setCity(addressRequest.city());
-        address.setState(addressRequest.state());
+        address.setUf(addressRequest.uf());
         addressRepository.save(address);
         return addressMapper.toAddressResponse(address);
     }

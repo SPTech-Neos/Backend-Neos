@@ -7,14 +7,13 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.FilterDto.FilterResponse;
 import school.sptech.neosspringjava.api.dtos.produtcDto.ProductRequest;
 import school.sptech.neosspringjava.api.dtos.produtcDto.ProductResponse;
 import school.sptech.neosspringjava.api.mappers.productMapper.ProductMapper;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.product.Product;
 import school.sptech.neosspringjava.domain.model.productType.ProductType;
-import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.productRepository.ProductRepository;
 import school.sptech.neosspringjava.domain.repository.productTypeRepository.ProductTypeRepository;
 
@@ -24,13 +23,13 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper ProductMapper;
-    private final EstablishmentRopository establishmentRopository;
+    private final EstablishmentRepository establishmentRepository;
     private final ProductTypeRepository productTypeRepository;
 
     public ProductResponse save(ProductRequest productRequest) {
 
         ProductType productType = productTypeRepository.findById(productRequest.type()).orElseThrow();
-        Establishment establishment = establishmentRopository.findById(productRequest.establishment()).orElseThrow();
+        Establishment establishment = establishmentRepository.findById(productRequest.establishment()).orElseThrow();
         Product product = Product.builder()
                 .name(productRequest.name())
                 .brand(productRequest.brand())
@@ -47,7 +46,7 @@ public class ProductService {
         Optional<Product> productOp = productRepository.findById(id);
         if (productOp.isPresent()) {
             ProductType productType = productTypeRepository.findById(productRequest.type()).orElseThrow();
-        Establishment establishment = establishmentRopository.findById(productRequest.establishment()).orElseThrow();
+        Establishment establishment = establishmentRepository.findById(productRequest.establishment()).orElseThrow();
         Product product = Product.builder()
                 .name(productRequest.name())
                 .brand(productRequest.brand())

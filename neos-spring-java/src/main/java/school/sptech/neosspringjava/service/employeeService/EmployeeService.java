@@ -1,6 +1,5 @@
 package school.sptech.neosspringjava.service.employeeService;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,9 +7,6 @@ import java.util.Optional;
 import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.stream.Collectors;
-
-import io.swagger.v3.core.util.ReflectionUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,7 +31,7 @@ import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
-import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.service.EmployeeServService.EmployeeServService;
 
 @Service
@@ -44,7 +40,7 @@ public class EmployeeService {
 
    private final EmployeeRepository employeeRepository;
    private final EmployeeMapper employeeMapper;
-   private final EstablishmentRopository establishmentRopository;
+   private final EstablishmentRepository establishmentRepository;
    private final EmployeeTypeRepository employeeTypeRepository;
    private final PasswordEncoder passwordEncoder;
    private final EmployeeServService employeeServService;
@@ -86,7 +82,7 @@ public class EmployeeService {
         Employee employee = new Employee();
         employee.setEmail(employeeRequest.email());
         employee.setEmployeeType(employeeType);
-        employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment())
+        employee.setEstablishment(establishmentRepository.findById(employeeRequest.fkEstablishment())
                 .orElseThrow(() -> new RuntimeException("Establishment not found")));
         employee.setImgUrl(employeeRequest.imgUrl());
         employee.setName(employeeRequest.name());
@@ -102,7 +98,7 @@ public class EmployeeService {
             employee.setEmail(employeeRequest.email());
             employee.setPassword(employeeRequest.password());
             employee.setImgUrl(employeeRequest.imgUrl());
-            employee.setEstablishment(establishmentRopository.findById(employeeRequest.fkEstablishment()).orElseThrow());
+            employee.setEstablishment(establishmentRepository.findById(employeeRequest.fkEstablishment()).orElseThrow());
             employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.employeeType()).orElseThrow());
         return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
     }
@@ -128,7 +124,7 @@ public class EmployeeService {
 
         if (updates.containsKey("fkEstablishment")) {
             Integer fkEstablishment = (Integer) updates.get("fkEstablishment");
-            employee.setEstablishment(establishmentRopository.findById(fkEstablishment).orElseThrow());
+            employee.setEstablishment(establishmentRepository.findById(fkEstablishment).orElseThrow());
         }
 
         if (updates.containsKey("employeeType")) {
@@ -158,7 +154,7 @@ public class EmployeeService {
     
     public List<EmployeeRelacionamento> findAllByEstablishment(Integer fkEstablishment) {
     try {
-        Optional<Establishment> establishment = establishmentRopository.findById(fkEstablishment);
+        Optional<Establishment> establishment = establishmentRepository.findById(fkEstablishment);
         if (establishment.isEmpty()) {
             throw new NullPointerException("Establishment not found");
         }

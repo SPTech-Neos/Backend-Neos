@@ -24,6 +24,7 @@ public class Company {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "company_id")
     private int companyId;
+
     @NotBlank(message = "Nome é obrigatório")
     @NotEmpty
     private String name;

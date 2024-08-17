@@ -40,7 +40,7 @@ public class Local {
 
     @NotNull(message = "FkEndereco é obrigatório")
     
-    @JoinColumn(name ="address_fk")
+    @JoinColumn(name ="fkAddress")
     @ManyToOne
     private Address address;
 }

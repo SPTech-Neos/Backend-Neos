@@ -16,14 +16,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.couponAvailableDto.CouponAvailableRequest;
 import school.sptech.neosspringjava.api.dtos.couponAvailableDto.CouponAvailableResponse;
-import school.sptech.neosspringjava.api.mappers.couponAvailableMapper.CouponAvailableMapper;
-import school.sptech.neosspringjava.domain.model.couponAvailable.CouponAvailable;
-import school.sptech.neosspringjava.domain.model.establishment.Establishment;
-import school.sptech.neosspringjava.domain.repository.couponAvaliableRepository.CouponAvaliableRepository;
-import school.sptech.neosspringjava.domain.repository.couponRepository.CouponRepository;
-import school.sptech.neosspringjava.domain.repository.discountTypeRepository.DiscountTypeRepository;
-import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
-import school.sptech.neosspringjava.service.coupon.CouponService;
 import school.sptech.neosspringjava.service.couponAvailableService.CouponAvailableService;
 
 @RestController

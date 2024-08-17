@@ -12,7 +12,7 @@ import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.rating.Rating;
 import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
-import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.ratingRepository.RatingRepository;
 
 @Service
@@ -21,17 +21,17 @@ public class RatingService {
 
     private final RatingRepository ratingRepository;
     private final RatingMapper ratingMapper;
-    private final EstablishmentRopository establishmentRopository;
+    private final EstablishmentRepository establishmentRepository;
     private final ClientRepository clientRepository;
 
     public RatingResponse save(RatingRequest ratingRequest) {
           Rating rating = new Rating();
         if (ratingRequest.establishment() != null ) {
-        Establishment establishment = establishmentRopository.findById(ratingRequest.establishment())
+        Establishment establishment = establishmentRepository.findById(ratingRequest.establishment())
                 .orElseThrow(() -> new RuntimeException("Establishment not found"));
                   rating.setEstablishment(establishment);
         }else{
-            Establishment establishment = establishmentRopository.findById(1)
+            Establishment establishment = establishmentRepository.findById(1)
                 .orElseThrow(() -> new RuntimeException("Establishment not found"));
             rating.setEstablishment(establishment);
         }
@@ -74,7 +74,7 @@ public class RatingService {
     public RatingResponse updateRating(Integer id, RatingRequest ratingRequest) {
         Rating rating = ratingRepository.findById(id).orElseThrow(() -> new RuntimeException("Rating not found"));
         
-        Establishment establishment = establishmentRopository.findById(ratingRequest.establishment()).orElseThrow(() -> new RuntimeException("Establishment not found"));
+        Establishment establishment = establishmentRepository.findById(ratingRequest.establishment()).orElseThrow(() -> new RuntimeException("Establishment not found"));
 
         Client client = clientRepository.findById(ratingRequest.client()).orElseThrow(() -> new RuntimeException("Client not found"));
 

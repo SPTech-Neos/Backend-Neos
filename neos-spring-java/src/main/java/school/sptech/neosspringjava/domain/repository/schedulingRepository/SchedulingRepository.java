@@ -14,7 +14,7 @@ import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
 
 public interface SchedulingRepository extends JpaRepository<Scheduling, Integer>{
 
-List<Scheduling> findByEmployeeAndDateTimeBetween(Employee employee, LocalDateTime start, LocalDateTime end);
+    List<Scheduling> findByEmployeeAndDateTimeBetween(Employee employee, LocalDateTime start, LocalDateTime end);
 
     @Query("SELECT s FROM Scheduling s WHERE s.employee = :employee AND s.dateTime BETWEEN :startDate AND :endDate")
     List<Scheduling> findByEmployeeAndDateRange(@Param("employee") Employee employee, @Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);

@@ -61,8 +61,8 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/employee", "POST"),
             new AntPathRequestMatcher("/employee"),
             new AntPathRequestMatcher("/employee/**"),
-            // new AntPathRequestMatcher("/establishments"),
-            // new AntPathRequestMatcher("/establishments/**"),
+            new AntPathRequestMatcher("/establishments"),
+            new AntPathRequestMatcher("/establishments/**"),
 
             // new AntPathRequestMatcher("/address/**"), // apenas para testes daqui para baixo
             // new AntPathRequestMatcher("/address"),

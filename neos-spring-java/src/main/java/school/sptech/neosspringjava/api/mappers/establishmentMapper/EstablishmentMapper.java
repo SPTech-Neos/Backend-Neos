@@ -5,40 +5,39 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRespose;
+import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentResponse;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
-import school.sptech.neosspringjava.domain.model.filter.Filter;
 
 @Component
 public class EstablishmentMapper {
 
-    public EstablishmentRespose toEstablishmentResponse(Establishment establishment) {
-        return new EstablishmentRespose(
+    public EstablishmentResponse toEstablishmentResponse(Establishment establishment) {
+        return new EstablishmentResponse(
             establishment.getId(),
             establishment.getName(),
-            establishment.getCompany(),
             establishment.getImgUrl(),
-            establishment.getLocal() 
+            establishment.getLocal(),
+            establishment.getStatus()
         );
     }
 
-    public List<EstablishmentRespose> toEstablishmentResponseList(List<Establishment> establishments) {
+    public List<EstablishmentResponse> toEstablishmentResponseList(List<Establishment> establishments) {
         return establishments.stream().map(this::toEstablishmentResponse).collect(Collectors.toList());
     }
 
-    public Establishment toEstablishment(EstablishmentRespose establishmentRespose) {
+    public Establishment toEstablishment(EstablishmentResponse establishmentResponse) {
         return Establishment.builder()
-            .id(establishmentRespose.id())
-            .name(establishmentRespose.name())
-            .company(establishmentRespose.company())
-            .imgUrl(establishmentRespose.imgUrl())
-            .local(establishmentRespose.local())
-            .build();
+                .id(establishmentResponse.id())
+                .name(establishmentResponse.name())
+                .imgUrl(establishmentResponse.imgUrl())
+                .local(establishmentResponse.local())
+                .status(establishmentResponse.status())
+                .build()
+        ;
     }
 
-    public List<Establishment> toEstablishment(List<EstablishmentRespose> establishmentResposes) {
-        return establishmentResposes.stream()
+    public List<Establishment> toEstablishment(List<EstablishmentResponse> establishmentResponses) {
+        return establishmentResponses.stream()
                 .map(this::toEstablishment)
                 .collect(Collectors.toList());
     }

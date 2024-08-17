@@ -5,15 +5,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import school.sptech.neosspringjava.api.dtos.employee.EmployeeRelacionamento;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRespose;
+import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentResponse;
 import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.domain.model.company.Company;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.local.Local;
 import school.sptech.neosspringjava.domain.repository.companyRepository.CompanyRepository;
-import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
+import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 
@@ -27,7 +26,7 @@ import static org.mockito.Mockito.*;
 public class EstablishmentServiceTest {
 
     @Mock
-    private EstablishmentRopository establishmentRepository;
+    private EstablishmentRepository establishmentRepository;
 
     @Mock
     private EstablishmentMapper establishmentMapper;
@@ -55,13 +54,13 @@ public class EstablishmentServiceTest {
         Local local = new Local();
         Company company = new Company();
         Establishment establishment = new Establishment();
-        EstablishmentRespose response ;
+        EstablishmentResponse response ;
 
         when(localRepository.findById(1)).thenReturn(Optional.of(local));
         when(companyRepository.findById(1)).thenReturn(Optional.of(company));
         when(establishmentRepository.save(any(Establishment.class))).thenReturn(establishment);
 
-        EstablishmentRespose result = establishmentService.save(request);
+        EstablishmentResponse result = establishmentService.save(request);
 
         verify(localRepository).findById(1);
         verify(companyRepository).findById(1);
@@ -88,9 +87,9 @@ public class EstablishmentServiceTest {
         Establishment establishment = new Establishment();
         
         when(establishmentRepository.findById(1)).thenReturn(Optional.of(establishment));
-        when(establishmentMapper.toEstablishmentResponse(any(Establishment.class))).thenReturn(new EstablishmentRespose(1, "Test Establishment", new Company(), "Test Local", new Local()));
+        when(establishmentMapper.toEstablishmentResponse(any(Establishment.class))).thenReturn(new EstablishmentResponse(1, "Test Establishment", new Company(), "Test Local", new Local()));
 
-        EstablishmentRespose result = establishmentService.findById(1);
+        EstablishmentResponse result = establishmentService.findById(1);
 
         assertNotNull(result);
         verify(establishmentRepository).findById(1);
@@ -114,10 +113,10 @@ public class EstablishmentServiceTest {
         establishments.add(new Establishment());
         when(establishmentRepository.findAll()).thenReturn(establishments);
 
-        List<EstablishmentRespose> responses = new ArrayList<>();
+        List<EstablishmentResponse> responses = new ArrayList<>();
         when(establishmentMapper.toEstablishmentResponseList(establishments)).thenReturn(responses);
 
-        List<EstablishmentRespose> result = establishmentService.findAll();
+        List<EstablishmentResponse> result = establishmentService.findAll();
 
         assertNotNull(result);
         verify(establishmentRepository).findAll();
