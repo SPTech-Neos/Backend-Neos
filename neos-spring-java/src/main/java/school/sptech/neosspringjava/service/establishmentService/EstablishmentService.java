@@ -93,6 +93,17 @@ public class EstablishmentService {
         return getEstablishmentResponse(establishmentResquest, establishment);
     }
 
+    public EstablishmentResponse inativarEstabelecimento(Integer id){
+        Establishment e = establishmentRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("Estabelecimento não encontrado")
+        );
+
+        e.setStatus(statusService.buscarStatusPorNome("Inativo"));
+
+        return establishmentMapper.toEstablishmentResponse(establishmentRepository.save(e));
+
+    }
+
     public EstablishmentResponse partialUpdate(EstablishmentRequest establishmentRequest, Integer id) {
         Establishment establishment = establishmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Estabelecimento não encontrado"));

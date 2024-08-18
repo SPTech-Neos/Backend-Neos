@@ -14,7 +14,7 @@ public class StatusService {
     private final StatusRepository statusRepository;
 
     public Status buscarStatusPorNome(String status){
-        return statusRepository.findByName(status);
+        return statusRepository.findByName(status).orElseThrow(() -> new RuntimeException("Status não encontrado"));
     }
 
     public Status buscarStatusPorId(Integer id){

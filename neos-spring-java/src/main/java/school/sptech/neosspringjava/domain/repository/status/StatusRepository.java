@@ -4,8 +4,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import school.sptech.neosspringjava.domain.model.status.Status;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StatusRepository extends JpaRepository<Status, Integer> {
 
-    Status findByName(String name);
+    Optional<Status> findByName(String name);
 }

@@ -53,6 +53,10 @@ public class EstablishmentController {
         return ResponseEntity.ok(establishmentService.partialUpdate(establishmentRequest, id));
     }
 
+    @PatchMapping("/inactive/{id}")
+    public ResponseEntity<EstablishmentResponse> desativar(@PathVariable Integer id){
+        return ResponseEntity.ok(establishmentService.inativarEstabelecimento(id));
+    }
 
     @DeleteMapping("/{id}")
     public  ResponseEntity<Void> delete(@PathVariable Integer id) {
