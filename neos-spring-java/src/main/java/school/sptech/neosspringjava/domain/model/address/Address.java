@@ -40,4 +40,8 @@ public class Address {
     @NotEmpty
     @NotBlank(message = "estado é obrigatório")
     private String state;
+
+    @NotEmpty
+    @NotBlank(message = "cep é obrigatório")
+    private String postalCode;
 }

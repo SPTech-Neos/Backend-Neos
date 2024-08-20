@@ -13,7 +13,7 @@ import school.sptech.neosspringjava.domain.model.address.Address;
 public class AddressMapper {
 
     public static AddressResponse toAddressResponse(Address address) {
-        return new AddressResponse(address.getId(), address.getPublicPlace(), address.getStreet(), address.getCity(), address.getState());
+        return new AddressResponse(address.getId(), address.getPublicPlace(), address.getStreet(), address.getCity(), address.getState(), address.getPostalCode());
     }
 
     public static List<AddressResponse> toAddressResponse(List<Address> addresses) {
