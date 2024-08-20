@@ -23,6 +23,7 @@ public class AddressService {
                 .street(addressRequest.street())
                 .city(addressRequest.city())
                 .state(addressRequest.state())
+                .postalCode(addressRequest.postalCode())
                 .build();
         addressRepository.save(address);
         return addressMapper.toAddressResponse(address);
@@ -43,6 +44,7 @@ public class AddressService {
         address.setStreet(addressRequest.street());
         address.setCity(addressRequest.city());
         address.setState(addressRequest.state());
+        address.setPostalCode(addressRequest.postalCode());
         addressRepository.save(address);
         return addressMapper.toAddressResponse(address);
     }
