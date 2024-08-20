@@ -60,6 +60,9 @@ public class Establishment {
     @Column(name = "imgUrl")
     private String imgUrl;
 
+    @Column(name = "aditumId")
+    private String aditumId;
+
     @JoinColumn(name = "fkLocal")
     @ManyToOne
     private Local local;

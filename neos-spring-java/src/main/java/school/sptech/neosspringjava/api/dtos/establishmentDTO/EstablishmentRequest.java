@@ -14,6 +14,8 @@ public record EstablishmentRequest(
         Integer companyId,
         String imgUrl,
         Integer localId,
-        Integer statusId
+        Integer statusId,
+
+        String aditumId
      ) {
 }

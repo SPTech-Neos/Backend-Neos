@@ -33,12 +33,12 @@ public class Product {
     private String name;
     private String brand;
     private String imgUrl;
-    private Double value;
+    private Double price;
     @ManyToOne
-    @JoinColumn(name = "type_fk")
+    @JoinColumn(name = "fkProductType")
     private ProductType type;
     @ManyToOne
-    @JoinColumn(name = "establishment_fk")
+    @JoinColumn(name = "fkEstablishment")
     private Establishment establishment;
 
 }

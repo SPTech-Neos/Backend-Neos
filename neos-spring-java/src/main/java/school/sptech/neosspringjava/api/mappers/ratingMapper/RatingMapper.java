@@ -12,7 +12,15 @@ import school.sptech.neosspringjava.domain.model.rating.Rating;
 public class RatingMapper {
 
     public RatingResponse toResponse(Rating rating) {
-        return new RatingResponse(rating.getId(), rating.getNota(), rating.getEstablishment(), rating.getClient());
+        return new RatingResponse(
+                rating.getId(),
+                rating.getAvaliation(),
+                rating.getEstablishment(),
+                rating.getClient(),
+                rating.getEmployee(),
+                rating.getService(),
+                rating.getProduct()
+        );
     }
 
     public List<RatingResponse> toResponseList(List<Rating> ratings) {

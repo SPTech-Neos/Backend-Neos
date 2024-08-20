@@ -25,6 +25,7 @@ public class EmployeeType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_type_id")
     private Integer id;
+
     @NotBlank(message = "Nome do tipo de funcionario é obrigatório")
     @NotEmpty(message = "Nome do tipo de funcionario é obrigatório")
     private String name;

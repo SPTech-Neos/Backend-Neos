@@ -17,7 +17,8 @@ public class EstablishmentMapper {
             establishment.getName(),
             establishment.getImgUrl(),
             establishment.getLocal(),
-            establishment.getStatus()
+            establishment.getStatus(),
+            establishment.getAditumId()
         );
     }
 
@@ -32,6 +33,7 @@ public class EstablishmentMapper {
                 .imgUrl(establishmentResponse.imgUrl())
                 .local(establishmentResponse.local())
                 .status(establishmentResponse.status())
+                .aditumId(establishmentResponse.aditumId())
                 .build()
         ;
     }

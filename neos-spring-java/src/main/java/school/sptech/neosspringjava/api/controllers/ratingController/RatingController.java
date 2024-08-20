@@ -22,14 +22,29 @@ import school.sptech.neosspringjava.api.dtos.ratingDto.RatingResponse;
 import school.sptech.neosspringjava.service.ratingService.RatingService;
 
 @RestController
-@RequestMapping("/rating")
+@RequestMapping("/ratings")
 @RequiredArgsConstructor
 public class RatingController {
 
     private final RatingService ratingService;
+    
+    @PostMapping("/avaliate/establishment")
+    public ResponseEntity<RatingResponse> ratingEstablishment(@RequestBody RatingRequest ratingRequest) {
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.save(ratingRequest));
+    }
 
-    @PostMapping
-    public ResponseEntity<RatingResponse> createRating(@RequestBody RatingRequest ratingRequest) {
+    @PostMapping("/avaliate/employee")
+    public ResponseEntity<RatingResponse> ratingEmployee(@RequestBody RatingRequest ratingRequest) {
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.save(ratingRequest));
+    }
+
+    @PostMapping("/avaliate/product")
+    public ResponseEntity<RatingResponse> ratingProduct(@RequestBody RatingRequest ratingRequest) {
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.save(ratingRequest));
+    }
+
+    @PostMapping("/avaliate/service")
+    public ResponseEntity<RatingResponse> ratingService(@RequestBody RatingRequest ratingRequest) {
         return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.save(ratingRequest));
     }
 

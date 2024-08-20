@@ -46,7 +46,7 @@ public class Client {
     private String imgUrl;
 
     @ManyToOne
-    @JoinColumn(name = "local_fk", nullable = true)
+    @JoinColumn(name = "fkLocal", nullable = true)
     private Local local;
 
 }

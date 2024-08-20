@@ -29,12 +29,19 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_id")
     private Integer id;
-    @NotBlank(message = "É necessario haver uma especificação no serviço")
-    @NotEmpty(message = "É necessario haver uma especificação no serviço")
+
+    @NotBlank(message = "É necessario especificação do serviço")
+    @NotEmpty(message = "É necessario especificação do serviço")
     private String specification;
+
     private  String imgUrl;
+
+    private String aditumId;
+
+    private Double price;
+
     @ManyToOne
-    @JoinColumn(name = "type_fk")
+    @JoinColumn(name = "fkServiceType")
     private ServiceType serviceType;
 
   

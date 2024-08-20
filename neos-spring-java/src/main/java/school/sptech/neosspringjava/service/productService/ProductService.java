@@ -36,7 +36,7 @@ public class ProductService {
                 .type(productType)
                 .imgUrl(productRequest.imgUrl())
                 .establishment(establishment)
-                .value(productRequest.value())
+                .price(productRequest.value())
                 .build();
         productRepository.save(product);
         return ProductMapper.toProductResponse(product);
@@ -53,7 +53,7 @@ public class ProductService {
                 .type(productType)
                 .imgUrl(null)
                 .establishment(establishment)
-                .value(productRequest.value())
+                .price(productRequest.value())
                 .build();
             return ProductMapper.toProductResponse(product);
         } else {

@@ -10,7 +10,9 @@ public record EstablishmentResponse(
         String name,
         String imgUrl,
         Local local,
-        Status status
+        Status status,
+
+        String aditumId
 
      ) {
 }

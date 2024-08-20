@@ -32,11 +32,14 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id")
     private Integer id;
+
     @NotBlank(message = "Nome é obrigatório")
     @NotEmpty(message = "Nome é obrigatório")
     private String name;
+
     @Email
     private String email;
+
     @NotBlank(message = "criar uma senha é obrigatório")
     @NotEmpty(message = "criar uma senha é obrigatório")
     private String password;
@@ -44,11 +47,11 @@ public class Employee {
     private String imgUrl;
    
     @ManyToOne
-    @JoinColumn(name = "establishment_fk")
+    @JoinColumn(name = "fkEstablishment")
     private Establishment establishment;
 
     @ManyToOne
-    @JoinColumn(name = "employee_type_fk")
+    @JoinColumn(name = "fkEmployeeType")
     private EmployeeType employeeType;
 
 }
