@@ -23,12 +23,12 @@ public class EstablishmentController {
 
     @GetMapping
     public ResponseEntity<List<EstablishmentResponse>> findAll() {
-        return ResponseEntity.ok(establishmentService.findAll());
+        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponseList(establishmentService.findAll()));
     }
 
     @GetMapping("/active")
     public ResponseEntity<List<EstablishmentResponse>> findAllActives() {
-        return ResponseEntity.ok(establishmentService.findAllActives());
+        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponseList(establishmentService.findAllActives()));
     }
 
     @GetMapping("/{id}")
@@ -53,7 +53,7 @@ public class EstablishmentController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<EstablishmentResponse> partialUpdate(@RequestBody EstablishmentRequest establishmentRequest, @PathVariable Integer id) {
-        return ResponseEntity.ok(establishmentService.partialUpdate(establishmentRequest, id));
+        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishmentService.partialUpdate(establishmentRequest, id)));
     }
 
     @PatchMapping("/inactive/{id}")
@@ -67,14 +67,14 @@ public class EstablishmentController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/api/full")
-    public ResponseEntity<List<EstablishmentFullResponseList>> findFull() {
-        return ResponseEntity.ok(establishmentService.findFull());
-    }
-
-    @GetMapping("/api/full/{id}")
-    public ResponseEntity<List<EstablishmentFullResponse>> findAllFull(@PathVariable Integer id) {
-        return ResponseEntity.ok(establishmentService.findAllFull(id));
-    }
+//    @GetMapping("/api/full")
+//    public ResponseEntity<List<EstablishmentFullResponseList>> findFull() {
+//        return ResponseEntity.ok(establishmentService.findFull());
+//    }
+//
+//    @GetMapping("/api/full/{id}")
+//    public ResponseEntity<List<EstablishmentFullResponse>> findAllFull(@PathVariable Integer id) {
+//        return ResponseEntity.ok(establishmentService.findAllFull(id));
+//    }
   
 }

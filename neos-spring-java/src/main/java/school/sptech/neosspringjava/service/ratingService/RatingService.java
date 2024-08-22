@@ -117,7 +117,7 @@ public class RatingService {
     public RatingResponse updateRating(Integer id, RatingRequest ratingRequest) {
         Rating rating = ratingRepository.findById(id).orElseThrow(() -> new RuntimeException("Rating not found"));
         
-        Establishment establishment = establishmentRepository.findById(ratingRequest.establishment()).orElseThrow(() -> new RuntimeException("Establishment not found"));
+        Establishment establishment = establishmentService.findById(ratingRequest.establishment());
 
         Client client = clientService.findById(ratingRequest.client());
 

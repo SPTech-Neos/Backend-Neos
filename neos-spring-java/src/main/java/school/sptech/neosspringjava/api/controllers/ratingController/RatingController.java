@@ -30,7 +30,7 @@ public class RatingController {
     
     @PostMapping("/avaliate/establishment")
     public ResponseEntity<RatingResponse> ratingEstablishment(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.saveEstablishment(ratingRequest));
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.avaliateService(ratingRequest));
     }
 
     @PostMapping("/avaliate/employee")
@@ -45,7 +45,7 @@ public class RatingController {
 
     @PostMapping("/avaliate/service")
     public ResponseEntity<RatingResponse> ratingService(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.saveService(ratingRequest));
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.avaliateService(ratingRequest));
     }
 
     @GetMapping
