@@ -10,6 +10,8 @@ import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullR
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
+import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.service.establishmentService.EstablishmentService;
 
 @RestController
@@ -31,21 +33,22 @@ public class EstablishmentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EstablishmentResponse> findById(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.ok(establishmentService.findById(id));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+
+        Establishment e = establishmentService.findById(id);
+
+        EstablishmentResponse dto = EstablishmentMapper.toEstablishmentResponse(e);
+
+        return ResponseEntity.ok(dto);
     }
 
     @PostMapping
     public ResponseEntity<EstablishmentResponse> save(@RequestBody EstablishmentRequest establishmentRequest) {
-        return ResponseEntity.ok(establishmentService.save(establishmentRequest));
+        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishmentService.save(establishmentRequest)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EstablishmentResponse> update(@RequestBody EstablishmentRequest establishmentRequest, @PathVariable Integer id) {
-        return ResponseEntity.ok(establishmentService.update(establishmentRequest, id));
+        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishmentService.update(establishmentRequest, id)));
     }
 
     @PatchMapping("/{id}")
@@ -55,7 +58,7 @@ public class EstablishmentController {
 
     @PatchMapping("/inactive/{id}")
     public ResponseEntity<EstablishmentResponse> desativar(@PathVariable Integer id){
-        return ResponseEntity.ok(establishmentService.inativarEstabelecimento(id));
+        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishmentService.inativarEstabelecimento(id)));
     }
 
     @DeleteMapping("/{id}")

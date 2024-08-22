@@ -19,6 +19,8 @@ import school.sptech.neosspringjava.domain.repository.establishmentRepository.Es
 import school.sptech.neosspringjava.domain.repository.productRepository.ProductRepository;
 import school.sptech.neosspringjava.domain.repository.ratingRepository.RatingRepository;
 import school.sptech.neosspringjava.domain.repository.serviceRepository.ServiceRepository;
+import school.sptech.neosspringjava.service.client.ClientService;
+import school.sptech.neosspringjava.service.establishmentService.EstablishmentService;
 
 @Service
 @RequiredArgsConstructor
@@ -26,47 +28,69 @@ public class RatingService {
 
     private final RatingRepository ratingRepository;
     private final RatingMapper ratingMapper;
-    private final EstablishmentRepository establishmentRepository;
-    private final ClientRepository clientRepository;
+    private final EstablishmentService establishmentService;
+    private final ClientService clientService;
     private final ServiceRepository serviceRepository;
     private final ProductRepository productRepository;
     private final EmployeeRepository employeeRepository;
 
-    public RatingResponse save(RatingRequest ratingRequest) {
-          Rating rating = new Rating();
-        if (ratingRequest.establishment() != null ) {
+    public RatingResponse avaliateEstablishment(RatingRequest ratingRequest) {
+        Rating rating = new Rating();
 
-            Establishment establishment = establishmentRepository.findById(ratingRequest.establishment())
-                .orElseThrow(() -> new RuntimeException("Establishment not found"));
-                  rating.setEstablishment(establishment);
+        Establishment establishment = establishmentService.findById(ratingRequest.establishment());
+        rating.setEstablishment(establishment);
 
-        }else if(ratingRequest.service() != null){
+        Client client = clientService.findById(ratingRequest.client());
+        rating.setClient(client);
+
+        rating.setAvaliation(ratingRequest.avaliation());
+
+        return ratingMapper.toResponse(ratingRepository.save(rating));
+    }
+
+    public RatingResponse avaliateService(RatingRequest ratingRequest) {
+        Rating rating = new Rating();
 
             school.sptech.neosspringjava.domain.model.service.Service service = serviceRepository.findById(ratingRequest.service())
-                .orElseThrow(() -> new RuntimeException("Service not found"));
+                    .orElseThrow(() -> new RuntimeException("Service not found"));
             rating.setService(service);
 
-        } else if(ratingRequest.product() != null){
+        Client client = clientService.findById(ratingRequest.client());
+        rating.setClient(client);
+        rating.setAvaliation(ratingRequest.avaliation());
 
-            Product product = productRepository.findById(ratingRequest.product())
-                    .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
-            rating.setProduct(product);
+        return ratingMapper.toResponse(ratingRepository.save(rating));
+    }
 
-        }else if(ratingRequest.employee() != null){
+    public RatingResponse saveProduct(RatingRequest ratingRequest) {
+        Rating rating = new Rating();
 
-            Employee employee = employeeRepository.findById(ratingRequest.employee())
-                    .orElseThrow(() -> new RuntimeException("Funcionário não encontrado"));
-            rating.setEmployee(employee);
+        Product product = productRepository.findById(ratingRequest.product())
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
+        rating.setProduct(product);
 
-        }
 
-        if(ratingRequest.client() != null){
-            Client client = clientRepository.findById(ratingRequest.client())
-                    .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-            rating.setClient(client);
+        Client client = clientService.findById(ratingRequest.client());
+        rating.setClient(client);
+        rating.setAvaliation(ratingRequest.avaliation());
 
-        }
+        return ratingMapper.toResponse(ratingRepository.save(rating));
 
+    }
+
+    public RatingResponse saveEmployee(RatingRequest ratingRequest) {
+        Rating rating = new Rating();
+
+
+        Employee employee = employeeRepository.findById(ratingRequest.employee()).
+                orElseThrow(
+                        () -> new RuntimeException("Funcionário não encontrado")
+                );
+
+        rating.setEmployee(employee);
+
+        Client client = clientService.findById(ratingRequest.client());
+        rating.setClient(client);
         rating.setAvaliation(ratingRequest.avaliation());
 
         return ratingMapper.toResponse(ratingRepository.save(rating));
@@ -95,7 +119,7 @@ public class RatingService {
         
         Establishment establishment = establishmentRepository.findById(ratingRequest.establishment()).orElseThrow(() -> new RuntimeException("Establishment not found"));
 
-        Client client = clientRepository.findById(ratingRequest.client()).orElseThrow(() -> new RuntimeException("Client not found"));
+        Client client = clientService.findById(ratingRequest.client());
 
         rating.setAvaliation(ratingRequest.avaliation());
         rating.setEstablishment(establishment);
@@ -103,10 +127,8 @@ public class RatingService {
 
         ratingRepository.save(rating);
 
-        return ratingMapper.toResponse(rating);
+        return ratingMapper.toResponse(ratingRepository.save(rating));
 
     }
-
-    
 
 }

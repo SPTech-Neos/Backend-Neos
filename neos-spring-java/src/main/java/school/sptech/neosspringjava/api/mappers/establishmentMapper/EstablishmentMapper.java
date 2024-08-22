@@ -11,7 +11,7 @@ import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 @Component
 public class EstablishmentMapper {
 
-    public EstablishmentResponse toEstablishmentResponse(Establishment establishment) {
+    public static EstablishmentResponse toEstablishmentResponse(Establishment establishment) {
         return new EstablishmentResponse(
             establishment.getId(),
             establishment.getName(),
@@ -22,11 +22,11 @@ public class EstablishmentMapper {
         );
     }
 
-    public List<EstablishmentResponse> toEstablishmentResponseList(List<Establishment> establishments) {
-        return establishments.stream().map(this::toEstablishmentResponse).collect(Collectors.toList());
+    public static List<EstablishmentResponse> toEstablishmentResponseList(List<Establishment> establishments) {
+        return establishments.stream().map(EstablishmentMapper::toEstablishmentResponse).collect(Collectors.toList());
     }
 
-    public Establishment toEstablishment(EstablishmentResponse establishmentResponse) {
+    public static Establishment toEstablishment(EstablishmentResponse establishmentResponse) {
         return Establishment.builder()
                 .id(establishmentResponse.id())
                 .name(establishmentResponse.name())
@@ -38,9 +38,9 @@ public class EstablishmentMapper {
         ;
     }
 
-    public List<Establishment> toEstablishment(List<EstablishmentResponse> establishmentResponses) {
+    public static List<Establishment> toEstablishment(List<EstablishmentResponse> establishmentResponses) {
         return establishmentResponses.stream()
-                .map(this::toEstablishment)
+                .map(EstablishmentMapper::toEstablishment)
                 .collect(Collectors.toList());
     }
 

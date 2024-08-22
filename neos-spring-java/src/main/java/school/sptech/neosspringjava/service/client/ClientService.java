@@ -68,4 +68,11 @@ public class ClientService {
         return ClientMapper.of(clientAuthetication, token);
     }
 
+    public Client findById(Integer id){
+
+        Client client = clientRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        return client;
+    }
+
 }

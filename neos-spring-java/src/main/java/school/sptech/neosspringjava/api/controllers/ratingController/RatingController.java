@@ -30,22 +30,22 @@ public class RatingController {
     
     @PostMapping("/avaliate/establishment")
     public ResponseEntity<RatingResponse> ratingEstablishment(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.save(ratingRequest));
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.saveEstablishment(ratingRequest));
     }
 
     @PostMapping("/avaliate/employee")
     public ResponseEntity<RatingResponse> ratingEmployee(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.save(ratingRequest));
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.saveEmployee(ratingRequest));
     }
 
     @PostMapping("/avaliate/product")
     public ResponseEntity<RatingResponse> ratingProduct(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.save(ratingRequest));
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.saveProduct(ratingRequest));
     }
 
     @PostMapping("/avaliate/service")
     public ResponseEntity<RatingResponse> ratingService(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.save(ratingRequest));
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.saveService(ratingRequest));
     }
 
     @GetMapping
