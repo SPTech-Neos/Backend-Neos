@@ -34,7 +34,7 @@ public class RatingService {
     private final ProductRepository productRepository;
     private final EmployeeRepository employeeRepository;
 
-    public RatingResponse avaliateEstablishment(RatingRequest ratingRequest) {
+    public Rating avaliateEstablishment(RatingRequest ratingRequest) {
         Rating rating = new Rating();
 
         Establishment establishment = establishmentService.findById(ratingRequest.establishment());
@@ -45,10 +45,10 @@ public class RatingService {
 
         rating.setAvaliation(ratingRequest.avaliation());
 
-        return ratingMapper.toResponse(ratingRepository.save(rating));
+        return ratingRepository.save(rating);
     }
 
-    public RatingResponse avaliateService(RatingRequest ratingRequest) {
+    public Rating avaliateService(RatingRequest ratingRequest) {
         Rating rating = new Rating();
 
             school.sptech.neosspringjava.domain.model.service.Service service = serviceRepository.findById(ratingRequest.service())
@@ -59,10 +59,10 @@ public class RatingService {
         rating.setClient(client);
         rating.setAvaliation(ratingRequest.avaliation());
 
-        return ratingMapper.toResponse(ratingRepository.save(rating));
+        return ratingRepository.save(rating);
     }
 
-    public RatingResponse saveProduct(RatingRequest ratingRequest) {
+    public Rating avaliateProduct(RatingRequest ratingRequest) {
         Rating rating = new Rating();
 
         Product product = productRepository.findById(ratingRequest.product())
@@ -74,13 +74,12 @@ public class RatingService {
         rating.setClient(client);
         rating.setAvaliation(ratingRequest.avaliation());
 
-        return ratingMapper.toResponse(ratingRepository.save(rating));
+        return ratingRepository.save(rating);
 
     }
 
-    public RatingResponse saveEmployee(RatingRequest ratingRequest) {
+    public Rating avaliateEmployee(RatingRequest ratingRequest) {
         Rating rating = new Rating();
-
 
         Employee employee = employeeRepository.findById(ratingRequest.employee()).
                 orElseThrow(
@@ -93,7 +92,7 @@ public class RatingService {
         rating.setClient(client);
         rating.setAvaliation(ratingRequest.avaliation());
 
-        return ratingMapper.toResponse(ratingRepository.save(rating));
+        return ratingRepository.save(rating);
     }
 
     public List<RatingResponse> listAllRatings() {

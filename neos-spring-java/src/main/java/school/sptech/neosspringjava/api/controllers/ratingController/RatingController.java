@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.ratingDto.RatingRequest;
 import school.sptech.neosspringjava.api.dtos.ratingDto.RatingResponse;
+import school.sptech.neosspringjava.api.mappers.ratingMapper.RatingMapper;
 import school.sptech.neosspringjava.service.ratingService.RatingService;
 
 @RestController
@@ -30,22 +31,22 @@ public class RatingController {
     
     @PostMapping("/avaliate/establishment")
     public ResponseEntity<RatingResponse> ratingEstablishment(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.avaliateService(ratingRequest));
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(RatingMapper.toResponse(ratingService.avaliateEstablishment(ratingRequest)));
     }
 
     @PostMapping("/avaliate/employee")
     public ResponseEntity<RatingResponse> ratingEmployee(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.saveEmployee(ratingRequest));
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(RatingMapper.toResponse(ratingService.avaliateEmployee(ratingRequest)));
     }
 
     @PostMapping("/avaliate/product")
     public ResponseEntity<RatingResponse> ratingProduct(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.saveProduct(ratingRequest));
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(RatingMapper.toResponse(ratingService.avaliateProduct(ratingRequest)));
     }
 
     @PostMapping("/avaliate/service")
     public ResponseEntity<RatingResponse> ratingService(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(ratingService.avaliateService(ratingRequest));
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(RatingMapper.toResponse(ratingService.avaliateService(ratingRequest)));
     }
 
     @GetMapping

@@ -39,9 +39,7 @@ class AddressServiceTest {
         AddressRequest addressRequest = new AddressRequest("Public Place", "Street", "City", "State");
         Address address = Address.builder()
                 .publicPlace(addressRequest.publicPlace())
-                .street(addressRequest.street())
                 .city(addressRequest.city())
-                .state(addressRequest.state())
                 .build();
         AddressResponse addressResponse = new AddressResponse(0, "Public Place", "Street", "City", "State");
 

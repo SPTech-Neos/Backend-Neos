@@ -11,7 +11,6 @@ public record EstablishmentResponse(
         String imgUrl,
         Local local,
         Status status,
-
         String aditumId
 
      ) {

@@ -11,7 +11,7 @@ import school.sptech.neosspringjava.domain.model.rating.Rating;
 @Component
 public class RatingMapper {
 
-    public RatingResponse toResponse(Rating rating) {
+    public static RatingResponse toResponse(Rating rating) {
         return new RatingResponse(
                 rating.getId(),
                 rating.getAvaliation(),
@@ -23,8 +23,8 @@ public class RatingMapper {
         );
     }
 
-    public List<RatingResponse> toResponseList(List<Rating> ratings) {
-        return ratings.stream().map(this::toResponse).collect(Collectors.toList());
+    public static List<RatingResponse> toResponseList(List<Rating> ratings) {
+        return ratings.stream().map(RatingMapper::toResponse).collect(Collectors.toList());
     }
 
     
