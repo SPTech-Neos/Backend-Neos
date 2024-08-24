@@ -5,8 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.ratingDto.RatingRequest;
-import school.sptech.neosspringjava.api.dtos.ratingDto.RatingResponse;
+import school.sptech.neosspringjava.api.dtos.ratingDto.*;
 import school.sptech.neosspringjava.api.mappers.ratingMapper.RatingMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
@@ -34,7 +33,7 @@ public class RatingService {
     private final ProductRepository productRepository;
     private final EmployeeRepository employeeRepository;
 
-    public Rating avaliateEstablishment(RatingRequest ratingRequest) {
+    public Rating avaliateEstablishment(RatingEstablishmentRequest ratingRequest) {
         Rating rating = new Rating();
 
         Establishment establishment = establishmentService.findById(ratingRequest.establishment());
@@ -48,7 +47,7 @@ public class RatingService {
         return ratingRepository.save(rating);
     }
 
-    public Rating avaliateService(RatingRequest ratingRequest) {
+    public Rating avaliateService(RatingServiceRequest ratingRequest) {
         Rating rating = new Rating();
 
             school.sptech.neosspringjava.domain.model.service.Service service = serviceRepository.findById(ratingRequest.service())
@@ -62,7 +61,7 @@ public class RatingService {
         return ratingRepository.save(rating);
     }
 
-    public Rating avaliateProduct(RatingRequest ratingRequest) {
+    public Rating avaliateProduct(RatingProductRequest ratingRequest) {
         Rating rating = new Rating();
 
         Product product = productRepository.findById(ratingRequest.product())
@@ -78,7 +77,7 @@ public class RatingService {
 
     }
 
-    public Rating avaliateEmployee(RatingRequest ratingRequest) {
+    public Rating avaliateEmployee(RatingEmployeeRequest ratingRequest) {
         Rating rating = new Rating();
 
         Employee employee = employeeRepository.findById(ratingRequest.employee()).
@@ -129,5 +128,13 @@ public class RatingService {
         return ratingMapper.toResponse(ratingRepository.save(rating));
 
     }
+
+//    public Rating findAvgEstablishmentRating(Integer id){
+//        Rating r = ratingRepository.getMediaRatingByEstablishment(id);
+//
+//        System.out.println(r);
+//
+//        return r;
+//    }
 
 }

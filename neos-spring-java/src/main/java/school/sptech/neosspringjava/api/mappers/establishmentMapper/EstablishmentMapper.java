@@ -19,6 +19,7 @@ public class EstablishmentMapper {
             establishment.getLocal(),
             establishment.getStatus(),
             establishment.getAditumId()
+
         );
     }
 

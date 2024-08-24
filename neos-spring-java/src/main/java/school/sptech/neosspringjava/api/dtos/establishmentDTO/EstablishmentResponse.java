@@ -12,6 +12,5 @@ public record EstablishmentResponse(
         Local local,
         Status status,
         String aditumId
-
      ) {
 }

@@ -30,6 +30,10 @@ public class EstablishmentController {
     public ResponseEntity<List<EstablishmentResponse>> findAllActives() {
         return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponseList(establishmentService.findAllActives()));
     }
+    @GetMapping("/inative")
+    public ResponseEntity<List<EstablishmentResponse>> findAllInatives() {
+        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponseList(establishmentService.findAllInatives()));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<EstablishmentResponse> findById(@PathVariable Integer id) {
@@ -57,8 +61,12 @@ public class EstablishmentController {
     }
 
     @PatchMapping("/inactive/{id}")
-    public ResponseEntity<EstablishmentResponse> desativar(@PathVariable Integer id){
-        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishmentService.inativarEstabelecimento(id)));
+    public ResponseEntity<EstablishmentResponse> inactive(@PathVariable Integer id){
+        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishmentService.inactiveEstablishment(id)));
+    }
+    @PatchMapping("/reactive/{id}")
+    public ResponseEntity<EstablishmentResponse> active(@PathVariable Integer id){
+        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishmentService.reactive(id)));
     }
 
     @DeleteMapping("/{id}")

@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.ratingDto.RatingRequest;
-import school.sptech.neosspringjava.api.dtos.ratingDto.RatingResponse;
+import school.sptech.neosspringjava.api.dtos.ratingDto.*;
 import school.sptech.neosspringjava.api.mappers.ratingMapper.RatingMapper;
 import school.sptech.neosspringjava.service.ratingService.RatingService;
 
@@ -30,23 +29,27 @@ public class RatingController {
     private final RatingService ratingService;
     
     @PostMapping("/avaliate/establishment")
-    public ResponseEntity<RatingResponse> ratingEstablishment(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(RatingMapper.toResponse(ratingService.avaliateEstablishment(ratingRequest)));
+    public ResponseEntity<RatingEstablishmentResponse> ratingEstablishment(@RequestBody RatingEstablishmentRequest ratingRequest) {
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(RatingMapper.toResponseEstablishment(ratingService.avaliateEstablishment(ratingRequest)));
     }
+//    @GetMapping("/avaliate/establishment/id")
+//    public ResponseEntity<RatingEstablishmentResponse> findAvgRatingsById(@PathVariable Integer id) {
+//        return ResponseEntity.ok(RatingMapper.toResponseEstablishment(ratingService.findAvgEstablishmentRating(id)));
+//    }
 
     @PostMapping("/avaliate/employee")
-    public ResponseEntity<RatingResponse> ratingEmployee(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(RatingMapper.toResponse(ratingService.avaliateEmployee(ratingRequest)));
+    public ResponseEntity<RatingEmployeeResponse> ratingEmployee(@RequestBody RatingEmployeeRequest ratingRequest) {
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(RatingMapper.toResponseEmployee(ratingService.avaliateEmployee(ratingRequest)));
     }
 
     @PostMapping("/avaliate/product")
-    public ResponseEntity<RatingResponse> ratingProduct(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(RatingMapper.toResponse(ratingService.avaliateProduct(ratingRequest)));
+    public ResponseEntity<RatingProductResponse> ratingProduct(@RequestBody RatingProductRequest ratingRequest) {
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(RatingMapper.toResponseProduct(ratingService.avaliateProduct(ratingRequest)));
     }
 
     @PostMapping("/avaliate/service")
-    public ResponseEntity<RatingResponse> ratingService(@RequestBody RatingRequest ratingRequest) {
-        return ResponseEntity.status(HttpStatus.SC_CREATED).body(RatingMapper.toResponse(ratingService.avaliateService(ratingRequest)));
+    public ResponseEntity<RatingServiceResponse> ratingService(@RequestBody RatingServiceRequest ratingRequest) {
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(RatingMapper.toResponseService(ratingService.avaliateService(ratingRequest)));
     }
 
     @GetMapping

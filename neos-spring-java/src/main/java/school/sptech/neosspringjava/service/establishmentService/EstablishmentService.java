@@ -86,19 +86,22 @@ public class EstablishmentService {
     }
 
     public Establishment update(EstablishmentRequest establishmentResquest, Integer id) {
-        Establishment establishment = establishmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Estabelecimento não encontrado"));
+        Establishment establishment = findById(id);
+
         return establishment;
     }
 
-    public Establishment inativarEstabelecimento(Integer id){
-        Establishment e = establishmentRepository.findById(id).orElseThrow(
-                () -> new RuntimeException("Estabelecimento não encontrado")
-        );
+    public Establishment inactiveEstablishment(Integer id){
+        Establishment e = findById(id);
 
-        e.setStatus(statusService.buscarStatusPorNome("Inativo"));
+        Status s = statusService.buscarStatusPorNome("Inativo");
+        if(e.getStatus() == s){
+            throw new RuntimeException("O estabelecimento já está inativo");
+        }
 
-        return e;
+        e.setStatus(s);
+
+        return establishmentRepository.save(e);
 
     }
 
@@ -147,7 +150,27 @@ public class EstablishmentService {
         return establishments;
     }
 
+    public List<Establishment> findAllInatives(){
+        List<Establishment> e = establishmentRepository.findAllByStatus(
+                statusService.buscarStatusPorNome("Inativo")
+        );
 
+        return e;
+    }
+
+    public Establishment reactive(Integer id){
+        Establishment e = findById(id);
+
+        Status s = statusService.buscarStatusPorNome("Ativo");
+        if(e.getStatus() == s){
+            throw new RuntimeException("O estabelecimento já está ativo");
+        }
+
+        e.setStatus(s);
+
+
+        return establishmentRepository.save(e);
+    }
 
     private Double evaluativeCalculation(Double voto, Integer numVotos, Double votoBanco, Integer numVotosBanco) {
         return ((votoBanco * numVotosBanco) + voto) / numVotosBanco + numVotos;
