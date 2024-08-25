@@ -23,7 +23,7 @@ public class EstablishmentController {
 
     @GetMapping
     public ResponseEntity<List<EstablishmentResponse>> findAll() {
-        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponseList(establishmentService.findAll()));
+        return ResponseEntity.ok(establishmentService.findAll());
     }
 
     @GetMapping("/active")
@@ -38,11 +38,9 @@ public class EstablishmentController {
     @GetMapping("/{id}")
     public ResponseEntity<EstablishmentResponse> findById(@PathVariable Integer id) {
 
-        Establishment e = establishmentService.findById(id);
+        EstablishmentResponse e = establishmentService.findById(id);
 
-        EstablishmentResponse dto = EstablishmentMapper.toEstablishmentResponse(e);
-
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(e);
     }
 
     @PostMapping

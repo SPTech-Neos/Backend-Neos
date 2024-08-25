@@ -26,11 +26,13 @@ import school.sptech.neosspringjava.domain.model.local.Local;
 import school.sptech.neosspringjava.domain.model.status.Status;
 import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
+import school.sptech.neosspringjava.domain.repository.ratingRepository.RatingRepository;
 import school.sptech.neosspringjava.domain.repository.status.StatusRepository;
 import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 import school.sptech.neosspringjava.service.filterService.FilterService;
 import school.sptech.neosspringjava.service.paymentService.PaymentService;
 import school.sptech.neosspringjava.service.productService.ProductService;
+import school.sptech.neosspringjava.service.ratingService.RatingService;
 import school.sptech.neosspringjava.service.schedulingService.SchedulingService;
 import school.sptech.neosspringjava.service.statusService.StatusService;
 
@@ -47,6 +49,7 @@ public class EstablishmentService {
     private final ProductService productService;
     private final SchedulingService schedulingService;
     private final StatusService statusService;
+    private final RatingRepository ratingRepository;
 
     public Establishment save(EstablishmentRequest establishmentRequest) {
         Establishment establishment = new Establishment();
@@ -86,22 +89,22 @@ public class EstablishmentService {
     }
 
     public Establishment update(EstablishmentRequest establishmentResquest, Integer id) {
-        Establishment establishment = findById(id);
+        EstablishmentResponse establishment = findById(id);
 
-        return establishment;
+        return EstablishmentMapper.toEstablishment(establishment);
     }
 
     public Establishment inactiveEstablishment(Integer id){
-        Establishment e = findById(id);
+        EstablishmentResponse eDto = findById(id);
 
         Status s = statusService.buscarStatusPorNome("Inativo");
-        if(e.getStatus() == s){
+        if(eDto.getStatus() == s){
             throw new RuntimeException("O estabelecimento já está inativo");
         }
 
-        e.setStatus(s);
+        eDto.setStatus(s);
 
-        return establishmentRepository.save(e);
+        return establishmentRepository.save(EstablishmentMapper.toEstablishment(eDto));
 
     }
 
@@ -125,22 +128,42 @@ public class EstablishmentService {
     }
 
     public void delete(Integer id) {
-        Establishment e = findById(id);
+        EstablishmentResponse eDto = findById(id);
 
-        establishmentRepository.delete(e);
+        establishmentRepository.delete(EstablishmentMapper.toEstablishment(eDto));
     }
 
-    public Establishment findById(Integer id) {
-        return establishmentRepository.findById(id).orElseThrow(
+    public EstablishmentResponse findById(Integer id) {
+
+        Establishment e = establishmentRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Estabelecimento não encontrado")
         );
+
+        EstablishmentResponse eDto = EstablishmentMapper.toEstablishmentResponse(e);
+
+        Optional<Double> media = ratingRepository.findMediaByEstablishment(e.getId());
+
+        Double mediaVotes = media.isEmpty() ? 0.0 : media.get();
+
+        eDto.setMedia(mediaVotes);
+        eDto.setTotalRatings(0);
+
+        return eDto;
+
     }
 
-    public List<Establishment> findAll() {
+    public List<EstablishmentResponse> findAll() {
 
         List<Establishment> establishments = establishmentRepository.findAll();
 
-        return establishments;
+        List<EstablishmentResponse> eDtos = EstablishmentMapper.toEstablishmentResponseList(establishments);
+        List<Double> medias = ratingRepository.findAllMediasByEstablishment();
+
+        for (int i = 0; i < medias.size(); i++) {
+            eDtos.get(i).setMedia(medias.get(i).doubleValue());
+        }
+
+        return eDtos;
     }
 
     public List<Establishment> findAllActives() {
@@ -159,101 +182,30 @@ public class EstablishmentService {
     }
 
     public Establishment reactive(Integer id){
-        Establishment e = findById(id);
+        EstablishmentResponse eDto = findById(id);
 
         Status s = statusService.buscarStatusPorNome("Ativo");
-        if(e.getStatus() == s){
+        if(eDto.getStatus() == s){
             throw new RuntimeException("O estabelecimento já está ativo");
         }
 
-        e.setStatus(s);
+        eDto.setStatus(s);
 
-
-        return establishmentRepository.save(e);
+        return establishmentRepository.save(EstablishmentMapper.toEstablishment(eDto));
     }
 
     private Double evaluativeCalculation(Double voto, Integer numVotos, Double votoBanco, Integer numVotosBanco) {
         return ((votoBanco * numVotosBanco) + voto) / numVotosBanco + numVotos;
     }
 
-//    public List<EstablishmentFullResponse> findAllFull(Integer id) {
-//        try {
-//            if (id == null) {
-//                throw new IllegalArgumentException("ID do estabelecimento não pode ser nulo");
-//            }
-//
-//            Optional<Establishment> establishmentOptional = establishmentRepository.findById(id);
-//            if (establishmentOptional.isEmpty()) {
-//                throw new NotFound("Estabelecimento não encontrado");
-//            }
-//
-//            Establishment establishment = establishmentOptional.get();
-//
-//            List<EmployeeRelacionamento> employees = employeeService.findAllByEstablishment(id);
-//            if (employees.isEmpty()) {
-//                throw new NotFound("Funcionários não encontrados");
-//            }
-//
-//            List<FilterResponse> filters = filterService.findAllByEstablishment(establishment);
-//            if (filters.isEmpty()) {
-//                throw new NotFound("Filtros não encontrados");
-//            }
-//
-//            List<ProductResponse> products = productService.findAllByEstablishment(establishment);
-//            if (products.isEmpty()) {
-//                throw new NotFound("Produtos não encontrados");
-//            }
-//
-//            EstablishmentResponse establishmentResponse = establishmentMapper.toEstablishmentResponse(establishment);
-//
-//            EstablishmentFullResponse establishmentFullResponse = new EstablishmentFullResponse(
-//                    establishmentResponse,
-//                    employees,
-//                    filters,
-//                    products);
-//
-//            return List.of(establishmentFullResponse);
-//
-//        } catch (Exception e) {
-//            throw new RuntimeException("Erro ao buscar estabelecimentos", e);
-//        }
-//    }
-//
-//    public List<EstablishmentFullResponseList> findFull() {
-//        try {
-//            List<Establishment> establishments = establishmentRepository.findAll();
-//            List<EstablishmentFullResponseList> establishmentFullResponseLists = new ArrayList<>();
-//
-//            for (Establishment establishment : establishments) {
-//                EstablishmentResponse establishmentResponse = establishmentMapper.toEstablishmentResponse(establishment);
-//
-//                List<EmployeeRelacionamento> employees = findEmployeesByEstablishments(List.of(establishmentResponse));
-//                List<FilterResponse> filters = findFiltersByEstablishments(List.of(establishmentResponse));
-//                List<ProductResponse> products = findProductsByEstablishments(List.of(establishmentResponse));
-//
-//                EstablishmentFullResponseList establishmentFullResponseList = new EstablishmentFullResponseList(
-//                        List.of(establishmentResponse),
-//                        employees,
-//                        filters,
-//                        products);
-//
-//                establishmentFullResponseLists.add(establishmentFullResponseList);
-//            }
-//
-//            return establishmentFullResponseLists;
-//        } catch (Exception e) {
-//            throw new RuntimeException("Erro ao buscar estabelecimentos", e);
-//        }
-//    }
-
     private List<EmployeeRelacionamento> findEmployeesByEstablishment(EstablishmentResponse establishments) {
-        List<EmployeeRelacionamento> employees = employeeService.findAllByEstablishment(establishments.id());
+        List<EmployeeRelacionamento> employees = employeeService.findAllByEstablishment(establishments.getId());
 
         return employees;
     }
 
     private List<EmployeeRelacionamento> findEmployeesByEstablishments(List<EstablishmentResponse> establishments) {
-        List<Integer> establishmentIds = establishments.stream().map(EstablishmentResponse::id)
+        List<Integer> establishmentIds = establishments.stream().map(EstablishmentResponse::getId)
                 .collect(Collectors.toList());
         return employeeService.findAllByEstablishmentIds(establishmentIds);
     }
@@ -272,75 +224,4 @@ public class EstablishmentService {
 
         return productService.findAllByEstablishments(establishments);
     }
-
-//    public List<EstablishmentFullResponse> matrix(Integer id) {
-//        try {
-//            if (id == null) {
-//                throw new IllegalArgumentException("ID do estabelecimento não pode ser nulo");
-//            }
-//
-//            Optional<Establishment> establishmentOptional = establishmentRepository.findById(id);
-//            if (establishmentOptional.isEmpty()) {
-//                throw new NotFound("Estabelecimento não encontrado");
-//            }
-//
-//            Establishment establishment = establishmentOptional.get();
-//
-//            Queue<EmployeeRelacionamento> employeeQueue = new LinkedList<>();
-//            Stack<EmployeeRelacionamento> employeeStack = new Stack<>();
-//
-//            List<EmployeeRelacionamento> employees = employeeService.findAllByEstablishment(id);
-//            if (employees.isEmpty()) {
-//                throw new NotFound("Funcionários não encontrados");
-//            }
-//
-//            for (EmployeeRelacionamento employee : employees) {
-//                employeeQueue.add(employee);
-//                employeeStack.push(employee);
-//            }
-//
-//            Queue<FilterResponse> filterQueue = new LinkedList<>();
-//            Stack<FilterResponse> filterStack = new Stack<>();
-//
-//            List<FilterResponse> filters = filterService.findAllByEstablishment(establishment);
-//            if (filters.isEmpty()) {
-//                throw new NotFound("Filtros não encontrados");
-//            }
-//
-//            for (FilterResponse filter : filters) {
-//                filterQueue.add(filter);
-//                filterStack.push(filter);
-//            }
-//
-//            Queue<ProductResponse> productQueue = new LinkedList<>();
-//            Stack<ProductResponse> productStack = new Stack<>();
-//
-//            List<ProductResponse> products = productService.findAllByEstablishment(establishment);
-//            if (products.isEmpty()) {
-//                throw new NotFound("Produtos não encontrados");
-//            }
-//
-//            for (ProductResponse product : products) {
-//                productQueue.add(product);
-//                productStack.push(product);
-//            }
-//
-//            EstablishmentResponse establishmentResponse = establishmentMapper.toEstablishmentResponse(establishment);
-//
-//            EstablishmentFullResponse establishmentFullResponse = new EstablishmentFullResponse(
-//                    establishmentResponse,
-//                    new ArrayList<>(employeeQueue),
-//                    new ArrayList<>(filterQueue),
-//                    new ArrayList<>(productQueue));
-//
-//            return List.of(establishmentFullResponse);
-//
-//        } catch (Exception e) {
-//            throw new RuntimeException("Erro ao buscar estabelecimentos", e);
-//        }
-//    }
-
-
-    
-
 }

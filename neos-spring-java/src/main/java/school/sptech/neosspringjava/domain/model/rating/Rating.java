@@ -1,17 +1,11 @@
 package school.sptech.neosspringjava.domain.model.rating;
 
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.ManyToAny;
 
 import jakarta.annotation.Generated;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +22,8 @@ import school.sptech.neosspringjava.domain.model.service.Service;
 @Setter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor 
+@AllArgsConstructor
+@Table(name = "rating")
 public class Rating {
 
     @Id

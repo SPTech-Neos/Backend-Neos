@@ -1,11 +1,14 @@
 package school.sptech.neosspringjava.service.ratingService;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentResponse;
 import school.sptech.neosspringjava.api.dtos.ratingDto.*;
+import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.api.mappers.ratingMapper.RatingMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
@@ -36,8 +39,9 @@ public class RatingService {
     public Rating avaliateEstablishment(RatingEstablishmentRequest ratingRequest) {
         Rating rating = new Rating();
 
-        Establishment establishment = establishmentService.findById(ratingRequest.establishment());
-        rating.setEstablishment(establishment);
+        EstablishmentResponse eDto = establishmentService.findById(ratingRequest.establishment());
+        Establishment e = EstablishmentMapper.toEstablishment(eDto);
+        rating.setEstablishment(e);
 
         Client client = clientService.findById(ratingRequest.client());
         rating.setClient(client);
@@ -115,12 +119,13 @@ public class RatingService {
     public RatingResponse updateRating(Integer id, RatingRequest ratingRequest) {
         Rating rating = ratingRepository.findById(id).orElseThrow(() -> new RuntimeException("Rating not found"));
         
-        Establishment establishment = establishmentService.findById(ratingRequest.establishment());
+        EstablishmentResponse eDto = establishmentService.findById(ratingRequest.establishment());
 
+        Establishment e = EstablishmentMapper.toEstablishment(eDto);
         Client client = clientService.findById(ratingRequest.client());
 
         rating.setAvaliation(ratingRequest.avaliation());
-        rating.setEstablishment(establishment);
+        rating.setEstablishment(e);
         rating.setClient(client);
 
         ratingRepository.save(rating);
@@ -129,12 +134,12 @@ public class RatingService {
 
     }
 
-//    public Rating findAvgEstablishmentRating(Integer id){
-//        Rating r = ratingRepository.getMediaRatingByEstablishment(id);
+//    public Double findAvgEstablishmentRating(Integer id){
+//        EstablishmentResponse eDto = establishmentService.findById(id);
 //
-//        System.out.println(r);
+//        Optional<Double> optMedia = ratingRepository.findMediaByEstablishment(EstablishmentMapper.toEstablishment(eDto));
 //
-//        return r;
+//        return optMedia.get();
 //    }
 
 }

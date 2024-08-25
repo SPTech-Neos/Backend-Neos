@@ -12,15 +12,16 @@ import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 public class EstablishmentMapper {
 
     public static EstablishmentResponse toEstablishmentResponse(Establishment establishment) {
-        return new EstablishmentResponse(
-            establishment.getId(),
-            establishment.getName(),
-            establishment.getImgUrl(),
-            establishment.getLocal(),
-            establishment.getStatus(),
-            establishment.getAditumId()
+        EstablishmentResponse eDto = new EstablishmentResponse();
 
-        );
+        eDto.setId(establishment.getId());
+        eDto.setName(establishment.getName());
+        eDto.setImgUrl(establishment.getImgUrl());
+        eDto.setLocal(establishment.getLocal());
+        eDto.setStatus(establishment.getStatus());
+        eDto.setAditumId(establishment.getAditumId());
+
+        return eDto;
     }
 
     public static List<EstablishmentResponse> toEstablishmentResponseList(List<Establishment> establishments) {
@@ -28,15 +29,16 @@ public class EstablishmentMapper {
     }
 
     public static Establishment toEstablishment(EstablishmentResponse establishmentResponse) {
-        return Establishment.builder()
-                .id(establishmentResponse.id())
-                .name(establishmentResponse.name())
-                .imgUrl(establishmentResponse.imgUrl())
-                .local(establishmentResponse.local())
-                .status(establishmentResponse.status())
-                .aditumId(establishmentResponse.aditumId())
-                .build()
-        ;
+        Establishment e = new Establishment();
+
+        e.setId(establishmentResponse.getId());
+        e.setName(establishmentResponse.getName());
+        e.setImgUrl(establishmentResponse.getImgUrl());
+        e.setLocal(establishmentResponse.getLocal());
+        e.setStatus(establishmentResponse.getStatus());
+        e.setAditumId(establishmentResponse.getAditumId());
+
+        return e;
     }
 
     public static List<Establishment> toEstablishment(List<EstablishmentResponse> establishmentResponses) {
