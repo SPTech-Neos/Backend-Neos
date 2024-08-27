@@ -1,22 +1,13 @@
 package school.sptech.neosspringjava.service.establishmentService;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Queue;
-import java.util.Stack;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.cloudinary.api.exceptions.NotFound;
-
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.FilterDto.FilterResponse;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRelacionamento;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponse;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponseList;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentResponse;
 import school.sptech.neosspringjava.api.dtos.produtcDto.ProductResponse;
@@ -27,12 +18,9 @@ import school.sptech.neosspringjava.domain.model.status.Status;
 import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 import school.sptech.neosspringjava.domain.repository.ratingRepository.RatingRepository;
-import school.sptech.neosspringjava.domain.repository.status.StatusRepository;
 import school.sptech.neosspringjava.service.employeeService.EmployeeService;
-import school.sptech.neosspringjava.service.filterService.FilterService;
 import school.sptech.neosspringjava.service.paymentService.PaymentService;
 import school.sptech.neosspringjava.service.productService.ProductService;
-import school.sptech.neosspringjava.service.ratingService.RatingService;
 import school.sptech.neosspringjava.service.schedulingService.SchedulingService;
 import school.sptech.neosspringjava.service.statusService.StatusService;
 
@@ -44,7 +32,6 @@ public class EstablishmentService {
     private final EstablishmentMapper establishmentMapper;
     private final LocalRepository localRepository;
     private final EmployeeService employeeService;
-    private final FilterService filterService;
     private final PaymentService paymentService;
     private final ProductService productService;
     private final SchedulingService schedulingService;
@@ -209,12 +196,6 @@ public class EstablishmentService {
         return employeeService.findAllByEstablishmentIds(establishmentIds);
     }
 
-    private List<FilterResponse> findFiltersByEstablishments(List<EstablishmentResponse> establishmentsResponse) {
-        List<Establishment> establishments = establishmentsResponse.stream()
-                .map(establishmentResponse -> establishmentMapper.toEstablishment(establishmentResponse))
-                .collect(Collectors.toList());
-        return filterService.findAllByEstablishments(establishments);
-    }
 
     private List<ProductResponse> findProductsByEstablishments(List<EstablishmentResponse> establishmentsResponse) {
         List<Establishment> establishments = establishmentsResponse.stream()

@@ -6,9 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponseList;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentResponse;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
 import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;

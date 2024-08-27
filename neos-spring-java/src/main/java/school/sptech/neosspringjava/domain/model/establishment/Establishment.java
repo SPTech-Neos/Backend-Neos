@@ -3,18 +3,9 @@ package school.sptech.neosspringjava.domain.model.establishment;
 import java.time.LocalTime;
 import java.util.List;
 
+import jakarta.persistence.*;
 import org.hibernate.validator.constraints.br.CNPJ;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -26,9 +17,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import school.sptech.neosspringjava.domain.model.company.Company;
-import school.sptech.neosspringjava.domain.model.filter.Filter;
 import school.sptech.neosspringjava.domain.model.local.Local;
+import school.sptech.neosspringjava.domain.model.phone.Phone;
 import school.sptech.neosspringjava.domain.model.status.Status;
 
 import java.time.LocalDate;
@@ -66,5 +56,9 @@ public class Establishment {
     @JoinColumn(name = "fkLocal")
     @ManyToOne
     private Local local;
+
+    @JoinColumn(name = "fkPhone")
+    @OneToOne
+    private Phone phone;
   
 }

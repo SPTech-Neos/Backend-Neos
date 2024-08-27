@@ -1,9 +1,8 @@
 package school.sptech.neosspringjava.api.dtos.establishmentDTO;
 
-import lombok.Data;
-import school.sptech.neosspringjava.domain.model.company.Company;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.local.Local;
+import school.sptech.neosspringjava.domain.model.phone.Phone;
 import school.sptech.neosspringjava.domain.model.status.Status;
 
 public record EstablishmentResponse (
@@ -13,6 +12,7 @@ public record EstablishmentResponse (
       Local local,
       Status status,
       String aditumId,
+      Phone phone,
       Double media
 ) {
     public EstablishmentResponse(Establishment e, Double media) {
@@ -23,6 +23,7 @@ public record EstablishmentResponse (
                 e.getLocal(),
                 e.getStatus(),
                 e.getAditumId(),
+                e.getPhone(),
                 media
         );
     }

@@ -1,10 +1,8 @@
-package school.sptech.neosspringjava.api.controllers.scheduligController;
+package school.sptech.neosspringjava.api.controllers.schedulingController;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

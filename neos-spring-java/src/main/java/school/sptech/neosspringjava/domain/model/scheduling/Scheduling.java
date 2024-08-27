@@ -19,7 +19,7 @@ import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.product.Product;
 import school.sptech.neosspringjava.domain.model.service.Service;
-import school.sptech.neosspringjava.domain.model.schedulingStatus.* ;
+import school.sptech.neosspringjava.domain.model.status.Status;
 
 @Entity
 @Getter
@@ -35,8 +35,8 @@ public class Scheduling {
     private Integer id;
     
     @ManyToOne
-    @JoinColumn(name = "status_fk")
-    private schedulingStatus schedulingStatus;
+    @JoinColumn(name = "fkStatus")
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "client_fk")
