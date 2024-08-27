@@ -139,7 +139,7 @@ public class EstablishmentService {
 
     }
 
-    public List<Double> findAllMedias(){
+    public List<Double> findAllMediasEstablishmentOrder(){
         return ratingRepository.findAllMediasByEstablishment();
     }
 
@@ -176,14 +176,22 @@ public class EstablishmentService {
         Establishment e = findById(id);
 
         Status s = statusService.buscarStatusPorNome("Ativo");
-//        if(eDto.getStatus() == s){
-////            throw new RuntimeException("O estabelecimento já está ativo");
-////        }
-////
-////        eDto.setStatus(s);
 
         return establishmentRepository.save(e);
     }
+
+    public List<Double> findBestMedias(Integer top){
+        List<Double> medias = ratingRepository.findBestMediasByTop(top);
+
+        return medias;
+    }
+
+    public List<Establishment> findBestRateds(Integer top){
+        List<Establishment> e = ratingRepository.findBestRatedsByTop(top);
+
+        return e;
+    }
+
 
     private Double evaluativeCalculation(Double voto, Integer numVotos, Double votoBanco, Integer numVotosBanco) {
         return ((votoBanco * numVotosBanco) + voto) / numVotosBanco + numVotos;

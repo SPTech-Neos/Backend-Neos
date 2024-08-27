@@ -15,6 +15,11 @@ public interface RatingRepository extends JpaRepository<Rating, Integer>{
     @Query("SELECT TRUNCATE(AVG(r.avaliation), 1) media FROM Rating r JOIN r.establishment e WHERE e.id = :id")
     Optional<Double> findMediaByEstablishment(@Param("id") Integer id);
 
-    @Query("SELECT TRUNCATE(AVG(r.avaliation), 1) media FROM Rating r JOIN r.establishment e GROUP BY e.id")
+    @Query("SELECT TRUNCATE(AVG(r.avaliation), 1) AS media FROM Rating r JOIN r.establishment e GROUP BY e.id")
     List<Double> findAllMediasByEstablishment();
+
+    @Query("SELECT e, TRUNCATE(AVG(r.avaliation), 1) AS media FROM Rating r JOIN r.establishment e GROUP BY e.id ORDER BY media DESC LIMIT :top")
+    List<Establishment> findBestRatedsByTop(@Param("top") Integer top);
+    @Query("SELECT TRUNCATE(AVG(r.avaliation), 1) AS media FROM Rating r JOIN r.establishment e GROUP BY e.id ORDER BY media DESC LIMIT :top")
+    List<Double> findBestMediasByTop(@Param("top") Integer top);
 }

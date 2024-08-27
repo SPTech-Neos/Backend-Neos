@@ -23,7 +23,7 @@ public class EstablishmentController {
 
     @GetMapping
     public ResponseEntity<List<EstablishmentResponse>> findAll() {
-        List<Double> medias = establishmentService.findAllMedias();
+        List<Double> medias = establishmentService.findAllMediasEstablishmentOrder();
         List<Establishment> e = establishmentService.findAll();
 
         List<EstablishmentResponse> eDtos = EstablishmentMapper.toEstablishmentResponseList(e, medias);
@@ -75,9 +75,18 @@ public class EstablishmentController {
     }
 
     @DeleteMapping("/{id}")
-    public  ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         establishmentService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/best-rating/{top}")
+    public ResponseEntity<List<EstablishmentResponse>> findBestRateds(@PathVariable Integer top){
+        List<Establishment> e = establishmentService.findBestRateds(top);
+        List<Double> medias = establishmentService.findBestMedias(top);
+
+        List<EstablishmentResponse> eDtos = EstablishmentMapper.toEstablishmentResponseList(e, medias);
+        return ResponseEntity.ok(eDtos);
     }
 
 //    @GetMapping("/api/full")
