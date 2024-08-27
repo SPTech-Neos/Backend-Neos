@@ -39,8 +39,7 @@ public class RatingService {
     public Rating avaliateEstablishment(RatingEstablishmentRequest ratingRequest) {
         Rating rating = new Rating();
 
-        EstablishmentResponse eDto = establishmentService.findById(ratingRequest.establishment());
-        Establishment e = EstablishmentMapper.toEstablishment(eDto);
+        Establishment e = establishmentService.findById(ratingRequest.establishment());
         rating.setEstablishment(e);
 
         Client client = clientService.findById(ratingRequest.client());
@@ -119,9 +118,8 @@ public class RatingService {
     public RatingResponse updateRating(Integer id, RatingRequest ratingRequest) {
         Rating rating = ratingRepository.findById(id).orElseThrow(() -> new RuntimeException("Rating not found"));
         
-        EstablishmentResponse eDto = establishmentService.findById(ratingRequest.establishment());
+        Establishment e = establishmentService.findById(ratingRequest.establishment());
 
-        Establishment e = EstablishmentMapper.toEstablishment(eDto);
         Client client = clientService.findById(ratingRequest.client());
 
         rating.setAvaliation(ratingRequest.avaliation());

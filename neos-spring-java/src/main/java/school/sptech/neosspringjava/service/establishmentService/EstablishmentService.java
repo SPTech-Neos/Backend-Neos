@@ -89,22 +89,21 @@ public class EstablishmentService {
     }
 
     public Establishment update(EstablishmentRequest establishmentResquest, Integer id) {
-        EstablishmentResponse establishment = findById(id);
+        Establishment e = findById(id);
 
-        return EstablishmentMapper.toEstablishment(establishment);
+        return e;
     }
 
     public Establishment inactiveEstablishment(Integer id){
-        EstablishmentResponse eDto = findById(id);
+        Establishment e = findById(id);
 
         Status s = statusService.buscarStatusPorNome("Inativo");
-        if(eDto.getStatus() == s){
+        if(e.getStatus() == s){
             throw new RuntimeException("O estabelecimento já está inativo");
         }
 
-        eDto.setStatus(s);
 
-        return establishmentRepository.save(EstablishmentMapper.toEstablishment(eDto));
+        return establishmentRepository.save(e);
 
     }
 
@@ -128,42 +127,34 @@ public class EstablishmentService {
     }
 
     public void delete(Integer id) {
-        EstablishmentResponse eDto = findById(id);
+        Establishment e = findById(id);
 
-        establishmentRepository.delete(EstablishmentMapper.toEstablishment(eDto));
+        establishmentRepository.delete(e);
     }
 
-    public EstablishmentResponse findById(Integer id) {
+    public Double findMediaById(Integer id){
+       Optional<Double> media = ratingRepository.findMediaByEstablishment(id);
+
+        return media.orElse(0.0);
+
+    }
+
+    public List<Double> findAllMedias(){
+        return ratingRepository.findAllMediasByEstablishment();
+    }
+
+    public Establishment findById(Integer id) {
 
         Establishment e = establishmentRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("Estabelecimento não encontrado")
         );
 
-        EstablishmentResponse eDto = EstablishmentMapper.toEstablishmentResponse(e);
-
-        Optional<Double> media = ratingRepository.findMediaByEstablishment(e.getId());
-
-        Double mediaVotes = media.isEmpty() ? 0.0 : media.get();
-
-        eDto.setMedia(mediaVotes);
-        eDto.setTotalRatings(0);
-
-        return eDto;
+        return e;
 
     }
 
-    public List<EstablishmentResponse> findAll() {
-
-        List<Establishment> establishments = establishmentRepository.findAll();
-
-        List<EstablishmentResponse> eDtos = EstablishmentMapper.toEstablishmentResponseList(establishments);
-        List<Double> medias = ratingRepository.findAllMediasByEstablishment();
-
-        for (int i = 0; i < medias.size(); i++) {
-            eDtos.get(i).setMedia(medias.get(i).doubleValue());
-        }
-
-        return eDtos;
+    public List<Establishment> findAll() {
+        return establishmentRepository.findAll();
     }
 
     public List<Establishment> findAllActives() {
@@ -182,16 +173,16 @@ public class EstablishmentService {
     }
 
     public Establishment reactive(Integer id){
-        EstablishmentResponse eDto = findById(id);
+        Establishment e = findById(id);
 
         Status s = statusService.buscarStatusPorNome("Ativo");
-        if(eDto.getStatus() == s){
-            throw new RuntimeException("O estabelecimento já está ativo");
-        }
+//        if(eDto.getStatus() == s){
+////            throw new RuntimeException("O estabelecimento já está ativo");
+////        }
+////
+////        eDto.setStatus(s);
 
-        eDto.setStatus(s);
-
-        return establishmentRepository.save(EstablishmentMapper.toEstablishment(eDto));
+        return establishmentRepository.save(e);
     }
 
     private Double evaluativeCalculation(Double voto, Integer numVotos, Double votoBanco, Integer numVotosBanco) {
@@ -199,13 +190,13 @@ public class EstablishmentService {
     }
 
     private List<EmployeeRelacionamento> findEmployeesByEstablishment(EstablishmentResponse establishments) {
-        List<EmployeeRelacionamento> employees = employeeService.findAllByEstablishment(establishments.getId());
+        List<EmployeeRelacionamento> employees = employeeService.findAllByEstablishment(establishments.id());
 
         return employees;
     }
 
     private List<EmployeeRelacionamento> findEmployeesByEstablishments(List<EstablishmentResponse> establishments) {
-        List<Integer> establishmentIds = establishments.stream().map(EstablishmentResponse::getId)
+        List<Integer> establishmentIds = establishments.stream().map(EstablishmentResponse::id)
                 .collect(Collectors.toList());
         return employeeService.findAllByEstablishmentIds(establishmentIds);
     }
