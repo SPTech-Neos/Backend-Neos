@@ -15,14 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.scheduligDto.ScheduligRequest;
-import school.sptech.neosspringjava.api.dtos.scheduligDto.ScheduligResponse;
-import school.sptech.neosspringjava.api.mappers.scheduligMapper.ScheduligMapper;
+import school.sptech.neosspringjava.api.dtos.schedulingDto.ScheduligRequest;
+import school.sptech.neosspringjava.api.dtos.schedulingDto.ScheduligResponse;
+import school.sptech.neosspringjava.api.mappers.schedulingMapper.ScheduligMapper;
 import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
 import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.schedulingRepository.SchedulingRepository;
-import school.sptech.neosspringjava.domain.repository.schedulingStatusRepository.SchedulingStatusRepository;
 import school.sptech.neosspringjava.domain.repository.serviceRepository.ServiceRepository;
 import school.sptech.neosspringjava.service.schedulingService.SchedulingService;
 
@@ -34,9 +33,7 @@ public class ScheduligController {
     private final SchedulingRepository schedulingRepository;
     private final ClientRepository clientRepository;
     private final ServiceRepository serviceRepository;
-    private final EmployeeRepository employeeRepository;
-    private final SchedulingStatusRepository schedulingStatusRepository;
-    private final ScheduligMapper scheduligMapper;
+    private final EmployeeRepository employeeRepository;private final ScheduligMapper scheduligMapper;
     private final SchedulingService schedulingService;
 
     @GetMapping
@@ -63,7 +60,6 @@ public class ScheduligController {
         scheduling.setService(serviceRepository.findById(scheduligRequest.idService()).orElseThrow());
         scheduling.setEmployee(employeeRepository.findById(scheduligRequest.idEmployee()).orElseThrow());
         scheduling.setClient(clientRepository.findById(scheduligRequest.idClient()).orElseThrow());
-        scheduling.setSchedulingStatus(schedulingStatusRepository.findById(scheduligRequest.idScheduligStatus()).orElseThrow());
         scheduling.setDateTime((scheduligRequest.dateTime()==null)?LocalDateTime.now():scheduligRequest.dateTime());
         scheduling = schedulingRepository.save(scheduling);
         return ResponseEntity.ok().body(scheduligMapper.toScheduligResponse(scheduling));
@@ -79,7 +75,6 @@ public class ScheduligController {
         scheduling.setService(serviceRepository.findById(scheduligRequest.idService()).orElseThrow());
         scheduling.setEmployee(employeeRepository.findById(scheduligRequest.idEmployee()).orElseThrow());
         scheduling.setClient(clientRepository.findById(scheduligRequest.idClient()).orElseThrow());
-        scheduling.setSchedulingStatus(schedulingStatusRepository.findById(scheduligRequest.idScheduligStatus()).orElseThrow());
         scheduling.setDateTime((scheduligRequest.dateTime()==null)?LocalDateTime.now():scheduligRequest.dateTime());
         scheduling = schedulingRepository.save(scheduling);
         return ResponseEntity.ok().body(scheduligMapper.toScheduligResponse(scheduling));

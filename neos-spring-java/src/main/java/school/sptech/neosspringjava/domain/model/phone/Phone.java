@@ -2,8 +2,13 @@ package school.sptech.neosspringjava.domain.model.phone;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+
 
 @Entity
+@Getter
+@Setter
 public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

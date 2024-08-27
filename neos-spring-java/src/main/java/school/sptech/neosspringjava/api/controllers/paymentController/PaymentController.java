@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentRequest;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentResponse;
-import school.sptech.neosspringjava.api.dtos.scheduligDto.ScheduligResponse;
 import school.sptech.neosspringjava.service.paymentService.PaymentService;
 
 @RestController
