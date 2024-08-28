@@ -14,6 +14,7 @@ import school.sptech.neosspringjava.api.dtos.employee.EmployeeLogin;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeTokenDto;
+import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 
 
@@ -28,17 +29,17 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<EmployeeResponse> save(@RequestBody EmployeeRequest employeeRequest) {
-        return ResponseEntity.ok(employeeService.save(employeeRequest));
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.save(employeeRequest)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EmployeeResponse> update(@RequestBody EmployeeRequest employeeRequest, @PathVariable Integer id) {
-        return ResponseEntity.ok(employeeService.update(employeeRequest, id));
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.update(employeeRequest, id)));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<EmployeeResponse> partialUpdate(@RequestBody Map<String, Object> updates, @PathVariable Integer id) {
-        return ResponseEntity.ok(employeeService.partialUpdate(updates, id));
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.partialUpdate(updates, id)));
     }
 
     @DeleteMapping("/{id}")
@@ -49,12 +50,12 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeResponse> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(employeeService.findById(id));
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findById(id)));
     }
 
     @GetMapping
     public ResponseEntity<List<EmployeeResponse>> findAll() {
-        return ResponseEntity.ok(employeeService.findAll());
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findAll()));
     }
  
     @PostMapping("/login")

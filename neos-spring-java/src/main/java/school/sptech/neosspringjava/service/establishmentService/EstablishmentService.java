@@ -7,11 +7,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.employee.EmployeeRelacionamento;
+
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentResponse;
-import school.sptech.neosspringjava.api.dtos.produtcDto.ProductResponse;
-import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.local.Local;
 import school.sptech.neosspringjava.domain.model.phone.Phone;
@@ -19,7 +16,6 @@ import school.sptech.neosspringjava.domain.model.status.Status;
 import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 import school.sptech.neosspringjava.domain.repository.ratingRepository.RatingRepository;
-import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 import school.sptech.neosspringjava.service.paymentService.PaymentService;
 import school.sptech.neosspringjava.service.phoneService.PhoneService;
 import school.sptech.neosspringjava.service.productService.ProductService;
@@ -32,7 +28,6 @@ public class EstablishmentService {
 
     private final EstablishmentRepository establishmentRepository;
     private final LocalRepository localRepository;
-    private final EmployeeService employeeService;
     private final PaymentService paymentService;
     private final ProductService productService;
     private final SchedulingService schedulingService;

@@ -29,12 +29,12 @@ public class EmployeeTypeController {
 
     @PostMapping
     public ResponseEntity<EmployeeTypeResponse> save(@RequestBody EmployeeTypeRequest employeeTypeRequest) {
-        return ResponseEntity.ok(employeeTypeService.save(employeeTypeRequest));
+        return ResponseEntity.ok(EmployeeTypeMapper.toResponse(employeeTypeService.save(employeeTypeRequest)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EmployeeTypeResponse> update(@RequestBody EmployeeTypeRequest employeeTypeRequest, @PathVariable Integer id) {
-        return ResponseEntity.ok(employeeTypeService.update(employeeTypeRequest, id));
+        return ResponseEntity.ok(EmployeeTypeMapper.toResponse(employeeTypeService.update(employeeTypeRequest, id)));
     }
 
     @DeleteMapping("/{id}")
@@ -45,12 +45,12 @@ public class EmployeeTypeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeTypeResponse> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(employeeTypeService.findById(id));
+        return ResponseEntity.ok(EmployeeTypeMapper.toResponse(employeeTypeService.findById(id)));
     }
 
     @GetMapping
     public ResponseEntity<List<EmployeeTypeResponse>> findAll() {
-        return ResponseEntity.ok(employeeTypeService.findAll());
+        return ResponseEntity.ok(EmployeeTypeMapper.toResponseList(employeeTypeService.findAll()));
     }
 
  }

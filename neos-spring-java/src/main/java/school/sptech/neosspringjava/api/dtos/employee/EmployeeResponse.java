@@ -11,10 +11,9 @@ public record EmployeeResponse(Integer id,String name,
         String password,
         String imgUrl,
         Establishment establishment,
-        Local fkLocal,
-        Phone fkPhone,
-
-        Status fkStatus,
+        Local Local,
+        Phone Phone,
+        Status Status,
         EmployeeType employeeType
 ) {
 
