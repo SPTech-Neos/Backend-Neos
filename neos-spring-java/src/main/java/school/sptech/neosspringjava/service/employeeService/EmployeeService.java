@@ -1,13 +1,11 @@
 package school.sptech.neosspringjava.service.employeeService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.Queue;
-import java.util.Stack;
-import java.util.concurrent.LinkedBlockingQueue;
 
+import com.cloudinary.api.exceptions.NotFound;
+import org.apache.http.HttpStatus;
+import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,22 +18,15 @@ import org.springframework.web.server.ResponseStatusException;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.configuration.security.jwt.GerenciadorTokenJwt;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeLogin;
-import school.sptech.neosspringjava.api.dtos.employee.EmployeeRelacionamento;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeTokenDto;
-import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
 import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
-import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
-import school.sptech.neosspringjava.domain.model.establishment.Establishment;
-import school.sptech.neosspringjava.domain.model.local.Local;
-import school.sptech.neosspringjava.domain.model.phone.Phone;
-import school.sptech.neosspringjava.domain.model.status.Status;
-import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
-import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.service.EmployeeServService.EmployeeServService;
+import school.sptech.neosspringjava.service.employeeTypeService.EmployeeTypeService;
+import school.sptech.neosspringjava.service.establishmentService.EstablishmentService;
 import school.sptech.neosspringjava.service.localService.LocalService;
 import school.sptech.neosspringjava.service.phoneService.PhoneService;
 import school.sptech.neosspringjava.service.statusService.StatusService;
@@ -45,9 +36,8 @@ import school.sptech.neosspringjava.service.statusService.StatusService;
 public class EmployeeService {
 
    private final EmployeeRepository employeeRepository;
-   private final EmployeeMapper employeeMapper;
-   private final EstablishmentRepository establishmentRepository;
-   private final EmployeeTypeRepository employeeTypeRepository;
+   private final EstablishmentService establishmentService;
+   private final EmployeeTypeService eTypeService;
    private final PasswordEncoder passwordEncoder;
    private final EmployeeServService employeeServService;
    private final LocalService lService;
@@ -76,50 +66,34 @@ public class EmployeeService {
         return EmployeeMapper.of(employeeAuthentication, token);
     }
 
-    public EmployeeResponse save(EmployeeRequest employeeRequest) {
-        if (employeeRequest.employeeType() == null) {
-            throw new IllegalArgumentException("Employee type must not be null");
-        }
-
-        EmployeeType employeeType = employeeTypeRepository.findById(employeeRequest.employeeType())
-                .orElseThrow(() -> new RuntimeException("Employee type not found"));
-
-        Local local = lService.findById(employeeRequest.fkLocal());
-
-        Phone phone = pService.findById(employeeRequest.fkPhone());
-
-        Status status = sService.findById(employeeRequest.fkStatus());
+    public Employee save(EmployeeRequest employeeRequest) {
 
         String passwordEncrypted = passwordEncoder.encode(employeeRequest.password());
 
-        Employee employee = new Employee();
-        employee.setEmail(employeeRequest.email());
-        employee.setEmployeeType(employeeType);
-        employee.setEstablishment(establishmentRepository.findById(employeeRequest.fkEstablishment())
-                .orElseThrow(() -> new RuntimeException("Establishment not found")));
-        employee.setImgUrl(employeeRequest.imgUrl());
-        employee.setLocal(local);
-        employee.setPhone(phone);
-        employee.setStatus(status);
-        employee.setName(employeeRequest.name());
-        employee.setPassword(passwordEncrypted);
+        Employee employee = EmployeeMapper.toEntity(employeeRequest, passwordEncrypted);
 
-        return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
+        employee.setEmployeeType(eTypeService.findById(employeeRequest.employeeType()));
+        employee.setEstablishment(establishmentService.findById(employeeRequest.fkEstablishment()));
+        employee.setStatus(sService.findById(employeeRequest.fkStatus()));
+        employee.setLocal(lService.findById(employeeRequest.fkLocal()));
+        employee.setPhone(pService.findById(employeeRequest.fkPhone()));
+
+        return employeeRepository.save(employee);
     }
 
-    public EmployeeResponse update(EmployeeRequest employeeRequest, Integer id) {
+    public Employee update(EmployeeRequest employeeRequest, Integer id) {
        
-        Employee employee = employeeRepository.findById(id).orElseThrow();
+        Employee employee = employeeRepository.findById(id).orElseThrow( () -> new RuntimeException("Funcionário não encontrado"));
             employee.setName(employeeRequest.name());
             employee.setEmail(employeeRequest.email());
             employee.setPassword(employeeRequest.password());
             employee.setImgUrl(employeeRequest.imgUrl());
-            employee.setEstablishment(establishmentRepository.findById(employeeRequest.fkEstablishment()).orElseThrow());
-            employee.setEmployeeType(employeeTypeRepository.findById(employeeRequest.employeeType()).orElseThrow());
-        return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
+            employee.setEstablishment(establishmentService.findById(employeeRequest.fkEstablishment()));
+            employee.setEmployeeType(eTypeService.findById(employeeRequest.employeeType()));
+        return employeeRepository.save(employee);
     }
 
-    public EmployeeResponse partialUpdate(Map<String, Object> updates, Integer id) {
+    public Employee partialUpdate(Map<String, Object> updates, Integer id) {
         Employee employee = employeeRepository.findById(id).orElseThrow();
 
         if (updates.containsKey("name")) {
@@ -140,79 +114,79 @@ public class EmployeeService {
 
         if (updates.containsKey("fkEstablishment")) {
             Integer fkEstablishment = (Integer) updates.get("fkEstablishment");
-            employee.setEstablishment(establishmentRepository.findById(fkEstablishment).orElseThrow());
+            employee.setEstablishment(establishmentService.findById(fkEstablishment));
         }
 
         if (updates.containsKey("employeeType")) {
             Integer employeeType = (Integer) updates.get("employeeType");
-            employee.setEmployeeType(employeeTypeRepository.findById(employeeType).orElseThrow());
+            employee.setEmployeeType(eTypeService.findById(employeeType));
         }
 
-        return employeeMapper.toEmployeeResponse(employeeRepository.save(employee));
+        return employeeRepository.save(employee);
     }
 
     public void delete(Integer id) {
          employeeRepository.deleteById(id);
     }
 
-    public EmployeeResponse findById(Integer id) {
-         return employeeMapper.toEmployeeResponse(employeeRepository.findById(id).orElseThrow());
+    public Employee findById(Integer id) {
+         return employeeRepository.findById(id).orElseThrow( () -> new RuntimeException("Funcionário não encontrado"));
     }
 
-    public EmployeeResponse findByEmailAndPassword(String email, String password) {
-        return employeeMapper.toEmployeeResponse(employeeRepository.findByEmailAndPassword(email, password));
+    public Employee findByEmailAndPassword(String email, String password) {
+        return employeeRepository.findByEmailAndPassword(email, password);
     }
 
 
-    public List<EmployeeResponse> findAll() {
-         return employeeMapper.toEmployeeResponse(employeeRepository.findAll());
+    public List<Employee> findAll() {
+         return employeeRepository.findAll();
     }
     
-    public List<EmployeeRelacionamento> findAllByEstablishment(Integer fkEstablishment) {
-    try {
-        Optional<Establishment> establishment = establishmentRepository.findById(fkEstablishment);
-        if (establishment.isEmpty()) {
-            throw new NullPointerException("Establishment not found");
-        }
-        List<Employee> employees = employeeRepository.findAllByEstablishment(establishment.get());
-        // Usar uma fila para processar os funcionários
-        Queue<Employee> queue = new LinkedBlockingQueue<>(employees);
-
-        // Usar uma pilha para armazenar os resultados temporariamente
-        Stack<EmployeeRelacionamento> stack = new Stack<>();
-
-        while (!queue.isEmpty()) {
-            Employee employee = queue.poll();
-            List<ServiceResponse> services = employeeServService.findByEmployee(employee);
-            EmployeeRelacionamento employeeRelacionamento = new EmployeeRelacionamento(
-                    employee.getId(), employee.getName(), employee.getEmail(), employee.getPassword(),
-                    employee.getImgUrl(), employee.getEstablishment(), employee.getEmployeeType(), services
-            );
-            stack.push(employeeRelacionamento);
-        }
-
-        // Converter a pilha de volta para uma lista
-        List<EmployeeRelacionamento> employeeRelacionamentos = new ArrayList<>();
-        while (!stack.isEmpty()) {
-            employeeRelacionamentos.add(stack.pop());
-        }
-
-        return employeeRelacionamentos;
-
-
-        } catch (Exception e) {
-            throw new RuntimeException("Error");
-    }
-    }
-
-    public List<EmployeeRelacionamento> findAllByEstablishmentIds(List<Integer> establishmentIds) {
-        List<EmployeeRelacionamento> allEmployees = new ArrayList<>();
-
-        for (Integer establishmentId : establishmentIds) {
-            List<EmployeeRelacionamento> employeesForEstablishment = findAllByEstablishment(establishmentId);
-            allEmployees.addAll(employeesForEstablishment);
-        }
-
-        return allEmployees;
-    }
+//    public List<EmployeeRelacionamento> findAllByEstablishment(Integer fkEstablishment) {
+//    try {
+//        Optional<Establishment> establishment = establishmentRepository.findById(fkEstablishment);
+//        if (establishment.isEmpty()) {
+//            throw new NullPointerException("Establishment not found");
+//        }
+//        List<Employee> employees = employeeRepository.findAllByEstablishment(establishment.get());
+//        // Usar uma fila para processar os funcionários
+//        Queue<Employee> queue = new LinkedBlockingQueue<>(employees);
+//
+//        // Usar uma pilha para armazenar os resultados temporariamente
+//        Stack<EmployeeRelacionamento> stack = new Stack<>();
+//
+//        while (!queue.isEmpty()) {
+//            Employee employee = queue.poll();
+//            List<ServiceResponse> services = employeeServService.findByEmployee(employee);
+//            EmployeeRelacionamento employeeRelacionamento = new EmployeeRelacionamento(
+//                    employee.getId(), employee.getName(), employee.getEmail(), employee.getPassword(),
+//                    employee.getImgUrl(), employee.getEstablishment(), employee.getEmployeeType(), services
+//            );
+//            stack.push(employeeRelacionamento);
+//        }
+//
+//        // Converter a pilha de volta para uma lista
+//        List<EmployeeRelacionamento> employeeRelacionamentos = new ArrayList<>();
+//        while (!stack.isEmpty()) {
+//            employeeRelacionamentos.add(stack.pop());
+//        }
+//
+//        return employeeRelacionamentos;
+//
+//
+//        } catch (Exception e) {
+//            throw new RuntimeException("Error");
+//    }
+//    }
+//
+//    public List<EmployeeRelacionamento> findAllByEstablishmentIds(List<Integer> establishmentIds) {
+//        List<EmployeeRelacionamento> allEmployees = new ArrayList<>();
+//
+//        for (Integer establishmentId : establishmentIds) {
+//            List<EmployeeRelacionamento> employeesForEstablishment = findAllByEstablishment(establishmentId);
+//            allEmployees.addAll(employeesForEstablishment);
+//        }
+//
+//        return allEmployees;
+//    }
 }

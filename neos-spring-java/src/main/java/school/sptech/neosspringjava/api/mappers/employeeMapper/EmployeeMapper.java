@@ -23,6 +23,17 @@ public class EmployeeMapper {
         return employee.stream().map(EmployeeMapper::toEmployeeResponse).collect(Collectors.toList());
     }
 
+    public static Employee toEntity(EmployeeRequest eDto, String passwordEncrypted){
+        Employee e = new Employee();
+
+        e.setName(eDto.name());
+        e.setEmail(eDto.email());
+        e.setPassword(passwordEncrypted);
+        e.setImgUrl(eDto.imgUrl());
+
+        return e;
+    }
+
     public static EmployeeTokenDto of(Employee employee, String token){
             EmployeeTokenDto employeeTokenDto = new EmployeeTokenDto();
 
