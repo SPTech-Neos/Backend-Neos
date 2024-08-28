@@ -18,6 +18,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
+import school.sptech.neosspringjava.domain.model.local.Local;
+import school.sptech.neosspringjava.domain.model.phone.Phone;
+import school.sptech.neosspringjava.domain.model.status.Status;
 
 @Entity
 @Getter
@@ -26,7 +29,6 @@ import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 @NoArgsConstructor
 @Builder
 public class Employee {
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +51,18 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "fkEstablishment")
     private Establishment establishment;
+
+    @ManyToOne
+    @JoinColumn(name = "fkLocal")
+    private Local local;
+
+    @ManyToOne
+    @JoinColumn(name = "fkPhone")
+    private Phone phone;
+
+    @ManyToOne
+    @JoinColumn(name = "fkStatus")
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "fkEmployeeType")

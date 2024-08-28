@@ -29,10 +29,16 @@ import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
+import school.sptech.neosspringjava.domain.model.local.Local;
+import school.sptech.neosspringjava.domain.model.phone.Phone;
+import school.sptech.neosspringjava.domain.model.status.Status;
 import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.EmployeeTypeRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.service.EmployeeServService.EmployeeServService;
+import school.sptech.neosspringjava.service.localService.LocalService;
+import school.sptech.neosspringjava.service.phoneService.PhoneService;
+import school.sptech.neosspringjava.service.statusService.StatusService;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +50,9 @@ public class EmployeeService {
    private final EmployeeTypeRepository employeeTypeRepository;
    private final PasswordEncoder passwordEncoder;
    private final EmployeeServService employeeServService;
+   private final LocalService lService;
+   private final PhoneService pService;
+   private final StatusService sService;
 
     @Autowired
     GerenciadorTokenJwt gerenciadorTokenJwt;
@@ -66,8 +75,6 @@ public class EmployeeService {
 
         return EmployeeMapper.of(employeeAuthentication, token);
     }
-   
-
 
     public EmployeeResponse save(EmployeeRequest employeeRequest) {
         if (employeeRequest.employeeType() == null) {
@@ -76,7 +83,13 @@ public class EmployeeService {
 
         EmployeeType employeeType = employeeTypeRepository.findById(employeeRequest.employeeType())
                 .orElseThrow(() -> new RuntimeException("Employee type not found"));
-        
+
+        Local local = lService.findById(employeeRequest.fkLocal());
+
+        Phone phone = pService.findById(employeeRequest.fkPhone());
+
+        Status status = sService.findById(employeeRequest.fkStatus());
+
         String passwordEncrypted = passwordEncoder.encode(employeeRequest.password());
 
         Employee employee = new Employee();
@@ -85,6 +98,9 @@ public class EmployeeService {
         employee.setEstablishment(establishmentRepository.findById(employeeRequest.fkEstablishment())
                 .orElseThrow(() -> new RuntimeException("Establishment not found")));
         employee.setImgUrl(employeeRequest.imgUrl());
+        employee.setLocal(local);
+        employee.setPhone(phone);
+        employee.setStatus(status);
         employee.setName(employeeRequest.name());
         employee.setPassword(passwordEncrypted);
 

@@ -18,7 +18,7 @@ import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/employees")
 @RequiredArgsConstructor
 public class EmployeeController {
 

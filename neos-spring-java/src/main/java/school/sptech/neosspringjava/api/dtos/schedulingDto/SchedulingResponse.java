@@ -7,7 +7,7 @@ import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.service.Service;
 import school.sptech.neosspringjava.domain.model.status.Status;
 
-public record ScheduligResponse(Integer idSchedulig, Client client, Service service, Employee employee, Status status, LocalDateTime dateTime) {
+public record SchedulingResponse(Integer idSchedulig, Client client, Service service, Employee employee, Status status, LocalDateTime dateTime) {
    
    
 }

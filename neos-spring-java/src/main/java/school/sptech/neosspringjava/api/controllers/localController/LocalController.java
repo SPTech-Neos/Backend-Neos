@@ -11,19 +11,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.LocalDto.LocalRequest;
 import school.sptech.neosspringjava.api.dtos.LocalDto.LocalResponse;
 import school.sptech.neosspringjava.api.mappers.localMapper.LocalMapper;
-import school.sptech.neosspringjava.domain.model.local.Local;
-import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 import school.sptech.neosspringjava.service.localService.LocalService;
 
 @RestController
-@RequestMapping("/local")
+@RequestMapping("/locals")
 @RequiredArgsConstructor
 public class LocalController {
 
@@ -36,11 +33,7 @@ public class LocalController {
 
     @GetMapping("/{id}")
     public ResponseEntity<LocalResponse> findById(@PathVariable Integer id) {
-        LocalResponse localResponse = localService.findById(id);
-        if (localResponse == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(localResponse);
+        return ResponseEntity.ok(LocalMapper.toLocalResponse(localService.findById(id)));
     }
 
     @PostMapping
