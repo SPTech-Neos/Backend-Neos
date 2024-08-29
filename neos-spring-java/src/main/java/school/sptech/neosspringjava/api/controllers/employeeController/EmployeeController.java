@@ -57,6 +57,21 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeResponse>> findAll() {
         return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findAll()));
     }
+
+    @GetMapping("/by-establishment/{id}")
+    public ResponseEntity<List<EmployeeResponse>> findEmployeesByEstablishment(@PathVariable Integer id){
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findEmployeesByEstablishmentId(id)));
+    }
+
+    @PatchMapping("/deactive/{id}")
+    public ResponseEntity<EmployeeResponse> deactive(@PathVariable Integer id){
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.deactivate(id)));
+    }
+
+    @PatchMapping("/reactive/{id}")
+    public ResponseEntity<EmployeeResponse> reactive(@PathVariable Integer id){
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.reactivate(id)));
+    }
  
     @PostMapping("/login")
     public ResponseEntity<EmployeeTokenDto> login(@RequestBody EmployeeLogin employeeLogin) {

@@ -12,8 +12,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 
     Employee findByEmailAndPassword(String email, String password);
 
-    List<Employee> findByEstablishment(Establishment establishment);
-
     List<Employee> findAllByEstablishment(Establishment establishment);
 
     Optional<Employee> findByEmail(String email);

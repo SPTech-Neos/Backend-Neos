@@ -3,9 +3,6 @@ package school.sptech.neosspringjava.service.employeeService;
 import java.util.List;
 import java.util.Map;
 
-import com.cloudinary.api.exceptions.NotFound;
-import org.apache.http.HttpStatus;
-import org.apache.http.protocol.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.configuration.security.jwt.GerenciadorTokenJwt;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeLogin;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
-import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeTokenDto;
 import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
@@ -140,6 +136,26 @@ public class EmployeeService {
 
     public List<Employee> findAll() {
          return employeeRepository.findAll();
+    }
+
+    public List<Employee> findEmployeesByEstablishmentId(Integer id){
+        return employeeRepository.findAllByEstablishment(establishmentService.findById(id));
+    }
+
+    public Employee deactivate(Integer id){
+        Employee e = findById(id);
+
+        e.setStatus(sService.findStatusByName("Inativo"));
+
+        return e;
+    }
+
+    public Employee reactivate(Integer id){
+        Employee e = findById(id);
+
+        e.setStatus(sService.findStatusByName("Ativo"));
+
+        return e;
     }
     
 //    public List<EmployeeRelacionamento> findAllByEstablishment(Integer fkEstablishment) {

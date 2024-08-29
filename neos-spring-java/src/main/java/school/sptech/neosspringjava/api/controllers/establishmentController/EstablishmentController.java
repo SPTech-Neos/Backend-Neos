@@ -32,7 +32,7 @@ public class EstablishmentController {
     public ResponseEntity<List<EstablishmentResponse>> findAllActives() {
         return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponseList(establishmentService.findAllActives()));
     }
-    @GetMapping("/inative")
+    @GetMapping("/inactive")
     public ResponseEntity<List<EstablishmentResponse>> findAllInatives() {
         return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponseList(establishmentService.findAllInatives()));
     }
@@ -63,12 +63,12 @@ public class EstablishmentController {
         return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishmentService.partialUpdate(establishmentRequest, id)));
     }
 
-    @PatchMapping("/inactive/{id}")
-    public ResponseEntity<EstablishmentResponse> inactive(@PathVariable Integer id){
+    @PatchMapping("/deactive/{id}")
+    public ResponseEntity<EstablishmentResponse> deactive(@PathVariable Integer id){
         return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishmentService.inactiveEstablishment(id)));
     }
     @PatchMapping("/reactive/{id}")
-    public ResponseEntity<EstablishmentResponse> active(@PathVariable Integer id){
+    public ResponseEntity<EstablishmentResponse> reactive(@PathVariable Integer id){
         return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishmentService.reactive(id)));
     }
 
