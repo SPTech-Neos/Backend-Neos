@@ -28,11 +28,13 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Integer id;
-    @NotBlank(message = "Nome do produto é obrigatório")
-    @NotEmpty(message = "Nome do produto é obrigatório")
+
     private String name;
+
     private String brand;
+
     private String imgUrl;
+
     private Double price;
     @ManyToOne
     @JoinColumn(name = "fkProductType")

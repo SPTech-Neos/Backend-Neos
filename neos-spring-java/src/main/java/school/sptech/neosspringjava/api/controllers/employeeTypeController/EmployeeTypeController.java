@@ -21,7 +21,7 @@ import school.sptech.neosspringjava.domain.repository.EmployeeTypeRepository.Emp
 import school.sptech.neosspringjava.service.employeeTypeService.EmployeeTypeService;
 
 @RestController
-@RequestMapping("/employeeType")
+@RequestMapping("/employee-types")
 @RequiredArgsConstructor
 public class EmployeeTypeController {
 

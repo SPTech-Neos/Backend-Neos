@@ -27,7 +27,7 @@ import school.sptech.neosspringjava.service.schedulingService.SchedulingService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/scheduling")
+@RequestMapping("/schedulings")
 public class ScheduligController {
 
     private final SchedulingRepository schedulingRepository;

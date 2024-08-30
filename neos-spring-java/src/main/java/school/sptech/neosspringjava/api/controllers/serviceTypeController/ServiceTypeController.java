@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/serviceType")
+@RequestMapping("/service-types")
 @RequiredArgsConstructor
 public class ServiceTypeController {
     private final ServiceTypeService servTypeServ;

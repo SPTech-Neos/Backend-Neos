@@ -13,7 +13,7 @@ import school.sptech.neosspringjava.api.mappers.serviceMapper.ServiceMapper;
 import school.sptech.neosspringjava.service.serviceService.ServiceService;
 
 @RestController
-@RequestMapping("/service")
+@RequestMapping("/services")
 @RequiredArgsConstructor
 public class ServiceController {
     private final ServiceService servServ;

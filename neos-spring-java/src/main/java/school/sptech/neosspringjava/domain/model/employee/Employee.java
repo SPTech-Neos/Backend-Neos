@@ -35,15 +35,10 @@ public class Employee {
     @Column(name = "employee_id")
     private Integer id;
 
-    @NotBlank(message = "Nome é obrigatório")
-    @NotEmpty(message = "Nome é obrigatório")
     private String name;
 
-    @Email
     private String email;
 
-    @NotBlank(message = "criar uma senha é obrigatório")
-    @NotEmpty(message = "criar uma senha é obrigatório")
     private String password;
 
     private String imgUrl;

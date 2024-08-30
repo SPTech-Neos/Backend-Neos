@@ -28,8 +28,5 @@ public class ServiceCategory{
     @Column(name = "service_category_id")
     private Integer id;
 
-    @NotBlank(message = "Nome é obrigatório")
-    @NotEmpty(message = "Nome é obrigatório")
-    @Column(name = "name")
     private String name;
 }

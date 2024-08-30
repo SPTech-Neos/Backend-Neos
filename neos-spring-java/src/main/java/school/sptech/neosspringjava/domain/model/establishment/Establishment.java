@@ -37,10 +37,7 @@ public class Establishment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "establishment_id")
     private int id;
-    
-    @NotNull(message = "Nome é obrigatório")
-    @NotBlank(message = "Nome é obrigatório")
-    @NotEmpty(message = "Nome é obrigatório")
+
     private String name;
 
     @JoinColumn(name = "fkStatus")

@@ -29,21 +29,12 @@ public class Service {
     @Column(name = "service_id")
     private Integer id;
 
-    @NotBlank(message = "É necessario especificação do serviço")
-    @NotEmpty(message = "É necessario especificação do serviço")
     private String specification;
 
     private  String imgUrl;
 
-    private String aditumId;
-
-    private Double price;
-
     @ManyToOne
     @JoinColumn(name = "fkServiceType")
     private ServiceType serviceType;
-
-  
-    
 
 }
