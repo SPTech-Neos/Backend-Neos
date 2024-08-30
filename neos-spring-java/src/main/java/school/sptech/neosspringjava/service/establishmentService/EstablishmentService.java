@@ -83,10 +83,11 @@ public class EstablishmentService {
         Establishment e = findById(id);
 
         Status s = statusService.findStatusByName("Inativo");
-        if(e.getStatus() == s){
+        if(e.getStatus().equals(s)){
             throw new RuntimeException("O estabelecimento já está inativo");
         }
 
+        e.setStatus(s);
 
         return establishmentRepository.save(e);
 
@@ -161,6 +162,10 @@ public class EstablishmentService {
         Establishment e = findById(id);
 
         Status s = statusService.findStatusByName("Ativo");
+        if(e.getStatus().equals(s)){
+            throw new RuntimeException("Esse estabelecimento já está ativo");
+        }
+        e.setStatus(s);
 
         return establishmentRepository.save(e);
     }

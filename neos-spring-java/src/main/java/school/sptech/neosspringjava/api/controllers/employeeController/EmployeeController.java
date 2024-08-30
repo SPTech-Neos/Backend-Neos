@@ -58,6 +58,16 @@ public class EmployeeController {
         return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findAll()));
     }
 
+    @GetMapping("/active")
+    public ResponseEntity<List<EmployeeResponse>> findAllActives(){
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findAllActives()));
+    }
+
+    @GetMapping("/inactive")
+    public ResponseEntity<List<EmployeeResponse>> findAllInactives(){
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findAllInactives()));
+    }
+
     @GetMapping("/by-establishment/{id}")
     public ResponseEntity<List<EmployeeResponse>> findEmployeesByEstablishment(@PathVariable Integer id){
         return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findEmployeesByEstablishmentId(id)));
@@ -80,5 +90,10 @@ public class EmployeeController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(employee);
+    }
+
+    @GetMapping("/by-establishment/{idEstab}/by-service/{idServ}")
+    public ResponseEntity<List<EmployeeResponse>> findAllByEstablishmentAndService(@PathVariable Integer idEstab, @PathVariable Integer idServ){
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findAllByEstablishmentAndService(idEstab, idServ)));
     }
 }

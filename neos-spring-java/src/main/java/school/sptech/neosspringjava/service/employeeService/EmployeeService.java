@@ -19,12 +19,15 @@ import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeTokenDto;
 import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
+import school.sptech.neosspringjava.domain.model.status.Status;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.service.EmployeeServService.EmployeeServService;
 import school.sptech.neosspringjava.service.employeeTypeService.EmployeeTypeService;
 import school.sptech.neosspringjava.service.establishmentService.EstablishmentService;
 import school.sptech.neosspringjava.service.localService.LocalService;
 import school.sptech.neosspringjava.service.phoneService.PhoneService;
+import school.sptech.neosspringjava.service.serviceService.ServiceService;
 import school.sptech.neosspringjava.service.statusService.StatusService;
 
 @Service
@@ -39,6 +42,8 @@ public class EmployeeService {
    private final LocalService lService;
    private final PhoneService pService;
    private final StatusService sService;
+   private final ServiceService servService;
+   private final EmployeeServService esService;
 
     @Autowired
     GerenciadorTokenJwt gerenciadorTokenJwt;
@@ -144,65 +149,43 @@ public class EmployeeService {
 
     public Employee deactivate(Integer id){
         Employee e = findById(id);
+        Status s = sService.findStatusByName("Inativo");
 
-        e.setStatus(sService.findStatusByName("Inativo"));
+        if(e.getStatus().equals(s)){
+            throw new RuntimeException("Usuário já está inativo");
+        }
 
-        return e;
+        e.setStatus(s);
+
+        return employeeRepository.save(e);
     }
 
     public Employee reactivate(Integer id){
         Employee e = findById(id);
+        Status s = sService.findStatusByName("Ativo");
 
-        e.setStatus(sService.findStatusByName("Ativo"));
+        if(e.getStatus().equals(s)){
+            throw new RuntimeException("Usuário já está ativo");
+        }
 
-        return e;
+        e.setStatus(s);
+
+        return employeeRepository.save(e);
     }
-    
-//    public List<EmployeeRelacionamento> findAllByEstablishment(Integer fkEstablishment) {
-//    try {
-//        Optional<Establishment> establishment = establishmentRepository.findById(fkEstablishment);
-//        if (establishment.isEmpty()) {
-//            throw new NullPointerException("Establishment not found");
-//        }
-//        List<Employee> employees = employeeRepository.findAllByEstablishment(establishment.get());
-//        // Usar uma fila para processar os funcionários
-//        Queue<Employee> queue = new LinkedBlockingQueue<>(employees);
-//
-//        // Usar uma pilha para armazenar os resultados temporariamente
-//        Stack<EmployeeRelacionamento> stack = new Stack<>();
-//
-//        while (!queue.isEmpty()) {
-//            Employee employee = queue.poll();
-//            List<ServiceResponse> services = employeeServService.findByEmployee(employee);
-//            EmployeeRelacionamento employeeRelacionamento = new EmployeeRelacionamento(
-//                    employee.getId(), employee.getName(), employee.getEmail(), employee.getPassword(),
-//                    employee.getImgUrl(), employee.getEstablishment(), employee.getEmployeeType(), services
-//            );
-//            stack.push(employeeRelacionamento);
-//        }
-//
-//        // Converter a pilha de volta para uma lista
-//        List<EmployeeRelacionamento> employeeRelacionamentos = new ArrayList<>();
-//        while (!stack.isEmpty()) {
-//            employeeRelacionamentos.add(stack.pop());
-//        }
-//
-//        return employeeRelacionamentos;
-//
-//
-//        } catch (Exception e) {
-//            throw new RuntimeException("Error");
-//    }
-//    }
-//
-//    public List<EmployeeRelacionamento> findAllByEstablishmentIds(List<Integer> establishmentIds) {
-//        List<EmployeeRelacionamento> allEmployees = new ArrayList<>();
-//
-//        for (Integer establishmentId : establishmentIds) {
-//            List<EmployeeRelacionamento> employeesForEstablishment = findAllByEstablishment(establishmentId);
-//            allEmployees.addAll(employeesForEstablishment);
-//        }
-//
-//        return allEmployees;
-//    }
+
+    public List<Employee> findAllActives(){
+        return employeeRepository.findAllByStatus(sService.findStatusByName("Ativo"));
+    }
+
+    public List<Employee> findAllInactives(){
+        return employeeRepository.findAllByStatus(sService.findStatusByName("Inativo"));
+    }
+
+
+    public List<Employee> findAllByEstablishmentAndService(Integer idEstab, Integer idServ){
+        Establishment e = establishmentService.findById(idEstab);
+        school.sptech.neosspringjava.domain.model.service.Service s = servService.findById(idServ);
+       return employeeRepository.findAllByEstablishmentAndService(e, s);
+    }
+
 }
