@@ -1,9 +1,6 @@
 package school.sptech.neosspringjava.domain.model.order;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.client.Client;
@@ -14,14 +11,20 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
     private Integer id;
 
     private LocalDateTime dateTime;
 
+    @JoinColumn(name ="fkStatus")
+    @ManyToOne
     private Status status;
 
+    @JoinColumn(name ="fkClient")
+    @ManyToOne
     private Client client;
 }

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import school.sptech.neosspringjava.api.dtos.clientDto.ClientCreatDTO;
-import school.sptech.neosspringjava.api.dtos.clientDto.ClientRequest;
 import school.sptech.neosspringjava.api.dtos.clientDto.ClientTokenDto;
 import school.sptech.neosspringjava.api.dtos.clientDto.ClientResponse;
 import school.sptech.neosspringjava.domain.model.client.Client;
@@ -62,16 +61,9 @@ public class ClientMapper {
         return clientTokenDto;
     }
 
-     public static Client toClient(ClientRequest cDto) {
-        Client c = new Client();
-
-        c.setName(cDto.name());
-        c.setEmail(cDto.email());
-        c.setCpf(cDto.cpf());
-        c.setPassword(cDto.password());
-
-        return c;
-     }
+    // public static Client toClient(ClientResponse clientResponse) {
+    //     return new Client( clientResponse.name(), clientResponse.email(), clientResponse.password(), clientResponse.local());
+    // }
 
 
 }

@@ -11,7 +11,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.local.Local;
+import school.sptech.neosspringjava.domain.model.order.Order;
 import school.sptech.neosspringjava.domain.model.phone.Phone;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -38,9 +41,9 @@ public class Client {
     @NotNull(message = "Criar uma senha é obrigatório")
     private String password;
 
-    private String imgUrl;
     private String cpf;
 
+    private String imgUrl;
 
     @ManyToOne
     @JoinColumn(name = "fkLocal", referencedColumnName = "local_id")
