@@ -14,11 +14,12 @@ import school.sptech.neosspringjava.api.dtos.employee.EmployeeLogin;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeTokenDto;
+import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping("/employees")
 @RequiredArgsConstructor
 public class EmployeeController {
 
@@ -28,17 +29,17 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<EmployeeResponse> save(@RequestBody EmployeeRequest employeeRequest) {
-        return ResponseEntity.ok(employeeService.save(employeeRequest));
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.save(employeeRequest)));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<EmployeeResponse> update(@RequestBody EmployeeRequest employeeRequest, @PathVariable Integer id) {
-        return ResponseEntity.ok(employeeService.update(employeeRequest, id));
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.update(employeeRequest, id)));
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<EmployeeResponse> partialUpdate(@RequestBody Map<String, Object> updates, @PathVariable Integer id) {
-        return ResponseEntity.ok(employeeService.partialUpdate(updates, id));
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.partialUpdate(updates, id)));
     }
 
     @DeleteMapping("/{id}")
@@ -49,12 +50,37 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeResponse> findById(@PathVariable Integer id) {
-        return ResponseEntity.ok(employeeService.findById(id));
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findById(id)));
     }
 
     @GetMapping
     public ResponseEntity<List<EmployeeResponse>> findAll() {
-        return ResponseEntity.ok(employeeService.findAll());
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findAll()));
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<List<EmployeeResponse>> findAllActives(){
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findAllActives()));
+    }
+
+    @GetMapping("/inactive")
+    public ResponseEntity<List<EmployeeResponse>> findAllInactives(){
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findAllInactives()));
+    }
+
+    @GetMapping("/by-establishment/{id}")
+    public ResponseEntity<List<EmployeeResponse>> findEmployeesByEstablishment(@PathVariable Integer id){
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findEmployeesByEstablishmentId(id)));
+    }
+
+    @PatchMapping("/deactive/{id}")
+    public ResponseEntity<EmployeeResponse> deactive(@PathVariable Integer id){
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.deactivate(id)));
+    }
+
+    @PatchMapping("/reactive/{id}")
+    public ResponseEntity<EmployeeResponse> reactive(@PathVariable Integer id){
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.reactivate(id)));
     }
  
     @PostMapping("/login")
@@ -64,5 +90,10 @@ public class EmployeeController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok().body(employee);
+    }
+
+    @GetMapping("/by-establishment/{idEstab}/by-service/{idServ}")
+    public ResponseEntity<List<EmployeeResponse>> findAllByEstablishmentAndService(@PathVariable Integer idEstab, @PathVariable Integer idServ){
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeResponse(employeeService.findAllByEstablishmentAndService(idEstab, idServ)));
     }
 }

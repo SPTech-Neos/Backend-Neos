@@ -17,7 +17,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
+import school.sptech.neosspringjava.domain.model.market.Market;
 import school.sptech.neosspringjava.domain.model.product.Product;
+import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
+import school.sptech.neosspringjava.domain.model.status.Status;
 
 @Entity
 @Getter
@@ -26,25 +29,26 @@ import school.sptech.neosspringjava.domain.model.product.Product;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Payment {
-@Id
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "payment_id")
     private Integer id;
-    @Column(name = "date_payment")
-    private LocalDateTime dateTime;
-    private Double value;
+
+    @Column(name = "datePayment")
+    private LocalDateTime datePayment;
 
     @ManyToOne
-    @JoinColumn(name = "product_fk")
-    private Product product;
+    @JoinColumn(name = "fkMarket")
+    private Market market;
 
     @ManyToOne
-    @JoinColumn(name = "client_fk")
-    private Client client;
+    @JoinColumn(name = "fkSchedule")
+    private Scheduling schedule;
 
     @ManyToOne
-    @JoinColumn(name = "establishment_fk")
-    private Establishment establishment;
+    @JoinColumn(name = "fkStatus")
+    private Status status;
 
 
 }

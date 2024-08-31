@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 @RestController
-@RequestMapping("/serviceCategory")
+@RequestMapping("/service-categories")
 @RequiredArgsConstructor
 public class ServiceCategoryController {
     private final ServiceCategoryService servCategoryServ;

@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentRequest;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentResponse;
-import school.sptech.neosspringjava.api.dtos.scheduligDto.ScheduligResponse;
+import school.sptech.neosspringjava.api.mappers.paymentMapper.PaymentMapper;
 import school.sptech.neosspringjava.service.paymentService.PaymentService;
 
 @RestController
-@RequestMapping("/payment")
+@RequestMapping("/payments")
 @RequiredArgsConstructor
 public class PaymentController {
 
@@ -32,16 +32,12 @@ public class PaymentController {
 
     @GetMapping
     public ResponseEntity<List<PaymentResponse>> findAll() {
-        return ResponseEntity.ok(paymentService.findAll());
+        return ResponseEntity.ok(PaymentMapper.toResponse(paymentService.findAll()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PaymentResponse> findById(@PathVariable Integer id) {
-        PaymentResponse paymentResponse = paymentService.findById(id);
-        if (paymentResponse == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(paymentResponse);
+        return ResponseEntity.ok(PaymentMapper.toResponse(paymentService.findById(id)));
     }
 
     @PutMapping("/{id}")
@@ -59,16 +55,16 @@ public class PaymentController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/client/{clientId}")
-    public ResponseEntity<List<PaymentResponse>> getSchedulesByClientId(@PathVariable Integer clientId) {
-        List<PaymentResponse> payments = paymentService.getPaymentsByClientId(clientId);
-        return ResponseEntity.ok(payments);
-    }
-
-    @GetMapping("/establishment/{establishmentId}")
-    public ResponseEntity<List<PaymentResponse>> getSchedulesByEstablishmentId(@PathVariable Integer establishmentId) {
-        List<PaymentResponse> payments = paymentService.getPaymentsByEstablishmentId(establishmentId);
-        return ResponseEntity.ok(payments);
-    }
+//    @GetMapping("/client/{clientId}")
+//    public ResponseEntity<List<PaymentResponse>> getSchedulesByClientId(@PathVariable Integer clientId) {
+//        List<PaymentResponse> payments = paymentService.getPaymentsByClientId(clientId);
+//        return ResponseEntity.ok(payments);
+//    }
+//
+//    @GetMapping("/establishment/{establishmentId}")
+//    public ResponseEntity<List<PaymentResponse>> getSchedulesByEstablishmentId(@PathVariable Integer establishmentId) {
+//        List<PaymentResponse> payments = paymentService.getPaymentsByEstablishmentId(establishmentId);
+//        return ResponseEntity.ok(payments);
+//    }
 
 }

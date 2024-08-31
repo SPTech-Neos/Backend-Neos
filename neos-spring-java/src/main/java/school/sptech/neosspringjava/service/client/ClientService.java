@@ -1,8 +1,6 @@
 package school.sptech.neosspringjava.service.client;
 
-import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,16 +11,9 @@ import org.springframework.web.server.ResponseStatusException;
 import school.sptech.neosspringjava.api.configuration.security.jwt.GerenciadorTokenJwt;
 
 import school.sptech.neosspringjava.api.dtos.clientDto.*;
-import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponse;
-import school.sptech.neosspringjava.api.dtos.produtcDto.ProductResponse;
-import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
 import school.sptech.neosspringjava.api.mappers.clientMapper.ClientMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
-import school.sptech.neosspringjava.exception.NaoEncontradoException;
-
-import java.util.List;
 
 @Service
 public class ClientService {
@@ -66,6 +57,13 @@ public class ClientService {
         final String token = gerenciadorTokenJwt.generateToken(authentication);
 
         return ClientMapper.of(clientAuthetication, token);
+    }
+
+    public Client findById(Integer id){
+
+        Client client = clientRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        return client;
     }
 
 }

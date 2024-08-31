@@ -29,18 +29,15 @@ public class Local {
     @Column(name = "local_id")
     private Integer id;
 
-  
+
     @NotNull(message = "Número é obrigatório")
     private int number;
     private int floor;
-    
-    private String block;
     private String complement;
-
-
+    private String block;
     @NotNull(message = "FkEndereco é obrigatório")
-    
-    @JoinColumn(name ="address_fk")
+
+    @JoinColumn(name ="fkAddress")
     @ManyToOne
     private Address address;
 }

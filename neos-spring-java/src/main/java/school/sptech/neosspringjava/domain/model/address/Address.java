@@ -27,17 +27,11 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "address_id")
     private int id;
-    @NotEmpty
-    @NotBlank(message = "campo é obrigatório")
-    private String publicPlace;
 
-    @NotEmpty
-    @NotBlank(message = "logradouro é obrigatório")
-    private String street;
-    @NotEmpty
-    @NotBlank(message = "cidade é obrigatório")
+    @Column(name = "publicPlace")
+    private String publicPlace;
     private String city;
-    @NotEmpty
-    @NotBlank(message = "estado é obrigatório")
-    private String state;
+    @Column(name = "zipCode")
+    private String zipCode;
+    private String uf;
 }

@@ -1,12 +1,6 @@
 package school.sptech.neosspringjava.domain.model.client;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -17,6 +11,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.local.Local;
+import school.sptech.neosspringjava.domain.model.order.Order;
+import school.sptech.neosspringjava.domain.model.phone.Phone;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -43,10 +41,16 @@ public class Client {
     @NotNull(message = "Criar uma senha é obrigatório")
     private String password;
 
+    private String cpf;
+
     private String imgUrl;
 
     @ManyToOne
-    @JoinColumn(name = "local_fk", nullable = true)
+    @JoinColumn(name = "fkLocal", referencedColumnName = "local_id")
     private Local local;
+
+    @OneToOne
+    @JoinColumn(name = "fkPhone", referencedColumnName = "phone_id")
+    private Phone phone;
 
 }

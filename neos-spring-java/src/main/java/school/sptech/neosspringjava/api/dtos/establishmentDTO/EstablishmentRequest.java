@@ -1,18 +1,22 @@
 package school.sptech.neosspringjava.api.dtos.establishmentDTO;
 
-import school.sptech.neosspringjava.domain.model.filter.Filter;
-import school.sptech.neosspringjava.domain.model.local.Local;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import lombok.Builder;
 @Builder
 public record EstablishmentRequest(
+
+        @NotBlank
         String name,
-        Integer companyId,
         String imgUrl,
-        Integer localId
+        @NotNull
+        Integer localId,
+        @NotNull
+        Integer statusId,
+        @NotBlank
+        String aditumId,
+        @NotBlank
+        Integer phoneId
      ) {
 }
