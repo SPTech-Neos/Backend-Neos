@@ -16,6 +16,9 @@ public class SchedulingService {
 
     private final SchedulingRepository schedulingRepository;
 
+    public Scheduling findById(Integer id){
+        return schedulingRepository.findById(id).orElseThrow(() -> new RuntimeException("Agendamento não encontrado"));
+    }
     public List<SchedulingResponse> getSchedulesByClientId(Integer clientId) {
         List<Scheduling> schedules = schedulingRepository.findByClientId(clientId);
         List<SchedulingResponse> schedulings = new ArrayList<>();
