@@ -30,8 +30,8 @@ public class Address {
 
     @Column(name = "publicPlace")
     private String publicPlace;
-
     private String city;
-
+    @Column(name = "zipCode")
+    private String zipCode;
     private String uf;
 }
