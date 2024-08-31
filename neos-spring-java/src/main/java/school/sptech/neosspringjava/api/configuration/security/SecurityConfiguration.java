@@ -91,6 +91,7 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/orders/**"),
             new AntPathRequestMatcher("/markets/**"),
             new AntPathRequestMatcher("/phones/**"),
+            new AntPathRequestMatcher("/clients/**"),
 
     };
 

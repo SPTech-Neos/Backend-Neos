@@ -31,7 +31,6 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Establishment")
 public class Establishment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

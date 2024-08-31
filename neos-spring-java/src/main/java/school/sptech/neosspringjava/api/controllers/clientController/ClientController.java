@@ -30,7 +30,7 @@ import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepos
 import school.sptech.neosspringjava.service.client.ClientService;
 
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/clients")
 @RequiredArgsConstructor
 public class ClientController {
 

@@ -1,5 +1,6 @@
 package school.sptech.neosspringjava.service.client;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,8 +15,10 @@ import school.sptech.neosspringjava.api.dtos.clientDto.*;
 import school.sptech.neosspringjava.api.mappers.clientMapper.ClientMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
+import school.sptech.neosspringjava.service.phoneService.PhoneService;
 
 @Service
+@RequiredArgsConstructor
 public class ClientService {
     @Autowired
     ClientRepository clientRepository;
@@ -25,12 +28,16 @@ public class ClientService {
 
     @Autowired
     private ClientMapper clientMapper;
+
+    private final PhoneService pService;
     
     public ClientResponse create(ClientCreatDTO clientCreatDTO) {
         Client newClient = clientMapper.of(clientCreatDTO);
 
+
         String passwordEncrypted = passwordEncoder.encode(newClient.getPassword());
         newClient.setPassword(passwordEncrypted);
+        newClient.setPhone(pService.findById(clientCreatDTO.getPhone()));
 
         Client savedClient =  clientRepository.save(newClient);
         return clientMapper.toClientResponse(savedClient);

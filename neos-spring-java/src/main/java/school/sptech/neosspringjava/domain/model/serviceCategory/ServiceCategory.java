@@ -20,7 +20,6 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "serviceCategory")
 public class ServiceCategory{
 
     @Id
