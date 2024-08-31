@@ -60,7 +60,7 @@ public class ScheduligController {
         scheduling.setService(serviceRepository.findById(schedulingRequest.idService()).orElseThrow());
         scheduling.setEmployee(employeeRepository.findById(schedulingRequest.idEmployee()).orElseThrow());
         scheduling.setClient(clientRepository.findById(schedulingRequest.idClient()).orElseThrow());
-        scheduling.setDateTime((schedulingRequest.dateTime()==null)?LocalDateTime.now(): schedulingRequest.dateTime());
+        scheduling.setDateTimeSchedule((schedulingRequest.dateTime()==null)?LocalDateTime.now(): schedulingRequest.dateTime());
         scheduling = schedulingRepository.save(scheduling);
         return ResponseEntity.ok().body(scheduligMapper.toScheduligResponse(scheduling));
     }
@@ -75,7 +75,7 @@ public class ScheduligController {
         scheduling.setService(serviceRepository.findById(schedulingRequest.idService()).orElseThrow());
         scheduling.setEmployee(employeeRepository.findById(schedulingRequest.idEmployee()).orElseThrow());
         scheduling.setClient(clientRepository.findById(schedulingRequest.idClient()).orElseThrow());
-        scheduling.setDateTime((schedulingRequest.dateTime()==null)?LocalDateTime.now(): schedulingRequest.dateTime());
+        scheduling.setDateTimeSchedule((schedulingRequest.dateTime()==null)?LocalDateTime.now(): schedulingRequest.dateTime());
         scheduling = schedulingRepository.save(scheduling);
         return ResponseEntity.ok().body(scheduligMapper.toScheduligResponse(scheduling));
     }

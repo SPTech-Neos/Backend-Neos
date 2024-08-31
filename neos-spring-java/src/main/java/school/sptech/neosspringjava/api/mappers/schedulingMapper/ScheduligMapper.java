@@ -13,7 +13,7 @@ public class ScheduligMapper {
 
 
     public static SchedulingResponse toScheduligResponse(Scheduling scheduling) {
-        return new SchedulingResponse(scheduling.getId(), scheduling.getClient(), scheduling.getService(), scheduling.getEmployee(), scheduling.getStatus(), scheduling.getDateTime());
+        return new SchedulingResponse(scheduling.getId(), scheduling.getClient(), scheduling.getService(), scheduling.getEmployee(), scheduling.getStatus(), scheduling.getDateTimeSchedule());
     }
 
     public List<SchedulingResponse> toScheduligResponseList(List<Scheduling> schedulings) {
