@@ -1,6 +1,6 @@
-	DROP DATABASE Blume;
-	CREATE DATABASE Blume;
-	USE Blume;
+	DROP DATABASE blume;
+	CREATE DATABASE blume;
+	USE blume;
 
 	CREATE TABLE Address(
 	  address_id INT PRIMARY KEY auto_increment,
@@ -19,10 +19,10 @@
 	  complement VARCHAR(45),
 	  block VARCHAR(2),
 	  fkAddress INT NOT NULL,
-	  FOREIGN KEY (fkAddress) REFERENCES address(address_id) ON DELETE CASCADE
+	  FOREIGN KEY (fkAddress) REFERENCES Address(address_id) ON DELETE CASCADE
 	);
 
-	INSERT INTO local VALUES (1, 211, 5, '52', 'C', 1);
+	INSERT INTO Local VALUES (1, 211, 5, '52', 'C', 1);
 
 	CREATE TABLE Phone(
 		phone_id INT PRIMARY KEY auto_increment,
@@ -45,9 +45,9 @@
 	  fkLocal INT NOT NULL,
 	  fkPhone INT NOT NULL,
 	  fkStatus INT,
-	  FOREIGN KEY (fkPhone) REFERENCES phone(phone_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkStatus) REFERENCES status(status_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkLocal) REFERENCES local(local_id) ON DELETE CASCADE
+	  FOREIGN KEY (fkPhone) REFERENCES Phone(phone_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkLocal) REFERENCES Local(local_id) ON DELETE CASCADE
 	);
 
 	INSERT INTO Phone VALUES (1, '55', '11', '933357637');
@@ -73,9 +73,9 @@
 	  fkProductType INT,
 	  fkEstablishment INT,
 	  fkStatus INT,
-	  FOREIGN KEY (fkProductType) REFERENCES productType(product_type_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkStatus) REFERENCES status(status_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkEstablishment) REFERENCES establishment(establishment_id) ON DELETE CASCADE
+	  FOREIGN KEY (fkProductType) REFERENCES ProductType(product_type_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkEstablishment) REFERENCES Establishment(establishment_id) ON DELETE CASCADE
 	);
 
 	INSERT INTO Product VALUES (1, 'Shampoo Cachos Suaves', 'Seda', 'img.example', 120.0, 1 , 1, 1);
@@ -91,7 +91,7 @@
 	  service_type_id INT PRIMARY KEY auto_increment,
 	  name VARCHAR(45) NOT NULL,
 	  fkServiceCategory INT,
-	  FOREIGN KEY (fkServiceCategory) REFERENCES serviceCategory(service_category_id) ON DELETE CASCADE
+	  FOREIGN KEY (fkServiceCategory) REFERENCES ServiceCategory(service_category_id) ON DELETE CASCADE
 	);
 
 	INSERT INTO ServiceType VALUES(1, 'Corte de cabelo', 1);
@@ -103,7 +103,7 @@
 	  price DOUBLE,
 	  imgUrl VARCHAR(400),
 	  fkServiceType INT,
-	  FOREIGN KEY (fkServiceType) REFERENCES serviceType(service_type_id) ON DELETE CASCADE
+	  FOREIGN KEY (fkServiceType) REFERENCES ServiceType(service_type_id) ON DELETE CASCADE
 	);
 
 	INSERT INTO Service VALUES(1, 'Mullet', 'aditumId', 90.0, 'teste', 1);
@@ -126,11 +126,11 @@
 	  fkPhone INT NOT NULL,
 	  fkLocal INT NOT NULL,
 	  fkStatus INT NOT NULL,
-	  FOREIGN KEY (fkEstablishment) REFERENCES establishment(establishment_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkStatus) REFERENCES status(status_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkPhone) REFERENCES phone(phone_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkEmployeeType) REFERENCES employeeType(employee_type_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkLocal) REFERENCES local(local_id) ON DELETE CASCADE
+	  FOREIGN KEY (fkEstablishment) REFERENCES Establishment(establishment_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkPhone) REFERENCES Phone(phone_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkEmployeeType) REFERENCES EmployeeType(employee_type_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkLocal) REFERENCES Local(local_id) ON DELETE CASCADE
 	);
 
 	INSERT INTO Employee VALUES (1, 'Kevin', 'keviin@email.com', '1245senha', 'teste', 1, 1, 1, 1, 1);
@@ -142,9 +142,9 @@
 	  fkEmployee INT,
 	  fkService INT,
 	  fkStatus INT,
-	  FOREIGN KEY (fkEmployee) REFERENCES employee(employee_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkService) REFERENCES service(service_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkStatus) REFERENCES status(status_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkEmployee) REFERENCES Employee(employee_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkService) REFERENCES Service(service_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
 	  PRIMARY KEY(employee_services_id, fkEmployee, fkService)
 	);
 
@@ -157,8 +157,8 @@
 	  cpf CHAR(11),
 	  fkLocal INT NOT NULL,
 	  fkPhone INT NOT NULL,
-	  FOREIGN KEY (fkLocal) REFERENCES local(local_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkPhone) REFERENCES phone(phone_id) ON DELETE CASCADE
+	  FOREIGN KEY (fkLocal) REFERENCES Local(local_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkPhone) REFERENCES Phone(phone_id) ON DELETE CASCADE
 	);
 
 	INSERT INTO Client VALUES (1, 'Kevin', 'kevin@email.com', '123Senha', 'teste', '50709903812', 1, 1);
@@ -171,11 +171,11 @@
 	  fkService INT,
 	  fkClient INT NOT NULL,
 	  fkProduct INT,
-	  FOREIGN KEY (fkEstablishment) REFERENCES establishment(establishment_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkClient) REFERENCES client(client_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkService) REFERENCES service(service_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkEmployee) REFERENCES employee(employee_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkProduct) REFERENCES product(product_id) ON DELETE CASCADE
+	  FOREIGN KEY (fkEstablishment) REFERENCES Establishment(establishment_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkClient) REFERENCES Client(client_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkService) REFERENCES Service(service_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkEmployee) REFERENCES Employee(employee_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkProduct) REFERENCES Product(product_id) ON DELETE CASCADE
 	);
 
 	INSERT INTO Rating VALUES (1, 5, 1, NULL, NULL, 1, NULL);
@@ -185,8 +185,8 @@
 	  price FLOAT NOT NULL,
 	  fkEstablishment INT,
 	  fkService INT NOT NULL,
-	  FOREIGN KEY (fkEstablishment) REFERENCES establishment(establishment_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkService) REFERENCES service(service_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkEstablishment) REFERENCES Establishment(establishment_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkService) REFERENCES Service(service_id) ON DELETE CASCADE,
 	  PRIMARY KEY(filter_id, fkEstablishment, fkService)
 	); */
 
@@ -197,10 +197,10 @@
 	  fkStatus INT,
 	  fkClient INT,
 	  fkEmployee INT,
-	  FOREIGN KEY (fkStatus) REFERENCES status(status_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkService) REFERENCES service(service_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkClient) REFERENCES client(client_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkEmployee) REFERENCES employee(employee_id) ON DELETE CASCADE
+	  FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkService) REFERENCES Service(service_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkClient) REFERENCES Client(client_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkEmployee) REFERENCES Employee(employee_id) ON DELETE CASCADE
 	);
 
 	INSERT INTO Schedule VALUES (1,'2024-08-31 22:00:00',1,1,1,1 );
@@ -210,8 +210,8 @@
 		dateTime DATETIME,
 		fkStatus INT,
 		fkClient INT,
-		FOREIGN KEY (fkStatus) REFERENCES status(status_id) ON DELETE CASCADE,
-		FOREIGN KEY (fkClient) REFERENCES client(client_id) ON DELETE CASCADE
+		FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
+		FOREIGN KEY (fkClient) REFERENCES Client(client_id) ON DELETE CASCADE
 	);
 
 	INSERT INTO Orders VALUES (1, '2024-08-31 22:00:00', 1, 1);
@@ -221,8 +221,8 @@
 		quantity INT,
 		fkProduct INT,
 		fkOrder INT,
-		FOREIGN KEY (fkProduct) REFERENCES product(product_id) ON DELETE CASCADE,
-		FOREIGN KEY (fkOrder) REFERENCES orders(order_id) ON DELETE CASCADE
+		FOREIGN KEY (fkProduct) REFERENCES Product(product_id) ON DELETE CASCADE,
+		FOREIGN KEY (fkOrder) REFERENCES Orders(order_id) ON DELETE CASCADE
 
 	);
 
@@ -233,9 +233,9 @@
 	  fkSchedule INT,
 	  fkMarket INT,
 	  fkStatus INT NOT NULL,
-	  FOREIGN KEY (fkStatus) REFERENCES status(status_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkSchedule) REFERENCES schedule(schedule_id) ON DELETE CASCADE,
-	  FOREIGN KEY (fkMarket) REFERENCES market(market_id) ON DELETE CASCADE
+	  FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkSchedule) REFERENCES Schedule(schedule_id) ON DELETE CASCADE,
+	  FOREIGN KEY (fkMarket) REFERENCES Market(market_id) ON DELETE CASCADE
 	);
 
 	INSERT INTO Payment ( datePayment, fkMarket, fkStatus) VALUES ( '2024-08-31 22:00:00', 1, 1);
@@ -256,6 +256,6 @@
 	SELECT * FROM Product;
 	SELECT * FROM Phone;
 
-	SELECT establishment_id, establishment.name, TRUNCATE(AVG(avaliation), 1) as media FROM Rating
+	SELECT establishment_id, Establishment.name, TRUNCATE(AVG(avaliation), 1) as media FROM Rating
     JOIN Establishment ON fkEstablishment = establishment_id WHERE fkEstablishment IS true GROUP BY fkEstablishment ORDER BY media DESC		;
 	SELECT AVG(avaliation) as media FROM Rating WHERE fkEstablishment IS NOT NULL ORDER BY media;
