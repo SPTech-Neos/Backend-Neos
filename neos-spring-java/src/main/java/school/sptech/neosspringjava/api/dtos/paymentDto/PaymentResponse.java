@@ -4,13 +4,15 @@ import java.time.LocalDateTime;
 
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
+import school.sptech.neosspringjava.domain.model.market.Market;
 import school.sptech.neosspringjava.domain.model.product.Product;
+import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
+import school.sptech.neosspringjava.domain.model.status.Status;
 
 public record PaymentResponse(
     Integer id,
-    LocalDateTime dateTime,
-    Double value,
-    Product product,
-    Client client,
-    Establishment establishment
+    LocalDateTime datePayment,
+    Scheduling schedule,
+    Market market,
+    Status status
 ) {}

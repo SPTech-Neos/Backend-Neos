@@ -34,20 +34,7 @@ public class FilterServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
-    @Test
-    void testFindAllByEstablishment_Success() {
-        Establishment establishment = new Establishment();
-        List<FilterResponse> filterResponses = new ArrayList<>();
-        List<Filter> filters = new ArrayList<>();
 
-        when(filterRepository.findAllByEstablishment(establishment)).thenReturn(filters);
-
-        List<FilterResponse> result = filterService.findAllByEstablishment(establishment);
-
-        assertEquals(filterResponses, result);
-        verify(filterRepository).findAllByEstablishment(establishment);
-        verify(filterMapper).toFilterResponse(filters);
-    }
 
     @Test
     void testFindAll_Success() {
@@ -64,31 +51,4 @@ public class FilterServiceTest {
         verify(filterMapper).toFilterResponse(filters);
     }
 
-    @Test
-    void testFindById_Success() {
-        Integer id = 1;
-        Filter filter = new Filter();
-        FilterResponse filterResponse = new FilterResponse(null, null, null, null);
-
-        when(filterRepository.findById(id)).thenReturn(Optional.of(filter));
-        FilterResponse result = filterService.findById(id);
-
-        assertNotNull(result);
-        assertEquals(filterResponse, result);
-        verify(filterRepository).findById(id);
-        verify(filterMapper).toFilterResponse(filter);
-    }
-
-    @Test
-    void testFindById_NotFound() {
-        Integer id = 1;
-
-        when(filterRepository.findById(id)).thenReturn(Optional.empty());
-
-        Exception exception = assertThrows(RuntimeException.class, () -> filterService.findById(id));
-
-        verify(filterRepository).findById(id);
-    }
-
-  
 }

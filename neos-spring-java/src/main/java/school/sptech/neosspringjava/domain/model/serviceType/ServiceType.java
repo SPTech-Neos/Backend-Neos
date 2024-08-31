@@ -27,13 +27,12 @@ public class ServiceType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_type_id")
     private Integer id;
-    @NotBlank(message = "Nome do tipo de serviço é obrigatório")
-    @NotEmpty(message = "Nome do tipo de serviço é obrigatório")
-    @Column(name = "service_type_name")
+
     private String name;
+
     @ManyToOne
-    @JoinColumn(name = "category_fk")
-    private ServiceCategory ServiceCategory;
+    @JoinColumn(name = "fkServiceCategory")
+    private ServiceCategory serviceCategory;
 
 
 }

@@ -12,15 +12,15 @@ import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
 @Component
 public class EmployeeTypeMapper {
 
-    public EmployeeTypeResponse toResponse(EmployeeType employeeType) {
+    public static EmployeeTypeResponse toResponse(EmployeeType employeeType) {
         return new EmployeeTypeResponse(employeeType.getId(), employeeType.getName());
     }
 
-    public List<EmployeeTypeResponse> toResponseList(List<EmployeeType> employeeTypes) {
-        return employeeTypes.stream().map(this::toResponse).collect(Collectors.toList());
+    public static List<EmployeeTypeResponse> toResponseList(List<EmployeeType> employeeTypes) {
+        return employeeTypes.stream().map(EmployeeTypeMapper::toResponse).collect(Collectors.toList());
     }
 
-    public EmployeeType toEmployeeType(EmployeeTypeRequest employeeTypeRequest) {
+    public static EmployeeType toEmployeeType(EmployeeTypeRequest employeeTypeRequest) {
         return EmployeeType.builder().name(employeeTypeRequest.name()).build();
     }
 

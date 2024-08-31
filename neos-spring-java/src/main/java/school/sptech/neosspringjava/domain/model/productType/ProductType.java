@@ -26,6 +26,7 @@ public class ProductType {
     private Integer id;
 
     private String name;
+
     private String specification;
     
 }

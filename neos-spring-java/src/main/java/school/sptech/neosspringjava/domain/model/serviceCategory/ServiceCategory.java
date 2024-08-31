@@ -20,15 +20,13 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "service_category")
+@Table(name = "serviceCategory")
 public class ServiceCategory{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_category_id")
     private Integer id;
-    @NotBlank(message = "Nome é obrigatório")
-    @NotEmpty(message = "Nome é obrigatório")
-    @Column(name = "service_category_name")
+
     private String name;
 }

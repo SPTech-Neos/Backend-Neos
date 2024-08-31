@@ -46,10 +46,8 @@ public class ServiceService {
         return ServiceMapper.toServiceResponseList(service);
     }
 
-    public ServiceResponse findById(Integer id) {
-        Optional<Service> serviceOp = serviceRepository.findById(id);
-        Service service = serviceOp.get();
-        return ServiceMapper.toServiceResponse(service);
+    public Service findById(Integer id) {
+        return serviceRepository.findById(id).orElseThrow(() -> new RuntimeException("Serviço não encontrado"));
     }
 
     public ServiceResponse update(Integer id, ServiceRequest serviceRequest) {
@@ -92,7 +90,7 @@ public class ServiceService {
     }
 
     public String deleteByid(Integer id) {
-        ServiceResponse str = findById(id);
+        Service str = findById(id);
         if (str == null) {
             return "id não encontrado";
         } else {

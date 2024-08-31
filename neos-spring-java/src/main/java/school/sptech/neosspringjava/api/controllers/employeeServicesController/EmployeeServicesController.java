@@ -29,7 +29,7 @@ import school.sptech.neosspringjava.service.EmployeeServService.EmployeeServServ
 import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 
 @RestController
-@RequestMapping("/employeeServices")
+@RequestMapping("/employee-services")
 @RequiredArgsConstructor
 public class EmployeeServicesController {
 
