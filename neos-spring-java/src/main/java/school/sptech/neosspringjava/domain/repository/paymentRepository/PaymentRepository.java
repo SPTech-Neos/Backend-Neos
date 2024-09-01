@@ -12,7 +12,7 @@ import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
 
 public interface PaymentRepository extends JpaRepository<Payment, Integer>{
 
-    List<Payment> findAllByEstablishmentOrderByDateTimeDesc(Establishment establishment);
+//    List<Payment> findAllByEstablishmentOrderByDateTimeDesc(Establishment establishment);
 
     List<Payment> findAllByEstablishmentAndDateTimeGreaterThanEqualOrderByDateTimeDesc(Establishment establishment, LocalDateTime start);
 
