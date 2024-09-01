@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentRequest;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentResponse;
+import school.sptech.neosspringjava.api.mappers.paymentMapper.PaymentMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.payment.Payment;
@@ -25,32 +26,12 @@ public class PaymentService {
 
 
     private final PaymentRepository paymentRepository;
-    private final ProductRepository productRepository;
-    private final ClientRepository clientRepository;
-    private final EstablishmentRepository establishmentRepository;
+    private final PaymentMapper paymentMapper;
 
     public PaymentResponse createPayment(PaymentRequest paymentRequest) {
-        Product product = productRepository
 
-                .findById(paymentRequest.productId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        Client client = clientRepository
-                .findById(paymentRequest.clientId())
-                .orElseThrow(() -> new RuntimeException("Client not found"));
-
-        Establishment establishment = establishmentRepository
-                .findById(paymentRequest.establishmentId())
-                .orElseThrow(() -> new RuntimeException("Establishment not found"));
-
-        Payment payment = paymentRepository.save(
-                Payment.builder()
-                        .dateTime(paymentRequest.dateTime())
-                        .product(product)
-                        .client(client)
-                        .establishment(establishment)
-                        .build()
-        );
+        Payment payment = paymentRepository.save(paymentMapper.of(paymentRequest));
 
         return new PaymentResponse(
                 payment.getId(),
@@ -82,27 +63,9 @@ public class PaymentService {
     }
 
     public PaymentResponse update(Integer id, PaymentRequest paymentRequest) {
-        Payment payment = paymentRepository
-                .findById(id)
-                .orElseThrow(() -> new RuntimeException("Payment not found"));
 
-        Product product = productRepository
-                .findById(paymentRequest.productId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
-
-        Client client = clientRepository
-                .findById(paymentRequest.clientId())
-                .orElseThrow(() -> new RuntimeException("Client not found"));
-
-        Establishment establishment = establishmentRepository
-                .findById(paymentRequest.establishmentId())
-                .orElseThrow(() -> new RuntimeException("Establishment not found"));
-
-        payment.setDateTime(paymentRequest.dateTime());
-        payment.setProduct(product);
-        payment.setClient(client);
-        payment.setEstablishment(establishment);
-
+        Payment payment = paymentMapper.of(paymentRequest);
+        payment.setId(id);
         Payment updatedPayment = paymentRepository.save(payment);
 
         return new PaymentResponse(

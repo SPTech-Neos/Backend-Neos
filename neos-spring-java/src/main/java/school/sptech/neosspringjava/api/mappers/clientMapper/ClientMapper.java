@@ -13,7 +13,9 @@ import school.sptech.neosspringjava.api.dtos.clientDto.ClientTokenDto;
 import school.sptech.neosspringjava.api.dtos.clientDto.ClientResponse;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.local.Local;
+import school.sptech.neosspringjava.domain.model.phone.Phone;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
+import school.sptech.neosspringjava.domain.repository.phoneRepository.PhoneRepository;
 import school.sptech.neosspringjava.service.localService.LocalService;
 
 @Component
@@ -21,6 +23,8 @@ public class ClientMapper {
 
     @Autowired
     private LocalRepository localRepository;
+    @Autowired
+    private PhoneRepository phoneRepository;
 
     public static ClientResponse toClientResponse(Client client) {
         return new ClientResponse(
@@ -42,7 +46,7 @@ public class ClientMapper {
         client.setEmail(clientCreatDTO.getEmail());
         client.setName(clientCreatDTO.getName());
         client.setPassword(clientCreatDTO.getPassword());
-
+        client.setPhone(phoneRepository.findById(clientCreatDTO.getPhone()).orElse(null));
         Integer localId = clientCreatDTO.getLocal();
         Local local = localRepository.findById(localId).orElse(null);
         client.setLocal(local);

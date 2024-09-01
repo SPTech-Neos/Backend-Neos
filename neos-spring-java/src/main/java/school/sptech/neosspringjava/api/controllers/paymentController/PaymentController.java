@@ -18,7 +18,7 @@ import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentResponse;
 import school.sptech.neosspringjava.service.paymentService.PaymentService;
 
 @RestController
-@RequestMapping("/payments")
+@RequestMapping("/payment")
 @RequiredArgsConstructor
 public class PaymentController {
 

@@ -17,7 +17,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
+import school.sptech.neosspringjava.domain.model.order.Order;
 import school.sptech.neosspringjava.domain.model.product.Product;
+import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
+import school.sptech.neosspringjava.domain.model.status.Status;
 
 @Entity
 @Getter
@@ -35,16 +38,16 @@ public class Payment {
     private Double value;
 
     @ManyToOne
-    @JoinColumn(name = "product_fk")
-    private Product product;
+    @JoinColumn(name = "fkSchedule")
+    private Scheduling scheduling;
 
     @ManyToOne
-    @JoinColumn(name = "client_fk")
-    private Client client;
+    @JoinColumn(name = "fkOrder")
+    private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "establishment_fk")
-    private Establishment establishment;
+    @JoinColumn(name = "fkStatus")
+    private Status status;
 
 
 }

@@ -2,6 +2,7 @@ package school.sptech.neosspringjava.domain.repository.paymentRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -18,4 +19,8 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer>{
     List<Payment> findByClientId(Integer clientId);
 
     List<Payment> findByEstablishmentId(Integer clientId);
+
+    List<Payment> findByIdAndDateTimeBetweenOrderByDateTimeDesc(Integer establishment, LocalDateTime start, LocalDateTime end);
+    
+
 }
