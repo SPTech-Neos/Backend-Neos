@@ -45,13 +45,15 @@ CREATE TABLE Establishment (
   fkLocal INT NOT NULL,
   fkPhone INT NOT NULL,
   fkStatus INT,
-  horarioEntrada TIME, -- campo para armazenar o horário de entrada
-  horarioSaida TIME,   -- campo para armazenar o horário de saída
-  descricao VARCHAR(255), -- campo para armazenar uma descrição do estabelecimento
+  horarioEntrada TIME,
+  horarioSaida TIME, 
+  descricao VARCHAR(255),  
+  cnpj VARCHAR(18), 
   FOREIGN KEY (fkPhone) REFERENCES Phone(phone_id) ON DELETE CASCADE,
   FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
   FOREIGN KEY (fkLocal) REFERENCES Local(local_id) ON DELETE CASCADE
 );
+
 
 INSERT INTO Phone VALUES (1, '55', '11', '933357637');
 INSERT INTO Status VALUES (1, 'Ativo', 'Estabelecimeto');
