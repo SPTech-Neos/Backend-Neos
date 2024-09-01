@@ -13,6 +13,8 @@ public record AddressRequest(
         String publicPlace,
         @NotBlank
         String city,
+        @NotBlank
+        String zipCode,
         @Size(max = 2)
         @NotBlank
         String uf) {
