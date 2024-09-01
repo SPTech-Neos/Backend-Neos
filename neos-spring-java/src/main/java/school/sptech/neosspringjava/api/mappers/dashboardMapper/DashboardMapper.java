@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import school.sptech.neosspringjava.api.dtos.dashboardDto.QuantityStatusDto;
 import school.sptech.neosspringjava.api.dtos.paymentDto.TotalGainDto;
 import school.sptech.neosspringjava.domain.model.payment.Payment;
 
@@ -22,9 +23,14 @@ public class DashboardMapper {
             if (totalGain.getDateTimeEnd() == null || totalGain.getDateTimeEnd().isAfter(payment.getDatePayment())) {
                 totalGain.setDateTimeEnd(payment.getDatePayment());
             }
-            totalGain.setValue(totalGain.getValue() + payment.getTotal());
+            totalGain.setValue(totalGain.getValue() + payment.getMarket().getProduct().getPrice());
         }
 
         return totalGain;
+    }
+
+    public QuantityStatusDto quantityStatus(Payment payment){
+        System.out.println(payment.getMarket().getQuantity());
+        return new QuantityStatusDto(payment.getMarket().getQuantity(), payment.getStatus().getName());
     }
 }

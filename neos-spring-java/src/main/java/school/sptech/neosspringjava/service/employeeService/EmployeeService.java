@@ -21,6 +21,7 @@ import school.sptech.neosspringjava.api.mappers.employeeMapper.EmployeeMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.status.Status;
+import school.sptech.neosspringjava.domain.repository.EmployeeServicesRepository.EmployeeServicesRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.service.EmployeeServService.EmployeeServService;
 import school.sptech.neosspringjava.service.employeeTypeService.EmployeeTypeService;
@@ -44,6 +45,7 @@ public class EmployeeService {
    private final StatusService sService;
    private final ServiceService servService;
    private final EmployeeServService esService;
+   private final EmployeeServicesRepository employeeServicesRepository;
 
     @Autowired
     GerenciadorTokenJwt gerenciadorTokenJwt;
@@ -185,7 +187,7 @@ public class EmployeeService {
     public List<Employee> findAllByEstablishmentAndService(Integer idEstab, Integer idServ){
         Establishment e = establishmentService.findById(idEstab);
         school.sptech.neosspringjava.domain.model.service.Service s = servService.findById(idServ);
-       return employeeRepository.findAllByEstablishmentAndService(e, s);
+       return employeeServicesRepository.findAllByEstablishmentAndService(e, s);
     }
 
 }

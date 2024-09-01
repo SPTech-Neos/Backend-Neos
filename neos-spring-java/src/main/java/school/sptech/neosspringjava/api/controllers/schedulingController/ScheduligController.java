@@ -33,7 +33,8 @@ public class ScheduligController {
     private final SchedulingRepository schedulingRepository;
     private final ClientRepository clientRepository;
     private final ServiceRepository serviceRepository;
-    private final EmployeeRepository employeeRepository;private final ScheduligMapper scheduligMapper;
+    private final EmployeeRepository employeeRepository;
+    private final ScheduligMapper scheduligMapper;
     private final SchedulingService schedulingService;
 
     @GetMapping

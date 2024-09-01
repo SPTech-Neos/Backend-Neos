@@ -58,6 +58,10 @@ CREATE TABLE Establishment (
 INSERT INTO Phone VALUES (1, '55', '11', '933357637');
 INSERT INTO Status VALUES (1, 'Ativo', 'Estabelecimeto');
 INSERT INTO Status VALUES (2, 'Inativo', 'Estabelecimeto');
+INSERT INTO Status VALUES (3, 'Aguardando Pagamento', 'Pagamento');
+INSERT INTO Status VALUES (4, 'Em andamento', 'Pagamento');
+
+
 INSERT INTO Establishment VALUES (1, 'aditumIdTeste', 'KevinSalon', 'url', 1,1,1);
 INSERT INTO Establishment VALUES (2, 'aditumIdTeste2', 'LiraSalon', 'url2', 1,1,2);
 
@@ -264,3 +268,5 @@ SELECT * FROM Phone;
 SELECT establishment_id, Establishment.name, TRUNCATE(AVG(avaliation), 1) as media FROM Rating
   JOIN Establishment ON fkEstablishment = establishment_id WHERE fkEstablishment IS true GROUP BY fkEstablishment ORDER BY media DESC		;
 SELECT AVG(avaliation) as media FROM Rating WHERE fkEstablishment IS NOT NULL ORDER BY media;
+
+
