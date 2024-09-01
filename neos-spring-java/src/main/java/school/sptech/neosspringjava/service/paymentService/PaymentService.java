@@ -1,56 +1,36 @@
 package school.sptech.neosspringjava.service.paymentService;
 
-// PaymentService.java
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentRequest;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentResponse;
 import school.sptech.neosspringjava.api.mappers.paymentMapper.PaymentMapper;
-import school.sptech.neosspringjava.domain.model.client.Client;
-import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.payment.Payment;
-import school.sptech.neosspringjava.domain.model.product.Product;
-import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
-import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.paymentRepository.PaymentRepository;
-import school.sptech.neosspringjava.domain.repository.productRepository.ProductRepository;
-import school.sptech.neosspringjava.service.marketService.MarketService;
-import school.sptech.neosspringjava.service.schedulingService.SchedulingService;
-import school.sptech.neosspringjava.service.statusService.StatusService;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
 
-
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
 
     public PaymentResponse createPayment(PaymentRequest paymentRequest) {
+        Payment payment = paymentMapper.of(paymentRequest);
+        System.out.println(payment.getDatePayment());
+        payment = paymentRepository.save(payment);
 
-
-        Payment payment = paymentRepository.save(paymentMapper.of(paymentRequest));
-
-        return new PaymentResponse(
-                payment.getId(),
-                payment.getDatePayment(),
-                payment.getSchedule(),
-                payment.getMarket(),
-                payment.getStatus()
-        );
+        return PaymentMapper.toResponse(payment);
     }
 
-    public Payment findById(Integer id) {
-        Payment payment = paymentRepository
-                .findById(id)
+    public PaymentResponse findById(Integer id) {
+        Payment payment = paymentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Payment not found"));
 
-        return payment;
+        return PaymentMapper.toResponse(payment);
     }
 
     public void delete(Integer id) {
@@ -58,79 +38,18 @@ public class PaymentService {
     }
 
     public PaymentResponse update(Integer id, PaymentRequest paymentRequest) {
+        Payment existingPayment = paymentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Payment not found"));
 
         Payment payment = paymentMapper.of(paymentRequest);
         payment.setId(id);
         Payment updatedPayment = paymentRepository.save(payment);
 
-        return new PaymentResponse(
-                payment.getId(),
-                payment.getDatePayment(),
-                payment.getSchedule(),
-                payment.getMarket(),
-                payment.getStatus()
-        );
+        return PaymentMapper.toResponse(updatedPayment);
     }
 
-
-    public List<Payment> findAll() {
+    public List<PaymentResponse> findAll() {
         List<Payment> payments = paymentRepository.findAll();
-        return payments;
+        return PaymentMapper.toResponse(payments);
     }
-
-        
-
-//    public List<PaymentResponse> findAllByEstablishment(Establishment establishment, LocalDateTime initialDate) {
-//
-//
-//        List<Payment> payments = paymentRepository.findAllByEstablishmentAndDateTimeGreaterThanEqualOrderByDateTimeDesc(establishment, initialDate);
-//
-//        return payments.stream()
-//                .map(payment -> new PaymentResponse(
-//                        payment.getId(),
-//                        payment.getDatePayment(),
-//                        payment.getSchedule(),
-//                        payment.getMarket(),
-//                        payment.getStatus()
-//                ))
-//                .toList();
-//    }
-//
-//    public List<PaymentResponse> getPaymentsByClientId(Integer clientId) {
-//        List<Payment> paymentsEntity = paymentRepository.findByClientId(clientId);
-//        List<PaymentResponse> payments = new ArrayList<>();
-//
-//        for (Payment payment : paymentsEntity) {
-//            PaymentResponse paymentResponse = new PaymentResponse(
-//                    payment.getId(),
-//                    payment.getDatePayment(),
-//                    payment.getSchedule(),
-//                    payment.getMarket(),
-//                    payment.getStatus()
-//            );
-//            payments.add(paymentResponse);
-//        }
-//
-//        return payments;
-//    }
-//
-//    public List<PaymentResponse> getPaymentsByEstablishmentId(Integer establishmentId) {
-//        List<Payment> paymentsEntity = paymentRepository.findByEstablishmentId(establishmentId);
-//        List<PaymentResponse> payments = new ArrayList<>();
-//
-//        for (Payment payment : paymentsEntity) {
-//            PaymentResponse paymentResponse = new PaymentResponse(
-//                    payment.getId(),
-//                    payment.getDatePayment(),
-//                    payment.getSchedule(),
-//                    payment.getMarket(),
-//                    payment.getStatus()
-//            );
-//            payments.add(paymentResponse);
-//        }
-//
-//        return payments;
-//    }
-
-    
 }

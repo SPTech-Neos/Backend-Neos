@@ -15,10 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import school.sptech.neosspringjava.domain.model.client.Client;
-import school.sptech.neosspringjava.domain.model.establishment.Establishment;
-import school.sptech.neosspringjava.domain.model.market.Market;
-import school.sptech.neosspringjava.domain.model.product.Product;
+import school.sptech.neosspringjava.domain.model.order.Order;
 import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
 import school.sptech.neosspringjava.domain.model.status.Status;
 
@@ -38,13 +35,15 @@ public class Payment {
     @Column(name = "datePayment")
     private LocalDateTime datePayment;
 
-    @ManyToOne
-    @JoinColumn(name = "fkMarket")
-    private Market market;
+    private Double total;
 
     @ManyToOne
     @JoinColumn(name = "fkSchedule")
     private Scheduling schedule;
+    
+    @ManyToOne
+    @JoinColumn(name = "fkOrder")
+    private Order order;
 
     @ManyToOne
     @JoinColumn(name = "fkStatus")

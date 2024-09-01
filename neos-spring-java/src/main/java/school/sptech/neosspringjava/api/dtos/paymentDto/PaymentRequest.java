@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 
 public record PaymentRequest(
     LocalDateTime datePayment,
+    Double total,
     Integer fkSchedule,
-    Integer fkMarket,
-    Integer fkStatus){
-
-}
+    Integer fkOrder,
+    Integer fkStatus
+) {}

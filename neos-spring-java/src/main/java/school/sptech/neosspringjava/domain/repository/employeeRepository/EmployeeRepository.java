@@ -22,7 +22,6 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
 
     List<Employee> findAllByStatus(Status status);
 
-    @Query("SELECT e FROM EmployeeServices es JOIN es.employee e WHERE e.establishment = :idEstab AND es.service = :idServ")
-    List<Employee> findAllByEstablishmentAndService(@Param("idEstab") Establishment estab, @Param("idServ") Service serv);
+    List<Employee> findAllByEstablishmentId(Integer establishmentId);
 
 }

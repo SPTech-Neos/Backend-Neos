@@ -11,10 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.local.Local;
-import school.sptech.neosspringjava.domain.model.order.Order;
 import school.sptech.neosspringjava.domain.model.phone.Phone;
 
-import java.util.List;
 
 @Entity
 @Getter
