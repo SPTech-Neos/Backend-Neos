@@ -37,14 +37,17 @@ CREATE TABLE Status(
   type VARCHAR(45)
 );
 
-CREATE TABLE Establishment(
-  establishment_id INT PRIMARY KEY auto_increment,
+CREATE TABLE Establishment (
+  establishment_id INT PRIMARY KEY AUTO_INCREMENT,
   aditumId VARCHAR(400),
   name VARCHAR(45) NOT NULL,
   imgUrl VARCHAR(250),
   fkLocal INT NOT NULL,
   fkPhone INT NOT NULL,
   fkStatus INT,
+  horarioEntrada TIME, -- campo para armazenar o horário de entrada
+  horarioSaida TIME,   -- campo para armazenar o horário de saída
+  descricao VARCHAR(255), -- campo para armazenar uma descrição do estabelecimento
   FOREIGN KEY (fkPhone) REFERENCES Phone(phone_id) ON DELETE CASCADE,
   FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
   FOREIGN KEY (fkLocal) REFERENCES Local(local_id) ON DELETE CASCADE
