@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.dashboardDto.QuantityStatusDto;
+import school.sptech.neosspringjava.api.dtos.marketDto.MarketProfitableDto;
+import school.sptech.neosspringjava.api.dtos.marketDto.MarketPurchasedDto;
 import school.sptech.neosspringjava.api.dtos.paymentDto.TotalGainDto;
 import school.sptech.neosspringjava.api.mappers.dashboardMapper.DashboardMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.payment.Payment;
+import school.sptech.neosspringjava.domain.repository.marketRepository.MarketRepository;
 import school.sptech.neosspringjava.domain.repository.paymentRepository.PaymentRepository;
 
 @Service
@@ -19,6 +22,7 @@ import school.sptech.neosspringjava.domain.repository.paymentRepository.PaymentR
 public class DashboardService {
 
     private final PaymentRepository paymentRepository;
+    private final MarketRepository marketRepository;
     private final DashboardMapper dashboardMapper;
 
     public TotalGainDto totalGain(Integer establishment, LocalDateTime dateStart, LocalDateTime dateEnd) {
@@ -51,4 +55,20 @@ public class DashboardService {
         return dashboardMapper.quantityStatus(paymentX);
         
     }
+
+    public MarketPurchasedDto mostPurchased(Integer establishment){
+        return dashboardMapper.mostPurchased(marketRepository.findAggregatedMarketDataByEstablishment(establishment));
+    }
+
+    public MarketPurchasedDto leastPurchased(Integer establishment){
+        return dashboardMapper.leastPurchased(marketRepository.findAggregatedMarketDataByEstablishment(establishment));
+    }
+
+    public MarketProfitableDto mostProfitable(Integer establishment){
+        return dashboardMapper.mostProfitable(marketRepository.findTotalSalesValueByProduct(establishment));
+    }
+    public MarketProfitableDto leastProfitable(Integer establishment){
+        return dashboardMapper.leastProfitable(marketRepository.findTotalSalesValueByProduct(establishment));
+    }
+
 }
