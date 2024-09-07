@@ -13,7 +13,8 @@ public class OrderMapper {
             o.getId(),
             o.getDateTime(),
             o.getStatus(),
-            o.getClient()
+            o.getClient(),
+            o.getEmployee()
         );
     }
 

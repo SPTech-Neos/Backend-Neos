@@ -215,13 +215,15 @@ INSERT INTO Schedule VALUES (1,'2024-08-31 22:00:00',1,1,1,1 );
 CREATE TABLE Orders(
   order_id INT auto_increment PRIMARY KEY,
   dateTime DATETIME,
+  fkEmployee INT,
   fkStatus INT,
   fkClient INT,
+  FOREIGN KEY (fkEmployee) REFERENCES Employee(employee_id) ON DELETE CASCADE,
   FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
   FOREIGN KEY (fkClient) REFERENCES Client(client_id) ON DELETE CASCADE
 );
 
-INSERT INTO Orders VALUES (1, '2024-08-31 22:00:00', 1, 1);
+INSERT INTO Orders VALUES (1, '2024-08-31 22:00:00', 1,1, 1);
 
 CREATE TABLE Market(
   market_id INT auto_increment PRIMARY KEY,

@@ -16,6 +16,8 @@ public record OrderRequest(
         @NotNull
         Integer fkStatus,
         @NotNull
-        Integer fkClient
+        Integer fkClient,
+        @NotNull
+        Integer fkEmployee
 ) {
 }

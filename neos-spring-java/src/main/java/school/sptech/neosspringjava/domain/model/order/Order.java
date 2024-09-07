@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.client.Client;
+import school.sptech.neosspringjava.domain.model.employee.Employee;
+import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.status.Status;
 
 import java.time.LocalDateTime;
@@ -29,4 +31,8 @@ public class Order {
     @JoinColumn(name ="fkClient")
     @ManyToOne
     private Client client;
+
+    @JoinColumn(name ="fkEmployee")
+    @ManyToOne
+    private Employee employee;
 }
