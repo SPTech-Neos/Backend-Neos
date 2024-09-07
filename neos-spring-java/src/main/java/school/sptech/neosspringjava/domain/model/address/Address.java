@@ -20,7 +20,6 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "address")
 public class Address {
 
     @Id
@@ -28,16 +27,10 @@ public class Address {
     @Column(name = "address_id")
     private int id;
 
-    @NotEmpty
-    @NotBlank(message = "campo é obrigatório")
     @Column(name = "publicPlace")
     private String publicPlace;
-
-    @NotEmpty
-    @NotBlank(message = "cidade é obrigatório")
     private String city;
-
-    @NotEmpty
-    @NotBlank(message = "estado é obrigatório")
+    @Column(name = "zipCode")
+    private String zipCode;
     private String uf;
 }

@@ -31,27 +31,19 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Establishment")
 public class Establishment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "establishment_id")
     private int id;
-    
-    @NotNull(message = "Nome é obrigatório")
-    @NotBlank(message = "Nome é obrigatório")
-    @NotEmpty(message = "Nome é obrigatório")
-    private String name;
-
-    @JoinColumn(name = "fkStatus")
-    @ManyToOne
-    private Status status;
-
-    @Column(name = "imgUrl")
-    private String imgUrl;
 
     @Column(name = "aditumId")
     private String aditumId;
+
+    private String name;
+
+    @Column(name = "imgUrl")
+    private String imgUrl;
 
     @JoinColumn(name = "fkLocal")
     @ManyToOne
@@ -60,5 +52,20 @@ public class Establishment {
     @JoinColumn(name = "fkPhone")
     @OneToOne
     private Phone phone;
+
+    @JoinColumn(name = "fkStatus")
+    @ManyToOne
+    private Status status;
+    
+    @Column(name = "startShift")
+    private LocalTime startShift;
+
+    @Column(name = "endShift")
+    private LocalTime endShift;
+
+    @Column(name = "description")
+    private String description;
   
+    @Column(name = "cnpj")
+    private String cnpj;
 }

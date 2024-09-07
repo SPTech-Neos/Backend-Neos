@@ -23,7 +23,6 @@ import school.sptech.neosspringjava.domain.model.service.Service;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "rating")
 public class Rating {
 
     @Id

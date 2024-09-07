@@ -2,261 +2,285 @@ DROP DATABASE blume;
 CREATE DATABASE blume;
 USE blume;
 
-CREATE TABLE company(
-  company_id INT PRIMARY KEY auto_increment,
-  name VARCHAR(45) NOT NULL,
-  cnpj CHAR(14) NOT NULL
-);
-
-CREATE TABLE address(
+CREATE TABLE Address(
   address_id INT PRIMARY KEY auto_increment,
-  public_place VARCHAR(45) NOT NULL,
+  publicPlace VARCHAR(45) NOT NULL,
   city VARCHAR(45) NOT NULL,
-  state CHAR(2) NOT NULL,
-  street VARCHAR(45) NOT NULL,
-  postal_code CHAR(8)
+  zipCode CHAR(8),
+  UF CHAR(2) NOT NULL
 );
 
-CREATE TABLE local(
+INSERT INTO Address VALUES(1,'Rua Coração de Maçã', 'São Paulo', '08474230', 'SP');
+
+CREATE TABLE Local(
   local_id INT PRIMARY KEY auto_increment,
-  number INT NOT NULL,
+  number VARCHAR(5) NOT NULL,
   floor INT,
-  block VARCHAR(2),
   complement VARCHAR(45),
-  address_fk INT NOT NULL,
-  FOREIGN KEY (address_fk) REFERENCES address(address_id) ON DELETE CASCADE
+  block VARCHAR(2),
+  fkAddress INT NOT NULL,
+  FOREIGN KEY (fkAddress) REFERENCES Address(address_id) ON DELETE CASCADE
 );
 
-CREATE TABLE establishment(
-  establishment_id INT PRIMARY KEY auto_increment,
+INSERT INTO Local VALUES (1, 211, 5, '52', 'C', 1);
+
+CREATE TABLE Phone(
+  phone_id INT PRIMARY KEY auto_increment,
+  countryCode CHAR(2),
+  areaCode CHAR(2),
+  number VARCHAR(9)
+);
+
+CREATE TABLE Status(
+  status_id INT PRIMARY KEY auto_increment,
+  name VARCHAR(100),
+  type VARCHAR(45)
+);
+
+CREATE TABLE Establishment (
+  establishment_id INT PRIMARY KEY AUTO_INCREMENT,
+  aditumId VARCHAR(400),
   name VARCHAR(45) NOT NULL,
-  img_url VARCHAR(250),
-  local_fk INT NOT NULL,
-  company_fk INT,
-  FOREIGN KEY (company_fk) REFERENCES company(company_id) ON DELETE CASCADE,
-  FOREIGN KEY (local_fk) REFERENCES local(local_id) ON DELETE CASCADE
+  imgUrl VARCHAR(250),
+  fkLocal INT NOT NULL,
+  fkPhone INT NOT NULL,
+  fkStatus INT,
+  startShift TIME,
+  endShift TIME, 
+  description VARCHAR(255),  
+  cnpj VARCHAR(18), 
+  FOREIGN KEY (fkPhone) REFERENCES Phone(phone_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkLocal) REFERENCES Local(local_id) ON DELETE CASCADE
 );
 
-CREATE TABLE product_type(
+
+INSERT INTO Phone VALUES (1, '55', '11', '933357637');
+INSERT INTO Status VALUES (1, 'Ativo', 'Estabelecimeto');
+INSERT INTO Status VALUES (2, 'Inativo', 'Estabelecimeto');
+INSERT INTO Establishment VALUES (1, 'aditumIdTeste', 'KevinSalon', null, 1, 1, 1, '08:00:00', '18:00:00', 'Salão de beleza Kevin', '12.345.678/0001-90');
+INSERT INTO Establishment VALUES (2, 'aditumIdTeste2', 'LiraSalon', null, 1, 1, 2, '09:00:00', '17:00:00', 'Salão de beleza Lira', '98.765.432/0001-12');
+
+CREATE TABLE ProductType(
   product_type_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL,
   specification VARCHAR(45) NOT NULL
 );
 
-CREATE TABLE product(
+INSERT INTO ProductType VALUES (1, 'Cabelo', 'Shampoo');
+
+CREATE TABLE Product(
   product_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45),
   brand VARCHAR(45),
-  img_url VARCHAR(100),
-  value DECIMAL,
-  type_fk INT,
-  establishment_fk INT,
-  FOREIGN KEY (type_fk) REFERENCES product_type(product_type_id) ON DELETE CASCADE,
-  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id) ON DELETE CASCADE
+  imgUrl VARCHAR(100),
+  price DECIMAL,
+  fkProductType INT,
+  fkEstablishment INT,
+  fkStatus INT,
+  FOREIGN KEY (fkProductType) REFERENCES ProductType(product_type_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkEstablishment) REFERENCES Establishment(establishment_id) ON DELETE CASCADE
 );
 
-CREATE TABLE client(
-  client_id INT PRIMARY KEY auto_increment,
+INSERT INTO Product VALUES (1, 'Shampoo Cachos Suaves', 'Seda', 'img.example', 120.0, 1 , 1, 1);
+
+CREATE TABLE ServiceCategory(
+  service_category_id INT PRIMARY KEY auto_increment,
+  name VARCHAR(45) NOT NULL
+);
+
+INSERT INTO ServiceCategory VALUES(1, 'Cabelo');
+
+CREATE TABLE ServiceType(
+  service_type_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL,
-  email VARCHAR(45) NOT NULL,
-  password VARCHAR(300) NOT NULL,
-  img_url VARCHAR(100),
-  local_fk INT NOT NULL,
-  FOREIGN KEY (local_fk) REFERENCES local(local_id) ON DELETE CASCADE
+  fkServiceCategory INT,
+  FOREIGN KEY (fkServiceCategory) REFERENCES ServiceCategory(service_category_id) ON DELETE CASCADE
 );
 
-CREATE TABLE rating(
-  rating_id INT auto_increment,
-  nota INT NOT NULL,
-  establishment_fk INT,
-  client_fk INT,
-  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id) ON DELETE CASCADE,
-  FOREIGN KEY (client_fk) REFERENCES client(client_id) ON DELETE CASCADE,
-  PRIMARY KEY (rating_id, establishment_fk, client_fk)
+INSERT INTO ServiceType VALUES(1, 'Corte de cabelo', 1);
+
+CREATE TABLE Service(
+  service_id INT PRIMARY KEY auto_increment,
+  specification VARCHAR(45) NOT NULL,
+  aditumId VARCHAR(300),
+  price DOUBLE,
+  imgUrl VARCHAR(400),
+  fkServiceType INT,
+  FOREIGN KEY (fkServiceType) REFERENCES ServiceType(service_type_id) ON DELETE CASCADE
 );
 
-CREATE TABLE employee_type(
+INSERT INTO Service VALUES(1, 'Mullet', 'aditumId', 90.0, 'teste', 1);
+
+CREATE TABLE EmployeeType(
   employee_type_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL
 );
 
-CREATE TABLE employee(
+INSERT INTO EmployeeType VALUES (1, 'Admin');
+
+CREATE TABLE Employee(
   employee_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL,
   password VARCHAR(300) NOT NULL,
-  img_url VARCHAR(100),
-  establishment_fk INT NOT NULL,
-  employee_type_fk INT NOT NULL,
-  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id) ON DELETE CASCADE,
-  FOREIGN KEY (employee_type_fk) REFERENCES employee_type(employee_type_id) ON DELETE CASCADE
+  imgUrl VARCHAR(100),
+  fkEstablishment INT NOT NULL,
+  fkEmployeeType INT NOT NULL,
+  fkPhone INT NOT NULL,
+  fkLocal INT NOT NULL,
+  fkStatus INT NOT NULL,
+  FOREIGN KEY (fkEstablishment) REFERENCES Establishment(establishment_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkPhone) REFERENCES Phone(phone_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkEmployeeType) REFERENCES EmployeeType(employee_type_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkLocal) REFERENCES Local(local_id) ON DELETE CASCADE
 );
 
-CREATE TABLE service_category(
-  service_category_id INT PRIMARY KEY auto_increment,
-  service_category_name VARCHAR(45) NOT NULL
-);
+INSERT INTO Employee VALUES (1, 'Kevin', 'keviin@email.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'teste', 1, 1, 1, 1, 1);
 
-CREATE TABLE service_type(
-  service_type_id INT PRIMARY KEY auto_increment,
-  service_type_name VARCHAR(45) NOT NULL,
-  category_fk INT,
-  FOREIGN KEY (category_fk) REFERENCES service_category(service_category_id) ON DELETE CASCADE
-);
-
-CREATE TABLE service(
-  service_id INT PRIMARY KEY auto_increment,
-  specification VARCHAR(45) NOT NULL,
-  img_url VARCHAR(400),
-  type_fk INT,
-  FOREIGN KEY (type_fk) REFERENCES service_type(service_type_id) ON DELETE CASCADE
-);
-
-CREATE TABLE employee_services(
+CREATE TABLE EmployeeServices(
   employee_services_id INT auto_increment,
-  hours_spent DATETIME NOT NULL,
+  hoursSpent INT NOT NULL,
   expertise TINYINT NOT NULL,
-  employee_fk INT,
-  service_fk INT,
-  FOREIGN KEY (employee_fk) REFERENCES employee(employee_id) ON DELETE CASCADE,
-  FOREIGN KEY (service_fk) REFERENCES service(service_id) ON DELETE CASCADE,
-  PRIMARY KEY(employee_services_id, employee_fk, service_fk)
+  fkEmployee INT,
+  fkService INT,
+  fkStatus INT,
+  FOREIGN KEY (fkEmployee) REFERENCES Employee(employee_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkService) REFERENCES Service(service_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
+  PRIMARY KEY(employee_services_id, fkEmployee, fkService)
 );
 
-CREATE TABLE filter(
+INSERT INTO EmployeeServices VALUES (1, 2, 5, 1, 1, 1);
+
+CREATE TABLE Client(
+  client_id INT PRIMARY KEY auto_increment,
+  name VARCHAR(45) NOT NULL,
+  email VARCHAR(45) NOT NULL,
+  password VARCHAR(300) NOT NULL,
+  imgUrl VARCHAR(100),
+  cpf CHAR(11),
+  fkLocal INT NOT NULL,
+  fkPhone INT NOT NULL,
+  FOREIGN KEY (fkLocal) REFERENCES Local(local_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkPhone) REFERENCES Phone(phone_id) ON DELETE CASCADE
+);
+
+INSERT INTO Client VALUES (1, 'Kevin', 'kevin@email.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'teste', '50709903812', 1, 1);
+
+CREATE TABLE Rating(
+  rating_id INT PRIMARY KEY auto_increment,
+  avaliation INT NOT NULL,
+  fkEstablishment INT,
+  fkEmployee INT,
+  fkService INT,
+  fkClient INT NOT NULL,
+  fkProduct INT,
+  FOREIGN KEY (fkEstablishment) REFERENCES Establishment(establishment_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkClient) REFERENCES Client(client_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkService) REFERENCES Service(service_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkEmployee) REFERENCES Employee(employee_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkProduct) REFERENCES Product(product_id) ON DELETE CASCADE
+);
+
+INSERT INTO Rating VALUES (1, 5, 1, NULL, NULL, 1, NULL);
+
+/* CREATE TABLE filter(
   filter_id INT auto_increment,
   price FLOAT NOT NULL,
-  establishment_fk INT,
-  service_fk INT NOT NULL,
-  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id) ON DELETE CASCADE,
-  FOREIGN KEY (service_fk) REFERENCES service(service_id) ON DELETE CASCADE,
-  PRIMARY KEY(filter_id, establishment_fk, service_fk)
+  fkEstablishment INT,
+  fkService INT NOT NULL,
+  FOREIGN KEY (fkEstablishment) REFERENCES Establishment(establishment_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkService) REFERENCES Service(service_id) ON DELETE CASCADE,
+  PRIMARY KEY(filter_id, fkEstablishment, fkService)
+); */
+
+CREATE TABLE Schedule(
+  schedule_id INT auto_increment PRIMARY KEY,
+  dateTime DATETIME NOT NULL,
+  fkService INT,
+  fkStatus INT,
+  fkClient INT,
+  fkEmployee INT,
+  FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkService) REFERENCES Service(service_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkClient) REFERENCES Client(client_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkEmployee) REFERENCES Employee(employee_id) ON DELETE CASCADE
 );
 
-CREATE TABLE scheduling_status(
-  scheduling_status_id INT PRIMARY KEY auto_increment,
-  description VARCHAR(100)
+INSERT INTO Schedule VALUES (1,'2024-08-31 22:00:00',1,1,1,1 );
+
+CREATE TABLE Orders(
+  order_id INT auto_increment PRIMARY KEY,
+  dateTime DATETIME,
+  fkStatus INT,
+  fkClient INT,
+  FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkClient) REFERENCES Client(client_id) ON DELETE CASCADE
 );
 
-CREATE TABLE scheduling(
-  scheduling_id INT auto_increment PRIMARY KEY,
-  date_time DATETIME NOT NULL,
-  value DECIMAL,
-  service_fk INT,
-  status_fk INT,
-  client_fk INT,
-  employee_fk INT,
-  FOREIGN KEY (status_fk) REFERENCES scheduling_status(scheduling_status_id) ON DELETE CASCADE,
-  FOREIGN KEY (service_fk) REFERENCES service(service_id) ON DELETE CASCADE,
-  FOREIGN KEY (client_fk) REFERENCES client(client_id) ON DELETE CASCADE,
-  FOREIGN KEY (employee_fk) REFERENCES employee(employee_id) ON DELETE CASCADE
+INSERT INTO Orders VALUES (1, '2024-08-31 22:00:00', 1, 1);
+
+CREATE TABLE Market(
+  market_id INT auto_increment PRIMARY KEY,
+  quantity INT,
+  fkProduct INT,
+  fkOrder INT,
+  FOREIGN KEY (fkProduct) REFERENCES Product(product_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkOrder) REFERENCES Orders(order_id) ON DELETE CASCADE
+
 );
 
-CREATE TABLE payment(
+INSERT INTO Market VALUES (1, 1, 1, 1);
+CREATE TABLE Payment(
   payment_id INT auto_increment PRIMARY KEY,
-  value DECIMAL,
-  date_payment DATETIME,
-  product_fk INT,
-  client_fk INT,
-  establishment_fk INT,
-  FOREIGN KEY (client_fk) REFERENCES client(client_id) ON DELETE CASCADE,
-  FOREIGN KEY (product_fk) REFERENCES product(product_id) ON DELETE CASCADE,
-  FOREIGN KEY (establishment_fk) REFERENCES establishment(establishment_id) ON DELETE CASCADE
+  datePayment DATETIME,
+  fkSchedule INT,
+  fkMarket INT,
+  fkStatus INT NOT NULL,
+  FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkSchedule) REFERENCES Schedule(schedule_id) ON DELETE CASCADE,
+  FOREIGN KEY (fkMarket) REFERENCES Market(market_id) ON DELETE CASCADE
 );
 
--- Inserir dados de exemplo
-INSERT INTO company (name, cnpj) VALUES
-('Salão de Beleza Bella Vista', '12345678901234'),
-('Salão de Beleza Charme & Elegância', '98765432109876');
+INSERT INTO Payment ( datePayment, fkMarket, fkStatus) VALUES ( '2024-08-31 22:00:00', 1, 1);
+INSERT INTO Payment ( datePayment, fkSchedule, fkStatus) VALUES ( '2024-08-31 22:00:00', 1, 1);
 
-INSERT INTO address (public_place, city, state, street, postal_code) VALUES
-('Rua das Flores, 123', 'Cidade Alegria', 'SP', 'Rua das Flores', '08474230'),
-('Avenida Central, 456', 'Vila da Beleza', 'RJ', 'Avenida Central', '0847422');
+CREATE TABLE Image(
+    image_id INT auto_increment PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    path VARCHAR(250) NOT NULL,
+    fileExtension VARCHAR(4),
+    fileSize FLOAT,
+    fkClient INT,
+    fkProduct INT,
+    fkService INT,
+    fkEmployee INT,
+    fkEstablishment INT,
+    FOREIGN KEY (fkClient) REFERENCES Client(client_id),
+    FOREIGN KEY (fkProduct) REFERENCES Product(product_id),
+    FOREIGN KEY (fkService) REFERENCES Service(service_id),
+    FOREIGN KEY (fkEmployee) REFERENCES Employee(employee_id),
+    FOREIGN KEY (fkEstablishment) REFERENCES Establishment(establishment_id)
+);
 
-INSERT INTO local (number, floor, block, complement, address_fk) VALUES
-(101, 1, NULL, 'Próximo à recepção', 1),
-(202, 2, NULL, 'Próximo à área de atendimento', 2);
+SELECT * FROM Product;
+SELECT * FROM Orders;
+SELECT * FROM Market;
 
-INSERT INTO establishment (name, company_fk, img_url, local_fk) VALUES
-('Bella Vista', 1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSu334ZQlSkSb78tgi9yUVS0EaK4N8iM5X9OQ&s', 1),
-('Charme & Elegância', 2, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIv_PcZ6EhC9NbapS0k0IjqESMt5f2pqrTxdUQ4Yhg5V3qIkiI1TVx_gCNg15IFEywIvI&usqp=CAU', 2),
-('Barbealira', 1, 'https://www.guiadasemana.com.br/contentFiles/image/opt_w1024h1024/2017/02/FEA/49393_shutterstock-barbearia.jpg', 1),
-('Cabeleireira Leila', 1, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQJHbu_cfteLtz2lVnEpf29OQd4O1TrzlypHb5XUW0B7A_1pGuAXYWL20-BPYShn69CEs&usqp=CAU', 1);
+SELECT m.quantity, p.datePayment, Product.price FROM Payment as p
+  JOIN Market as m ON p.fkMarket= market_id
+  JOIN Product ON m.fkProduct = product_id
+  JOIN Establishment ON fkEstablishment = establishment_id;
 
-INSERT INTO product_type (name, specification) VALUES
-('Cabelo', 'Produtos para cabelo'),
-('Maquiagem', 'Produtos de maquiagem'),
-('Unhas', 'Produtos para unhas');
+SELECT * FROM Establishment;
+SELECT * FROM Rating;
+SELECT * FROM Employee;
+SELECT * FROM Product;
+SELECT * FROM Phone;
 
-INSERT INTO product (name, brand, img_url, value, type_fk, establishment_fk) VALUES
-('Shampoo', 'LOréal', 'http://example.com/shampoo.jpg', 50.0, 1, 1),
-('Base líquida', 'MAC', 'http://example.com/base.jpg', 80.0, 2, 2),
-('Esmalte', 'Risque', 'http://example.com/esmalte.jpg', 20.0, 3, 1);
-
-INSERT INTO client (name, email, password, img_url, local_fk) VALUES
-('Cliente A', 'cliente.a@example.com', 'senha123', 'http://example.com/client.jpg', 1),
-('Cliente', 'cliente@example.com', '$2a$10$18fD7KSKFmwwW8lwIPZhw.nSXWxKhU/ifh4DKaNGxOByludy3Q4Di', 'http://example.com/client.jpg', 2);
-
-
-INSERT INTO rating (nota, establishment_fk, client_fk) VALUES
-(5, 1, 1),
-(4, 2, 2);
-
-INSERT INTO employee_type (name) VALUES
-('Cabeleireiro(a)'),
-('Esteticista'),
-('Maquiador(a)');
-
--- senha123
-
-INSERT INTO employee (name, email, password, img_url, establishment_fk, employee_type_fk) VALUES
-('Funcionário A', 'funcionario.a@example.com', 'senha123', 'http://example.com/employee.jpg', 1, 1),
-('Pedro Santos', 'pedro.santos@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/pedro_santos.jpg', 1, 2),
-('Camila Oliveira', 'camila.oliveira@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/camila_oliveira.jpg', 2, 3),
-('Rafael Lima', 'rafael.lima@example.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'http://example.com/rafael_lima.jpg', 2, 1);
-
-INSERT INTO service_category (service_category_name) VALUES
-('Cabelo'),
-('Estética Facial'),
-('Maquiagem');
-
-INSERT INTO service_type (service_type_name, category_fk) VALUES
-('Corte de Cabelo', 1),
-('Limpeza de Pele', 2),
-('Maquiagem Social', 3);
-
-INSERT INTO service (specification, img_url, type_fk) VALUES
-('Corte Masculino', 'https://makeup.com.br/wp-content/uploads/2023/10/corte-masculino-degrade-navalhado.webp', 1),
-('Hidratação Capilar', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fjulianecost.com%2Ftop-10-melhores-cremes-de-hidratacao-atualizado%2F&psig=AOvVaw1MrnvBAtaWIu1cOzYQjJTK&ust=1723672408201000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCICciZ_68ocDFQAAAAAdAAAAABAE', 1),
-('Maquiagem para Festas', 'http://example.com/maquiagem_festas.jpg', 2);
-
-INSERT INTO employee_services (hours_spent, expertise, employee_fk, service_fk) VALUES
-(NOW(), 5, 3, 1),
-(NOW(), 6, 4, 2),
-(NOW(), 7, 2, 1),
-(NOW(), 8, 3, 1);
-
-INSERT INTO filter (price, establishment_fk, service_fk) VALUES
-(80.0, 1, 1),
-(100.0, 2, 2);
-
-INSERT INTO scheduling_status (description) VALUES
-('Agendado'),
-('Confirmado'),
-('Cancelado');
-
-INSERT INTO scheduling (date_time, value, service_fk, status_fk, client_fk, employee_fk) VALUES
-(NOW(), 200.0, 1, 1, 1, 1),
-(NOW(), 150.0, 1, 1, 2, 1);
-
-INSERT INTO payment (value, date_payment, product_fk, client_fk, establishment_fk) VALUES
-(150.0, NOW(), 1, 1, 1),
-(120.0, NOW(), 2, 2, 2);
-
-
-select * from establishment;		
-select * from employee;
-select * from client;
-select * from service;
-select * from filter;
-select * from payment;
+SELECT establishment_id, Establishment.name, TRUNCATE(AVG(avaliation), 1) as media FROM Rating
+  JOIN Establishment ON fkEstablishment = establishment_id WHERE fkEstablishment IS true GROUP BY fkEstablishment ORDER BY media DESC		;
+SELECT AVG(avaliation) as media FROM Rating WHERE fkEstablishment IS NOT NULL ORDER BY media;

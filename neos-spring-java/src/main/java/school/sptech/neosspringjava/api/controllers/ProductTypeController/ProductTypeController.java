@@ -19,7 +19,7 @@ import school.sptech.neosspringjava.service.productTypeService.ProductTypeServic
 import java.util.List;
 
 @RestController
-@RequestMapping("/ProductType")
+@RequestMapping("/product-types")
 @RequiredArgsConstructor
 public class ProductTypeController {
 

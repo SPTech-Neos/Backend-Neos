@@ -44,11 +44,16 @@ public class EstablishmentMapper {
         Establishment e = new Establishment();
 
         e.setId(establishmentResponse.id());
+        e.setAditumId(establishmentResponse.aditumId());
         e.setName(establishmentResponse.name());
         e.setImgUrl(establishmentResponse.imgUrl());
         e.setLocal(establishmentResponse.local());
+        e.setPhone(establishmentResponse.phone());
         e.setStatus(establishmentResponse.status());
-        e.setAditumId(establishmentResponse.aditumId());
+        e.setStartShift(establishmentResponse.startShift());
+        e.setEndShift(establishmentResponse.endShift());
+        e.setDescription(establishmentResponse.description());
+        e.setCnpj(establishmentResponse.cnpj());
 
         return e;
     }

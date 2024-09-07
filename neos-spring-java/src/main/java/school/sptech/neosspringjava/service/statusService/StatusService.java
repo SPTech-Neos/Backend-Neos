@@ -13,11 +13,11 @@ public class StatusService {
 
     private final StatusRepository statusRepository;
 
-    public Status buscarStatusPorNome(String status){
+    public Status findStatusByName(String status){
         return statusRepository.findByName(status).orElseThrow(() -> new RuntimeException("Status não encontrado"));
     }
 
-    public Status buscarStatusPorId(Integer id){
+    public Status findById(Integer id){
         return statusRepository.findById(id).get();
     }
 

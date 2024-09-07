@@ -4,39 +4,40 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.employee.EmployeeRelacionamento;
+
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentResponse;
-import school.sptech.neosspringjava.api.dtos.produtcDto.ProductResponse;
-import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.local.Local;
+import school.sptech.neosspringjava.domain.model.phone.Phone;
 import school.sptech.neosspringjava.domain.model.status.Status;
 import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
+import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.ratingRepository.RatingRepository;
-import school.sptech.neosspringjava.service.employeeService.EmployeeService;
 import school.sptech.neosspringjava.service.paymentService.PaymentService;
+import school.sptech.neosspringjava.service.phoneService.PhoneService;
 import school.sptech.neosspringjava.service.productService.ProductService;
 import school.sptech.neosspringjava.service.schedulingService.SchedulingService;
 import school.sptech.neosspringjava.service.statusService.StatusService;
 
-@Service
+import school.sptech.neosspringjava.api.mappers.serviceMapper.ServiceMapper;
+import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
+import school.sptech.neosspringjava.domain.model.service.Service;
+
+@org.springframework.stereotype.Service
 @RequiredArgsConstructor
 public class EstablishmentService {
 
     private final EstablishmentRepository establishmentRepository;
-    private final EstablishmentMapper establishmentMapper;
+    private final EmployeeRepository employeeRepository;
     private final LocalRepository localRepository;
-    private final EmployeeService employeeService;
     private final PaymentService paymentService;
     private final ProductService productService;
     private final SchedulingService schedulingService;
     private final StatusService statusService;
     private final RatingRepository ratingRepository;
+    private final PhoneService pService;
 
     public Establishment save(EstablishmentRequest establishmentRequest) {
         Establishment establishment = new Establishment();
@@ -47,11 +48,17 @@ public class EstablishmentService {
         }
 
         Local local = localRepository.findById(localId).orElseThrow(() -> new RuntimeException("Local não encontrado"));
-
+        Phone p = pService.findById(establishmentRequest.phoneId());
 
         establishment.setName(establishmentRequest.name());
         establishment.setLocal(local);
         establishment.setImgUrl(establishmentRequest.imgUrl());
+        establishment.setPhone(p);
+        establishment.setAditumId(establishmentRequest.aditumId());
+        establishment.setDescription(establishmentRequest.description());
+        establishment.setStartShift(establishmentRequest.startShift());
+        establishment.setEndShift(establishmentRequest.endShift());
+        establishment.setCnpj(establishmentRequest.cnpj());
 
         Establishment e = establishmentRepository.save(establishment);
 
@@ -65,7 +72,7 @@ public class EstablishmentService {
                 .orElseThrow(() -> new RuntimeException("Local não encontrado"));
 
 
-        Status status = statusService.buscarStatusPorId(establishmentRequest.statusId());
+        Status status = statusService.findById(establishmentRequest.statusId());
 
         establishment.setName(establishmentRequest.name());
         establishment.setLocal(local);
@@ -84,11 +91,12 @@ public class EstablishmentService {
     public Establishment inactiveEstablishment(Integer id){
         Establishment e = findById(id);
 
-        Status s = statusService.buscarStatusPorNome("Inativo");
-        if(e.getStatus() == s){
+        Status s = statusService.findStatusByName("Inativo");
+        if(e.getStatus().equals(s)){
             throw new RuntimeException("O estabelecimento já está inativo");
         }
 
+        e.setStatus(s);
 
         return establishmentRepository.save(e);
 
@@ -140,20 +148,27 @@ public class EstablishmentService {
 
     }
 
+    public List<ServiceResponse> findServicesById(Integer id) {
+        // Busca os serviços usando o repositório
+        List<Service> services = employeeRepository.findServicesById(id);
+        // Mapeia a lista de Service para ServiceResponse
+        return ServiceMapper.toServiceResponseList(services);
+    }
+
     public List<Establishment> findAll() {
         return establishmentRepository.findAll();
     }
 
     public List<Establishment> findAllActives() {
 
-        List<Establishment> establishments = establishmentRepository.findAllByStatus(statusService.buscarStatusPorNome("Ativo"));
+        List<Establishment> establishments = establishmentRepository.findAllByStatus(statusService.findStatusByName("Ativo"));
 
         return establishments;
     }
 
     public List<Establishment> findAllInatives(){
         List<Establishment> e = establishmentRepository.findAllByStatus(
-                statusService.buscarStatusPorNome("Inativo")
+                statusService.findStatusByName("Inativo")
         );
 
         return e;
@@ -162,7 +177,11 @@ public class EstablishmentService {
     public Establishment reactive(Integer id){
         Establishment e = findById(id);
 
-        Status s = statusService.buscarStatusPorNome("Ativo");
+        Status s = statusService.findStatusByName("Ativo");
+        if(e.getStatus().equals(s)){
+            throw new RuntimeException("Esse estabelecimento já está ativo");
+        }
+        e.setStatus(s);
 
         return establishmentRepository.save(e);
     }
@@ -177,31 +196,5 @@ public class EstablishmentService {
         List<Establishment> e = ratingRepository.findBestRatedsByTop(top);
 
         return e;
-    }
-
-
-    private Double evaluativeCalculation(Double voto, Integer numVotos, Double votoBanco, Integer numVotosBanco) {
-        return ((votoBanco * numVotosBanco) + voto) / numVotosBanco + numVotos;
-    }
-
-    private List<EmployeeRelacionamento> findEmployeesByEstablishment(EstablishmentResponse establishments) {
-        List<EmployeeRelacionamento> employees = employeeService.findAllByEstablishment(establishments.id());
-
-        return employees;
-    }
-
-    private List<EmployeeRelacionamento> findEmployeesByEstablishments(List<EstablishmentResponse> establishments) {
-        List<Integer> establishmentIds = establishments.stream().map(EstablishmentResponse::id)
-                .collect(Collectors.toList());
-        return employeeService.findAllByEstablishmentIds(establishmentIds);
-    }
-
-
-    private List<ProductResponse> findProductsByEstablishments(List<EstablishmentResponse> establishmentsResponse) {
-        List<Establishment> establishments = establishmentsResponse.stream()
-                .map(establishmentResponse -> establishmentMapper.toEstablishment(establishmentResponse))
-                .collect(Collectors.toList());
-
-        return productService.findAllByEstablishments(establishments);
     }
 }

@@ -30,7 +30,7 @@ import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepos
 import school.sptech.neosspringjava.service.client.ClientService;
 
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/clients")
 @RequiredArgsConstructor
 public class ClientController {
 
@@ -116,7 +116,6 @@ public class ClientController {
         client.setEmail(clientRequest.email());
         client.setPassword(clientRequest.password());
         client.setImgUrl(clientRequest.imgUrl());
-        client.setLocal(localRepository.findById(clientRequest.local()).orElse(null));
         clientRepository.save(client);
         return ResponseEntity.ok().body(ClientMapper.toClientResponse(client));
     }

@@ -28,9 +28,6 @@ public class ServiceType {
     @Column(name = "service_type_id")
     private Integer id;
 
-    @NotBlank(message = "Nome do tipo de serviço é obrigatório")
-    @NotEmpty(message = "Nome do tipo de serviço é obrigatório")
-    @Column(name = "name")
     private String name;
 
     @ManyToOne

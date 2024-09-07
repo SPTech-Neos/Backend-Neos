@@ -16,11 +16,22 @@ import school.sptech.neosspringjava.domain.model.employee.Employee;
 public class EmployeeMapper {
 
     public static EmployeeResponse toEmployeeResponse(Employee employee) {
-        return new EmployeeResponse(employee.getId(),employee.getName(), employee.getEmail(), employee.getPassword(), employee.getImgUrl(), employee.getEstablishment(), employee.getEmployeeType());
+        return new EmployeeResponse(employee.getId(),employee.getName(), employee.getEmail(), employee.getPassword(), employee.getImgUrl(), employee.getEstablishment(), employee.getLocal(), employee.getPhone(), employee.getStatus(), employee.getEmployeeType());
     }
 
     public static List<EmployeeResponse> toEmployeeResponse(List<Employee> employee) {
         return employee.stream().map(EmployeeMapper::toEmployeeResponse).collect(Collectors.toList());
+    }
+
+    public static Employee toEntity(EmployeeRequest eDto, String passwordEncrypted){
+        Employee e = new Employee();
+
+        e.setName(eDto.name());
+        e.setEmail(eDto.email());
+        e.setPassword(passwordEncrypted);
+        e.setImgUrl(eDto.imgUrl());
+
+        return e;
     }
 
     public static EmployeeTokenDto of(Employee employee, String token){
@@ -31,6 +42,7 @@ public class EmployeeMapper {
         employeeTokenDto.setName(employee.getName());
         employeeTokenDto.setImgUrl(employee.getImgUrl());
         employeeTokenDto.setEstablishment(employee.getEstablishment());
+        employeeTokenDto.setLocal(employee.getLocal());
         employeeTokenDto.setEmployeeType(employee.getEmployeeType());
         employeeTokenDto.setToken(token);
 

@@ -12,6 +12,10 @@ import school.sptech.neosspringjava.api.mappers.establishmentMapper.Establishmen
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.service.establishmentService.EstablishmentService;
 
+import school.sptech.neosspringjava.api.mappers.serviceMapper.ServiceMapper;
+import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceRequest;
+import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
+
 @RestController
 @RequestMapping("/establishments")
 @RequiredArgsConstructor
@@ -32,7 +36,7 @@ public class EstablishmentController {
     public ResponseEntity<List<EstablishmentResponse>> findAllActives() {
         return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponseList(establishmentService.findAllActives()));
     }
-    @GetMapping("/inative")
+    @GetMapping("/inactive")
     public ResponseEntity<List<EstablishmentResponse>> findAllInatives() {
         return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponseList(establishmentService.findAllInatives()));
     }
@@ -46,6 +50,12 @@ public class EstablishmentController {
         EstablishmentResponse eDto = new EstablishmentResponse(e, media);
 
         return ResponseEntity.ok(eDto);
+    }
+
+    @GetMapping("/{id}/services")
+    public ResponseEntity<List<ServiceResponse>> findServicesById(@PathVariable Integer id) {
+        // Retorna a lista de serviços convertida para ServiceResponse
+        return ResponseEntity.ok().body(establishmentService.findServicesById(id));
     }
 
     @PostMapping
@@ -63,12 +73,12 @@ public class EstablishmentController {
         return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishmentService.partialUpdate(establishmentRequest, id)));
     }
 
-    @PatchMapping("/inactive/{id}")
-    public ResponseEntity<EstablishmentResponse> inactive(@PathVariable Integer id){
+    @PatchMapping("/deactive/{id}")
+    public ResponseEntity<EstablishmentResponse> deactive(@PathVariable Integer id){
         return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishmentService.inactiveEstablishment(id)));
     }
     @PatchMapping("/reactive/{id}")
-    public ResponseEntity<EstablishmentResponse> active(@PathVariable Integer id){
+    public ResponseEntity<EstablishmentResponse> reactive(@PathVariable Integer id){
         return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishmentService.reactive(id)));
     }
 

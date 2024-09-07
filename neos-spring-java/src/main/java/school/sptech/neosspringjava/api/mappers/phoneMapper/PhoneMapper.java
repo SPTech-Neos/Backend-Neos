@@ -11,10 +11,11 @@ import java.util.stream.Collectors;
 public class PhoneMapper {
 
     public static Phone toEntity(PhoneRequest pDto){
+
         Phone p = new Phone();
 
         p.setAreaCode(pDto.areaCode());
-        p.setCountryCode(p.getCountryCode());
+        p.setCountryCode(pDto.countryCode());
         p.setNumber(pDto.number());
 
         return p;

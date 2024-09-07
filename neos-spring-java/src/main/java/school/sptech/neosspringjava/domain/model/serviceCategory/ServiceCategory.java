@@ -20,7 +20,6 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "serviceCategory")
 public class ServiceCategory{
 
     @Id
@@ -28,8 +27,5 @@ public class ServiceCategory{
     @Column(name = "service_category_id")
     private Integer id;
 
-    @NotBlank(message = "Nome é obrigatório")
-    @NotEmpty(message = "Nome é obrigatório")
-    @Column(name = "name")
     private String name;
 }

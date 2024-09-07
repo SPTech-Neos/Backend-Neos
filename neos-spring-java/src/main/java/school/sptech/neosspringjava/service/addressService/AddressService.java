@@ -21,6 +21,7 @@ public class AddressService {
         Address address = Address.builder()
                 .publicPlace(addressRequest.publicPlace())
                 .city(addressRequest.city())
+                .zipCode(addressRequest.zipCode())
                 .uf(addressRequest.uf())
                 .build();
         addressRepository.save(address);
@@ -40,6 +41,7 @@ public class AddressService {
     public AddressResponse update(Integer id, AddressRequest addressRequest) {
         Address address = addressRepository.findById(id).orElseThrow();
         address.setCity(addressRequest.city());
+        address.setZipCode(addressRequest.zipCode());
         address.setUf(addressRequest.uf());
         addressRepository.save(address);
         return addressMapper.toAddressResponse(address);
