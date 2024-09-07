@@ -45,9 +45,9 @@ CREATE TABLE Establishment (
   fkLocal INT NOT NULL,
   fkPhone INT NOT NULL,
   fkStatus INT,
-  horarioEntrada TIME,
-  horarioSaida TIME, 
-  descricao VARCHAR(255),  
+  startShift TIME,
+  endShift TIME, 
+  description VARCHAR(255),  
   cnpj VARCHAR(18), 
   FOREIGN KEY (fkPhone) REFERENCES Phone(phone_id) ON DELETE CASCADE,
   FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
@@ -58,8 +58,8 @@ CREATE TABLE Establishment (
 INSERT INTO Phone VALUES (1, '55', '11', '933357637');
 INSERT INTO Status VALUES (1, 'Ativo', 'Estabelecimeto');
 INSERT INTO Status VALUES (2, 'Inativo', 'Estabelecimeto');
-INSERT INTO Establishment VALUES (1, 'aditumIdTeste', 'KevinSalon', 'url', 1, 1, 1, '08:00:00', '18:00:00', 'Salão de beleza Kevin', '12.345.678/0001-90');
-INSERT INTO Establishment VALUES (2, 'aditumIdTeste2', 'LiraSalon', 'url2', 1, 1, 2, '09:00:00', '17:00:00', 'Salão de beleza Lira', '98.765.432/0001-12');
+INSERT INTO Establishment VALUES (1, 'aditumIdTeste', 'KevinSalon', null, 1, 1, 1, '08:00:00', '18:00:00', 'Salão de beleza Kevin', '12.345.678/0001-90');
+INSERT INTO Establishment VALUES (2, 'aditumIdTeste2', 'LiraSalon', null, 1, 1, 2, '09:00:00', '17:00:00', 'Salão de beleza Lira', '98.765.432/0001-12');
 
 CREATE TABLE ProductType(
   product_type_id INT PRIMARY KEY auto_increment,

@@ -54,6 +54,11 @@ public class EstablishmentService {
         establishment.setLocal(local);
         establishment.setImgUrl(establishmentRequest.imgUrl());
         establishment.setPhone(p);
+        establishment.setAditumId(establishmentRequest.aditumId());
+        establishment.setDescription(establishmentRequest.description());
+        establishment.setStartShift(establishmentRequest.startShift());
+        establishment.setEndShift(establishmentRequest.endShift());
+        establishment.setCnpj(establishmentRequest.cnpj());
 
         Establishment e = establishmentRepository.save(establishment);
 
