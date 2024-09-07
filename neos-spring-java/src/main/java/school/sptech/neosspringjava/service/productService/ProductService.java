@@ -96,4 +96,9 @@ public class ProductService {
         return allProducts;
     }
 
+    public List<ProductResponse> findProductsByEstablishmentId(Integer id) {
+        List<Product> products = productRepository.findProductsByEstablishmentId(id);
+        return ProductMapper.toProductResponse(products);
+    }
+
 }
