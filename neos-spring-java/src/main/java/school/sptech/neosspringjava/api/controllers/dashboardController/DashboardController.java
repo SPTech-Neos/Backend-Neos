@@ -131,5 +131,37 @@ public class DashboardController {
         }
     }
 
+    @GetMapping("/countMarket")
+    public ResponseEntity<Integer> countMarket(@RequestBody MarketRquest request){
+        if (request.establishmentId() != null && request.start() != null && request.end() != null) {
+
+            Integer response = dashboardService.countMarket(request.establishmentId(), request.start(), request.end());
+
+            if (response == null || response == 0) {
+                return ResponseEntity.ok(0);
+            } else {
+                return ResponseEntity.ok(response);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @GetMapping("/countMarketCanceled")
+    public ResponseEntity<Integer> countMarketCanceled(@RequestBody MarketRquest request){
+        if (request.establishmentId() != null && request.start() != null && request.end() != null) {
+
+            Integer response = dashboardService.countMarketCanceled(request.establishmentId(), request.start(), request.end());
+
+            if (response == null || response == 0) {
+                return ResponseEntity.ok(0);
+            } else {
+                return ResponseEntity.ok(response);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
 
 }

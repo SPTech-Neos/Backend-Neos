@@ -60,6 +60,10 @@ INSERT INTO Status VALUES (1, 'Ativo', 'Estabelecimeto');
 INSERT INTO Status VALUES (2, 'Inativo', 'Estabelecimeto');
 INSERT INTO Status VALUES (3, 'Aguardando Pagamento', 'Pagamento');
 INSERT INTO Status VALUES (4, 'Em andamento', 'Pagamento');
+INSERT INTO Status VALUES (5, 'cancelado', 'order');
+INSERT INTO Status VALUES (6, 'concluido', 'order');
+INSERT INTO Status VALUES (7, 'Em andamento', 'order');
+
 
 
 INSERT INTO Establishment VALUES (1, 'aditumIdTeste', 'KevinSalon', 'url', 1,1,1);

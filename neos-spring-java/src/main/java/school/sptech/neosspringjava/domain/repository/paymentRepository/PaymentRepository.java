@@ -7,9 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.payment.Payment;
-import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
 
 public interface PaymentRepository extends JpaRepository<Payment, Integer>{
 

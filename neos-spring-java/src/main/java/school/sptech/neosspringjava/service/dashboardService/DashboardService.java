@@ -13,6 +13,7 @@ import school.sptech.neosspringjava.api.dtos.marketDto.MarketPurchasedDto;
 import school.sptech.neosspringjava.api.dtos.paymentDto.TotalGainDto;
 import school.sptech.neosspringjava.api.mappers.dashboardMapper.DashboardMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
+import school.sptech.neosspringjava.domain.model.market.Market;
 import school.sptech.neosspringjava.domain.model.payment.Payment;
 import school.sptech.neosspringjava.domain.repository.marketRepository.MarketRepository;
 import school.sptech.neosspringjava.domain.repository.paymentRepository.PaymentRepository;
@@ -70,5 +71,18 @@ public class DashboardService {
     public MarketProfitableDto leastProfitable(Integer establishment){
         return dashboardMapper.leastProfitable(marketRepository.findTotalSalesValueByProduct(establishment));
     }
+
+    public Integer countMarket(Integer establishment, LocalDateTime dateStart, LocalDateTime dateEnd){
+            return marketRepository.countMarketsByEstablishmentAndOrderStatus(establishment, dateStart, dateEnd);
+    }
+
+    
+    public Integer countMarketCanceled(Integer establishment, LocalDateTime dateStart, LocalDateTime dateEnd){
+            return marketRepository.countMarketsByEstablishmentAndOrderStatusCanceled(establishment, dateStart, dateEnd);
+    }
+
+    
+
+
 
 }
