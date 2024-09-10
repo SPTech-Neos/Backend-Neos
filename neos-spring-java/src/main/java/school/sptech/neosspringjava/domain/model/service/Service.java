@@ -32,6 +32,7 @@ public class Service {
     private String specification;
 
     private  String imgUrl;
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "fkServiceType")

@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConfigurationProperties(prefix = "file")
-public class IntegracaoimageApiConfig {
+public class CloudinaryConfig {
     private String uploadDir;
 
     public String getUploadDir() {

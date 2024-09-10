@@ -42,4 +42,10 @@ public class ProductController {
         productService.deleteById(id);
         return ResponseEntity.ok("Produto deletado com sucesso");
     }
+
+    @GetMapping("/establishment/{id}")
+    public ResponseEntity<List<ProductResponse>> findProductsByEstablishmentId(@PathVariable Integer id) {
+        // Retorna a lista de serviços convertida para ServiceResponse
+        return ResponseEntity.ok().body(productService.findProductsByEstablishmentId(id));
+    }
 }

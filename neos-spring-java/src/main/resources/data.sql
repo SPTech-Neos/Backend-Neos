@@ -45,9 +45,9 @@ CREATE TABLE Establishment (
   fkLocal INT NOT NULL,
   fkPhone INT NOT NULL,
   fkStatus INT,
-  horarioEntrada TIME,
-  horarioSaida TIME, 
-  descricao VARCHAR(255),  
+  startShift TIME,
+  endShift TIME, 
+  description VARCHAR(255),  
   cnpj VARCHAR(18), 
   FOREIGN KEY (fkPhone) REFERENCES Phone(phone_id) ON DELETE CASCADE,
   FOREIGN KEY (fkStatus) REFERENCES Status(status_id) ON DELETE CASCADE,
@@ -64,10 +64,9 @@ INSERT INTO Status VALUES (5, 'cancelado', 'order');
 INSERT INTO Status VALUES (6, 'concluido', 'order');
 INSERT INTO Status VALUES (7, 'Em andamento', 'order');
 
+INSERT INTO Establishment VALUES (1, 'aditumIdTeste', 'KevinSalon', null, 1, 1, 1, '08:00:00', '18:00:00', 'Salão de beleza Kevin', '12.345.678/0001-90');
+INSERT INTO Establishment VALUES (2, 'aditumIdTeste2', 'LiraSalon', null, 1, 1, 2, '09:00:00', '17:00:00', 'Salão de beleza Lira', '98.765.432/0001-12');
 
-
-INSERT INTO Establishment VALUES (1, 'aditumIdTeste', 'KevinSalon', 'url', 1,1,1);
-INSERT INTO Establishment VALUES (2, 'aditumIdTeste2', 'LiraSalon', 'url2', 1,1,2);
 
 CREATE TABLE ProductType(
   product_type_id INT PRIMARY KEY auto_increment,
@@ -146,7 +145,7 @@ CREATE TABLE Employee(
   FOREIGN KEY (fkLocal) REFERENCES Local(local_id) ON DELETE CASCADE
 );
 
-INSERT INTO Employee VALUES (1, 'Kevin', 'keviin@email.com', '1245senha', 'teste', 1, 1, 1, 1, 1);
+INSERT INTO Employee VALUES (1, 'Kevin', 'keviin@email.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'teste', 1, 1, 1, 1, 1);
 
 CREATE TABLE EmployeeServices(
   employee_services_id INT auto_increment,
@@ -161,6 +160,8 @@ CREATE TABLE EmployeeServices(
   PRIMARY KEY(employee_services_id, fkEmployee, fkService)
 );
 
+INSERT INTO EmployeeServices VALUES (1, 2, 5, 1, 1, 1);
+
 CREATE TABLE Client(
   client_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45) NOT NULL,
@@ -174,7 +175,7 @@ CREATE TABLE Client(
   FOREIGN KEY (fkPhone) REFERENCES Phone(phone_id) ON DELETE CASCADE
 );
 
-INSERT INTO Client VALUES (1, 'Kevin', 'kevin@email.com', '123Senha', 'teste', '50709903812', 1, 1);
+INSERT INTO Client VALUES (1, 'Kevin', 'kevin@email.com', '$2a$10$aii7/bEjM0F1cyEbgG4aQu6kwe0mraOmeXzI2z1/MRDimtgZYM7.W', 'teste', '50709903812', 1, 1);
 
 CREATE TABLE Rating(
   rating_id INT PRIMARY KEY auto_increment,
@@ -253,6 +254,24 @@ CREATE TABLE Payment(
 
 INSERT INTO Payment ( datePayment, fkMarket, fkStatus) VALUES ( '2024-08-31 22:00:00', 1, 1);
 INSERT INTO Payment ( datePayment, fkSchedule, fkStatus) VALUES ( '2024-08-31 22:00:00', 1, 1);
+
+CREATE TABLE Image(
+    image_id INT auto_increment PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    path VARCHAR(250) NOT NULL,
+    fileExtension VARCHAR(4),
+    fileSize FLOAT,
+    fkClient INT,
+    fkProduct INT,
+    fkService INT,
+    fkEmployee INT,
+    fkEstablishment INT,
+    FOREIGN KEY (fkClient) REFERENCES Client(client_id),
+    FOREIGN KEY (fkProduct) REFERENCES Product(product_id),
+    FOREIGN KEY (fkService) REFERENCES Service(service_id),
+    FOREIGN KEY (fkEmployee) REFERENCES Employee(employee_id),
+    FOREIGN KEY (fkEstablishment) REFERENCES Establishment(establishment_id)
+);
 
 SELECT * FROM Product;
 SELECT * FROM Orders;
