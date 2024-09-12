@@ -7,8 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,12 +26,10 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_id")
     private Integer id;
-
     private String specification;
-
+    private String aditumId; 
+    private Double  price;
     private  String imgUrl;
-    private Double price;
-
     @ManyToOne
     @JoinColumn(name = "fkServiceType")
     private ServiceType serviceType;

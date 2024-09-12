@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.dashboardDto.QuantityStatusDto;
+import school.sptech.neosspringjava.api.dtos.employee.EmployeeStats;
 import school.sptech.neosspringjava.api.dtos.marketDto.MarketProfitableDto;
 import school.sptech.neosspringjava.api.dtos.marketDto.MarketPurchasedDto;
 import school.sptech.neosspringjava.api.dtos.paymentDto.TotalGainDto;
@@ -15,8 +16,11 @@ import school.sptech.neosspringjava.api.mappers.dashboardMapper.DashboardMapper;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.market.Market;
 import school.sptech.neosspringjava.domain.model.payment.Payment;
+import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.marketRepository.MarketRepository;
 import school.sptech.neosspringjava.domain.repository.paymentRepository.PaymentRepository;
+import school.sptech.neosspringjava.domain.repository.schedulingRepository.SchedulingRepository;
+
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +29,8 @@ public class DashboardService {
     private final PaymentRepository paymentRepository;
     private final MarketRepository marketRepository;
     private final DashboardMapper dashboardMapper;
+    private final EmployeeRepository employeeRepository;
+    private final SchedulingRepository schedulingRepository;
 
     public TotalGainDto totalGain(Integer establishment, LocalDateTime dateStart, LocalDateTime dateEnd) {
 
@@ -81,7 +87,9 @@ public class DashboardService {
             return marketRepository.countMarketsByEstablishmentAndOrderStatusCanceled(establishment, dateStart, dateEnd);
     }
 
-    
+    public List<EmployeeStats> employeeStats(Integer establishment, LocalDateTime dateStart, LocalDateTime dateEnd){
+        return  dashboardMapper.toEmployeeStatsList(schedulingRepository.findEmployeeStats(establishment, dateStart, dateEnd));
+    }
 
 
 

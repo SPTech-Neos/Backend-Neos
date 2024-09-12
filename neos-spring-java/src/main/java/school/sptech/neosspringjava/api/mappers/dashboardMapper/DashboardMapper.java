@@ -1,11 +1,15 @@
 package school.sptech.neosspringjava.api.mappers.dashboardMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
+
 import school.sptech.neosspringjava.api.dtos.dashboardDto.QuantityStatusDto;
 import school.sptech.neosspringjava.api.dtos.marketDto.MarketProfitableDto;
 import school.sptech.neosspringjava.api.dtos.marketDto.MarketPurchasedDto;
 import school.sptech.neosspringjava.api.dtos.paymentDto.TotalGainDto;
+import school.sptech.neosspringjava.api.dtos.employee.EmployeeStats;
 import school.sptech.neosspringjava.domain.model.payment.Payment;
 
 @Component
@@ -29,7 +33,6 @@ public class DashboardMapper {
     }
 
     public QuantityStatusDto quantityStatus(Payment payment) {
-        System.out.println(payment.getMarket().getQuantity());
         return new QuantityStatusDto(payment.getMarket().getQuantity(), payment.getStatus().getName());
     }
 
@@ -38,8 +41,6 @@ public class DashboardMapper {
             throw new IllegalArgumentException("A lista não pode estar vazia.");
         }
         Object[] obj = objs.get(0);
-        System.out.println(obj[0]);
-        System.out.println(obj[1]);
         
         Integer purchasedCount;
         try {
@@ -60,6 +61,7 @@ public class DashboardMapper {
             throw new IllegalArgumentException("A lista não pode estar vazia.");
         }
         Object[] obj = objs.get(objs.size() - 1);
+        
         Integer purchasedCount;
         try {
             purchasedCount = Integer.parseInt(obj[1].toString());
@@ -79,8 +81,6 @@ public class DashboardMapper {
             throw new IllegalArgumentException("A lista não pode estar vazia.");
         }
         Object[] obj = objs.get(0);
-        System.out.println(obj[0]);
-        System.out.println(obj[1]);
         
         Double profit;
         try {
@@ -114,5 +114,30 @@ public class DashboardMapper {
         }
         
         return new MarketProfitableDto((String) obj[0], profit);
+    }
+
+    // Novo método para converter List<Object[]> em List<EmployeeStats>
+    public List<EmployeeStats> toEmployeeStatsList(List<Object[]> objs) {
+        return objs.stream().map(obj -> {
+            if (obj.length != 5) {
+                throw new IllegalArgumentException("Cada Object[] deve ter exatamente 5 elementos.");
+            }
+            
+            String imgUrl = (String) obj[0];
+            String name = (String) obj[1];
+            Double mediaAvaliation;
+            Integer totalHoursSpent;
+            Double totalValue;
+            
+            try {
+                mediaAvaliation = Double.parseDouble(obj[2].toString());
+                totalHoursSpent = Integer.parseInt(obj[3].toString());
+                totalValue = Double.parseDouble(obj[4].toString());
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Um dos valores não é numérico: " + e.getMessage(), e);
+            }
+
+            return new EmployeeStats(imgUrl, name, mediaAvaliation, totalHoursSpent, totalValue);
+        }).collect(Collectors.toList());
     }
 }

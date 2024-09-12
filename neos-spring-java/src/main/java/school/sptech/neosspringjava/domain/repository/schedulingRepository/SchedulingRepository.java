@@ -21,4 +21,24 @@ public interface SchedulingRepository extends JpaRepository<Scheduling, Integer>
     List<Scheduling> findByClientId(Integer clientId);
 
     List<Scheduling> findByEmployeeId(Integer employeeId);
+    
+    @Query("SELECT e.imgUrl AS Foto, " +
+           "e.name AS Nome, " +
+           "COALESCE(ROUND(AVG(r.avaliation), 1), 0) AS Media_Avaliacao, " +
+           "COALESCE(SUM(es.hoursSpent), 0) AS Total_Horas_Agendadas, " +
+           "COALESCE(SUM(s.price), 0) AS Total_Valor " +
+           "FROM Scheduling sc " +
+           "JOIN sc.employee e " +
+           "JOIN sc.service s " +
+           "LEFT JOIN Rating r ON e.id = r.employee.id " +
+           "LEFT JOIN EmployeeServices es ON e.id = es.employee.id " +
+           "WHERE e.establishment.id = :establishmentId " +
+           "AND sc.dateTimeSchedule BETWEEN :startDate AND :endDate " +
+           "GROUP BY e.id " +
+           "ORDER BY Total_Horas_Agendadas DESC")
+    List<Object[]> findEmployeeStats(
+            @Param("establishmentId") Integer establishmentId,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate
+    );
 }
