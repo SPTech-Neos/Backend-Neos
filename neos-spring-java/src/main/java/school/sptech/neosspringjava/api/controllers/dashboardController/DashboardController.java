@@ -1,5 +1,6 @@
 package school.sptech.neosspringjava.api.controllers.dashboardController;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -13,11 +14,10 @@ import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.dashboardDto.MarketRquest;
 import school.sptech.neosspringjava.api.dtos.dashboardDto.QuantityStatusDto;
 import school.sptech.neosspringjava.api.dtos.dashboardDto.TotalGainRequest;
+import school.sptech.neosspringjava.api.dtos.employee.EmployeeStats;
 import school.sptech.neosspringjava.api.dtos.marketDto.MarketProfitableDto;
 import school.sptech.neosspringjava.api.dtos.marketDto.MarketPurchasedDto;
 import school.sptech.neosspringjava.api.dtos.paymentDto.TotalGainDto;
-import school.sptech.neosspringjava.domain.model.employee.Employee;
-import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.service.dashboardService.DashboardService;
 
 @RestController
@@ -26,16 +26,10 @@ import school.sptech.neosspringjava.service.dashboardService.DashboardService;
 public class DashboardController {
 
     private final DashboardService dashboardService;
-    private final EmployeeRepository employeeRepository;
 
     @GetMapping("/totalGain")
     public ResponseEntity<TotalGainDto> totalGain(@RequestBody TotalGainRequest request) {
-
         if (request.establishment() != null && request.start() != null && request.end() != null) {
-
-            //List<Employee> employeeList = employeeRepository.findAllByEstablishmentId(request.establishment()); 
-
-
             TotalGainDto totalGain = dashboardService.totalGain(request.establishment(), request.start(), request.end());
 
             if (totalGain.getValue() == null || totalGain.getValue() == 0.0) {
@@ -50,29 +44,25 @@ public class DashboardController {
 
     @GetMapping("/quantityStatus")
     public ResponseEntity<QuantityStatusDto> quantityStatus(@RequestBody TotalGainRequest request) {
+        if (request.establishment() != null && request.start() != null && request.end() != null) {
+            QuantityStatusDto qttStatus = dashboardService.quantityStatus(request.establishment(), request.start(), request.end());
 
-            if (request.establishment() != null && request.start() != null && request.end() != null) {
-
-    
-                QuantityStatusDto qttStatus = dashboardService.quantityStatus(request.establishment(), request.start(), request.end());
-    
-                if (qttStatus.quantity()==null) {
-                    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-                } else {
-                    return ResponseEntity.ok(qttStatus);
-                }
+            if (qttStatus.quantity() == null) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                return ResponseEntity.ok(qttStatus);
             }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
-    @GetMapping("/leastPurchased")
-    public ResponseEntity<MarketPurchasedDto> leastPurchased(@RequestBody MarketRquest request){
-        if (request.establishmentId() != null) {
 
-    
+    @GetMapping("/leastPurchased")
+    public ResponseEntity<MarketPurchasedDto> leastPurchased(@RequestBody MarketRquest request) {
+        if (request.establishmentId() != null) {
             MarketPurchasedDto marketPurchasedDto = dashboardService.leastPurchased(request.establishmentId());
 
-            if (marketPurchasedDto.quantity()==null) {
+            if (marketPurchasedDto.quantity() == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } else {
                 return ResponseEntity.ok(marketPurchasedDto);
@@ -81,14 +71,13 @@ public class DashboardController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-    @GetMapping("/mostPurchased")
-    public ResponseEntity<MarketPurchasedDto> mostPurchased(@RequestBody MarketRquest request){
-        if (request.establishmentId() != null) {
 
-    
+    @GetMapping("/mostPurchased")
+    public ResponseEntity<MarketPurchasedDto> mostPurchased(@RequestBody MarketRquest request) {
+        if (request.establishmentId() != null) {
             MarketPurchasedDto marketPurchasedDto = dashboardService.mostPurchased(request.establishmentId());
 
-            if (marketPurchasedDto.quantity()==null) {
+            if (marketPurchasedDto.quantity() == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } else {
                 return ResponseEntity.ok(marketPurchasedDto);
@@ -97,15 +86,13 @@ public class DashboardController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-    
-    @GetMapping("/leastProfitable")
-    public ResponseEntity<MarketProfitableDto> leastProfitable(@RequestBody MarketRquest request){
-        if (request.establishmentId() != null) {
 
-    
+    @GetMapping("/leastProfitable")
+    public ResponseEntity<MarketProfitableDto> leastProfitable(@RequestBody MarketRquest request) {
+        if (request.establishmentId() != null) {
             MarketProfitableDto marketProfitableDto = dashboardService.leastProfitable(request.establishmentId());
 
-            if (marketProfitableDto.price()==null) {
+            if (marketProfitableDto.price() == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } else {
                 return ResponseEntity.ok(marketProfitableDto);
@@ -114,14 +101,13 @@ public class DashboardController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-    @GetMapping("/mostProfitable")
-    public ResponseEntity<MarketProfitableDto> mostProfitable(@RequestBody MarketRquest request){
-        if (request.establishmentId() != null) {
 
-    
+    @GetMapping("/mostProfitable")
+    public ResponseEntity<MarketProfitableDto> mostProfitable(@RequestBody MarketRquest request) {
+        if (request.establishmentId() != null) {
             MarketProfitableDto marketProfitableDto = dashboardService.mostProfitable(request.establishmentId());
 
-            if (marketProfitableDto.price()==null) {
+            if (marketProfitableDto.price() == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } else {
                 return ResponseEntity.ok(marketProfitableDto);
@@ -132,36 +118,39 @@ public class DashboardController {
     }
 
     @GetMapping("/countMarket")
-    public ResponseEntity<Integer> countMarket(@RequestBody MarketRquest request){
+    public ResponseEntity<Integer> countMarket(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null && request.start() != null && request.end() != null) {
-
             Integer response = dashboardService.countMarket(request.establishmentId(), request.start(), request.end());
 
-            if (response == null || response == 0) {
-                return ResponseEntity.ok(0);
-            } else {
-                return ResponseEntity.ok(response);
-            }
+            return ResponseEntity.ok(response != null ? response : 0);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping("/countMarketCanceled")
-    public ResponseEntity<Integer> countMarketCanceled(@RequestBody MarketRquest request){
+    public ResponseEntity<Integer> countMarketCanceled(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null && request.start() != null && request.end() != null) {
-
             Integer response = dashboardService.countMarketCanceled(request.establishmentId(), request.start(), request.end());
 
-            if (response == null || response == 0) {
-                return ResponseEntity.ok(0);
-            } else {
-                return ResponseEntity.ok(response);
-            }
+            return ResponseEntity.ok(response != null ? response : 0);
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
+    @GetMapping("/employeeStats")
+    public ResponseEntity<List<EmployeeStats>> employeeStats(@RequestBody TotalGainRequest request) {
+        if (request.establishment() != null && request.start() != null && request.end() != null) {
+            List<EmployeeStats> employeeStatsList = dashboardService.employeeStats(request.establishment(), request.start(), request.end());
 
+            if (employeeStatsList.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            } else {
+                return ResponseEntity.ok(employeeStatsList);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 }
