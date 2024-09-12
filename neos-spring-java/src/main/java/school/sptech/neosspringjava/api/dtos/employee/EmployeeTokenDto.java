@@ -11,7 +11,7 @@ import school.sptech.neosspringjava.domain.model.status.Status;
 @Getter
 @Setter
 public class EmployeeTokenDto {
-    private Integer Id;
+    private Integer id;
     private String name;
     private String email;
     private String imgUrl;

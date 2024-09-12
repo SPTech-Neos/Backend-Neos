@@ -12,6 +12,10 @@ import school.sptech.neosspringjava.api.mappers.establishmentMapper.Establishmen
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.service.establishmentService.EstablishmentService;
 
+import school.sptech.neosspringjava.api.mappers.serviceMapper.ServiceMapper;
+import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceRequest;
+import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
+
 @RestController
 @RequestMapping("/establishments")
 @RequiredArgsConstructor
@@ -46,6 +50,12 @@ public class EstablishmentController {
         EstablishmentResponse eDto = new EstablishmentResponse(e, media);
 
         return ResponseEntity.ok(eDto);
+    }
+
+    @GetMapping("/{id}/services")
+    public ResponseEntity<List<ServiceResponse>> findServicesById(@PathVariable Integer id) {
+        // Retorna a lista de serviços convertida para ServiceResponse
+        return ResponseEntity.ok().body(establishmentService.findServicesById(id));
     }
 
     @PostMapping

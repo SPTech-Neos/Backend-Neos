@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.api.controllers.integracaoImageApi;
+package school.sptech.neosspringjava.api.controllers.cloudinaryService;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,21 +27,27 @@ import com.cloudinary.utils.ObjectUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.config.IntegracaoimageApiConfig;
-import school.sptech.neosspringjava.service.integracaoImageApi.IntegracaoImageApiService;
-import school.sptech.neosspringjava.service.integracaoImageApi.IntegracaoImageApiService;
+import school.sptech.neosspringjava.api.dtos.filesDto.FileResponse;
+// import school.sptech.neosspringjava.config.CloudinaryServiceConfig;
+import school.sptech.neosspringjava.service.CloudinaryService ;
 
 @Controller
 @RequestMapping("/api/files")
 @RequiredArgsConstructor
-public class IntegracaoimageApiController {
+public class CloudinaryServiceController {
    
 
-    private final IntegracaoImageApiService integracaoImageApi;
+    private final CloudinaryService cloudinaryService;
 
-    @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    @PostMapping("/img-upload")
+    public ResponseEntity<FileResponse> uploadFile(@RequestParam("file") MultipartFile file) {
 
-       return ResponseEntity.ok(integracaoImageApi.uploadFile(file));
+        try {
+            FileResponse fileResponse = cloudinaryService.uploadImg(file);
+            return ResponseEntity.status(fileResponse.message().statusCode()).body(fileResponse);
+        } catch (IOException e) {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 }

@@ -37,17 +37,13 @@ public class Establishment {
     @Column(name = "establishment_id")
     private int id;
 
-    private String name;
+    @Column(name = "aditumId")
+    private String aditumId;
 
-    @JoinColumn(name = "fkStatus")
-    @ManyToOne
-    private Status status;
+    private String name;
 
     @Column(name = "imgUrl")
     private String imgUrl;
-
-    @Column(name = "aditumId")
-    private String aditumId;
 
     @JoinColumn(name = "fkLocal")
     @ManyToOne
@@ -56,5 +52,20 @@ public class Establishment {
     @JoinColumn(name = "fkPhone")
     @OneToOne
     private Phone phone;
+
+    @JoinColumn(name = "fkStatus")
+    @ManyToOne
+    private Status status;
+    
+    @Column(name = "startShift")
+    private LocalTime startShift;
+
+    @Column(name = "endShift")
+    private LocalTime endShift;
+
+    @Column(name = "description")
+    private String description;
   
+    @Column(name = "cnpj")
+    private String cnpj;
 }

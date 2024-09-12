@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Service;
-
 import lombok.RequiredArgsConstructor;
 
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
@@ -15,6 +13,7 @@ import school.sptech.neosspringjava.domain.model.phone.Phone;
 import school.sptech.neosspringjava.domain.model.status.Status;
 import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
+import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.ratingRepository.RatingRepository;
 import school.sptech.neosspringjava.service.paymentService.PaymentService;
 import school.sptech.neosspringjava.service.phoneService.PhoneService;
@@ -22,11 +21,16 @@ import school.sptech.neosspringjava.service.productService.ProductService;
 import school.sptech.neosspringjava.service.schedulingService.SchedulingService;
 import school.sptech.neosspringjava.service.statusService.StatusService;
 
-@Service
+import school.sptech.neosspringjava.api.mappers.serviceMapper.ServiceMapper;
+import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
+import school.sptech.neosspringjava.domain.model.service.Service;
+
+@org.springframework.stereotype.Service
 @RequiredArgsConstructor
 public class EstablishmentService {
 
     private final EstablishmentRepository establishmentRepository;
+    private final EmployeeRepository employeeRepository;
     private final LocalRepository localRepository;
     private final PaymentService paymentService;
     private final ProductService productService;
@@ -50,6 +54,11 @@ public class EstablishmentService {
         establishment.setLocal(local);
         establishment.setImgUrl(establishmentRequest.imgUrl());
         establishment.setPhone(p);
+        establishment.setAditumId(establishmentRequest.aditumId());
+        establishment.setDescription(establishmentRequest.description());
+        establishment.setStartShift(establishmentRequest.startShift());
+        establishment.setEndShift(establishmentRequest.endShift());
+        establishment.setCnpj(establishmentRequest.cnpj());
 
         Establishment e = establishmentRepository.save(establishment);
 
@@ -137,6 +146,13 @@ public class EstablishmentService {
 
         return e;
 
+    }
+
+    public List<ServiceResponse> findServicesById(Integer id) {
+        // Busca os serviços usando o repositório
+        List<Service> services = employeeRepository.findServicesById(id);
+        // Mapeia a lista de Service para ServiceResponse
+        return ServiceMapper.toServiceResponseList(services);
     }
 
     public List<Establishment> findAll() {

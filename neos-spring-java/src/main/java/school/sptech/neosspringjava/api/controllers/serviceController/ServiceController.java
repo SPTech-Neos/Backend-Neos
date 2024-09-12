@@ -43,7 +43,6 @@ public class ServiceController {
     @GetMapping("/{id}")
     public ResponseEntity<ServiceResponse> getServiceById(@PathVariable Integer id){
        return ResponseEntity.ok().body(ServiceMapper.toServiceResponse(servServ.findById(id)));
-        
     }
 
     @DeleteMapping("/{id}")
