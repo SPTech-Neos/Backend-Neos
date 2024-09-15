@@ -6,18 +6,14 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentResponse;
 import school.sptech.neosspringjava.api.dtos.ratingDto.*;
-import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.api.mappers.ratingMapper.RatingMapper;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.product.Product;
 import school.sptech.neosspringjava.domain.model.rating.Rating;
-import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
-import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.productRepository.ProductRepository;
 import school.sptech.neosspringjava.domain.repository.ratingRepository.RatingRepository;
 import school.sptech.neosspringjava.domain.repository.serviceRepository.ServiceRepository;

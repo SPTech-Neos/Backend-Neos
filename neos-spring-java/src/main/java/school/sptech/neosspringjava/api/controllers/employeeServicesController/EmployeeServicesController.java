@@ -16,17 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
-import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.dtos.employeeServicesDto.EmployeeServicesRequest;
 import school.sptech.neosspringjava.api.dtos.employeeServicesDto.EmployeeServicesResponse;
-import school.sptech.neosspringjava.api.mappers.employeeServicesMapper.EmployeeServicesMapper;
-import school.sptech.neosspringjava.domain.model.employeeServices.EmployeeServices;
-import school.sptech.neosspringjava.domain.repository.EmployeeServicesRepository.EmployeeServicesRepository;
-import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
-import school.sptech.neosspringjava.domain.repository.serviceRepository.ServiceRepository;
 import school.sptech.neosspringjava.service.EmployeeServService.EmployeeServService;
-import school.sptech.neosspringjava.service.employeeService.EmployeeService;
+
 
 @RestController
 @RequestMapping("/employee-services")

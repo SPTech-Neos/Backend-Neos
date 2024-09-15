@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.usersDto.UsersDetailsDto;
 import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.employee.Employee;
@@ -15,6 +16,7 @@ import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRep
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 
 @Service
+@RequiredArgsConstructor
 public class AuthenticationService implements UserDetailsService {
 
     // @Override
@@ -33,10 +35,9 @@ public class AuthenticationService implements UserDetailsService {
     //         throw new IllegalStateException("Tipo de usuário desconhecido");
     //     }
     // }
-    @Autowired
-    EmployeeRepository employeeRepository;
-    @Autowired
-    ClientRepository clientRepository;
+    private final EmployeeRepository employeeRepository;
+    
+    private final ClientRepository clientRepository;
 
     // consultar usuários
 
