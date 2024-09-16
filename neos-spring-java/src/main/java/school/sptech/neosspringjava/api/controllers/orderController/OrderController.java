@@ -10,7 +10,6 @@ import school.sptech.neosspringjava.service.orderService.OrderService;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/orders")
 @AllArgsConstructor
@@ -31,36 +30,4 @@ public class OrderController {
     public ResponseEntity<OrderResponse> save(@RequestBody OrderRequest r){
         return ResponseEntity.ok(OrderMapper.toResponse(oService.save(r)));
     }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<OrderResponse> update(@PathVariable Integer id, @RequestBody OrderRequest r){
-        return ResponseEntity.ok(OrderMapper.toResponse(oService.update(id, r)));
-    }
-
-    @PatchMapping("/orders/{id}/status?={status}")
-    public ResponseEntity<OrderResponse> updateStatus(@PathVariable Integer id, @PathVariable Integer status){
-        return ResponseEntity.ok(OrderMapper.toResponse(oService.updateStatus(id, status)));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id){
-        oService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/orders/by-establishment/{id}/status?={status}")
-    public ResponseEntity<List<OrderResponse>> findByEstablishmentAndStatus(@PathVariable Integer id, @PathVariable Integer status){
-        return ResponseEntity.ok(OrderMapper.toResponse(oService.findByEstablishmentAndStatus(id, status)));
-    }
-
-    @GetMapping("/orders/by-client/{id}/status?={status}")
-    public ResponseEntity<List<OrderResponse>> findByClientAndStatus(@PathVariable Integer id, @PathVariable Integer status){
-        return ResponseEntity.ok(OrderMapper.toResponse(oService.findByClientAndStatus(id, status)));
-    }
-
-    @GetMapping("/orders/by-employee/{id}/status?={status}")
-    public ResponseEntity<List<OrderResponse>> findByEmployeeAndStatus(@PathVariable Integer id, @PathVariable Integer status){
-        return ResponseEntity.ok(OrderMapper.toResponse(oService.findByEmployeeAndStatus(id, status)));
-    }
-    
 }
