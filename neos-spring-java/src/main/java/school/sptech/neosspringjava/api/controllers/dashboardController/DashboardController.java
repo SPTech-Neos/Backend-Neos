@@ -1,11 +1,13 @@
 package school.sptech.neosspringjava.api.controllers.dashboardController;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +19,7 @@ import school.sptech.neosspringjava.api.dtos.dashboardDto.TotalGainRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeStats;
 import school.sptech.neosspringjava.api.dtos.marketDto.MarketProfitableDto;
 import school.sptech.neosspringjava.api.dtos.marketDto.MarketPurchasedDto;
+import school.sptech.neosspringjava.api.dtos.marketDto.MarketStatsDTO;
 import school.sptech.neosspringjava.api.dtos.paymentDto.TotalGainDto;
 import school.sptech.neosspringjava.service.dashboardService.DashboardService;
 
@@ -148,6 +151,82 @@ public class DashboardController {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             } else {
                 return ResponseEntity.ok(employeeStatsList);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    
+    @GetMapping("/graficCountMarket/{period}")
+    public ResponseEntity<List<MarketStatsDTO>> graficCountMarket(@RequestBody MarketRquest request, @PathVariable Integer period) {
+        if (request.establishmentId() != null && request.start() != null && request.end() != null) {
+            List<MarketStatsDTO> stats = new ArrayList<>(); 
+        
+            if(period == 1){
+            stats = dashboardService.getDailyOrderStats(request.establishmentId(), request.start(), request.end());
+            }else 
+            if(period == 2 ){
+                stats = dashboardService.getWeeklyOrderStats(request.establishmentId(), request.start(), request.end());
+            }else
+            if(period == 3){
+                stats = dashboardService.getMonthlyOrderStats(request.establishmentId(), request.start(), request.end());
+            }
+
+            if (stats.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            } else {
+                return ResponseEntity.ok(stats);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+
+
+
+
+
+    @GetMapping("/dailyOrderStats")
+    public ResponseEntity<List<MarketStatsDTO>> getDailyOrderStats(@RequestBody MarketRquest request) {
+        if (request.establishmentId() != null && request.start() != null && request.end() != null) {
+            List<MarketStatsDTO> stats = dashboardService.getDailyOrderStats(request.establishmentId(), request.start(), request.end());
+
+            if (stats.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            } else {
+                return ResponseEntity.ok(stats);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @GetMapping("/weeklyOrderStats")
+    public ResponseEntity<List<MarketStatsDTO>> getWeeklyOrderStats(@RequestBody MarketRquest request) {
+        if (request.establishmentId() != null && request.start() != null && request.end() != null) {
+            List<MarketStatsDTO> stats = dashboardService.getWeeklyOrderStats(request.establishmentId(), request.start(), request.end());
+
+            if (stats.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            } else {
+                return ResponseEntity.ok(stats);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @GetMapping("/monthlyOrderStats")
+    public ResponseEntity<List<MarketStatsDTO>> getMonthlyOrderStats(@RequestBody MarketRquest request) {
+        if (request.establishmentId() != null && request.start() != null && request.end() != null) {
+            List<MarketStatsDTO> stats = dashboardService.getMonthlyOrderStats(request.establishmentId(), request.start(), request.end());
+
+            if (stats.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            } else {
+                return ResponseEntity.ok(stats);
             }
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import school.sptech.neosspringjava.api.dtos.dashboardDto.QuantityStatusDto;
 import school.sptech.neosspringjava.api.dtos.marketDto.MarketProfitableDto;
 import school.sptech.neosspringjava.api.dtos.marketDto.MarketPurchasedDto;
+import school.sptech.neosspringjava.api.dtos.marketDto.MarketStatsDTO;
 import school.sptech.neosspringjava.api.dtos.paymentDto.TotalGainDto;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeStats;
 import school.sptech.neosspringjava.domain.model.payment.Payment;
@@ -139,5 +140,23 @@ public class DashboardMapper {
 
             return new EmployeeStats(imgUrl, name, mediaAvaliation, totalHoursSpent, totalValue);
         }).collect(Collectors.toList());
+    }
+
+        public MarketStatsDTO mapToMarketStatsDTO(Object[] row) {
+        // Supondo que o formato do array é [period, canceledOrders, totalOrders]
+        String period = row[0] != null ? row[0].toString() : null;
+        Integer canceledOrders = row[1] != null ? ((Number) row[1]).intValue() : 0;
+        Integer totalOrders = row[2] != null ? ((Number) row[2]).intValue() : 0;
+
+        return MarketStatsDTO.builder()
+                             .period(period)
+                             .canceledOrders(canceledOrders)
+                             .totalOrders(totalOrders)
+                             .build();
+    }
+    public List<MarketStatsDTO> mapToMarketStatsDTOList(List<Object[]> rows) {
+        return rows.stream()
+                   .map(this::mapToMarketStatsDTO)
+                   .collect(Collectors.toList());
     }
 }
