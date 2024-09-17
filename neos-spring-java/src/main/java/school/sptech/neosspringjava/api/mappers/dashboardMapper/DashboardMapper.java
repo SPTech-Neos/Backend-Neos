@@ -21,6 +21,7 @@ public class DashboardMapper {
         totalGain.setValue(0.0); // Inicializa o valor total
 
         for (Payment payment : payments) {
+            System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"+totalGain.toString());
             if (totalGain.getDateTimeStart() == null || totalGain.getDateTimeStart().isBefore(payment.getDatePayment())) {
                 totalGain.setDateTimeStart(payment.getDatePayment());
             }

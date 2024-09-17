@@ -1,5 +1,6 @@
 package school.sptech.neosspringjava.service.dashboardService;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class DashboardService {
         List<Payment> listPayment = new ArrayList<>();
         listPayment
                 .addAll(paymentRepository.findPaymentsByDateRangeAndEstablishment(dateStart, dateEnd, establishment));
-
+System.out.println(listPayment.get(0));
         if (listPayment == null || listPayment.isEmpty()) {
             return new TotalGainDto(); // Retorna um TotalGainDto vazio se não houver pagamentos
         } else {

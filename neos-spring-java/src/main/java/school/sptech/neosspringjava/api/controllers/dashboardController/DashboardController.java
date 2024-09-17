@@ -21,6 +21,8 @@ import school.sptech.neosspringjava.api.dtos.marketDto.MarketProfitableDto;
 import school.sptech.neosspringjava.api.dtos.marketDto.MarketPurchasedDto;
 import school.sptech.neosspringjava.api.dtos.marketDto.MarketStatsDTO;
 import school.sptech.neosspringjava.api.dtos.paymentDto.TotalGainDto;
+import school.sptech.neosspringjava.domain.model.employee.Employee;
+import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.service.dashboardService.DashboardService;
 
 @RestController
@@ -29,10 +31,16 @@ import school.sptech.neosspringjava.service.dashboardService.DashboardService;
 public class DashboardController {
 
     private final DashboardService dashboardService;
+    private final EmployeeRepository employeeRepository;
 
     @GetMapping("/totalGain")
     public ResponseEntity<TotalGainDto> totalGain(@RequestBody TotalGainRequest request) {
+
         if (request.establishment() != null && request.start() != null && request.end() != null) {
+
+            // List<Employee> employeeList = employeeRepository.findAllByEstablishmentId(request.establishment());
+
+
             TotalGainDto totalGain = dashboardService.totalGain(request.establishment(), request.start(), request.end());
 
             if (totalGain.getValue() == null || totalGain.getValue() == 0.0) {
@@ -40,6 +48,7 @@ public class DashboardController {
             } else {
                 return ResponseEntity.ok(totalGain);
             }
+
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -48,7 +57,8 @@ public class DashboardController {
     @GetMapping("/quantityStatus")
     public ResponseEntity<QuantityStatusDto> quantityStatus(@RequestBody TotalGainRequest request) {
         if (request.establishment() != null && request.start() != null && request.end() != null) {
-            QuantityStatusDto qttStatus = dashboardService.quantityStatus(request.establishment(), request.start(), request.end());
+            QuantityStatusDto qttStatus = dashboardService.quantityStatus(request.establishment(), request.start(),
+                    request.end());
 
             if (qttStatus.quantity() == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -134,7 +144,8 @@ public class DashboardController {
     @GetMapping("/countMarketCanceled")
     public ResponseEntity<Integer> countMarketCanceled(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null && request.start() != null && request.end() != null) {
-            Integer response = dashboardService.countMarketCanceled(request.establishmentId(), request.start(), request.end());
+            Integer response = dashboardService.countMarketCanceled(request.establishmentId(), request.start(),
+                    request.end());
 
             return ResponseEntity.ok(response != null ? response : 0);
         } else {
@@ -145,7 +156,8 @@ public class DashboardController {
     @GetMapping("/employeeStats")
     public ResponseEntity<List<EmployeeStats>> employeeStats(@RequestBody TotalGainRequest request) {
         if (request.establishment() != null && request.start() != null && request.end() != null) {
-            List<EmployeeStats> employeeStatsList = dashboardService.employeeStats(request.establishment(), request.start(), request.end());
+            List<EmployeeStats> employeeStatsList = dashboardService.employeeStats(request.establishment(),
+                    request.start(), request.end());
 
             if (employeeStatsList.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -157,20 +169,19 @@ public class DashboardController {
         }
     }
 
-    
     @GetMapping("/graficCountMarket/{period}")
-    public ResponseEntity<List<MarketStatsDTO>> graficCountMarket(@RequestBody MarketRquest request, @PathVariable Integer period) {
+    public ResponseEntity<List<MarketStatsDTO>> graficCountMarket(@RequestBody MarketRquest request,
+            @PathVariable Integer period) {
         if (request.establishmentId() != null && request.start() != null && request.end() != null) {
-            List<MarketStatsDTO> stats = new ArrayList<>(); 
-        
-            if(period == 1){
-            stats = dashboardService.getDailyOrderStats(request.establishmentId(), request.start(), request.end());
-            }else 
-            if(period == 2 ){
+            List<MarketStatsDTO> stats = new ArrayList<>();
+
+            if (period == 1) {
+                stats = dashboardService.getDailyOrderStats(request.establishmentId(), request.start(), request.end());
+            } else if (period == 2) {
                 stats = dashboardService.getWeeklyOrderStats(request.establishmentId(), request.start(), request.end());
-            }else
-            if(period == 3){
-                stats = dashboardService.getMonthlyOrderStats(request.establishmentId(), request.start(), request.end());
+            } else if (period == 3) {
+                stats = dashboardService.getMonthlyOrderStats(request.establishmentId(), request.start(),
+                        request.end());
             }
 
             if (stats.isEmpty()) {
@@ -183,15 +194,11 @@ public class DashboardController {
         }
     }
 
-
-
-
-
-
     @GetMapping("/dailyOrderStats")
     public ResponseEntity<List<MarketStatsDTO>> getDailyOrderStats(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null && request.start() != null && request.end() != null) {
-            List<MarketStatsDTO> stats = dashboardService.getDailyOrderStats(request.establishmentId(), request.start(), request.end());
+            List<MarketStatsDTO> stats = dashboardService.getDailyOrderStats(request.establishmentId(), request.start(),
+                    request.end());
 
             if (stats.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -206,7 +213,8 @@ public class DashboardController {
     @GetMapping("/weeklyOrderStats")
     public ResponseEntity<List<MarketStatsDTO>> getWeeklyOrderStats(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null && request.start() != null && request.end() != null) {
-            List<MarketStatsDTO> stats = dashboardService.getWeeklyOrderStats(request.establishmentId(), request.start(), request.end());
+            List<MarketStatsDTO> stats = dashboardService.getWeeklyOrderStats(request.establishmentId(),
+                    request.start(), request.end());
 
             if (stats.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -221,7 +229,8 @@ public class DashboardController {
     @GetMapping("/monthlyOrderStats")
     public ResponseEntity<List<MarketStatsDTO>> getMonthlyOrderStats(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null && request.start() != null && request.end() != null) {
-            List<MarketStatsDTO> stats = dashboardService.getMonthlyOrderStats(request.establishmentId(), request.start(), request.end());
+            List<MarketStatsDTO> stats = dashboardService.getMonthlyOrderStats(request.establishmentId(),
+                    request.start(), request.end());
 
             if (stats.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

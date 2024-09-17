@@ -17,4 +17,8 @@ public interface EmployeeServicesRepository extends JpaRepository<EmployeeServic
 
     @Query("SELECT e FROM EmployeeServices es JOIN es.employee e WHERE e.establishment = :idEstab AND es.service = :idServ")
     List<Employee> findAllByEstablishmentAndService(@Param("idEstab") Establishment estab, @Param("idServ") Service serv);
+    @Query("SELECT s FROM Service s JOIN EmployeeServices es ON s.id = es.service.id " +
+    "JOIN Employee e ON es.employee.id = e.id " +
+    "WHERE e.establishment.id = :id")
+    List<Service> findServicesById(@Param("id") Integer id);
 }

@@ -13,6 +13,7 @@ import school.sptech.neosspringjava.domain.model.phone.Phone;
 import school.sptech.neosspringjava.domain.model.status.Status;
 import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
+import school.sptech.neosspringjava.domain.repository.EmployeeServicesRepository.EmployeeServicesRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.ratingRepository.RatingRepository;
 import school.sptech.neosspringjava.service.paymentService.PaymentService;
@@ -38,6 +39,7 @@ public class EstablishmentService {
     private final StatusService statusService;
     private final RatingRepository ratingRepository;
     private final PhoneService pService;
+    private final EmployeeServicesRepository employeeServicesRepository;
 
     public Establishment save(EstablishmentRequest establishmentRequest) {
         Establishment establishment = new Establishment();
@@ -150,7 +152,7 @@ public class EstablishmentService {
 
     public List<ServiceResponse> findServicesById(Integer id) {
         // Busca os serviços usando o repositório
-        List<Service> services = employeeRepository.findServicesById(id);
+        List<Service> services = employeeServicesRepository.findServicesById(id);
         // Mapeia a lista de Service para ServiceResponse
         return ServiceMapper.toServiceResponseList(services);
     }
