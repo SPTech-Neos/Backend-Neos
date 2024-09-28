@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.productType.ProductType;
+import school.sptech.neosspringjava.domain.model.status.Status;
 
 @Entity
 @Getter
@@ -36,6 +37,9 @@ public class Product {
     private String imgUrl;
 
     private Double price;
+    @ManyToOne
+    @JoinColumn(name = "fkStatus")
+    private Status status;
     @ManyToOne
     @JoinColumn(name = "fkProductType")
     private ProductType type;

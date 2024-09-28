@@ -21,6 +21,18 @@ public class StatusService {
         return statusRepository.findById(id).get();
     }
 
+    public List<Status> findAll(){
+        return statusRepository.findAll();
+    }
+
+    public Status save(Status status){
+        return statusRepository.save(status);
+    }
+
+    public void delete(Integer id){
+        statusRepository.deleteById(id);
+    }
+
 
 
 }

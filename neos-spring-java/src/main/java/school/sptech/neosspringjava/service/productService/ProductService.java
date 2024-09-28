@@ -16,6 +16,7 @@ import school.sptech.neosspringjava.domain.model.productType.ProductType;
 import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.productRepository.ProductRepository;
 import school.sptech.neosspringjava.domain.repository.productTypeRepository.ProductTypeRepository;
+import school.sptech.neosspringjava.service.statusService.StatusService;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class ProductService {
     private final ProductMapper ProductMapper;
     private final EstablishmentRepository establishmentRepository;
     private final ProductTypeRepository productTypeRepository;
-
+    private final StatusService statusService;
     public ProductResponse save(ProductRequest productRequest) {
 
         ProductType productType = productTypeRepository.findById(productRequest.type()).orElseThrow();
@@ -98,6 +99,18 @@ public class ProductService {
 
     public List<ProductResponse> findProductsByEstablishmentId(Integer id) {
         List<Product> products = productRepository.findProductsByEstablishmentId(id);
+        return ProductMapper.toProductResponse(products);
+    }
+
+    public ProductResponse updateProductStatus(Integer id, String status) {
+        Product product = productRepository.findById(id).orElseThrow();
+        product.setStatus(statusService.findStatusByName(status));
+        productRepository.save(product);
+        return ProductMapper.toProductResponse(product);
+    }
+
+    public List<ProductResponse> findProductsByEstablishmentIdAndStatus(Integer id, String status) {
+        List<Product> products = productRepository.findProductsByEstablishmentIdAndStatus(id, status);
         return ProductMapper.toProductResponse(products);
     }
 

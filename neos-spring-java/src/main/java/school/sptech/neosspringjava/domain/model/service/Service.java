@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.serviceType.ServiceType;
+import school.sptech.neosspringjava.domain.model.status.Status;
 
 @Entity
 @Getter
@@ -33,5 +34,7 @@ public class Service {
     @ManyToOne
     @JoinColumn(name = "fkServiceType")
     private ServiceType serviceType;
-
+ @ManyToOne
+    @JoinColumn(name = "fkStatus")
+    private Status status;
 }

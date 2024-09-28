@@ -336,3 +336,6 @@ WHERE
     )
 GROUP BY 
     st.name;
+
+-- pegar todos os Payments de um estabelecimento
+SELECT * FROM Payment join Schedule on schedule_id = fkSchedule join Employee on employee_id = fkEmployee join Establishment on establishment_id = fkEstablishment WHERE establishment_id = 1;

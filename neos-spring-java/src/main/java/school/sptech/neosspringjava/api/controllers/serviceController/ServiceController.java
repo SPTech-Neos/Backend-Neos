@@ -50,4 +50,14 @@ public class ServiceController {
         servServ.deleteByid(id);
         return ResponseEntity.ok().build();
     }
+
+    // @PatchMapping("/{id}/status?={status}")
+    // public ResponseEntity<ServiceResponse> updateServiceStatus(@PathVariable Integer id, @PathVariable String status){
+    //     return ResponseEntity.ok().body(servServ.updateServiceStatus(id, status));
+    // }
+
+    // @GetMapping("/by-establishment/{id}/status?={status}")
+    // public ResponseEntity<List<ServiceResponse>> findServicesByEstablishmentIdAndStatus(@PathVariable Integer id, @PathVariable String status){
+    //     return ResponseEntity.ok().body(servServ.findServicesByEstablishmentIdAndStatus(id, status));
+    // }
 }

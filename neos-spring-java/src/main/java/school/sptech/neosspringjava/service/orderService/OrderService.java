@@ -36,6 +36,24 @@ public class OrderService {
         return oRep.save(o);
     }
 
+    public Order updateStatus(Integer id, Integer status){
+        Order o = findById(id);
+        o.setStatus(sService.findById(status));
+        return oRep.save(o);
+    }
+
+    public void delete(Integer id){
+        oRep.delete(findById(id));
+    }
+
+    // public List<Order> findByEstablishmentAndStatus(Integer id, Integer status){
+    //     return oRep.findByEstablishmentAndStatus(id, status);
+    // }
+
+    // public List<Order> findByEmployeeAndStatus(Integer id, Integer status){
+    //     return oRep.findByEmployeeAndStatus(id, status);
+    // }
+
 
 }
 

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentRequest;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentResponse;
 import school.sptech.neosspringjava.domain.model.client.Client;
+import school.sptech.neosspringjava.domain.model.employee.Employee;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.payment.Payment;
 import school.sptech.neosspringjava.domain.model.product.Product;
@@ -14,8 +15,10 @@ import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRep
 import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.paymentRepository.PaymentRepository;
 import school.sptech.neosspringjava.domain.repository.productRepository.ProductRepository;
+import school.sptech.neosspringjava.service.establishmentService.EstablishmentService;
 import school.sptech.neosspringjava.service.marketService.MarketService;
 import school.sptech.neosspringjava.service.schedulingService.SchedulingService;
+import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.service.statusService.StatusService;
 
 import java.time.LocalDateTime;
@@ -31,6 +34,7 @@ public class PaymentService {
     private final ProductRepository productRepository;
     private final ClientRepository clientRepository;
     private final EstablishmentRepository establishmentRepository;
+    private final EmployeeRepository employeeRepository;
     private final MarketService mService;
     private final SchedulingService sService;
     private final StatusService statusService;
@@ -94,59 +98,78 @@ public class PaymentService {
         return payments;
     }
 
-        
+    public Double getTotalRentByEstablishment(Integer id) {
+        Establishment establishment = establishmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Establishment not found"));
 
-//    public List<PaymentResponse> findAllByEstablishment(Establishment establishment, LocalDateTime initialDate) {
-//
-//
-//        List<Payment> payments = paymentRepository.findAllByEstablishmentAndDateTimeGreaterThanEqualOrderByDateTimeDesc(establishment, initialDate);
-//
-//        return payments.stream()
-//                .map(payment -> new PaymentResponse(
-//                        payment.getId(),
-//                        payment.getDatePayment(),
-//                        payment.getSchedule(),
-//                        payment.getMarket(),
-//                        payment.getStatus()
-//                ))
-//                .toList();
-//    }
-//
-//    public List<PaymentResponse> getPaymentsByClientId(Integer clientId) {
-//        List<Payment> paymentsEntity = paymentRepository.findByClientId(clientId);
-//        List<PaymentResponse> payments = new ArrayList<>();
-//
-//        for (Payment payment : paymentsEntity) {
-//            PaymentResponse paymentResponse = new PaymentResponse(
-//                    payment.getId(),
-//                    payment.getDatePayment(),
-//                    payment.getSchedule(),
-//                    payment.getMarket(),
-//                    payment.getStatus()
-//            );
-//            payments.add(paymentResponse);
-//        }
-//
-//        return payments;
-//    }
-//
-//    public List<PaymentResponse> getPaymentsByEstablishmentId(Integer establishmentId) {
-//        List<Payment> paymentsEntity = paymentRepository.findByEstablishmentId(establishmentId);
-//        List<PaymentResponse> payments = new ArrayList<>();
-//
-//        for (Payment payment : paymentsEntity) {
-//            PaymentResponse paymentResponse = new PaymentResponse(
-//                    payment.getId(),
-//                    payment.getDatePayment(),
-//                    payment.getSchedule(),
-//                    payment.getMarket(),
-//                    payment.getStatus()
-//            );
-//            payments.add(paymentResponse);
-//        }
-//
-//        return payments;
-//    }
+        List<Payment> payments = paymentRepository.findAllByEstablishment(establishment.getId());
+
+        Double totalRent = 0.0;
+
+        for (Payment payment : payments) {
+            totalRent += payment.getSchedule().getService().getPrice();
+        }
+
+        return totalRent;
+
+        
+    }
+
+
+    public Double getTotalRentByEstablishmentAndEmployee(Integer id, Integer idEmployye) {
+        Establishment establishment = establishmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Establishment not found"));
+
+                Employee employee = employeeRepository.findById(idEmployye).orElseThrow(() -> new RuntimeException("Employee not found"));
+
+        List<Payment> payments = paymentRepository.findAllByEstablishmentAndEmployee(establishment.getId(), employee.getId());
+
+        Double totalRent = 0.0;
+
+        for (Payment payment : payments) {
+            totalRent += payment.getSchedule().getService().getPrice();
+        }
+
+        return totalRent;
+    }
+
+    public Double getTotalRentByEstablishmentAndEmployeeAndStartDate(Integer id, Integer idEmployye, String startDate) {
+        Establishment establishment = establishmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Establishment not found"));
+
+                Employee employee = employeeRepository.findById(idEmployye).orElseThrow(() -> new RuntimeException("Employee not found"));
+
+        List<Payment> payments = paymentRepository.findAllByEstablishmentAndEmployee(establishment.getId(), employee.getId());
+
+        Double totalRent = 0.0;
+
+        for (Payment payment : payments) {
+            totalRent += payment.getSchedule().getService().getPrice();
+        }
+
+        return totalRent;
+    }
+
+    public Double getTotalRentByEstablishmentAndEmployeeAndEndDate(Integer id, Integer idEmployye, String endDate) {
+        Establishment establishment = establishmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Establishment not found"));
+
+                Employee employee = employeeRepository.findById(idEmployye).orElseThrow(() -> new RuntimeException("Employee not found"));
+
+                LocalDateTime end = LocalDateTime.parse(endDate);
+
+        List<Payment> payments = paymentRepository.findAllByEstablishmentAndEmployeeAndEndDate(establishment.getId(), employee.getId(),end);
+
+        Double totalRent = 0.0;
+
+        for (Payment payment : payments) {
+            totalRent += payment.getSchedule().getService().getPrice();
+        }
+
+        return totalRent;
+    }
+   
+
 
     
 }

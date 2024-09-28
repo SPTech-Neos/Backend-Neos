@@ -12,6 +12,8 @@ import school.sptech.neosspringjava.domain.model.service.Service;
 import school.sptech.neosspringjava.domain.model.serviceType.ServiceType;
 import school.sptech.neosspringjava.domain.repository.ServiceTypeRepository.ServiceTypeRepository;
 import school.sptech.neosspringjava.domain.repository.serviceRepository.ServiceRepository;
+import school.sptech.neosspringjava.service.statusService.StatusService;
+
 
 @org.springframework.stereotype.Service
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ public class ServiceService {
     private final ServiceRepository serviceRepository;
     private final ServiceMapper ServiceMapper;
     private final ServiceTypeRepository serviceTypeRepository;
+    private final StatusService statusService; 
 
     public ServiceResponse save(ServiceRequest serviceRequest) {
 
@@ -106,6 +109,18 @@ public class ServiceService {
             return "tipo de serviço excluido";
         }
     }
+
+    public ServiceResponse updateServiceStatus(Integer id, String status) {
+        Service service = findById(id);
+        service.setStatus(statusService.findStatusByName(status));
+        serviceRepository.save(service);
+        return ServiceMapper.toServiceResponse(service);
+    }
+
+    // public List<ServiceResponse> findServicesByEstablishmentIdAndStatus(Integer id, String status) {
+    //     List<Service> services = serviceRepository.findServicesByEstablishmentIdAndStatus(id, status);
+    //     return ServiceMapper.toServiceResponseList(services);
+    // }
 
 }
 
