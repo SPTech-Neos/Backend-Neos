@@ -96,38 +96,53 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public Employee partialUpdate(Map<String, Object> updates, Integer id) {
+    public Employee partialUpdate(EmployeeRequest updates, Integer id) {
         Employee employee = employeeRepository.findById(id).orElseThrow();
-
-        if (updates.containsKey("name")) {
-            employee.setName((String) updates.get("name"));
+    
+        if (updates.name() != null) {
+            employee.setName(updates.name());
         }
-
-        if (updates.containsKey("email")) {
-            employee.setEmail((String) updates.get("email"));
+    
+        if (updates.email() != null) {
+            employee.setEmail(updates.email());
         }
-
-        if (updates.containsKey("password")) {
-            employee.setPassword((String) updates.get("password"));
+    
+        if (updates.password() != null) {
+            employee.setPassword(updates.password());
         }
-
-        if (updates.containsKey("imgUrl")) {
-            employee.setImgUrl((String) updates.get("imgUrl"));
+    
+        if (updates.imgUrl() != null) {
+            employee.setImgUrl(updates.imgUrl());
         }
-
-        if (updates.containsKey("fkEstablishment")) {
-            Integer fkEstablishment = (Integer) updates.get("fkEstablishment");
+    
+        if (updates.fkEstablishment() != null) {
+            Integer fkEstablishment = updates.fkEstablishment();
             employee.setEstablishment(establishmentService.findById(fkEstablishment));
         }
-
-        if (updates.containsKey("employeeType")) {
-            Integer employeeType = (Integer) updates.get("employeeType");
+    
+        if (updates.fkLocal() != null) {
+            Integer fkLocal = updates.fkLocal();
+            employee.setLocal(lService.findById(fkLocal));
+        }
+    
+        if (updates.fkPhone() != null) {
+            Integer fkPhone = updates.fkPhone();
+            employee.setPhone(pService.findById(fkPhone)); 
+        }
+    
+        if (updates.fkStatus() != null) {
+            Integer fkStatus = updates.fkStatus();
+            employee.setStatus(sService.findById(fkStatus)); 
+        }
+    
+        if (updates.employeeType() != null) {
+            Integer employeeType = updates.employeeType();
             employee.setEmployeeType(eTypeService.findById(employeeType));
         }
-
+    
         return employeeRepository.save(employee);
     }
-
+    
     public void delete(Integer id) {
          employeeRepository.deleteById(id);
     }

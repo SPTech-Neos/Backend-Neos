@@ -13,9 +13,11 @@ import school.sptech.neosspringjava.domain.model.phone.Phone;
 import school.sptech.neosspringjava.domain.model.status.Status;
 import school.sptech.neosspringjava.domain.repository.establishmentRepository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
+import school.sptech.neosspringjava.domain.repository.phoneRepository.PhoneRepository;
 import school.sptech.neosspringjava.domain.repository.EmployeeServicesRepository.EmployeeServicesRepository;
 import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.ratingRepository.RatingRepository;
+import school.sptech.neosspringjava.domain.repository.status.StatusRepository;
 import school.sptech.neosspringjava.service.paymentService.PaymentService;
 import school.sptech.neosspringjava.service.phoneService.PhoneService;
 import school.sptech.neosspringjava.service.productService.ProductService;
@@ -40,6 +42,8 @@ public class EstablishmentService {
     private final RatingRepository ratingRepository;
     private final PhoneService pService;
     private final EmployeeServicesRepository employeeServicesRepository;
+    private final StatusRepository statusRepository;
+    private final PhoneRepository phoneRepository;
 
     public Establishment save(EstablishmentRequest establishmentRequest) {
         Establishment establishment = new Establishment();
@@ -105,23 +109,65 @@ public class EstablishmentService {
     }
 
     public Establishment partialUpdate(EstablishmentRequest establishmentRequest, Integer id) {
+        // Busca o estabelecimento pelo ID
         Establishment establishment = establishmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Estabelecimento não encontrado"));
-
+    
+        // Atualiza o nome, se presente
         if (establishmentRequest.name() != null) {
             establishment.setName(establishmentRequest.name());
         }
+    
+        // Atualiza o local, se presente
         if (establishmentRequest.localId() != null) {
             Local local = localRepository.findById(establishmentRequest.localId())
                     .orElseThrow(() -> new RuntimeException("Local não encontrado"));
             establishment.setLocal(local);
         }
+    
+        // Atualiza a imagem, se presente
         if (establishmentRequest.imgUrl() != null) {
             establishment.setImgUrl(establishmentRequest.imgUrl());
         }
-
+    
+        // Atualiza o telefone, se presente
+        if (establishmentRequest.phoneId() != null) {
+            Phone phone = phoneRepository.findById(establishmentRequest.phoneId())
+                    .orElseThrow(() -> new RuntimeException("Telefone não encontrado"));
+            establishment.setPhone(phone);
+        }
+    
+        // Atualiza o status, se presente
+        if (establishmentRequest.statusId() != null) {
+            Status status = statusRepository.findById(establishmentRequest.statusId())
+                    .orElseThrow(() -> new RuntimeException("Status não encontrado"));
+            establishment.setStatus(status);
+        }
+    
+        // Atualiza o horário de início, se presente
+        if (establishmentRequest.startShift() != null) {
+            establishment.setStartShift(establishmentRequest.startShift());
+        }
+    
+        // Atualiza o horário de fim, se presente
+        if (establishmentRequest.endShift() != null) {
+            establishment.setEndShift(establishmentRequest.endShift());
+        }
+    
+        // Atualiza a descrição, se presente
+        if (establishmentRequest.description() != null) {
+            establishment.setDescription(establishmentRequest.description());
+        }
+    
+        // Atualiza o CNPJ, se presente
+        if (establishmentRequest.cnpj() != null) {
+            establishment.setCnpj(establishmentRequest.cnpj());
+        }
+    
+        // Salva as alterações no repositório
         return establishmentRepository.save(establishment);
     }
+    
 
     public void delete(Integer id) {
         Establishment e = findById(id);
