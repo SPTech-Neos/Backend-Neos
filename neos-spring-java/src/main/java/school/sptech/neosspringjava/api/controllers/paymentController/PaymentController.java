@@ -19,7 +19,7 @@ import school.sptech.neosspringjava.api.mappers.paymentMapper.PaymentMapper;
 import school.sptech.neosspringjava.service.paymentService.PaymentService;
 
 @RestController
-@RequestMapping("/payments")
+@RequestMapping("/payments")    
 @RequiredArgsConstructor
 public class PaymentController {
 
