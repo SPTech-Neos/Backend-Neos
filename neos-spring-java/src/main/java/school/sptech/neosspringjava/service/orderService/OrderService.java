@@ -1,9 +1,11 @@
 package school.sptech.neosspringjava.service.orderService;
 
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import school.sptech.neosspringjava.api.dtos.orderDto.OrderRequest;
 import school.sptech.neosspringjava.domain.model.order.Order;
+import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.repository.orderRepositiory.OrderRepository;
 import school.sptech.neosspringjava.service.client.ClientService;
 import school.sptech.neosspringjava.service.productService.ProductService;
@@ -41,6 +43,23 @@ public class OrderService {
         o.setStatus(sService.findById(status));
         return oRep.save(o);
     }
+    public Order updateOrder(Integer id, OrderRequest updateInformations){
+        Order o = findById(id);
+
+        if(updateInformations.dateTime() != null ){
+        o.setDateTime(updateInformations.dateTime());
+        }
+        if(updateInformations.fkClient() != null ){
+            Client  c = clientService.findById(updateInformations.fkClient());
+            o.setClient(c);
+        }
+        if(updateInformations.fkStatus() != null ){
+            o.setStatus(sService.findById(updateInformations.fkStatus()));
+            return oRep.save(o);
+        }
+            
+        return oRep.save(o);
+    }
 
     public void delete(Integer id){
         oRep.delete(findById(id));
@@ -50,9 +69,9 @@ public class OrderService {
     //     return oRep.findByEstablishmentAndStatus(id, status);
     // }
 
-    // public List<Order> findByEmployeeAndStatus(Integer id, Integer status){
-    //     return oRep.findByEmployeeAndStatus(id, status);
-    // }
+    public List<Order> findOrdersByClientIdAndStatusId(Integer id, Integer status){
+        return oRep.findOrdersByClientIdAndStatusId(id, status);
+    }
 
 
 }

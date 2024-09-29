@@ -9,7 +9,7 @@ import school.sptech.neosspringjava.api.mappers.orderMapper.OrderMapper;
 import school.sptech.neosspringjava.service.orderService.OrderService;
 
 import java.util.List;
-
+ 
 @RestController
 @RequestMapping("/orders")
 @AllArgsConstructor
@@ -31,9 +31,13 @@ public class OrderController {
         return ResponseEntity.ok(OrderMapper.toResponse(oService.save(r)));
     }
 
-    @PatchMapping("/{id}/status?={status}")
-    public ResponseEntity<OrderResponse> updateStatus(@PathVariable Integer id, @PathVariable Integer status){
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<OrderResponse> updateStatus(@PathVariable Integer id, @RequestParam Integer status){
         return ResponseEntity.ok(OrderMapper.toResponse(oService.updateStatus(id, status)));
+    }
+    @PatchMapping("/{id}")
+    public ResponseEntity<OrderResponse> updateStatus(@PathVariable Integer id,@RequestBody OrderRequest r ){
+        return ResponseEntity.ok(OrderMapper.toResponse(oService.updateOrder(id, r)));
     }
 
     @DeleteMapping("/{id}")
@@ -42,13 +46,15 @@ public class OrderController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/by-client/{id}/status")
+    public ResponseEntity<List<OrderResponse>> findOrdersByClientIdAndStatusId(@PathVariable Integer id, @RequestParam Integer status){
+        return ResponseEntity.ok(OrderMapper.toResponse(oService.findOrdersByClientIdAndStatusId(id, status)));
+    }
+
     // @GetMapping("/by-establishment/{id}/status?={status}")
     // public ResponseEntity<List<OrderResponse>> findByEstablishmentAndStatus(@PathVariable Integer id, @PathVariable Integer status){
     //     return ResponseEntity.ok(OrderMapper.toResponse(oService.findByEstablishmentAndStatus(id, status)));
     // }
 
-    // @GetMapping("/orders/by-employee/{id}/status?={status}")
-    // public ResponseEntity<List<OrderResponse>> findByEmployeeAndStatus(@PathVariable Integer id, @PathVariable Integer status){
-    //     return ResponseEntity.ok(OrderMapper.toResponse(oService.findByEmployeeAndStatus(id, status)));
-    // }
+
 }
