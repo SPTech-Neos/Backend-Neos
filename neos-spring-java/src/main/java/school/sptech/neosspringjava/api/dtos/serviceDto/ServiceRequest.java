@@ -7,4 +7,4 @@ public record ServiceRequest(
     String imgUrl,
     Integer serviceType
 ) {
-} 
+}

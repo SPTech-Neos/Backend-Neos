@@ -49,4 +49,6 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "fkStatus")
     private Status status;
+
+
 }

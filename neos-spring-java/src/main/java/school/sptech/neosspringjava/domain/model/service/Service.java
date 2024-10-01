@@ -34,4 +34,7 @@ public class Service {
     @ManyToOne
     @JoinColumn(name = "fkServiceType")
     private ServiceType serviceType;
+ @ManyToOne
+    @JoinColumn(name = "fkStatus")
+    private Status status;
 }
