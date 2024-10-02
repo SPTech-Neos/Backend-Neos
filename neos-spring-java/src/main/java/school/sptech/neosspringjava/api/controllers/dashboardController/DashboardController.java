@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +33,7 @@ public class DashboardController {
     private final DashboardService dashboardService;
     private final EmployeeRepository employeeRepository;
 
-    @GetMapping("/totalGain")
+    @PostMapping("/totalGain")
     public ResponseEntity<TotalGainDto> totalGain(@RequestBody TotalGainRequest request) {
 
         if (request.establishment() != null && request.start() != null && request.end() != null) {
@@ -54,7 +54,7 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/quantityStatus")
+    @PostMapping("/quantityStatus")
     public ResponseEntity<QuantityStatusDto> quantityStatus(@RequestBody TotalGainRequest request) {
         if (request.establishment() != null && request.start() != null && request.end() != null) {
             QuantityStatusDto qttStatus = dashboardService.quantityStatus(request.establishment(), request.start(),
@@ -70,7 +70,7 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/leastPurchased")
+    @PostMapping("/leastPurchased")
     public ResponseEntity<MarketPurchasedDto> leastPurchased(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null) {
             MarketPurchasedDto marketPurchasedDto = dashboardService.leastPurchased(request.establishmentId());
@@ -85,7 +85,7 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/mostPurchased")
+    @PostMapping("/mostPurchased")
     public ResponseEntity<MarketPurchasedDto> mostPurchased(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null) {
             MarketPurchasedDto marketPurchasedDto = dashboardService.mostPurchased(request.establishmentId());
@@ -100,7 +100,7 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/leastProfitable")
+    @PostMapping("/leastProfitable")
     public ResponseEntity<MarketProfitableDto> leastProfitable(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null) {
             MarketProfitableDto marketProfitableDto = dashboardService.leastProfitable(request.establishmentId());
@@ -115,7 +115,7 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/mostProfitable")
+    @PostMapping("/mostProfitable")
     public ResponseEntity<MarketProfitableDto> mostProfitable(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null) {
             MarketProfitableDto marketProfitableDto = dashboardService.mostProfitable(request.establishmentId());
@@ -130,7 +130,7 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/countMarket")
+    @PostMapping("/countMarket")
     public ResponseEntity<Integer> countMarket(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null && request.start() != null && request.end() != null) {
             Integer response = dashboardService.countMarket(request.establishmentId(), request.start(), request.end());
@@ -141,7 +141,7 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/countMarketCanceled")
+    @PostMapping("/countMarketCanceled")
     public ResponseEntity<Integer> countMarketCanceled(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null && request.start() != null && request.end() != null) {
             Integer response = dashboardService.countMarketCanceled(request.establishmentId(), request.start(),
@@ -153,7 +153,7 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/employeeStats")
+    @PostMapping("/employeeStats")
     public ResponseEntity<List<EmployeeStats>> employeeStats(@RequestBody TotalGainRequest request) {
         if (request.establishment() != null && request.start() != null && request.end() != null) {
             List<EmployeeStats> employeeStatsList = dashboardService.employeeStats(request.establishment(),
@@ -169,7 +169,7 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/graficCountMarket/{period}")
+    @PostMapping("/graficCountMarket/{period}")
     public ResponseEntity<List<MarketStatsDTO>> graficCountMarket(@RequestBody MarketRquest request,
             @PathVariable Integer period) {
         if (request.establishmentId() != null && request.start() != null && request.end() != null) {
@@ -194,7 +194,7 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/dailyOrderStats")
+    @PostMapping("/dailyOrderStats")
     public ResponseEntity<List<MarketStatsDTO>> getDailyOrderStats(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null && request.start() != null && request.end() != null) {
             List<MarketStatsDTO> stats = dashboardService.getDailyOrderStats(request.establishmentId(), request.start(),
@@ -210,7 +210,7 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/weeklyOrderStats")
+    @PostMapping("/weeklyOrderStats")
     public ResponseEntity<List<MarketStatsDTO>> getWeeklyOrderStats(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null && request.start() != null && request.end() != null) {
             List<MarketStatsDTO> stats = dashboardService.getWeeklyOrderStats(request.establishmentId(),
@@ -226,7 +226,7 @@ public class DashboardController {
         }
     }
 
-    @GetMapping("/monthlyOrderStats")
+    @PostMapping("/monthlyOrderStats")
     public ResponseEntity<List<MarketStatsDTO>> getMonthlyOrderStats(@RequestBody MarketRquest request) {
         if (request.establishmentId() != null && request.start() != null && request.end() != null) {
             List<MarketStatsDTO> stats = dashboardService.getMonthlyOrderStats(request.establishmentId(),
