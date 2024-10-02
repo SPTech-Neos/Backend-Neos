@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.usersDto.UsersDetailsDto;
-import school.sptech.neosspringjava.domain.model.client.Client;
-import school.sptech.neosspringjava.domain.model.employee.Employee;
-import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
-import school.sptech.neosspringjava.domain.repository.employeeRepository.EmployeeRepository;
+import school.sptech.neosspringjava.domain.model.Client;
+import school.sptech.neosspringjava.domain.model.Employee;
+import school.sptech.neosspringjava.domain.repository.ClientRepository;
+import school.sptech.neosspringjava.domain.repository.EmployeeRepository;
 
 @Service
 @RequiredArgsConstructor

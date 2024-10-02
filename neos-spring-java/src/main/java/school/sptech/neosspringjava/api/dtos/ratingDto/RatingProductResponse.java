@@ -1,8 +1,8 @@
 package school.sptech.neosspringjava.api.dtos.ratingDto;
 
-import school.sptech.neosspringjava.domain.model.client.Client;
-import school.sptech.neosspringjava.domain.model.product.Product;
-import school.sptech.neosspringjava.domain.model.service.Service;
+import school.sptech.neosspringjava.domain.model.Client;
+import school.sptech.neosspringjava.domain.model.Product;
+import school.sptech.neosspringjava.domain.model.Service;
 
 public record RatingProductResponse(
         Integer id,

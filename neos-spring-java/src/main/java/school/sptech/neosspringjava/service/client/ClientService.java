@@ -9,13 +9,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import school.sptech.neosspringjava.api.configuration.security.jwt.GerenciadorTokenJwt;
 
 import school.sptech.neosspringjava.api.dtos.clientDto.*;
-import school.sptech.neosspringjava.api.mappers.clientMapper.ClientMapper;
-import school.sptech.neosspringjava.domain.model.client.Client;
-import school.sptech.neosspringjava.domain.repository.clientRepository.ClientRepository;
-import school.sptech.neosspringjava.service.phoneService.PhoneService;
+import school.sptech.neosspringjava.api.mappers.ClientMapper;
+import school.sptech.neosspringjava.config.security.jwt.GerenciadorTokenJwt;
+import school.sptech.neosspringjava.domain.model.Client;
+import school.sptech.neosspringjava.domain.repository.ClientRepository;
+import school.sptech.neosspringjava.service.PhoneService;
 
 @Service
 @RequiredArgsConstructor

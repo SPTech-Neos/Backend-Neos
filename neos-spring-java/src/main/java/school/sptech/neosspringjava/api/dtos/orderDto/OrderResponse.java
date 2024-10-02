@@ -2,8 +2,8 @@ package school.sptech.neosspringjava.api.dtos.orderDto;
 
 import lombok.Builder;
 import lombok.Data;
-import school.sptech.neosspringjava.domain.model.client.Client;
-import school.sptech.neosspringjava.domain.model.status.Status;
+import school.sptech.neosspringjava.domain.model.Client;
+import school.sptech.neosspringjava.domain.model.Status;
 
 import java.time.LocalDateTime;
 

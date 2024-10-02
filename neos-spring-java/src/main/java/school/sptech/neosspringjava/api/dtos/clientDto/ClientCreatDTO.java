@@ -1,10 +1,10 @@
 package school.sptech.neosspringjava.api.dtos.clientDto;
 
-import school.sptech.neosspringjava.domain.model.local.Local;
 import jakarta.validation.constraints.Email;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import school.sptech.neosspringjava.domain.model.Local;
 
 @Getter
 @Setter
