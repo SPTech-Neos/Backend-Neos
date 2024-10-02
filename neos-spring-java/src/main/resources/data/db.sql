@@ -97,7 +97,9 @@ CREATE TABLE IF NOT EXISTS Service(
   price DOUBLE,
   imgUrl VARCHAR(400),
   fkServiceType INT,
+  fkStatus INT
   FOREIGN KEY (fkServiceType) REFERENCES ServiceType(service_type_id) ON DELETE CASCADE
+  FOREIGN KEY (fkStatus) REFERENCES Status(status_id)
 );
 
 

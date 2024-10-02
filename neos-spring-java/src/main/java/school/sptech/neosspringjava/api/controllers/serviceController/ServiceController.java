@@ -35,7 +35,7 @@ public class ServiceController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ServiceResponse> partialUpdateService(@PathVariable Integer id, @RequestBody Map<String, Object> updates) {
+    public ResponseEntity<ServiceResponse> partialUpdateService(@PathVariable Integer id, @RequestBody ServiceRequest updates) {
         ServiceResponse updatedService = servServ.partialUpdate(id, updates);
         return ResponseEntity.ok(updatedService);
     }

@@ -1,6 +1,7 @@
 package school.sptech.neosspringjava.api.dtos.serviceDto;
 
 import school.sptech.neosspringjava.domain.model.serviceType.ServiceType;
+import school.sptech.neosspringjava.domain.model.status.Status;
 
 public record ServiceResponse(
     Integer id,
@@ -8,6 +9,7 @@ public record ServiceResponse(
     String aditumId,
     Double price,
     String imgUrl,
-    ServiceType serviceType
+    ServiceType serviceType,
+    Status status
 ) {
 }

@@ -5,6 +5,7 @@ public record ServiceRequest(
     String aditumId,
     Double price,
     String imgUrl,
-    Integer serviceType
+    Integer serviceType,
+    Integer status
 ) {
 }

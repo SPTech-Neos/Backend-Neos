@@ -10,6 +10,7 @@ import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
 import school.sptech.neosspringjava.api.mappers.serviceMapper.ServiceMapper;
 import school.sptech.neosspringjava.domain.model.service.Service;
 import school.sptech.neosspringjava.domain.model.serviceType.ServiceType;
+import school.sptech.neosspringjava.domain.model.status.Status;
 import school.sptech.neosspringjava.domain.repository.ServiceTypeRepository.ServiceTypeRepository;
 import school.sptech.neosspringjava.domain.repository.serviceRepository.ServiceRepository;
 import school.sptech.neosspringjava.service.statusService.StatusService;
@@ -70,30 +71,39 @@ public class ServiceService {
     }
     
 
-    public ServiceResponse partialUpdate(Integer id, Map<String, Object> updates) {
+    public ServiceResponse partialUpdate(Integer id, ServiceRequest updates) {
         Service service = findById(id);
     
-        if (updates.containsKey("specification")) {
-            service.setSpecification((String) updates.get("specification"));
+        if (updates.specification() != null) {
+            service.setSpecification((String) updates.specification());
         }
     
-        if (updates.containsKey("aditumId")) {
-            service.setAditumId((String) updates.get("aditumId"));
+        if (updates.aditumId() != null) {
+            service.setAditumId((String) updates.aditumId());
         }
     
-        if (updates.containsKey("price")) {
-            service.setPrice((Double) updates.get("price"));
+        if (updates.price()!= null) {
+            service.setPrice((Double) updates.price());
         }
     
-        if (updates.containsKey("imgUrl")) {
-            service.setImgUrl((String) updates.get("imgUrl"));
+        if (updates.imgUrl() != null) {
+            service.setImgUrl((String) updates.imgUrl());
         }
     
-        if (updates.containsKey("serviceType")) {
-            Integer serviceTypeId = (Integer) updates.get("serviceType");
+        if (updates.serviceType() != null) {
+            Integer serviceTypeId = (Integer) updates.serviceType();
             ServiceType serviceType = serviceTypeRepository.findById(serviceTypeId)
                     .orElseThrow(() -> new IllegalArgumentException("ServiceType não encontrado com o ID: " + serviceTypeId));
             service.setServiceType(serviceType);
+        }
+
+        if (updates.status() != null) {
+            Integer statusId = (Integer) updates.status();
+            Status status = statusService.findById(statusId);
+            if (status == null) {
+                throw new IllegalArgumentException("status não encontrado com o ID: " + statusId);
+            }
+            service.setStatus(status);
         }
     
         Service updatedService = serviceRepository.save(service);
@@ -105,8 +115,8 @@ public class ServiceService {
         if (str == null) {
             return "id não encontrado";
         } else {
-            serviceRepository.deleteById(id);
-            return "tipo de serviço excluido";
+            updateServiceStatus(id, "Inativo");
+            return "serviço excluido";
         }
     }
 
