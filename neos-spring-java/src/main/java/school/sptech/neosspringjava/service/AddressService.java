@@ -24,6 +24,11 @@ public class AddressService {
                 .zipCode(addressRequest.zipCode())
                 .uf(addressRequest.uf())
                 .build();
+
+                System.out.println(addressRequest.publicPlace());
+                System.out.println(addressRequest.city());
+                System.out.println(addressRequest.zipCode());
+                System.out.println(addressRequest.uf());
         addressRepository.save(address);
         return addressMapper.toAddressResponse(address);
     }

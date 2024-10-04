@@ -1,3 +1,4 @@
+package school.sptech.neosspringjava.service;
 // package school.sptech.neosspringjava.service.user;
 
 // import org.springframework.beans.factory.annotation.Autowired;

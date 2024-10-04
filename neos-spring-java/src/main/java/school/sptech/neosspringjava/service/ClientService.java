@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.service.client;
+package school.sptech.neosspringjava.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import school.sptech.neosspringjava.api.mappers.ClientMapper;
 import school.sptech.neosspringjava.config.security.jwt.GerenciadorTokenJwt;
 import school.sptech.neosspringjava.domain.model.Client;
 import school.sptech.neosspringjava.domain.repository.ClientRepository;
-import school.sptech.neosspringjava.service.PhoneService;
 
 @Service
 @RequiredArgsConstructor

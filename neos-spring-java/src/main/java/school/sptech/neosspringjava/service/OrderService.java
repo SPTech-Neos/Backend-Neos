@@ -7,7 +7,6 @@ import school.sptech.neosspringjava.api.dtos.orderDto.OrderRequest;
 import school.sptech.neosspringjava.domain.repository.OrderRepository;
 import school.sptech.neosspringjava.domain.model.Client;
 import school.sptech.neosspringjava.domain.model.Order;
-import school.sptech.neosspringjava.service.client.ClientService;
 
 import java.util.List;
 

@@ -14,8 +14,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import school.sptech.neosspringjava.config.security.jwt.GerenciadorTokenJwt;
-// import school.sptech.neosspringjava.service.client.authentication.AuthenticationService;
-import school.sptech.neosspringjava.service.user.authentication.AuthenticationService;
+import school.sptech.neosspringjava.service.AuthenticationService;
 
 import java.io.IOException;
 import java.util.Objects;

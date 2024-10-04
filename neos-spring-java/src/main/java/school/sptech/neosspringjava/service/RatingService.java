@@ -17,7 +17,6 @@ import school.sptech.neosspringjava.domain.repository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.ProductRepository;
 import school.sptech.neosspringjava.domain.repository.RatingRepository;
 import school.sptech.neosspringjava.domain.repository.ServiceRepository;
-import school.sptech.neosspringjava.service.client.ClientService;
 
 @Service
 @RequiredArgsConstructor

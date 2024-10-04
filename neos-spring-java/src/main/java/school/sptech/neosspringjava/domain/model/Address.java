@@ -27,10 +27,15 @@ public class Address {
     @Column(name = "address_id")
     private int id;
 
-    @Column(name = "publicPlace")
+    @Column(name = "public_place")
     private String publicPlace;
+
+    @Column(name = "city")
     private String city;
-    @Column(name = "zipCode")
+
+    @Column(name = "zip_code")
     private String zipCode;
+
+    @Column(name = "uf")
     private String uf;
 }

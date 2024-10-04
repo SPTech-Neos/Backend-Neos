@@ -1,5 +1,5 @@
 
-INSERT INTO Address VALUES(1,'Rua Coração de Maçã', 'São Paulo', '08474230', 'SP');
+INSERT INTO Address VALUES( 'Rua Coração de Maçã', 'São Paulo', '08474230', 'SP');
 
 
 INSERT INTO Local VALUES (1, 211, 5, '52', 'C', 1);

@@ -19,8 +19,6 @@ import school.sptech.neosspringjava.domain.repository.ImageRepository;
 import school.sptech.neosspringjava.domain.repository.ProductRepository;
 import school.sptech.neosspringjava.domain.repository.ServiceRepository;
 import school.sptech.neosspringjava.api.dtos.filesDto.ImageResponse;
-import school.sptech.neosspringjava.service.client.ClientService;
-import school.sptech.neosspringjava.service.employee.EmployeeService;
 
 @Service
 @RequiredArgsConstructor

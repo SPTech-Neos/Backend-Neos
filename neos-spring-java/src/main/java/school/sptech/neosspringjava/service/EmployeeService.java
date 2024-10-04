@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.service.employee;
+package school.sptech.neosspringjava.service;
 
 import java.util.List;
 import java.util.Map;
@@ -23,13 +23,6 @@ import school.sptech.neosspringjava.domain.model.Establishment;
 import school.sptech.neosspringjava.domain.model.Status;
 import school.sptech.neosspringjava.domain.repository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.EmployeeServicesRepository;
-import school.sptech.neosspringjava.service.EmployeeServService;
-import school.sptech.neosspringjava.service.EmployeeTypeService;
-import school.sptech.neosspringjava.service.EstablishmentService;
-import school.sptech.neosspringjava.service.LocalService;
-import school.sptech.neosspringjava.service.PhoneService;
-import school.sptech.neosspringjava.service.ServiceService;
-import school.sptech.neosspringjava.service.StatusService;
 
 @Service
 @RequiredArgsConstructor

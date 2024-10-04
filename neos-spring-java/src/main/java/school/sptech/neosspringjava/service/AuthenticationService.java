@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.service.user.authentication;
+package school.sptech.neosspringjava.service;
 
 import java.util.Optional;
 

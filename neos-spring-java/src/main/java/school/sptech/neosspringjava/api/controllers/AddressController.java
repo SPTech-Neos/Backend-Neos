@@ -31,7 +31,7 @@ public class AddressController {
     private final AddressService addressService;
 
     @PostMapping
-    public ResponseEntity<AddressResponse> save(@Valid @RequestBody AddressRequest addressRequest) {
+    public ResponseEntity<AddressResponse> save( @RequestBody AddressRequest addressRequest) {
         return ResponseEntity.ok(addressService.save(addressRequest));
     }
 

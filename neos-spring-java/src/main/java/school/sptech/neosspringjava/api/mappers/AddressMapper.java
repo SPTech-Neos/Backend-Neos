@@ -20,13 +20,5 @@ public class AddressMapper {
         return addresses.stream().map(AddressMapper::toAddressResponse).collect(Collectors.toList());
     }
 
-    public static Address toAddress(AddressRequest addressRequest) {
 
-        return Address.builder()
-                .publicPlace(addressRequest.publicPlace())
-                .city(addressRequest.city())
-                .zipCode(addressRequest.zipCode())
-                .uf(addressRequest.uf())
-                .build();
-    }
 }

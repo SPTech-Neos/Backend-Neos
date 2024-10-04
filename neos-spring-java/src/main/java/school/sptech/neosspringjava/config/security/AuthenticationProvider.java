@@ -8,8 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.AllArgsConstructor;
-// import school.sptech.neosspringjava.service.client.authentication.AuthenticationService;
-import school.sptech.neosspringjava.service.user.authentication.AuthenticationService;
+import school.sptech.neosspringjava.service.AuthenticationService;
 
 public class AuthenticationProvider implements org.springframework.security.authentication.AuthenticationProvider {
 

@@ -11,7 +11,7 @@ import school.sptech.neosspringjava.api.dtos.employee.EmployeeRequest;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeResponse;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeTokenDto;
 import school.sptech.neosspringjava.api.mappers.EmployeeMapper;
-import school.sptech.neosspringjava.service.employee.EmployeeService;
+import school.sptech.neosspringjava.service.EmployeeService;
 
 @RestController
 @RequestMapping("/employees")

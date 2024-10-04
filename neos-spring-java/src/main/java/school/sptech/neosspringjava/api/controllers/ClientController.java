@@ -26,7 +26,7 @@ import school.sptech.neosspringjava.api.mappers.ClientMapper;
 import school.sptech.neosspringjava.domain.model.Client;
 import school.sptech.neosspringjava.domain.repository.ClientRepository;
 import school.sptech.neosspringjava.domain.repository.LocalRepository;
-import school.sptech.neosspringjava.service.client.ClientService;
+import school.sptech.neosspringjava.service.ClientService;
 
 @RestController
 @RequestMapping("/clients")

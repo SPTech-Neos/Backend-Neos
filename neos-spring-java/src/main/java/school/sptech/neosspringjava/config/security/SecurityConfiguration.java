@@ -23,8 +23,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import school.sptech.neosspringjava.config.security.jwt.GerenciadorTokenJwt;
-// import school.sptech.neosspringjava.service.client.authentication.AuthenticationService;
-import school.sptech.neosspringjava.service.user.authentication.AuthenticationService;
+import school.sptech.neosspringjava.service.AuthenticationService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -94,7 +93,8 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/orders/**"),
             new AntPathRequestMatcher("/markets/**"),
             new AntPathRequestMatcher("/phones/**"),
-            new AntPathRequestMatcher("/clients/**"),
+            new AntPathRequestMatcher("/addresses"),
+            new AntPathRequestMatcher("/**/**"),
 
     };
 

@@ -21,14 +21,11 @@ import school.sptech.neosspringjava.domain.model.Image;
 
 @Service
 public class CloudinaryService {
-    private final Path fileStorageLocation;
     private static Cloudinary cloudinary;
 
     private static final List<String> extencoesLiberadas = List.of("jpg", "png", "gif", "jpeg", "webp");	
 
     public CloudinaryService(CloudinaryConfig fileStorageApiProperties) {
-        this.fileStorageLocation = Paths.get(fileStorageApiProperties.getUploadDir())
-                .toAbsolutePath().normalize();
 
         cloudinary = new Cloudinary(ObjectUtils.asMap(
                 "cloud_name", "dzutcf8qe",
