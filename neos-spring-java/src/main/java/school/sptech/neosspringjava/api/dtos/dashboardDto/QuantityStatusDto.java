@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 public record QuantityStatusDto(
     @NotBlank
     @NotEmpty
-    @NotNull
     Integer quantity,
     @NotBlank
     @NotEmpty
