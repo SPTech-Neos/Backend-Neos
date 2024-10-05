@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mysql:
     image: mysql:8.0
@@ -7,8 +5,9 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: blume
     volumes:
-      - mysql-data:/var/lib/mysql
-      - ./src/main/resources/data.sql:/docker-entrypoint-initdb.d/data.sql
+      - /var/lib/mysql # Volume anônimo (não será persistido)
+      - ./src/main/resources/data/db.sql:/docker-entrypoint-initdb.d/db.sql # creates aqui
+      - ./src/main/resources/data/scripts/mock.sql:/docker-entrypoint-initdb.d/mock.sql # inserts aqui
     ports:
       - "3306:3306"
 
