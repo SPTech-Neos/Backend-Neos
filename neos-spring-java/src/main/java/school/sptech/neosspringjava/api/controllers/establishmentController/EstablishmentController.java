@@ -1,79 +1,127 @@
 package school.sptech.neosspringjava.api.controllers.establishmentController;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponseList;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRespose;
-import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentFullResponse;
+import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentResponse;
 import school.sptech.neosspringjava.api.dtos.establishmentDTO.EstablishmentRequest;
 import school.sptech.neosspringjava.api.mappers.establishmentMapper.EstablishmentMapper;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
-import school.sptech.neosspringjava.domain.repository.establishmentRopository.EstablishmentRopository;
-import school.sptech.neosspringjava.domain.repository.localRepository.LocalRepository;
 import school.sptech.neosspringjava.service.establishmentService.EstablishmentService;
+
+import school.sptech.neosspringjava.api.mappers.serviceMapper.ServiceMapper;
+import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceRequest;
+import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
 
 @RestController
 @RequestMapping("/establishments")
 @RequiredArgsConstructor
 public class EstablishmentController {
 
-  
     private final EstablishmentService establishmentService;
 
-
     @GetMapping
-    public ResponseEntity<List<EstablishmentRespose>> findAll() {
-        return ResponseEntity.ok(establishmentService.findAll());
+    public ResponseEntity<List<EstablishmentResponse>> findAll() {
+        List<Double> medias = establishmentService.findAllMediasEstablishmentOrder();
+        List<Establishment> establishments = establishmentService.findAll();
+
+        List<EstablishmentResponse> establishmentResponses = EstablishmentMapper.toEstablishmentResponseList(establishments, medias);
+        return ResponseEntity.ok(establishmentResponses);
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<List<EstablishmentResponse>> findAllActives() {
+        List<EstablishmentResponse> establishmentResponses = EstablishmentMapper.toEstablishmentResponseList(establishmentService.findAllActives());
+        return ResponseEntity.ok(establishmentResponses);
+    }
+
+    @GetMapping("/inactive")
+    public ResponseEntity<List<EstablishmentResponse>> findAllInactives() {
+        List<EstablishmentResponse> establishmentResponses = EstablishmentMapper.toEstablishmentResponseList(establishmentService.findAllInatives());
+        return ResponseEntity.ok(establishmentResponses);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EstablishmentRespose> findById(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.ok(establishmentService.findById(id));
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<EstablishmentResponse> findById(@PathVariable Integer id) {
+        Establishment establishment = establishmentService.findById(id);
+        if (establishment == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+        Double media = establishmentService.findMediaById(id);
+        EstablishmentResponse establishmentResponse = new EstablishmentResponse(establishment, media);
+        return ResponseEntity.ok(establishmentResponse);
+    }
 
-
-        
+    @GetMapping("/{id}/services")
+    public ResponseEntity<List<ServiceResponse>> findServicesById(@PathVariable Integer id) {
+        List<ServiceResponse> services = establishmentService.findServicesById(id);
+        if (services == null || services.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.ok(services);
     }
 
     @PostMapping
-    public ResponseEntity<EstablishmentRespose> save(@RequestBody EstablishmentRequest establishmentRequest) {
-        return ResponseEntity.ok(establishmentService.save(establishmentRequest));
+    public ResponseEntity<EstablishmentResponse> save(@RequestBody EstablishmentRequest establishmentRequest) {
+        Establishment establishment = establishmentService.save(establishmentRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(EstablishmentMapper.toEstablishmentResponse(establishment));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EstablishmentRespose> update(@RequestBody EstablishmentRequest establishmentRequest, @PathVariable Integer id) {
-        return ResponseEntity.ok(establishmentService.update(establishmentRequest, id));
+    public ResponseEntity<EstablishmentResponse> update(@RequestBody EstablishmentRequest establishmentRequest, @PathVariable Integer id) {
+        Establishment establishment = establishmentService.update(establishmentRequest, id);
+        if (establishment == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishment));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<EstablishmentRespose> partialUpdate(@RequestBody EstablishmentRequest establishmentRequest, @PathVariable Integer id) {
-        return ResponseEntity.ok(establishmentService.partialUpdate(establishmentRequest, id));
+    public ResponseEntity<EstablishmentResponse> partialUpdate(@RequestBody EstablishmentRequest establishmentRequest, @PathVariable Integer id) {
+        Establishment establishment = establishmentService.partialUpdate(establishmentRequest, id);
+        if (establishment == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishment));
     }
 
+    @PatchMapping("/deactive/{id}")
+    public ResponseEntity<EstablishmentResponse> deactive(@PathVariable Integer id) {
+        Establishment establishment = establishmentService.inactiveEstablishment(id);
+        if (establishment == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishment));
+    }
+
+    @PatchMapping("/reactive/{id}")
+    public ResponseEntity<EstablishmentResponse> reactive(@PathVariable Integer id) {
+        Establishment establishment = establishmentService.reactive(id);
+        if (establishment == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(EstablishmentMapper.toEstablishmentResponse(establishment));
+    }
 
     @DeleteMapping("/{id}")
-    public  ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+        if (establishmentService.findById(id) == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
         establishmentService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/api/full")
-    public ResponseEntity<List<EstablishmentFullResponseList>> findFull() {
-        return ResponseEntity.ok(establishmentService.findFull());
-    }
+    @GetMapping("/best-rating/{top}")
+    public ResponseEntity<List<EstablishmentResponse>> findBestRateds(@PathVariable Integer top) {
+        List<Establishment> establishments = establishmentService.findBestRateds(top);
+        List<Double> medias = establishmentService.findBestMedias(top);
 
-    @GetMapping("/api/full/{id}")
-    public ResponseEntity<List<EstablishmentFullResponse>> findAllFull(@PathVariable Integer id) {
-        return ResponseEntity.ok(establishmentService.findAllFull(id));
+        List<EstablishmentResponse> establishmentResponses = EstablishmentMapper.toEstablishmentResponseList(establishments, medias);
+        return ResponseEntity.ok(establishmentResponses);
     }
-  
 }

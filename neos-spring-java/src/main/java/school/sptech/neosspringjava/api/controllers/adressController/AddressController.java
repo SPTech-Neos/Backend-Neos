@@ -24,7 +24,7 @@ import school.sptech.neosspringjava.service.addressService.AddressService;
 
 
 @RestController
-@RequestMapping("/address")
+@RequestMapping("/addresses")
 @RequiredArgsConstructor
 public class AddressController {
 

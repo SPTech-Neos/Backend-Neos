@@ -35,13 +35,8 @@ private final LocalRepository localRepository;
     }
 
     
-    public LocalResponse findById( Integer id) {
-
-        try {
-            return localMapper.toLocalResponse(localRepository.findById(id).get());
-        } catch (Exception e) {
-            return null;
-        }
+    public Local findById( Integer id) {
+        return localRepository.findById(id).orElseThrow(() -> new RuntimeException("Local não encontrado"));
     }
 
    

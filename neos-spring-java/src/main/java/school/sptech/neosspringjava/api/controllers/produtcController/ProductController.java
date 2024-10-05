@@ -42,4 +42,20 @@ public class ProductController {
         productService.deleteById(id);
         return ResponseEntity.ok("Produto deletado com sucesso");
     }
+
+    @GetMapping("/establishment/{id}")
+    public ResponseEntity<List<ProductResponse>> findProductsByEstablishmentId(@PathVariable Integer id) {
+        // Retorna a lista de serviços convertida para ServiceResponse
+        return ResponseEntity.ok().body(productService.findProductsByEstablishmentId(id));
+    }
+
+    @PatchMapping("/{id}/status?={status}")
+    public ResponseEntity<ProductResponse> updateProductStatus(@PathVariable Integer id, @PathVariable String status) {
+        return ResponseEntity.ok(productService.updateProductStatus(id, status));
+    }
+
+    @GetMapping("/by-establishment/{id}/status?={status}")
+    public ResponseEntity<List<ProductResponse>> findProductsByEstablishmentIdAndStatus(@PathVariable Integer id, @PathVariable String status) {
+        return ResponseEntity.ok(productService.findProductsByEstablishmentIdAndStatus(id, status));
+    }
 }

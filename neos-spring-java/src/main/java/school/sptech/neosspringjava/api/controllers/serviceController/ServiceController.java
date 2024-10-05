@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceRequest;
 import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
+import school.sptech.neosspringjava.api.mappers.serviceMapper.ServiceMapper;
 import school.sptech.neosspringjava.service.serviceService.ServiceService;
 
 @RestController
-@RequestMapping("/service")
+@RequestMapping("/services")
 @RequiredArgsConstructor
 public class ServiceController {
     private final ServiceService servServ;
@@ -34,15 +35,14 @@ public class ServiceController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ServiceResponse> partialUpdateService(@PathVariable Integer id, @RequestBody Map<String, Object> updates) {
+    public ResponseEntity<ServiceResponse> partialUpdateService(@PathVariable Integer id, @RequestBody ServiceRequest updates) {
         ServiceResponse updatedService = servServ.partialUpdate(id, updates);
         return ResponseEntity.ok(updatedService);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ServiceResponse> getServiceById(@PathVariable Integer id){
-       return ResponseEntity.ok().body(servServ.findById(id));
-        
+       return ResponseEntity.ok().body(ServiceMapper.toServiceResponse(servServ.findById(id)));
     }
 
     @DeleteMapping("/{id}")
@@ -50,4 +50,14 @@ public class ServiceController {
         servServ.deleteByid(id);
         return ResponseEntity.ok().build();
     }
+
+    // @PatchMapping("/{id}/status?={status}")
+    // public ResponseEntity<ServiceResponse> updateServiceStatus(@PathVariable Integer id, @PathVariable String status){
+    //     return ResponseEntity.ok().body(servServ.updateServiceStatus(id, status));
+    // }
+
+    // @GetMapping("/by-establishment/{id}/status?={status}")
+    // public ResponseEntity<List<ServiceResponse>> findServicesByEstablishmentIdAndStatus(@PathVariable Integer id, @PathVariable String status){
+    //     return ResponseEntity.ok().body(servServ.findServicesByEstablishmentIdAndStatus(id, status));
+    // }
 }

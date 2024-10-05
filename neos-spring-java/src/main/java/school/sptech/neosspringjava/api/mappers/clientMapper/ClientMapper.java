@@ -28,7 +28,8 @@ public class ClientMapper {
                 client.getName(),
                 client.getEmail(),
                 client.getPassword(),
-                client.getLocal()
+                client.getLocal(),
+                client.getPhone()
         );
     }
 

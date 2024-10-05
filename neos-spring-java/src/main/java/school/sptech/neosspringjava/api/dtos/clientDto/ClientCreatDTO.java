@@ -16,4 +16,5 @@ public class ClientCreatDTO {
     private String password;
     private Integer local;
     private String imgUrl;
+    private Integer phone;
 }

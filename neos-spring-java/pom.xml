@@ -69,8 +69,12 @@
 					<artifactId>swagger-annotations</artifactId>
 					<version>1.5.20</version>
 				</dependency>
-
-
+				<dependency>
+					<groupId>io.github.cdimascio</groupId>
+					<artifactId>dotenv-java</artifactId>
+					<version>2.2.0</version>
+				</dependency>
+				
 
 		<!-- Spring Boot Starter Security -->
 		<dependency>
@@ -112,6 +116,13 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 			<version>3.0.5</version>
 		</dependency>
+
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 <dependency>
 			<groupId>com.cloudinary</groupId>
 			<artifactId>cloudinary-http44</artifactId>
@@ -127,6 +138,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<finalName>NeosSpringJavaApplication</finalName>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.0</version>
 			</plugin>
 		</plugins>
 	</build>

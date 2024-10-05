@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.productType.ProductType;
+import school.sptech.neosspringjava.domain.model.status.Status;
 
 @Entity
 @Getter
@@ -28,17 +29,22 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "product_id")
     private Integer id;
-    @NotBlank(message = "Nome do produto é obrigatório")
-    @NotEmpty(message = "Nome do produto é obrigatório")
+
     private String name;
+
     private String brand;
+
     private String imgUrl;
-    private Double value;
+
+    private Double price;
     @ManyToOne
-    @JoinColumn(name = "type_fk")
+    @JoinColumn(name = "fkStatus")
+    private Status status;
+    @ManyToOne
+    @JoinColumn(name = "fkProductType")
     private ProductType type;
     @ManyToOne
-    @JoinColumn(name = "establishment_fk")
+    @JoinColumn(name = "fkEstablishment")
     private Establishment establishment;
 
 }

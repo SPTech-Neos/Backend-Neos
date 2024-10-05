@@ -17,28 +17,28 @@ public class EmployeeTypeService {
     private final EmployeeTypeRepository employeeTypeRepository;
     private final EmployeeTypeMapper employeeTypeMapper;
 
-    public EmployeeTypeResponse save(EmployeeTypeRequest employeeTypeRequest) {
+    public EmployeeType save(EmployeeTypeRequest employeeTypeRequest) {
         EmployeeType employeeType = new EmployeeType();
         employeeType.setName(employeeTypeRequest.name());
-        return employeeTypeMapper.toResponse(employeeTypeRepository.save(employeeType));
+        return employeeTypeRepository.save(employeeType);
     }
 
-    public EmployeeTypeResponse update(EmployeeTypeRequest employeeTypeRequest, Integer id) {
+    public EmployeeType update(EmployeeTypeRequest employeeTypeRequest, Integer id) {
         EmployeeType employeeType = employeeTypeRepository.findById(id).orElseThrow();
         employeeType.setName(employeeTypeRequest.name());
-        return employeeTypeMapper.toResponse(employeeTypeRepository.save(employeeType));
+        return employeeTypeRepository.save(employeeType);
     }
 
     public void delete(Integer id) {
         employeeTypeRepository.deleteById(id);
     }
 
-    public EmployeeTypeResponse findById(Integer id) {
-        return employeeTypeMapper.toResponse(employeeTypeRepository.findById(id).orElseThrow());
+    public EmployeeType findById(Integer id) {
+        return employeeTypeRepository.findById(id).orElseThrow( () -> new RuntimeException("Tipo de funcionário não encontrado"));
     }
 
-    public List<EmployeeTypeResponse> findAll() {
-        return employeeTypeMapper.toResponseList(employeeTypeRepository.findAll());
+    public List<EmployeeType> findAll() {
+        return employeeTypeRepository.findAll();
     }
 
     

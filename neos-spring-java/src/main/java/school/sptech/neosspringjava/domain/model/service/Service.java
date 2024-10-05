@@ -7,15 +7,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import school.sptech.neosspringjava.domain.model.filter.Filter;
 import school.sptech.neosspringjava.domain.model.serviceType.ServiceType;
+import school.sptech.neosspringjava.domain.model.status.Status;
 
 @Entity
 @Getter
@@ -29,15 +27,14 @@ public class Service {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "service_id")
     private Integer id;
-    @NotBlank(message = "É necessario haver uma especificação no serviço")
-    @NotEmpty(message = "É necessario haver uma especificação no serviço")
     private String specification;
+    private String aditumId; 
+    private Double  price;
     private  String imgUrl;
     @ManyToOne
-    @JoinColumn(name = "type_fk")
+    @JoinColumn(name = "fkServiceType")
     private ServiceType serviceType;
-
-  
-    
-
+    @ManyToOne
+    @JoinColumn(name = "fkStatus")
+    private Status status;
 }

@@ -10,8 +10,11 @@ import school.sptech.neosspringjava.api.dtos.serviceDto.ServiceResponse;
 import school.sptech.neosspringjava.api.mappers.serviceMapper.ServiceMapper;
 import school.sptech.neosspringjava.domain.model.service.Service;
 import school.sptech.neosspringjava.domain.model.serviceType.ServiceType;
+import school.sptech.neosspringjava.domain.model.status.Status;
 import school.sptech.neosspringjava.domain.repository.ServiceTypeRepository.ServiceTypeRepository;
 import school.sptech.neosspringjava.domain.repository.serviceRepository.ServiceRepository;
+import school.sptech.neosspringjava.service.statusService.StatusService;
+
 
 @org.springframework.stereotype.Service
 @RequiredArgsConstructor
@@ -19,6 +22,7 @@ public class ServiceService {
     private final ServiceRepository serviceRepository;
     private final ServiceMapper ServiceMapper;
     private final ServiceTypeRepository serviceTypeRepository;
+    private final StatusService statusService; 
 
     public ServiceResponse save(ServiceRequest serviceRequest) {
 
@@ -26,80 +30,107 @@ public class ServiceService {
         if (serviceTypeId == null) {
             throw new IllegalArgumentException("O ID do ServiceType não pode ser nulo.");
         }
-
+    
         ServiceType serviceType = serviceTypeRepository.findById(serviceTypeId)
                 .orElseThrow(() -> new IllegalArgumentException("ServiceType não encontrado com o ID: " + serviceTypeId));
-
-        Service service = new Service();
-        service.setSpecification(serviceRequest.specification());
-        service.setImgUrl(serviceRequest.imgUrl());
-        service.setServiceType(serviceType);
-
+    
+        Service service = Service.builder()
+                .specification(serviceRequest.specification())
+                .aditumId(serviceRequest.aditumId())
+                .price(serviceRequest.price())
+                .imgUrl(serviceRequest.imgUrl())
+                .serviceType(serviceType)
+                .build();
+    
         serviceRepository.save(service);
-
-        // Mapeie o serviço para a resposta e retorne
+    
         return ServiceMapper.toServiceResponse(service);
     }
-
+    
     public List<ServiceResponse> findAll() {
         List<Service> service = serviceRepository.findAll();
         return ServiceMapper.toServiceResponseList(service);
     }
 
-    public ServiceResponse findById(Integer id) {
-        Optional<Service> serviceOp = serviceRepository.findById(id);
-        Service service = serviceOp.get();
-        return ServiceMapper.toServiceResponse(service);
+    public Service findById(Integer id) {
+        return serviceRepository.findById(id).orElseThrow(() -> new RuntimeException("Serviço não encontrado"));
     }
 
     public ServiceResponse update(Integer id, ServiceRequest serviceRequest) {
-        Optional<Service> serviceOp = serviceRepository.findById(id);
-        Service service = serviceOp.get();
-
+        Service service = findById(id);
+    
         service.setSpecification(serviceRequest.specification());
+        service.setAditumId(serviceRequest.aditumId());
+        service.setPrice(serviceRequest.price());
         service.setImgUrl(serviceRequest.imgUrl());
-        service.setServiceType(serviceTypeRepository.findById(serviceRequest.serviceType()).get());
-
+        service.setServiceType(serviceTypeRepository.findById(serviceRequest.serviceType())
+                .orElseThrow(() -> new IllegalArgumentException("ServiceType não encontrado com o ID: " + serviceRequest.serviceType())));
+    
         serviceRepository.save(service);
         return ServiceMapper.toServiceResponse(service);
     }
+    
 
-    public ServiceResponse partialUpdate(Integer id, Map<String, Object> updates) {
-        Service service = serviceRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Serviço não encontrado com o ID: " + id));
-
-        // Atualizar os campos especificados nos updates
-        if (updates.containsKey("specification")) {
-            service.setSpecification((String) updates.get("specification"));
+    public ServiceResponse partialUpdate(Integer id, ServiceRequest updates) {
+        Service service = findById(id);
+    
+        if (updates.specification() != null) {
+            service.setSpecification((String) updates.specification());
         }
-
-        if (updates.containsKey("imgUrl")) {
-            service.setImgUrl((String) updates.get("imgUrl"));
+    
+        if (updates.aditumId() != null) {
+            service.setAditumId((String) updates.aditumId());
         }
-
-        if (updates.containsKey("serviceType")) {
-            Integer serviceTypeId = (Integer) updates.get("serviceType");
+    
+        if (updates.price()!= null) {
+            service.setPrice((Double) updates.price());
+        }
+    
+        if (updates.imgUrl() != null) {
+            service.setImgUrl((String) updates.imgUrl());
+        }
+    
+        if (updates.serviceType() != null) {
+            Integer serviceTypeId = (Integer) updates.serviceType();
             ServiceType serviceType = serviceTypeRepository.findById(serviceTypeId)
                     .orElseThrow(() -> new IllegalArgumentException("ServiceType não encontrado com o ID: " + serviceTypeId));
             service.setServiceType(serviceType);
         }
 
-        // Salvar as atualizações no banco de dados
+        if (updates.status() != null) {
+            Integer statusId = (Integer) updates.status();
+            Status status = statusService.findById(statusId);
+            if (status == null) {
+                throw new IllegalArgumentException("status não encontrado com o ID: " + statusId);
+            }
+            service.setStatus(status);
+        }
+    
         Service updatedService = serviceRepository.save(service);
-
-        // Mapear o serviço atualizado para a resposta
         return ServiceMapper.toServiceResponse(updatedService);
     }
-
+    
     public String deleteByid(Integer id) {
-        ServiceResponse str = findById(id);
+        Service str = findById(id);
         if (str == null) {
             return "id não encontrado";
         } else {
-            serviceRepository.deleteById(id);
-            return "tipo de serviço excluido";
+            updateServiceStatus(id, "Inativo");
+            return "serviço excluido";
         }
     }
+
+    public ServiceResponse updateServiceStatus(Integer id, String status) {
+        Service service = findById(id);
+        service.setStatus(statusService.findStatusByName(status));
+        serviceRepository.save(service);
+        return ServiceMapper.toServiceResponse(service);
+    }
+
+    // public List<ServiceResponse> findServicesByEstablishmentIdAndStatus(Integer id, String status) {
+    //     List<Service> services = serviceRepository.findServicesByEstablishmentIdAndStatus(id, status);
+    //     return ServiceMapper.toServiceResponseList(services);
+    // }
 
 }
 

@@ -18,6 +18,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
+import school.sptech.neosspringjava.domain.model.local.Local;
+import school.sptech.neosspringjava.domain.model.phone.Phone;
+import school.sptech.neosspringjava.domain.model.status.Status;
 
 @Entity
 @Getter
@@ -27,28 +30,37 @@ import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 @Builder
 public class Employee {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employee_id")
     private Integer id;
-    @NotBlank(message = "Nome é obrigatório")
-    @NotEmpty(message = "Nome é obrigatório")
+
     private String name;
-    @Email
+
     private String email;
-    @NotBlank(message = "criar uma senha é obrigatório")
-    @NotEmpty(message = "criar uma senha é obrigatório")
+
     private String password;
 
     private String imgUrl;
    
     @ManyToOne
-    @JoinColumn(name = "establishment_fk")
+    @JoinColumn(name = "fkEstablishment")
     private Establishment establishment;
 
     @ManyToOne
-    @JoinColumn(name = "employee_type_fk")
+    @JoinColumn(name = "fkLocal")
+    private Local local;
+
+    @ManyToOne
+    @JoinColumn(name = "fkPhone")
+    private Phone phone;
+
+    @ManyToOne
+    @JoinColumn(name = "fkStatus")
+    private Status status;
+
+    @ManyToOne
+    @JoinColumn(name = "fkEmployeeType")
     private EmployeeType employeeType;
 
 }

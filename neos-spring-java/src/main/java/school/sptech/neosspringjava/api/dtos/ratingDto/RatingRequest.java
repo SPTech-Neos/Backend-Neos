@@ -5,8 +5,15 @@ import school.sptech.neosspringjava.domain.model.client.Client;
 import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 @Builder
 public record RatingRequest(
-Integer nota,
-Integer establishment,
-Integer client) {
+    Integer avaliation,
+    Integer establishment,
+    Integer client,
+
+    Integer employee,
+
+    Integer service,
+
+    Integer product
+) {
 
 }
