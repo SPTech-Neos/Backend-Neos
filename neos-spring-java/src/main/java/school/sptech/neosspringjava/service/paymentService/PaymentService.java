@@ -1,7 +1,9 @@
 package school.sptech.neosspringjava.service.paymentService;
 
+import org.springframework.http.HttpStatus;
 // PaymentService.java
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentRequest;
@@ -39,6 +41,12 @@ public class PaymentService {
     private final SchedulingService sService;
     private final StatusService statusService;
 
+    private void verifyEstablishmentExists(Integer establishmentId) {
+        if (!establishmentRepository.existsById(establishmentId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Estabelecimento não encontrado");
+        }
+    }
+
     public PaymentResponse createPayment(PaymentRequest paymentRequest) {
 
         Payment payment = paymentRepository.save(
@@ -62,7 +70,7 @@ public class PaymentService {
     public Payment findById(Integer id) {
         Payment payment = paymentRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Payment not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Payment not found"));
 
         return payment;
     }
@@ -74,7 +82,7 @@ public class PaymentService {
     public PaymentResponse update(Integer id, PaymentRequest paymentRequest) {
         Payment payment = paymentRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Payment not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Payment not found"));
 
         payment.setDatePayment(paymentRequest.datePayment());
         payment.setMarket(mService.findById(paymentRequest.fkMarket()));
@@ -100,7 +108,7 @@ public class PaymentService {
 
     public Double getTotalRentByEstablishment(Integer id) {
         Establishment establishment = establishmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Establishment not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Establishment not found"));
 
         List<Payment> payments = paymentRepository.findAllByEstablishment(establishment.getId());
 
@@ -118,9 +126,9 @@ public class PaymentService {
 
     public Double getTotalRentByEstablishmentAndEmployee(Integer id, Integer idEmployye) {
         Establishment establishment = establishmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Establishment not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Establishment not found"));
 
-                Employee employee = employeeRepository.findById(idEmployye).orElseThrow(() -> new RuntimeException("Employee not found"));
+                Employee employee = employeeRepository.findById(idEmployye).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee not found"));
 
         List<Payment> payments = paymentRepository.findAllByEstablishmentAndEmployee(establishment.getId(), employee.getId());
 
@@ -135,11 +143,19 @@ public class PaymentService {
 
     public Double getTotalRentByEstablishmentAndEmployeeAndStartDate(Integer id, Integer idEmployye, String startDate) {
         Establishment establishment = establishmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Establishment not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Establishment not found"));
 
-                Employee employee = employeeRepository.findById(idEmployye).orElseThrow(() -> new RuntimeException("Employee not found"));
+                Employee employee = employeeRepository.findById(idEmployye).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee not found"));
+                
 
-        List<Payment> payments = paymentRepository.findAllByEstablishmentAndEmployee(establishment.getId(), employee.getId());
+                if(startDate == null || !startDate.contains("T")){
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data com formatação incorreta (YYYY-MM-ddTHH:mm:ss)");
+                }
+
+                LocalDateTime start = LocalDateTime.parse(startDate);
+        
+        
+        List<Payment> payments = paymentRepository.findAllByEstablishmentAndEmployeeAndStartDate(establishment, employee, start);
 
         Double totalRent = 0.0;
 
@@ -152,13 +168,19 @@ public class PaymentService {
 
     public Double getTotalRentByEstablishmentAndEmployeeAndEndDate(Integer id, Integer idEmployye, String endDate) {
         Establishment establishment = establishmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Establishment not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Establishment not found"));
 
-                Employee employee = employeeRepository.findById(idEmployye).orElseThrow(() -> new RuntimeException("Employee not found"));
+                Employee employee = employeeRepository.findById(idEmployye).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee not found"));
+
+
+                if(endDate == null || !endDate.contains("T")){
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data com formatação incorreta (YYYY-MM-ddTHH:mm:ss)");
+
+                }
 
                 LocalDateTime end = LocalDateTime.parse(endDate);
 
-        List<Payment> payments = paymentRepository.findAllByEstablishmentAndEmployeeAndEndDate(establishment.getId(), employee.getId(),end);
+        List<Payment> payments = paymentRepository.findAllByEstablishmentAndEmployeeAndEndDate(establishment, employee,end);
 
         Double totalRent = 0.0;
 

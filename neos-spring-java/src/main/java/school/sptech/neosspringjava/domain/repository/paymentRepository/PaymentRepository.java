@@ -51,8 +51,10 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     @Query("SELECT p FROM Payment p where p.schedule.employee.establishment.id = :establishmentId AND p.schedule.employee.id = :employeeId")
     public List<Payment> findAllByEstablishmentAndEmployee(Integer establishmentId, Integer employeeId);
 
-
-
-        @Query("SELECT p FROM Payment p where p.schedule.employee.establishment.id = :id AND p.schedule.employee = :idEmployye AND p.datePayment <= :endDate")
-        public List<Payment> findAllByEstablishmentAndEmployeeAndEndDate(Integer id, Integer idEmployye, LocalDateTime endDate);
+    @Query("SELECT p FROM Payment p WHERE p.schedule.employee.establishment = :establishment AND p.schedule.employee = :employee AND p.datePayment >= :startDate")
+    public List<Payment> findAllByEstablishmentAndEmployeeAndStartDate(Establishment establishment, Employee employee, LocalDateTime startDate);
+    
+    @Query("SELECT p FROM Payment p WHERE p.schedule.employee.establishment = :establishment AND p.schedule.employee = :employee AND p.datePayment <= :endDate")
+    public List<Payment> findAllByEstablishmentAndEmployeeAndEndDate(Establishment establishment, Employee employee, LocalDateTime endDate);
+    
 } 
