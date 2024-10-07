@@ -1,9 +1,9 @@
 package school.sptech.neosspringjava.api.dtos.establishmentDTO;
 
-import school.sptech.neosspringjava.domain.model.establishment.Establishment;
-import school.sptech.neosspringjava.domain.model.local.Local;
-import school.sptech.neosspringjava.domain.model.phone.Phone;
-import school.sptech.neosspringjava.domain.model.status.Status;
+import school.sptech.neosspringjava.domain.model.Establishment;
+import school.sptech.neosspringjava.domain.model.Local;
+import school.sptech.neosspringjava.domain.model.Phone;
+import school.sptech.neosspringjava.domain.model.Status;
 
 import java.time.LocalTime;
 

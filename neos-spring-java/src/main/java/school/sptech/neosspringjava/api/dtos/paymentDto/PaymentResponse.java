@@ -2,12 +2,12 @@ package school.sptech.neosspringjava.api.dtos.paymentDto;
 
 import java.time.LocalDateTime;
 
-import school.sptech.neosspringjava.domain.model.client.Client;
-import school.sptech.neosspringjava.domain.model.establishment.Establishment;
-import school.sptech.neosspringjava.domain.model.market.Market;
-import school.sptech.neosspringjava.domain.model.product.Product;
-import school.sptech.neosspringjava.domain.model.scheduling.Scheduling;
-import school.sptech.neosspringjava.domain.model.status.Status;
+import school.sptech.neosspringjava.domain.model.Client;
+import school.sptech.neosspringjava.domain.model.Establishment;
+import school.sptech.neosspringjava.domain.model.Market;
+import school.sptech.neosspringjava.domain.model.Product;
+import school.sptech.neosspringjava.domain.model.Scheduling;
+import school.sptech.neosspringjava.domain.model.Status;
 
 public record PaymentResponse(
     Integer id,

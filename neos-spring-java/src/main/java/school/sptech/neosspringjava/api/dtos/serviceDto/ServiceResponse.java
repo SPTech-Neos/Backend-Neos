@@ -1,7 +1,7 @@
 package school.sptech.neosspringjava.api.dtos.serviceDto;
 
-import school.sptech.neosspringjava.domain.model.serviceType.ServiceType;
-import school.sptech.neosspringjava.domain.model.status.Status;
+import school.sptech.neosspringjava.domain.model.ServiceType;
+import school.sptech.neosspringjava.domain.model.Status;
 
 public record ServiceResponse(
     Integer id,

@@ -6,10 +6,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Getter;
 import lombok.Setter;
-import school.sptech.neosspringjava.domain.model.client.Client;
-import school.sptech.neosspringjava.domain.model.employee.Employee;
-import school.sptech.neosspringjava.domain.model.employeeType.EmployeeType;
-import school.sptech.neosspringjava.domain.model.establishment.Establishment;
+import school.sptech.neosspringjava.domain.model.Client;
+import school.sptech.neosspringjava.domain.model.Employee;
+import school.sptech.neosspringjava.domain.model.EmployeeType;
+import school.sptech.neosspringjava.domain.model.Establishment;
 
 import java.util.Collection;
 import java.util.List;

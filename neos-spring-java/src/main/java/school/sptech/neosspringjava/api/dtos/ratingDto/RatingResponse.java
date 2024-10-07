@@ -1,11 +1,11 @@
 package school.sptech.neosspringjava.api.dtos.ratingDto;
 
 import io.jsonwebtoken.impl.lang.Services;
-import school.sptech.neosspringjava.domain.model.client.Client;
-import school.sptech.neosspringjava.domain.model.employee.Employee;
-import school.sptech.neosspringjava.domain.model.establishment.Establishment;
-import school.sptech.neosspringjava.domain.model.product.Product;
-import school.sptech.neosspringjava.domain.model.service.Service;
+import school.sptech.neosspringjava.domain.model.Client;
+import school.sptech.neosspringjava.domain.model.Employee;
+import school.sptech.neosspringjava.domain.model.Establishment;
+import school.sptech.neosspringjava.domain.model.Product;
+import school.sptech.neosspringjava.domain.model.Service;
 
 public record RatingResponse(
         Integer id,
