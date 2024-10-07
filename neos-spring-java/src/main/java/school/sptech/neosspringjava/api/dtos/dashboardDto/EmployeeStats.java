@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.api.dtos.employee;
+package school.sptech.neosspringjava.api.dtos.dashboardDto;
 
 public record EmployeeStats(
     String imgUrl,

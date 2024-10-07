@@ -1,4 +1,4 @@
-package school.sptech.neosspringjava.api.dtos.marketDto;
+package school.sptech.neosspringjava.api.dtos.dashboardDto;
 
 public record MarketProfitableDto(
     String name,

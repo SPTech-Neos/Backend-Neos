@@ -5,13 +5,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
+import school.sptech.neosspringjava.api.dtos.dashboardDto.EmployeeStats;
+import school.sptech.neosspringjava.api.dtos.dashboardDto.MarketProfitableDto;
+import school.sptech.neosspringjava.api.dtos.dashboardDto.MarketPurchasedDto;
 import school.sptech.neosspringjava.api.dtos.dashboardDto.QuantityStatusDto;
-import school.sptech.neosspringjava.api.dtos.marketDto.MarketProfitableDto;
-import school.sptech.neosspringjava.api.dtos.marketDto.MarketPurchasedDto;
+import school.sptech.neosspringjava.api.dtos.dashboardDto.TotalGainDto;
 import school.sptech.neosspringjava.api.dtos.marketDto.MarketStatsDTO;
-import school.sptech.neosspringjava.api.dtos.paymentDto.TotalGainDto;
 import school.sptech.neosspringjava.domain.model.Payment;
-import school.sptech.neosspringjava.api.dtos.employee.EmployeeStats;
 
 @Component
 public class DashboardMapper {
@@ -21,7 +21,6 @@ public class DashboardMapper {
         totalGain.setValue(0.0); // Inicializa o valor total
 
         for (Payment payment : payments) {
-            System.out.println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"+totalGain.toString());
             if (totalGain.getDateTimeStart() == null || totalGain.getDateTimeStart().isBefore(payment.getDatePayment())) {
                 totalGain.setDateTimeStart(payment.getDatePayment());
             }

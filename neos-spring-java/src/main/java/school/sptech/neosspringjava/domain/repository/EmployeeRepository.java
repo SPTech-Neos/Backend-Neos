@@ -8,11 +8,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import school.sptech.neosspringjava.api.dtos.employee.EmployeeStats;
 import school.sptech.neosspringjava.domain.model.Employee;
 import school.sptech.neosspringjava.domain.model.Establishment;
 import school.sptech.neosspringjava.domain.model.Service;
 import school.sptech.neosspringjava.domain.model.Status;
+
+// import school.sptech.neosspringjava.api.dtos.employee.EmployeeStats;
+// import school.sptech.neosspringjava.domain.model.employee.Employee;
+// import school.sptech.neosspringjava.domain.model.establishment.Establishment;
+// import school.sptech.neosspringjava.domain.model.service.Service;
+// import school.sptech.neosspringjava.domain.model.status.Status;
 
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 

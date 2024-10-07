@@ -10,11 +10,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Builder
-public record MarketRquest(
+public record DashboardRequest(    
     @NotNull
     Integer establishmentId,
     LocalDateTime start,
-    LocalDateTime end
-) {
+    LocalDateTime end) {
 
 }

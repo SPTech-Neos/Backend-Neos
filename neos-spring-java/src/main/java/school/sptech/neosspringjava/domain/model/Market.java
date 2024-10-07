@@ -12,6 +12,7 @@ public class Market {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "market_id")
     private Integer id;
+    
     private Integer quantity;
 
     @ManyToOne
