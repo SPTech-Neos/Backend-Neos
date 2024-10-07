@@ -20,11 +20,11 @@ public class Order {
 
     private LocalDateTime dateTime;
 
-    @JoinColumn(name ="fkStatus")
+    @JoinColumn(name ="fk_status")
     @ManyToOne
     private Status status;
 
-    @JoinColumn(name ="fkClient")
+    @JoinColumn(name ="fk_client")
     @ManyToOne
     private Client client;
 }

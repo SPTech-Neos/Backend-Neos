@@ -15,11 +15,11 @@ public class Market {
     private Integer quantity;
 
     @ManyToOne
-    @JoinColumn(name = "fkProduct")
+    @JoinColumn(name = "fk_product")
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "fkOrder")
+    @JoinColumn(name = "fk_order")
     private Order order;
 
 }

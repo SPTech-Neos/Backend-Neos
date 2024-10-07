@@ -34,9 +34,9 @@ public class Local {
     private int floor;
     private String complement;
     private String block;
-    @NotNull(message = "FkEndereco é obrigatório")
+    @NotNull(message = "Fk_endereco é obrigatório")
 
-    @JoinColumn(name ="fkAddress")
+    @JoinColumn(name ="fk_address")
     @ManyToOne
     private Address address;
 }

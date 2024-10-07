@@ -34,30 +34,30 @@ public class Establishment {
     @Column(name = "establishment_id")
     private int id;
 
-    @Column(name = "aditumId")
+    @Column(name = "aditum_id")
     private String aditumId;
 
     private String name;
 
-    @Column(name = "imgUrl")
+    @Column(name = "img_url")
     private String imgUrl;
 
-    @JoinColumn(name = "fkLocal")
+    @JoinColumn(name = "fk_local")
     @ManyToOne
     private Local local;
 
-    @JoinColumn(name = "fkPhone")
+    @JoinColumn(name = "fk_phone")
     @OneToOne
     private Phone phone;
 
-    @JoinColumn(name = "fkStatus")
+    @JoinColumn(name = "fk_status")
     @ManyToOne
     private Status status;
     
-    @Column(name = "startShift")
+    @Column(name = "start_shift")
     private LocalTime startShift;
 
-    @Column(name = "endShift")
+    @Column(name = "end_shift")
     private LocalTime endShift;
 
     @Column(name = "description")

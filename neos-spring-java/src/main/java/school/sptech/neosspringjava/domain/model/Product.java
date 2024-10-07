@@ -36,13 +36,13 @@ public class Product {
 
     private Double price;
     @ManyToOne
-    @JoinColumn(name = "fkStatus")
+    @JoinColumn(name = "fk_status")
     private Status status;
     @ManyToOne
-    @JoinColumn(name = "fkProductType")
+    @JoinColumn(name = "fk_product_type")
     private ProductType type;
     @ManyToOne
-    @JoinColumn(name = "fkEstablishment")
+    @JoinColumn(name = "fk_establishment")
     private Establishment establishment;
 
 }

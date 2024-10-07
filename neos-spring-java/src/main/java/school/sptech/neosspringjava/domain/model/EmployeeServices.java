@@ -30,11 +30,11 @@ public class EmployeeServices {
     private String aditumId;
 
     @ManyToOne
-    @JoinColumn(name = "fkEmployee")
+    @JoinColumn(name = "fk_employee")
     private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name = "fkService")
+    @JoinColumn(name = "fk_service")
     private Service service;
 
 }

@@ -30,9 +30,9 @@ public class Service {
     private Double  price;
     private  String imgUrl;
     @ManyToOne
-    @JoinColumn(name = "fkServiceType")
+    @JoinColumn(name = "fk_service_type")
     private ServiceType serviceType;
     @ManyToOne
-    @JoinColumn(name = "fkStatus")
+    @JoinColumn(name = "fk_status")
     private Status status;
 }

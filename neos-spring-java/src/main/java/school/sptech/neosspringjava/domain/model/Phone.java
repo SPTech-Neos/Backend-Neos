@@ -15,10 +15,10 @@ public class Phone {
     @Column(name = "phone_id")
     private Integer id;
 
-    @Column(name = "countryCode")
+    @Column(name = "country_code")
     private String countryCode;
 
-    @Column(name = "areaCode")
+    @Column(name = "area_code")
     private String areaCode;
 
     @Column(name = "number")

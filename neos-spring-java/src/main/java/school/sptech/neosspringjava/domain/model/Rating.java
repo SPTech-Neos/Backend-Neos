@@ -28,23 +28,23 @@ public class Rating {
     @NotNull(message = "A nota é obrigatória")
     private Integer avaliation;
 
-    @JoinColumn(name = "fkEstablishment")
+    @JoinColumn(name = "fk_establishment")
     @ManyToOne
     private Establishment establishment;
 
-    @JoinColumn(name = "fkClient")
+    @JoinColumn(name = "fk_client")
     @ManyToOne
     private Client client;
 
-    @JoinColumn(name = "fkEmployee")
+    @JoinColumn(name = "fk_employee")
     @ManyToOne
     private Employee employee;
 
-    @JoinColumn(name = "fkService")
+    @JoinColumn(name = "fk_service")
     @ManyToOne
     private Service service;
 
-    @JoinColumn(name = "fkProduct")
+    @JoinColumn(name = "fk_product")
     @ManyToOne
     private Product product;
 

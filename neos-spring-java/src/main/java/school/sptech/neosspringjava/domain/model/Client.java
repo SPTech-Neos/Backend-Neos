@@ -43,11 +43,11 @@ public class Client {
     private String imgUrl;
 
     @ManyToOne
-    @JoinColumn(name = "fkLocal", referencedColumnName = "local_id")
+    @JoinColumn(name = "fk_local", referencedColumnName = "local_id")
     private Local local;
 
     @OneToOne
-    @JoinColumn(name = "fkPhone", referencedColumnName = "phone_id")
+    @JoinColumn(name = "fk_phone", referencedColumnName = "phone_id")
     private Phone phone;
 
 }

@@ -24,22 +24,22 @@ public class Scheduling {
     @Column(name = "schedule_id")
     private Integer id;
 
-    @Column(name = "dateTime")
+    @Column(name = "date_time")
     private LocalDateTime dateTimeSchedule;
     
     @ManyToOne
-    @JoinColumn(name = "fkStatus")
+    @JoinColumn(name = "fk_status")
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "fkClient")
+    @JoinColumn(name = "fk_client")
     private Client client;
 
     @ManyToOne  
-    @JoinColumn(name = "fkService")
+    @JoinColumn(name = "fk_service")
     private Service service;
 
     @ManyToOne
-    @JoinColumn(name = "fkEmployee")
+    @JoinColumn(name = "fk_employee")
     private Employee employee;
 }

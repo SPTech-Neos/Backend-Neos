@@ -39,23 +39,23 @@ public class Employee {
     private String imgUrl;
    
     @ManyToOne
-    @JoinColumn(name = "fkEstablishment")
+    @JoinColumn(name = "fk_establishment")
     private Establishment establishment;
 
     @ManyToOne
-    @JoinColumn(name = "fkLocal")
+    @JoinColumn(name = "fk_local")
     private Local local;
 
     @ManyToOne
-    @JoinColumn(name = "fkPhone")
+    @JoinColumn(name = "fk_phone")
     private Phone phone;
 
     @ManyToOne
-    @JoinColumn(name = "fkStatus")
+    @JoinColumn(name = "fk_status")
     private Status status;
 
     @ManyToOne
-    @JoinColumn(name = "fkEmployeeType")
+    @JoinColumn(name = "fk_employee_type")
     private EmployeeType employeeType;
 
 }

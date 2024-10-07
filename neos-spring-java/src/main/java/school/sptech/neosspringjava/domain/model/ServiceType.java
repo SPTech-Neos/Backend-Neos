@@ -30,7 +30,7 @@ public class ServiceType {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "fkServiceCategory")
+    @JoinColumn(name = "fk_service_category")
     private ServiceCategory serviceCategory;
 
 

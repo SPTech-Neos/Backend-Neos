@@ -18,6 +18,7 @@ import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentResponse;
 import school.sptech.neosspringjava.api.mappers.PaymentMapper;
 import school.sptech.neosspringjava.service.PaymentService;
 
+
 @RestController
 @RequestMapping("/payments")
 @RequiredArgsConstructor
@@ -60,23 +61,12 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.getTotalRentByEstablishment(id));
     }
 
-    // @GetMapping("/total-rent/by-establishment/{id}?start-date=?{startDate}")
-    // public ResponseEntity<Double> getTotalRentByEstablishmentAndStartDate(@PathVariable Integer id, @PathVariable String startDate) {
-    //     return ResponseEntity.ok(paymentService.getTotalRentByEstablishmentAndStartDate(id, startDate));
-    // }
-
-    // @GetMapping("/total-rent/by-establishment/{id}?start-date=?&end-date=?")
-    // public ResponseEntity<Double> getTotalRentByEstablishmentAndEndDate(@PathVariable Integer id,  @PathVariable String endDate) {
-    //     return ResponseEntity.ok(paymentService.getTotalRentByEstablishmentAndEndDate(id, endDate));
-    // }
- 
-
     @GetMapping("/total-rent/by-establishment/{id}/by-employee/{idE}")
     public ResponseEntity<Double> getTotalRentByEstablishmentAndEmployee(@PathVariable Integer id, @PathVariable Integer idE) {
         return ResponseEntity.ok(paymentService.getTotalRentByEstablishmentAndEmployee(id, idE));
     }
     // /total-rent/by-establishment/{id}/by-employee/{id}?start-date=?{startDate}
-    @GetMapping("/total-rent/by-establishment/{id}/by-employee/{idE}?/start-date=?{startDate}")
+    @GetMapping("/total-rent/by-establishment/{id}/by-employee/{idE}/start-date={startDate}")
     public ResponseEntity<Double> getTotalRentByEstablishmentAndEmployeeAndStartDate(@PathVariable Integer id, @PathVariable Integer idE, @PathVariable String startDate) {
         return ResponseEntity.ok(paymentService.getTotalRentByEstablishmentAndEmployeeAndStartDate(id, idE, startDate));
     }
@@ -85,5 +75,15 @@ public class PaymentController {
     public ResponseEntity<Double> getTotalRentByEstablishmentAndEmployeeAndEndDate(@PathVariable Integer id, @PathVariable Integer idE, @PathVariable String endDate) {
         return ResponseEntity.ok(paymentService.getTotalRentByEstablishmentAndEmployeeAndEndDate(id, idE, endDate));
     }
+
+        // @GetMapping("/total-rent/by-establishment/{id}?start-date=?{startDate}")
+    // public ResponseEntity<Double> getTotalRentByEstablishmentAndStartDate(@PathVariable Integer id, @PathVariable String startDate) {
+    //     return ResponseEntity.ok(paymentService.getTotalRentByEstablishmentAndStartDate(id, startDate));
+    // }
+
+    // @GetMapping("/total-rent/by-establishment/{id}?start-date=?&end-date=?")
+    // public ResponseEntity<Double> getTotalRentByEstablishmentAndEndDate(@PathVariable Integer id,  @PathVariable String endDate) {
+    //     return ResponseEntity.ok(paymentService.getTotalRentByEstablishmentAndEndDate(id, endDate));
+    // }
 
 }

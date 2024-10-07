@@ -30,19 +30,19 @@ public class Payment {
     @Column(name = "payment_id")
     private Integer id;
 
-    @Column(name = "datePayment")
+    @Column(name = "date_payment")
     private LocalDateTime datePayment;
 
     @ManyToOne
-    @JoinColumn(name = "fkMarket")
+    @JoinColumn(name = "fk_market")
     private Market market;
 
     @ManyToOne
-    @JoinColumn(name = "fkSchedule")
+    @JoinColumn(name = "fk_schedule")
     private Scheduling schedule;
 
     @ManyToOne
-    @JoinColumn(name = "fkStatus")
+    @JoinColumn(name = "fk_status")
     private Status status;
 
 
