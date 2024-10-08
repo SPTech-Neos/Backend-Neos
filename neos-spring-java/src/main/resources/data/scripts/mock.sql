@@ -6,13 +6,17 @@ INSERT INTO Local VALUES (1, 211, 5, '52', 'C', 1);
 
 INSERT INTO Phone VALUES (1, '55', '11', '933357637');
 
-INSERT INTO Status VALUES (1, 'Ativo', 'Estabelecimeto, Service');
-INSERT INTO Status VALUES (2, 'Inativo', 'Estabelecimeto, Service');
-INSERT INTO Status VALUES (3, 'Aguardando Pagamento', 'Pagamento');
-INSERT INTO Status VALUES (4, 'Em andamento', 'Pagamento');
-INSERT INTO Status VALUES (5, 'cancelado', 'order');
-INSERT INTO Status VALUES (6, 'concluido', 'order');
-INSERT INTO Status VALUES (7, 'Em andamento', 'order');
+INSERT INTO Status VALUES (1, 'Ativo', 'Establishment');
+INSERT INTO Status VALUES (2, 'Inativo', 'Establishment');
+INSERT INTO Status VALUES (3, 'Aguardando Pagamento', 'Payment');
+INSERT INTO Status VALUES (4, 'Em andamento', 'Payment');
+INSERT INTO Status VALUES (5, 'Cancelado', 'Order');
+INSERT INTO Status VALUES (6, 'Concluído', 'Order');
+INSERT INTO Status VALUES (7, 'Em andamento', 'Order');
+INSERT INTO Status VALUES (8, 'Ativo', 'Service');
+INSERT INTO Status VALUES (9, 'Inativo', 'Service');
+INSERT INTO Status VALUES (10, 'Ativo', 'Product');
+INSERT INTO Status VALUES (11, 'Inativo', 'Product');
 
 
 INSERT INTO Establishment VALUES (1, 'aditumIdTeste', 'KevinSalon', null, 1, 1, 1, '08:00:00', '18:00:00', 'Salão de beleza Kevin', '12.345.678/0001-90');

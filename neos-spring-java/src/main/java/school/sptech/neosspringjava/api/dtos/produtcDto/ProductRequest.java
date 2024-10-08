@@ -5,6 +5,6 @@ import school.sptech.neosspringjava.domain.model.establishment.Establishment;
 import school.sptech.neosspringjava.domain.model.productType.ProductType;
 
 @Builder
-public record ProductRequest(String name,String brand,String imgUrl,  Integer type,Double value, Integer establishment ) {
+public record ProductRequest(String name,String brand,String imgUrl,  Integer type,Double value, Integer establishment, Integer status) {
 
 }
