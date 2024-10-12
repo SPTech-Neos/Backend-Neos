@@ -48,16 +48,31 @@ public class ServiceController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteService (@PathVariable Integer id){
         servServ.deleteByid(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
-    // @PatchMapping("/{id}/status?={status}")
-    // public ResponseEntity<ServiceResponse> updateServiceStatus(@PathVariable Integer id, @PathVariable String status){
-    //     return ResponseEntity.ok().body(servServ.updateServiceStatus(id, status));
-    // }
+    @PatchMapping("/{id}/status/{status}")
+    public ResponseEntity<ServiceResponse> updateServiceStatus(@PathVariable Integer id, @PathVariable String status){
+        return ResponseEntity.ok().body(servServ.updateServiceStatus(id, status));
+    }
 
-    // @GetMapping("/by-establishment/{id}/status?={status}")
-    // public ResponseEntity<List<ServiceResponse>> findServicesByEstablishmentIdAndStatus(@PathVariable Integer id, @PathVariable String status){
-    //     return ResponseEntity.ok().body(servServ.findServicesByEstablishmentIdAndStatus(id, status));
-    // }
+    @GetMapping("/by-establishment/{id}/status/name/{status}")
+    public ResponseEntity<List<ServiceResponse>> findServicesByEstablishmentAndStatus(@PathVariable Integer id, @PathVariable String status){
+        return ResponseEntity.ok().body(servServ.findServicesByEstablishmentAndStatus(id, status));
+    }
+    
+    @GetMapping("/by-establishment/{id}/status/{status}")
+    public ResponseEntity<List<ServiceResponse>> findServicesByEstablishmentAndStatus(@PathVariable Integer id, @PathVariable Integer status){
+        return ResponseEntity.ok().body(servServ.findServicesByEstablishmentAndStatus(id, status));
+    }
+
+    @GetMapping("/by-employee/{id}")
+    public ResponseEntity<List<ServiceResponse>> findServicesByEmployeeId(@PathVariable Integer id){
+        return ResponseEntity.ok().body(servServ.findServicesByEmployeeId(id));
+    }
+
+    @GetMapping("/by-employee/{idEmployeee}/by-category/{categotyId}")
+    public ResponseEntity<List<ServiceResponse>> findServicesByEmployeeIdAndServiceCategory(@PathVariable Integer idEmployeee, @PathVariable Integer categotyId){
+        return ResponseEntity.ok().body(servServ.findServicesByEmployeeIdAndServiceCategory(idEmployeee, categotyId));
+    }
 }

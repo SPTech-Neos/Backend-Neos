@@ -33,4 +33,5 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     "JOIN Employee e ON es.employee.id = e.id " +
     "WHERE e.establishment.id = :id")
     List<Service> findServicesById(@Param("id") Integer id);
+
 }

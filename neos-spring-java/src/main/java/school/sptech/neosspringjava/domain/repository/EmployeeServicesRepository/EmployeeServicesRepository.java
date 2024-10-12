@@ -21,4 +21,37 @@ public interface EmployeeServicesRepository extends JpaRepository<EmployeeServic
     "JOIN Employee e ON es.employee.id = e.id " +
     "WHERE e.establishment.id = :id")
     List<Service> findServicesById(@Param("id") Integer id);
+
+        @Query("SELECT s FROM EmployeeServices es " +
+        "JOIN es.employee e " +
+        "JOIN es.service s " +
+        "JOIN s.status st " +
+        "WHERE e.establishment.id = :establishmentId")
+    List<Service> findServicesByEstablishmentId(@Param("establishmentId") Integer establishmentId);
+
+        @Query("SELECT s FROM EmployeeServices es " +
+        "JOIN es.employee e " +
+        "JOIN es.service s " +
+        "JOIN s.status st " +
+        "WHERE e.establishment.id = :establishmentId " +
+        "AND s.status.id = :statusId")
+    List<Service> findServicesByEstablishmentAndStatus(@Param("establishmentId") Integer establishmentId, @Param("statusId") Integer statusId);
+
+        @Query("SELECT s FROM EmployeeServices es " +
+        "JOIN es.employee e " +
+        "JOIN es.service s " +
+        "JOIN s.status st " +
+        "WHERE e.id = :employeeId")
+    List<Service> findServicesByEmployeeId(@Param("employeeId") Integer employeeId);
+
+        @Query("SELECT s FROM EmployeeServices es " +
+        "JOIN es.employee e " +
+        "JOIN es.service s " +
+        "JOIN s.serviceType st " +
+        "JOIN st.serviceCategory sc " +
+        "WHERE e.id = :employeeId AND sc.id = :serviceCategoryId")
+    List<Service> findServicesByEmployeeIdAndServiceCategory(@Param("employeeId") Integer employeeId, @Param("serviceCategoryId") Integer serviceCategoryId);
+
+
+
 }
