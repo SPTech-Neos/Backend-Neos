@@ -58,7 +58,7 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/client/login"),
             // new AntPathRequestMatcher("/client/**"),
             new AntPathRequestMatcher("/clients", "POST"),
-            new AntPathRequestMatcher("/employees"),
+            new AntPathRequestMatcher("/employees", "POST"),
             new AntPathRequestMatcher("/employees/**"),
             new AntPathRequestMatcher("/establishments"),
             new AntPathRequestMatcher("/establishments/**"),
@@ -93,8 +93,7 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/orders/**"),
             new AntPathRequestMatcher("/markets/**"),
             new AntPathRequestMatcher("/phones/**"),
-            new AntPathRequestMatcher("/addresses"),
-            new AntPathRequestMatcher("/**/**"),
+            new AntPathRequestMatcher("/clients/**"),
 
     };
 

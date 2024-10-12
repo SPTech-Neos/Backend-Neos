@@ -34,12 +34,10 @@ public class Establishment {
     @Column(name = "establishment_id")
     private int id;
 
-    @Column(name = "aditum_id")
     private String aditumId;
 
     private String name;
 
-    @Column(name = "img_url")
     private String imgUrl;
 
     @JoinColumn(name = "fk_local")
@@ -54,15 +52,11 @@ public class Establishment {
     @ManyToOne
     private Status status;
     
-    @Column(name = "start_shift")
     private LocalTime startShift;
 
-    @Column(name = "end_shift")
     private LocalTime endShift;
 
-    @Column(name = "description")
     private String description;
   
-    @Column(name = "cnpj")
     private String cnpj;
 }

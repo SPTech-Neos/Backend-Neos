@@ -44,6 +44,20 @@ public class RatingService {
         return ratingRepository.save(rating);
     }
 
+    public Rating saveRating(RatingRequest rating) {
+
+        Establishment e = establishmentService.findById(rating.establishment());
+
+        Client client = clientService.findById(rating.client());
+
+        Rating r = new Rating();
+        r.setAvaliation(rating.avaliation());
+        r.setClient(client);
+        r.setEstablishment(e);
+
+        return ratingRepository.save(r);
+    }
+
     public Rating avaliateService(RatingServiceRequest ratingRequest) {
         Rating rating = new Rating();
 

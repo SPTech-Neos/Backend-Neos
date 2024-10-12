@@ -39,6 +39,7 @@ public class ServiceService {
                 .price(serviceRequest.price())
                 .imgUrl(serviceRequest.imgUrl())
                 .serviceType(serviceType)
+                .status(statusService.findById(serviceRequest.status()))
                 .build();
     
         serviceRepository.save(service);

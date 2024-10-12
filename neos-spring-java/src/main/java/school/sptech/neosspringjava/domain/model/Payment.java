@@ -30,7 +30,6 @@ public class Payment {
     @Column(name = "payment_id")
     private Integer id;
 
-    @Column(name = "date_payment")
     private LocalDateTime datePayment;
 
     @ManyToOne

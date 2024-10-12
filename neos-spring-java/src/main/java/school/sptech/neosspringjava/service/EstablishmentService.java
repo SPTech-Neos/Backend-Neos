@@ -59,6 +59,8 @@ public class EstablishmentService {
         establishment.setStartShift(establishmentRequest.startShift());
         establishment.setEndShift(establishmentRequest.endShift());
         establishment.setCnpj(establishmentRequest.cnpj());
+        establishment.setStatus(statusService.findById(establishmentRequest.statusId()));
+
 
         Establishment e = establishmentRepository.save(establishment);
 

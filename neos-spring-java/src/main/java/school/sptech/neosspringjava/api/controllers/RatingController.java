@@ -57,6 +57,11 @@ public class RatingController {
         return ResponseEntity.ok(ratingService.listAllRatings());
     }
 
+    @PostMapping
+    public ResponseEntity<RatingResponse> saveRating(@RequestBody RatingRequest ratingRequest) {
+        return ResponseEntity.status(HttpStatus.SC_CREATED).body(RatingMapper.toResponse(ratingService.saveRating(ratingRequest)));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<RatingResponse> findRatingById(@PathVariable Integer id) {
         return ResponseEntity.ok(ratingService.findRatingById(id));
