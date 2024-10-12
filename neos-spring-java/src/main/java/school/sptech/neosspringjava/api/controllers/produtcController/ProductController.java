@@ -13,7 +13,7 @@ import school.sptech.neosspringjava.service.productService.ProductService;
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductController { 
 
     private final ProductService productService;
 
@@ -31,6 +31,10 @@ public class ProductController {
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable Integer id, @RequestBody ProductRequest productRequest) {
         return ResponseEntity.ok(productService.update(id, productRequest));
     }
+    @PatchMapping("/{id}")
+    public ResponseEntity<ProductResponse> partialUpdateProduct(@PathVariable Integer id, @RequestBody ProductRequest productRequest) {
+        return ResponseEntity.ok(productService.partialUpdate(id, productRequest));
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProductById(@PathVariable Integer id) {
@@ -40,7 +44,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Integer id) {
         productService.deleteById(id);
-        return ResponseEntity.ok("Produto deletado com sucesso");
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/establishment/{id}")
@@ -49,13 +53,18 @@ public class ProductController {
         return ResponseEntity.ok().body(productService.findProductsByEstablishmentId(id));
     }
 
-    @PatchMapping("/{id}/status?={status}")
-    public ResponseEntity<ProductResponse> updateProductStatus(@PathVariable Integer id, @PathVariable String status) {
+    @PatchMapping("/{id}/status/{status}")
+    public ResponseEntity<ProductResponse> updateProductStatus(@PathVariable Integer id, @PathVariable Integer status) {
         return ResponseEntity.ok(productService.updateProductStatus(id, status));
     }
 
-    @GetMapping("/by-establishment/{id}/status?={status}")
+    @GetMapping("/by-establishment/{id}/status/name/{status}")
     public ResponseEntity<List<ProductResponse>> findProductsByEstablishmentIdAndStatus(@PathVariable Integer id, @PathVariable String status) {
+        return ResponseEntity.ok(productService.findProductsByEstablishmentIdAndStatus(id, status));
+    }
+    
+    @GetMapping("/by-establishment/{id}/status/{status}")
+    public ResponseEntity<List<ProductResponse>> findProductsByEstablishmentIdAndStatus(@PathVariable Integer id, @PathVariable Integer status) {
         return ResponseEntity.ok(productService.findProductsByEstablishmentIdAndStatus(id, status));
     }
 }

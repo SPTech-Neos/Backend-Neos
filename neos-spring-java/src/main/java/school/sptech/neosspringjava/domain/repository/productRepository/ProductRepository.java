@@ -19,4 +19,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer>{
     @Query("SELECT p FROM Product p WHERE p.establishment.id = :id AND p.status.name = :status")
     List<Product> findProductsByEstablishmentIdAndStatus(@Param("id") Integer id, @Param("status") String status);
 
+    @Query("SELECT p FROM Product p WHERE p.establishment.id = :establishmentId AND p.status.id = :statusId")
+    List<Product> findByEstablishmentIdAndStatusId(@Param("establishmentId") Integer establishmentId, @Param("statusId") Integer statusId);
+    
+
 }
