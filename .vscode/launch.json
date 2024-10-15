@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-NeosSpringJavaApplication<neos-spring-java>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "school.sptech.neosspringjava.NeosSpringJavaApplication",
+            "projectName": "neos-spring-java",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
