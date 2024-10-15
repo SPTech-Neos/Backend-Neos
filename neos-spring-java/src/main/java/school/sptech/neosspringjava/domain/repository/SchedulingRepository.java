@@ -4,10 +4,12 @@ package school.sptech.neosspringjava.domain.repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springdoc.core.converters.models.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import school.sptech.neosspringjava.api.dtos.schedulingDto.ServiceCategoryQuantityDTO;
 import school.sptech.neosspringjava.domain.model.Employee;
 import school.sptech.neosspringjava.domain.model.Scheduling;
 
@@ -41,4 +43,18 @@ public interface SchedulingRepository extends JpaRepository<Scheduling, Integer>
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate
     );
+
+
+    @Query("SELECT new school.sptech.neosspringjava.api.dtos.schedulingDto.ServiceCategoryQuantityDTO( " +
+        "sc.name, COUNT(sc.name)) " +
+        "FROM Scheduling sch " +
+        "JOIN sch.service s " +
+        "JOIN s.serviceType st " +
+        "JOIN st.serviceCategory sc " +
+        "JOIN sch.employee e " +
+        "JOIN e.establishment est " +
+        "WHERE est.id = :establishmentId " +
+        "GROUP BY sc.name")
+    List<ServiceCategoryQuantityDTO> findServiceCategoryQuantityByEstablishment(@Param("establishmentId") Integer establishmentId);
+
 }

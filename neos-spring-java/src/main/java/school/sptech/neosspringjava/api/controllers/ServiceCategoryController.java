@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.serviceCategoryDto.ServiceCategoryRequest;
 import school.sptech.neosspringjava.api.dtos.serviceCategoryDto.ServiceCategoryResponse;
+import school.sptech.neosspringjava.api.dtos.schedulingDto.ServiceCategoryQuantityDTO;
 import school.sptech.neosspringjava.service.ServiceCategoryService;
 
 import org.springframework.web.bind.annotation.PutMapping;
@@ -52,5 +53,11 @@ public class ServiceCategoryController {
     public ResponseEntity<String> deleteServiceCategory (@PathVariable Integer id){
         servCategoryServ.delete(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/establishment/{establishmentId}/limit/{limit}")
+    public ResponseEntity<List<ServiceCategoryQuantityDTO>> findServiceCategoryQuantityByEstablishment(Integer establishmentId, Integer limit) {
+       return ResponseEntity.ok().body(servCategoryServ.findServiceCategoryQuantityByEstablishment(establishmentId, limit));
+        
     }
 }
