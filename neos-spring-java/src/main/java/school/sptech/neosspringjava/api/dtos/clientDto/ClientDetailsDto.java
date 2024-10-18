@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Getter;
 import lombok.Setter;
-import school.sptech.neosspringjava.domain.model.client.Client;
+import school.sptech.neosspringjava.domain.model.Client;
 
 import java.util.Collection;
 import java.util.List;

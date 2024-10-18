@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import lombok.Getter;
 import lombok.Setter;
 import school.sptech.neosspringjava.api.dtos.employee.EmployeeLogin;
-import school.sptech.neosspringjava.domain.model.client.Client;
-import school.sptech.neosspringjava.domain.model.employee.Employee;
+import school.sptech.neosspringjava.domain.model.Client;
+import school.sptech.neosspringjava.domain.model.Employee;
 
 import java.util.Collection;
 import java.util.List;
