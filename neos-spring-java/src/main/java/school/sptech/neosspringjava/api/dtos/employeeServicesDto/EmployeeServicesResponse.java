@@ -7,7 +7,7 @@ import school.sptech.neosspringjava.domain.model.Service;
 
 public record EmployeeServicesResponse(
         Integer id,
-        Date hoursSpent,
+        Integer hoursSpent,
         Boolean expertise,
         Employee employee,
         Service service

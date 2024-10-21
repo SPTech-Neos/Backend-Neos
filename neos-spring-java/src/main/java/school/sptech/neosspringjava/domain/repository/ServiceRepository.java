@@ -6,5 +6,4 @@ import school.sptech.neosspringjava.domain.model.Service;
 
 public interface ServiceRepository extends JpaRepository<Service, Integer>{
 
-    // List<Service> findAllByEstablishment(Establishment establishmentId);
 }

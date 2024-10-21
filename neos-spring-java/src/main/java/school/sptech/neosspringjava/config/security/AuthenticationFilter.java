@@ -30,7 +30,14 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+        String requestPath = request.getRequestURI();
+        if (requestPath.startsWith("/public") || requestPath.equals("/employees")|| requestPath.equals("/clients") || requestPath.contains("login") || requestPath.equals("/register")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String username = null;
         String jwtToken = null;
 
@@ -38,7 +45,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         if (Objects.nonNull(requestTokenHeader) && requestTokenHeader.startsWith("Bearer ")) {
             jwtToken = requestTokenHeader.substring(7);
-            System.out.println("sapora"+jwtToken);
+            System.out.println("sapora" + jwtToken);
 
             try {
                 username = jwtTokenManager.getUsernameFromToken(jwtToken);
@@ -55,16 +62,15 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
-        System.out.println(username+"username");
-        System.out.println(SecurityContextHolder.getContext().getAuthentication()+"esse trem aqui");
-        System.out.println(request+"o tal do request");
-        System.out.println(response+"O tal do response");
-                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    addUsernameInContext(request, username, jwtToken);
-                }
-                filterChain.doFilter(request, response);
+        System.out.println(username + "username");
+        System.out.println(SecurityContextHolder.getContext().getAuthentication() + "esse trem aqui");
+        System.out.println(request + "o tal do request");
+        System.out.println(response + "O tal do response");
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            addUsernameInContext(request, username, jwtToken);
         }
-
+        filterChain.doFilter(request, response);
+    }
             private void addUsernameInContext(HttpServletRequest request, String username, String jwtToken) {
                 System.out.println("AQUI Ó"+username);
                 UserDetails userDetails = authenticationService.loadUserByUsername(username);

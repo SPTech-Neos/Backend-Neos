@@ -4,14 +4,13 @@ import org.springframework.http.HttpStatus;
 // PaymentService.java
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentRequest;
 import school.sptech.neosspringjava.api.dtos.paymentDto.PaymentResponse;
-import school.sptech.neosspringjava.domain.model.Client;
 import school.sptech.neosspringjava.domain.model.Employee;
 import school.sptech.neosspringjava.domain.model.Establishment;
 import school.sptech.neosspringjava.domain.model.Payment;
-import school.sptech.neosspringjava.domain.model.Product;
 import school.sptech.neosspringjava.domain.repository.ClientRepository;
 import school.sptech.neosspringjava.domain.repository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.EstablishmentRepository;
@@ -21,7 +20,6 @@ import school.sptech.neosspringjava.domain.repository.ProductRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Service
 @RequiredArgsConstructor
