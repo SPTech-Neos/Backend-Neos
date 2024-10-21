@@ -58,8 +58,8 @@ public class ProductController {
         return ResponseEntity.noContent().build();  // 204 No Content
     }
 
-    @GetMapping("/establishment")
-    public ResponseEntity<List<ProductResponse>> findProductsByEstablishmentId(@RequestParam Integer id) {
+    @GetMapping("/establishment/{id}")
+    public ResponseEntity<List<ProductResponse>> findProductsByEstablishmentId(@PathVariable Integer id) {
         List<ProductResponse> products = productService.findProductsByEstablishmentId(id);
         return ResponseEntity.ok(products);
     }
@@ -70,13 +70,13 @@ public class ProductController {
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @GetMapping("/by-establishment/status/name")
+    @GetMapping("/by-establishment/{id}/status/name")
     public ResponseEntity<List<ProductResponse>> findProductsByEstablishmentIdAndStatus(@RequestParam Integer id, @RequestParam String status) {
         List<ProductResponse> products = productService.findProductsByEstablishmentIdAndStatus(id, status);
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/by-establishment/status")
+    @GetMapping("/by-establishment/{id}/status")
     public ResponseEntity<List<ProductResponse>> findProductsByEstablishmentIdAndStatus(@RequestParam Integer id, @RequestParam Integer status) {
         List<ProductResponse> products = productService.findProductsByEstablishmentIdAndStatus(id, status);
         return ResponseEntity.ok(products);

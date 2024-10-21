@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,7 +41,8 @@ public class PaymentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PaymentResponse> update(@RequestParam Integer id, @RequestBody PaymentRequest paymentRequest) {
+    public ResponseEntity<PaymentResponse> update(@RequestParam Integer id,
+            @RequestBody PaymentRequest paymentRequest) {
         PaymentResponse paymentResponse = paymentService.update(id, paymentRequest);
         if (paymentResponse == null) {
             return ResponseEntity.notFound().build();
@@ -54,29 +56,28 @@ public class PaymentController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/total-rent/by-establishment")
-    public ResponseEntity<Double> getTotalRentByEstablishment(@RequestParam Integer id) {
+    @GetMapping("/total-rent/by-establishment/{id}")
+    public ResponseEntity<Double> getTotalRentByEstablishment(@PathVariable Integer id) {
         return ResponseEntity.ok(paymentService.getTotalRentByEstablishment(id));
     }
 
-    @GetMapping("/total-rent/by-establishment/by-employee")
-    public ResponseEntity<Double> getTotalRentByEstablishmentAndEmployee(@RequestParam Integer id, @RequestParam Integer idE) {
+    @GetMapping("/total-rent/by-establishment/{id}/by-employee/{idE}")
+    public ResponseEntity<Double> getTotalRentByEstablishmentAndEmployee(@PathVariable Integer id,
+            @PathVariable Integer idE) {
         return ResponseEntity.ok(paymentService.getTotalRentByEstablishmentAndEmployee(id, idE));
     }
 
-    @GetMapping("/total-rent/by-establishment/by-employee/start-date")
+    @GetMapping("/total-rent/by-establishment/{id}/by-employee/{idE}/start-date")
     public ResponseEntity<Double> getTotalRentByEstablishmentAndEmployeeAndStartDate(
-        @RequestParam Integer id,
-        @RequestParam Integer idE,
-        @RequestParam String startDate) {
+            @PathVariable Integer id, @PathVariable Integer idE,
+            @RequestParam String startDate) {
         return ResponseEntity.ok(paymentService.getTotalRentByEstablishmentAndEmployeeAndStartDate(id, idE, startDate));
     }
 
-    @GetMapping("/total-rent/by-establishment/by-employee/end-date")
+    @GetMapping("/total-rent/by-establishment/{id}/by-employee/{idE}/end-date")
     public ResponseEntity<Double> getTotalRentByEstablishmentAndEmployeeAndEndDate(
-        @RequestParam Integer id,
-        @RequestParam Integer idE,
-        @RequestParam String endDate) {
+            @PathVariable Integer id, @PathVariable Integer idE,
+            @RequestParam String endDate) {
         return ResponseEntity.ok(paymentService.getTotalRentByEstablishmentAndEmployeeAndEndDate(id, idE, endDate));
     }
 }

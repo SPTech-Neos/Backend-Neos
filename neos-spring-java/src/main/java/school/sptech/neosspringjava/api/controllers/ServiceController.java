@@ -56,29 +56,29 @@ public class ServiceController {
         return ResponseEntity.ok().body(servServ.updateServiceStatus(id, status));
     }
 
-    @GetMapping("/by-establishment")
+    @GetMapping("/by-establishment/{id}")
     public ResponseEntity<List<ServiceResponse>> findServicesByEstablishmentAndStatus(
-        @RequestParam Integer id,
+        @PathVariable Integer id,
         @RequestParam String status) {
         return ResponseEntity.ok().body(servServ.findServicesByEstablishmentAndStatus(id, status));
     }
 
-    @GetMapping("/by-establishment/status")
+    @GetMapping("/by-establishment/{id}/status")
     public ResponseEntity<List<ServiceResponse>> findServicesByEstablishmentAndStatus(
-        @RequestParam Integer id,
+        @PathVariable Integer id,
         @RequestParam Integer status) {
         return ResponseEntity.ok().body(servServ.findServicesByEstablishmentAndStatus(id, status));
     }
 
-    @GetMapping("/by-employee")
-    public ResponseEntity<List<ServiceResponse>> findServicesByEmployeeId(@RequestParam Integer id) {
+    @GetMapping("/by-employee/{id}")
+    public ResponseEntity<List<ServiceResponse>> findServicesByEmployeeId(@PathVariable Integer id) {
         return ResponseEntity.ok().body(servServ.findServicesByEmployeeId(id));
     }
 
-    @GetMapping("/by-employee/by-category")
+    @GetMapping("/by-employee/{idEmployeee}/by-category/{categotyId}")
     public ResponseEntity<List<ServiceResponse>> findServicesByEmployeeIdAndServiceCategory(
-        @RequestParam Integer idEmployeee,
-        @RequestParam Integer categotyId) {
+        @PathVariable Integer idEmployeee,
+        @PathVariable Integer categotyId) {
         return ResponseEntity.ok().body(servServ.findServicesByEmployeeIdAndServiceCategory(idEmployeee, categotyId));
     }
 }
