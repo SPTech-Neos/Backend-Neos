@@ -36,12 +36,12 @@ public class PaymentController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PaymentResponse> findById(@RequestParam Integer id) {
+    public ResponseEntity<PaymentResponse> findById(@PathVariable Integer id) {
         return ResponseEntity.ok(PaymentMapper.toResponse(paymentService.findById(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PaymentResponse> update(@RequestParam Integer id,
+    public ResponseEntity<PaymentResponse> update(@PathVariable Integer id,
             @RequestBody PaymentRequest paymentRequest) {
         PaymentResponse paymentResponse = paymentService.update(id, paymentRequest);
         if (paymentResponse == null) {
@@ -51,7 +51,7 @@ public class PaymentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@RequestParam Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         paymentService.delete(id);
         return ResponseEntity.noContent().build();
     }
