@@ -12,9 +12,7 @@ import school.sptech.neosspringjava.domain.model.Service;
 import school.sptech.neosspringjava.domain.model.ServiceCategory;
 import school.sptech.neosspringjava.domain.model.ServiceType;
 import school.sptech.neosspringjava.domain.model.Status;
-import school.sptech.neosspringjava.domain.repository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.EmployeeServicesRepository;
-import school.sptech.neosspringjava.domain.repository.EstablishmentRepository;
 import school.sptech.neosspringjava.domain.repository.ServiceCategoryRepository;
 import school.sptech.neosspringjava.domain.repository.ServiceRepository;
 import school.sptech.neosspringjava.domain.repository.ServiceTypeRepository;
@@ -28,9 +26,9 @@ public class ServiceService {
     private final ServiceMapper ServiceMapper;
     private final ServiceRepository serviceRepository;
     private final ServiceTypeRepository serviceTypeRepository;
-    private final EstablishmentRepository establishmentRepository;
+    private final EstablishmentService establishmentService;
     private final EmployeeServicesRepository employeeServicesRepository;
-    private final EmployeeRepository employeeRepository;
+    private final EmployeeService employeeService;
     private final ServiceCategoryRepository serviceCategoryRepository;
     private final StatusService statusService; 
 
@@ -155,7 +153,7 @@ public class ServiceService {
     }
 
     public List<ServiceResponse> findServicesByEstablishmentAndStatus(Integer id, String status) {
-                Establishment e = establishmentRepository.findById(id).get();
+                Establishment e = establishmentService.findById(id);
         if (e == null) {
             throw new IllegalArgumentException("estabelecimento não encontrado com o ID: " + id);
         }
@@ -167,7 +165,7 @@ public class ServiceService {
         return ServiceMapper.toServiceResponseList(services);
     }
     public List<ServiceResponse> findServicesByEstablishmentAndStatus(Integer id, Integer status) {
-                Establishment e = establishmentRepository.findById(id).get();
+                Establishment e = establishmentService.findById(id);
         if (e == null) {
             throw new IllegalArgumentException("estabelecimento não encontrado com o ID: " + id);
         }
@@ -180,7 +178,7 @@ public class ServiceService {
     }
     
     public List<ServiceResponse> findServicesByEmployeeId(Integer employeeId){
-        Employee e = employeeRepository.findById(employeeId).get();
+        Employee e = employeeService.findById(employeeId);
         if (e == null) {
             throw new IllegalArgumentException("funcionario não encontrado com o ID: " + employeeId);
         }
@@ -190,7 +188,7 @@ public class ServiceService {
     }
     
     public List<ServiceResponse> findServicesByEmployeeIdAndServiceCategory(Integer employeeId, Integer servCategoryId){
-        Employee e = employeeRepository.findById(employeeId).get();
+        Employee e = employeeService.findById(employeeId);
         if (e == null) {
             throw new IllegalArgumentException("funcionario não encontrado com o ID: " + employeeId);
         }

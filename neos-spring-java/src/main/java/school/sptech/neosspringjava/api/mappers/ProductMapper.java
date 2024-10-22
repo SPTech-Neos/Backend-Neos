@@ -46,5 +46,6 @@ public class ProductMapper {
             return ProductMapper.toProduct(productRequest, productTypes.get(index), establishments.get(index), status.get(index));
         }).collect(Collectors.toList());
     }
+
    
 }
