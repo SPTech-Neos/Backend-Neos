@@ -21,13 +21,9 @@ public class EmployeeServices {
     @Column(name = "employee_services_id")
     private Integer id;
 
-    private Date hoursSpent;
+    private Integer hoursSpent;
 
     private Boolean expertise;
-
-    private Double price;
-
-    private String aditumId;
 
     @ManyToOne
     @JoinColumn(name = "fk_employee")
