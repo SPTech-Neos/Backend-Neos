@@ -23,6 +23,8 @@ import school.sptech.neosspringjava.domain.model.Establishment;
 import school.sptech.neosspringjava.domain.model.Status;
 import school.sptech.neosspringjava.domain.repository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.EmployeeServicesRepository;
+import school.sptech.neosspringjava.domain.repository.ServiceRepository;
+import school.sptech.neosspringjava.domain.model.*;
 
 @Service
 @RequiredArgsConstructor
@@ -32,12 +34,10 @@ public class EmployeeService {
    private final EstablishmentService establishmentService;
    private final EmployeeTypeService eTypeService;
    private final PasswordEncoder passwordEncoder;
-   private final EmployeeServService employeeServService;
    private final LocalService lService;
    private final PhoneService pService;
    private final StatusService sService;
-   private final ServiceService servService;
-   private final EmployeeServService esService;
+   private final ServiceRepository servService;
    private final EmployeeServicesRepository employeeServicesRepository;
 
     @Autowired
@@ -192,10 +192,10 @@ public class EmployeeService {
     }
 
 
-    public List<Employee> findAllByEstablishmentAndService(Integer idEstab, Integer idServ){
-        Establishment e = establishmentService.findById(idEstab);
-        school.sptech.neosspringjava.domain.model.Service s = servService.findById(idServ);
-       return employeeServicesRepository.findAllByEstablishmentAndService(e, s);
+    public List<Employee> findAllByEstablishmentAndService(Integer idEstab, Integer idServ) {
+           Establishment estab = establishmentService.findById(idEstab);
+           school.sptech.neosspringjava.domain.model.Service serv = servService.findById(idServ).orElseThrow(null);
+           return employeeRepository.findAllByEstablishmentAndService(estab,  serv);
     }
 
 }
