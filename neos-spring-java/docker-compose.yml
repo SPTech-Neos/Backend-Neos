@@ -21,5 +21,7 @@ services:
       - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/blume
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      DB_HOST_DEV: mysql
+      DB_PORT_DEV: 3307
+      DB_USER_DEV: root
+      DB_PASSWORD_DEV: root
