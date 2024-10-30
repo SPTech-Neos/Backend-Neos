@@ -5,7 +5,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: blume
     volumes:
-      - /var/lib/mysql # Volume anônimo (não será persistido)
+      - db-data:/var/lib/mysql # Volume anônimo (não será persistido)
       - ./src/main/resources/data/db.sql:/docker-entrypoint-initdb.d/db.sql # creates aqui
       - ./src/main/resources/data/scripts/mock.sql:/docker-entrypoint-initdb.d/mock.sql # inserts aqui
     ports:
@@ -22,6 +22,9 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/blume
       DB_HOST_DEV: mysql
-      DB_PORT_DEV: 3307
+      DB_PORT_DEV: 3306
       DB_USER_DEV: root
       DB_PASSWORD_DEV: root
+
+volumes:
+  db-data:
