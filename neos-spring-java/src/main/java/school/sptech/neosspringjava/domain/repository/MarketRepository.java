@@ -49,43 +49,43 @@ public interface MarketRepository extends JpaRepository<Market, Integer> {
             @Param("startDate") LocalDateTime startDate,
             @Param("endDate") LocalDateTime endDate);
 
-    @Query(value = "SELECT DATE(o.dateTime) AS period, " +
-                   "COUNT(CASE WHEN o.fkstatus = 5 THEN m.market_id END) AS canceledOrders, " +
+    @Query(value = "SELECT DATE(o.date_time) AS period, " +
+                   "COUNT(CASE WHEN o.fk_status = 5 THEN m.market_id END) AS canceledOrders, " +
                    "COUNT(m.market_id) AS totalOrders " +
                    "FROM Market m " +
-                   "JOIN Product p ON m.fkproduct = p.product_Id " +
-                   "JOIN Orders o ON m.fkOrder = o.order_Id " +
-                   "WHERE p.fkEstablishment = :establishmentId " +
-                   "AND o.dateTime BETWEEN :startDate AND :endDate " +
-                   "GROUP BY DATE(o.dateTime)",
+                   "JOIN Product p ON m.fk_product = p.product_Id " +
+                   "JOIN Orders o ON m.fk_order = o.order_Id " +
+                   "WHERE p.fk_establishment = :establishmentId " +
+                   "AND o.date_time BETWEEN :startDate AND :endDate " +
+                   "GROUP BY DATE(o.date_time)",
            nativeQuery = true)
     List<Object[]> findDailyOrderStats(@Param("establishmentId") Integer establishmentId,
                                             @Param("startDate") LocalDateTime startDate,
                                             @Param("endDate") LocalDateTime endDate);
 
-    @Query(value = "SELECT YEARWEEK(o.dateTime, 1) AS period, " +
-                   "COUNT(CASE WHEN o.fkstatus = 5 THEN m.market_id END) AS canceledOrders, " +
+    @Query(value = "SELECT YEARWEEK(o.date_time, 1) AS period, " +
+                   "COUNT(CASE WHEN o.fk_status = 5 THEN m.market_id END) AS canceledOrders, " +
                    "COUNT(m.market_id) AS totalOrders " +
                    "FROM Market m " +
-                   "JOIN Product p ON m.fkproduct = p.product_Id " +
-                   "JOIN Orders o ON m.fkOrder = o.order_Id " +
-                   "WHERE p.fkEstablishment = :establishmentId " +
-                   "AND o.dateTime BETWEEN :startDate AND :endDate " +
-                   "GROUP BY YEARWEEK(o.dateTime, 1)",
+                   "JOIN Product p ON m.fk_product = p.product_Id " +
+                   "JOIN Orders o ON m.fk_order = o.order_Id " +
+                   "WHERE p.fk_establishment = :establishmentId " +
+                   "AND o.date_time BETWEEN :startDate AND :endDate " +
+                   "GROUP BY YEARWEEK(o.date_time, 1)",
            nativeQuery = true)
     List<Object[]> findWeeklyOrderStats(@Param("establishmentId") Integer establishmentId,
                                              @Param("startDate") LocalDateTime startDate,
                                              @Param("endDate") LocalDateTime endDate);
 
-    @Query(value = "SELECT DATE_FORMAT(o.dateTime, '%Y-%m') AS period, " +
-                   "COUNT(CASE WHEN o.fkstatus = 5 THEN m.market_id END) AS canceledOrders, " +
+    @Query(value = "SELECT DATE_FORMAT(o.date_time, '%Y-%m') AS period, " +
+                   "COUNT(CASE WHEN o.fk_status = 5 THEN m.market_id END) AS canceledOrders, " +
                    "COUNT(m.market_id) AS totalOrders " +
                    "FROM Market m " +
-                   "JOIN Product p ON m.fkproduct = p.product_Id " +
-                   "JOIN Orders o ON m.fkOrder = o.order_Id " +
-                   "WHERE p.fkEstablishment = :establishmentId " +
-                   "AND o.dateTime BETWEEN :startDate AND :endDate " +
-                   "GROUP BY DATE_FORMAT(o.dateTime, '%Y-%m')",
+                   "JOIN Product p ON m.fk_product = p.product_Id " +
+                   "JOIN Orders o ON m.fk_order = o.order_Id " +
+                   "WHERE p.fk_establishment = :establishmentId " +
+                   "AND o.date_time BETWEEN :startDate AND :endDate " +
+                   "GROUP BY DATE_FORMAT(o.date_time, '%Y-%m')",
            nativeQuery = true)
     List<Object[]> findMonthlyOrderStats(@Param("establishmentId") Integer establishmentId,
                                               @Param("startDate") LocalDateTime startDate,

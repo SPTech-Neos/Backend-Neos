@@ -27,11 +27,7 @@ import school.sptech.neosspringjava.api.mappers.ServiceMapper;
 public class EstablishmentService {
 
     private final EstablishmentRepository establishmentRepository;
-    private final EmployeeRepository employeeRepository;
     private final LocalRepository localRepository;
-    private final PaymentService paymentService;
-    private final ProductService productService;
-    private final SchedulingService schedulingService;
     private final StatusService statusService;
     private final RatingRepository ratingRepository;
     private final PhoneService pService;
