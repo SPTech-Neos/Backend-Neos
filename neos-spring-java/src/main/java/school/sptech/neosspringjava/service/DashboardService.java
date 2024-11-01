@@ -77,36 +77,36 @@ public class DashboardService {
 
     }
     
-public MarketPurchasedDto mostPurchased(Integer establishment) {
+public MarketPurchasedDto mostPurchased(Integer establishment, LocalDateTime startDate, LocalDateTime endDate) {
     verifyEstablishmentExists(establishment);
-    var marketData = marketRepository.findAggregatedMarketDataByEstablishment(establishment);
+    var marketData = marketRepository.findAggregatedMarketDataByEstablishment(establishment, startDate, endDate);
     if (marketData == null || marketData.isEmpty()) {
         return new MarketPurchasedDto(null, null);
     }
     return dashboardMapper.mostPurchased(marketData);
 }
 
-public MarketPurchasedDto leastPurchased(Integer establishment) {
+public MarketPurchasedDto leastPurchased(Integer establishment,  LocalDateTime startDate, LocalDateTime endDate) {
     verifyEstablishmentExists(establishment);
-    var marketData = marketRepository.findAggregatedMarketDataByEstablishment(establishment);
+    var marketData = marketRepository.findAggregatedMarketDataByEstablishment(establishment, startDate, endDate);
     if (marketData == null || marketData.isEmpty()) {
         return new MarketPurchasedDto(null, null);
     }
     return dashboardMapper.leastPurchased(marketData);
 }
 
-public MarketProfitableDto mostProfitable(Integer establishment) {
+public MarketProfitableDto mostProfitable(Integer establishment, LocalDateTime startDate, LocalDateTime endDate) {
     verifyEstablishmentExists(establishment);
-    var salesData = marketRepository.findTotalSalesValueByProduct(establishment);
+    var salesData = marketRepository.findTotalSalesValueByProduct(establishment, startDate, endDate);
     if (salesData == null || salesData.isEmpty()) {
         return new MarketProfitableDto(null, null);
     }
     return dashboardMapper.mostProfitable(salesData);
 }
 
-public MarketProfitableDto leastProfitable(Integer establishment) {
+public MarketProfitableDto leastProfitable(Integer establishment, LocalDateTime startDate, LocalDateTime endDate) {
     verifyEstablishmentExists(establishment);
-    var salesData = marketRepository.findTotalSalesValueByProduct(establishment);
+    var salesData = marketRepository.findTotalSalesValueByProduct(establishment, startDate, endDate);
     if (salesData == null || salesData.isEmpty()) {
         return new MarketProfitableDto(null, null);
     }

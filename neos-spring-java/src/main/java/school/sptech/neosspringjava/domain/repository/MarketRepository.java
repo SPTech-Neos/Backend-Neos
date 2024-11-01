@@ -12,21 +12,33 @@ import school.sptech.neosspringjava.domain.model.Market;
 
 public interface MarketRepository extends JpaRepository<Market, Integer> {
 
-    @Query("SELECT p.name, COALESCE(SUM(m.quantity),0) " +
-            "FROM Market m " +
-            "JOIN m.product p " +
-            "WHERE p.establishment.id = :establishmentId " +
-            "GROUP BY p.name " +
-            "ORDER BY SUM(m.quantity) DESC")
-    List<Object[]> findAggregatedMarketDataByEstablishment(@Param("establishmentId") Integer establishmentId);
+        @Query("SELECT p.name, COALESCE(SUM(m.quantity),0) " +
+        "FROM Market m " +
+        "JOIN m.product p " +
+        "JOIN m.order o " +
+        "WHERE p.establishment.id = :establishmentId " +
+        "AND o.dateTime BETWEEN :startDate AND :endDate " +
+        "GROUP BY p.name " +
+        "ORDER BY SUM(m.quantity) DESC")
+ List<Object[]> findAggregatedMarketDataByEstablishment(
+        @Param("establishmentId") Integer establishmentId,
+        @Param("startDate") LocalDateTime startDate,
+        @Param("endDate") LocalDateTime endDate);
+ 
 
-    @Query("SELECT p.name, COALESCE(SUM(m.quantity * p.price),0) " +
-            "FROM Market m " +
-            "JOIN m.product p " +
-            "WHERE p.establishment.id = :establishmentId " +
-            "GROUP BY p.name " +
-            "ORDER BY SUM(m.quantity * p.price) DESC")
-    List<Object[]> findTotalSalesValueByProduct(@Param("establishmentId") Integer establishmentId);
+        @Query("SELECT p.name, COALESCE(SUM(m.quantity * p.price),0) " +
+        "FROM Market m " +
+        "JOIN m.product p " +
+        "JOIN m.order o " +
+        "WHERE p.establishment.id = :establishmentId " +
+        "AND o.dateTime BETWEEN :startDate AND :endDate " +
+        "GROUP BY p.name " +
+        "ORDER BY SUM(m.quantity * p.price) DESC")
+ List<Object[]> findTotalSalesValueByProduct(
+        @Param("establishmentId") Integer establishmentId,
+        @Param("startDate") LocalDateTime startDate,
+        @Param("endDate") LocalDateTime endDate);
+ 
 
     @Query("SELECT COUNT(m.id) " +
             "FROM Market m " +

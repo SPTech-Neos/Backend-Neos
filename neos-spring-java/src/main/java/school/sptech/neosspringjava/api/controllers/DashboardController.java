@@ -70,7 +70,7 @@ public class DashboardController {
     @PostMapping("/leastPurchased")
     public ResponseEntity<MarketPurchasedDto> leastPurchased(@RequestBody DashboardRequest request) {
         if (request.establishmentId() != null) {
-            MarketPurchasedDto marketPurchasedDto = dashboardService.leastPurchased(request.establishmentId());
+            MarketPurchasedDto marketPurchasedDto = dashboardService.leastPurchased(request.establishmentId(), request.start(), request.end());
 
             if (marketPurchasedDto.quantity() == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -85,7 +85,7 @@ public class DashboardController {
     @PostMapping("/mostPurchased")
     public ResponseEntity<MarketPurchasedDto> mostPurchased(@RequestBody DashboardRequest request) {
         if (request.establishmentId() != null) {
-            MarketPurchasedDto marketPurchasedDto = dashboardService.mostPurchased(request.establishmentId());
+            MarketPurchasedDto marketPurchasedDto = dashboardService.mostPurchased(request.establishmentId(), request.start(), request.end());
 
             if (marketPurchasedDto.quantity() == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -100,7 +100,7 @@ public class DashboardController {
     @PostMapping("/leastProfitable")
     public ResponseEntity<MarketProfitableDto> leastProfitable(@RequestBody DashboardRequest request) {
         if (request.establishmentId() != null) {
-            MarketProfitableDto marketProfitableDto = dashboardService.leastProfitable(request.establishmentId());
+            MarketProfitableDto marketProfitableDto = dashboardService.leastProfitable(request.establishmentId(), request.start(), request.end());
 
             if (marketProfitableDto.price() == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -115,7 +115,7 @@ public class DashboardController {
     @PostMapping("/mostProfitable")
     public ResponseEntity<MarketProfitableDto> mostProfitable(@RequestBody DashboardRequest request) {
         if (request.establishmentId() != null) {
-            MarketProfitableDto marketProfitableDto = dashboardService.mostProfitable(request.establishmentId());
+            MarketProfitableDto marketProfitableDto = dashboardService.mostProfitable(request.establishmentId(), request.start(), request.end());
 
             if (marketProfitableDto.price() == null) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
