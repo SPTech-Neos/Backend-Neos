@@ -2,10 +2,10 @@ services:
   mysql:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_DEV}
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: blume
     volumes:
-      - /var/lib/mysql # Volume anônimo (não será persistido)
+      - db-data:/var/lib/mysql # Volume anônimo (não será persistido)
       - ./src/main/resources/data/db.sql:/docker-entrypoint-initdb.d/db.sql # creates aqui
       - ./src/main/resources/data/scripts/mock.sql:/docker-entrypoint-initdb.d/mock.sql # inserts aqui
     ports:
@@ -21,5 +21,10 @@ services:
       - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/blume
-      SPRING_DATASOURCE_USERNAME: ${DB_PASSWORD_DEV}
-      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD_DEV}
+      DB_HOST_DEV: mysql
+      DB_PORT_DEV: 3306
+      DB_USER_DEV: root
+      DB_PASSWORD_DEV: root
+
+volumes:
+  db-data:

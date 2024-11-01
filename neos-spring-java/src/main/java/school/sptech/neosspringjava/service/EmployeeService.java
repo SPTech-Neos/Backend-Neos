@@ -24,7 +24,6 @@ import school.sptech.neosspringjava.domain.model.Status;
 import school.sptech.neosspringjava.domain.repository.EmployeeRepository;
 import school.sptech.neosspringjava.domain.repository.EmployeeServicesRepository;
 import school.sptech.neosspringjava.domain.repository.ServiceRepository;
-import school.sptech.neosspringjava.domain.model.*;
 
 @Service
 @RequiredArgsConstructor
@@ -78,11 +77,12 @@ public class EmployeeService {
     }
 
     public Employee update(EmployeeRequest employeeRequest, Integer id) {
+        String passwordEncrypted = passwordEncoder.encode(employeeRequest.password());
        
         Employee employee = employeeRepository.findById(id).orElseThrow( () -> new RuntimeException("Funcionário não encontrado"));
             employee.setName(employeeRequest.name());
             employee.setEmail(employeeRequest.email());
-            employee.setPassword(employeeRequest.password());
+            employee.setPassword(passwordEncrypted);
             employee.setImgUrl(employeeRequest.imgUrl());
             employee.setEstablishment(establishmentService.findById(employeeRequest.fkEstablishment()));
             employee.setEmployeeType(eTypeService.findById(employeeRequest.employeeType()));
@@ -101,7 +101,9 @@ public class EmployeeService {
         }
     
         if (updates.password() != null) {
-            employee.setPassword(updates.password());
+        String passwordEncrypted = passwordEncoder.encode(updates.password());
+
+            employee.setPassword(passwordEncrypted);
         }
     
         if (updates.imgUrl() != null) {
