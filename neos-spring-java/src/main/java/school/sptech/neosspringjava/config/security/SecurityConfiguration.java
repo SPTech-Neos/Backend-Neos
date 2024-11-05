@@ -63,7 +63,7 @@ public class SecurityConfiguration {
             new AntPathRequestMatcher("/establishments"),
             new AntPathRequestMatcher("/establishments/**"),
 
-            new AntPathRequestMatcher("/addresses/**"), // apenas para testes daqui para baixo
+            new AntPathRequestMatcher("/*"), // apenas para testes daqui para baixo
             new AntPathRequestMatcher("/addresses"),
             new AntPathRequestMatcher("/locals/**"),
             new AntPathRequestMatcher("/locals"),
