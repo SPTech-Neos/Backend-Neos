@@ -67,6 +67,11 @@ public class EmployeeService {
 
         Employee employee = EmployeeMapper.toEntity(employeeRequest, passwordEncrypted);
 
+        Boolean existsEmail = employeeRepository.existsByEmail(employee.getEmail());
+
+        if (existsEmail) throw new ResponseStatusException(400, "Email já cadastrado", null);
+        
+
         employee.setEmployeeType(eTypeService.findById(employeeRequest.employeeType()));
         employee.setEstablishment(establishmentService.findById(employeeRequest.fkEstablishment()));
         employee.setStatus(sService.findById(employeeRequest.fkStatus()));

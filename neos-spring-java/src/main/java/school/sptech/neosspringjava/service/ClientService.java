@@ -33,6 +33,9 @@ public class ClientService {
     public ClientResponse create(ClientCreatDTO clientCreatDTO) {
         Client newClient = clientMapper.of(clientCreatDTO);
 
+        Boolean existsEmail = clientRepository.existsByEmail(newClient.getEmail());
+
+        if (existsEmail) throw new ResponseStatusException(400, "Email já cadastrado", null);
 
         String passwordEncrypted = passwordEncoder.encode(newClient.getPassword());
         newClient.setPassword(passwordEncrypted);

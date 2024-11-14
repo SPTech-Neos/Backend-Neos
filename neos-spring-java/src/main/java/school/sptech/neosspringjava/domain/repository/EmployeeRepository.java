@@ -22,6 +22,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     List<Employee> findAllByEstablishment(Establishment establishment);
 
     Optional<Employee> findByEmail(String email);
+    Boolean existsByEmail(String email);
 
     List<Employee> findAllByStatus(Status status);
 
