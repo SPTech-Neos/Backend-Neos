@@ -1,7 +1,10 @@
 package school.sptech.neosspringjava.service;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.persistence.EntityNotFoundException;
 import school.sptech.neosspringjava.domain.model.Client;
@@ -29,7 +32,7 @@ public class MarketService {
     public List<Market> findByEstablishmentId(Integer id){
         Establishment e = establishmentService.findById(id);
         if (e == null ) {
-            throw new EntityNotFoundException("Estabelecimento não encontrado");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Estabelecimento não encontrado");
         }
         return mRepo.findByEstablishmentId(e.getId());
     }
@@ -37,8 +40,9 @@ public class MarketService {
     public List<Market> findByClientId(Integer id){
         Client c = clientService.findById(id);
         if (c == null ) {
-            throw new EntityNotFoundException("Client não encontrado");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Estabelecimento não encontrado");
         }
+
         return mRepo.findByClientId(c.getId());
     }
 }

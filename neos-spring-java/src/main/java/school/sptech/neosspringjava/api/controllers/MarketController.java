@@ -1,6 +1,9 @@
 package school.sptech.neosspringjava.api.controllers;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,13 +33,25 @@ public class MarketController {
 
     @GetMapping("/establishmentId/{id}")
     public ResponseEntity <List<MarketResponse>> findByEstablishmentId(@PathVariable Integer id){
-        return ResponseEntity.ok(MarketMapper.toResponse(mService.findByEstablishmentId(id)));
+        List<MarketResponse> listMarketResponses = MarketMapper.toResponse(mService.findByEstablishmentId(id));
+        System.out.println(listMarketResponses.toString());
+        System.out.println(listMarketResponses.isEmpty());
+        if (listMarketResponses.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }else{
+        return ResponseEntity.ok(listMarketResponses);
     }
+}
 
     @GetMapping("/clientId/{id}")
     public ResponseEntity<List<MarketResponse>> findByClientId(@PathVariable Integer id){
-        return ResponseEntity.ok(MarketMapper.toResponse(mService.findByClientId(id)));
+        List<MarketResponse> listMarketResponses = MarketMapper.toResponse(mService.findByClientId(id)); 
+        if (listMarketResponses.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(listMarketResponses);
+        }else{
+        return ResponseEntity.ok(listMarketResponses);
     }
+}
     
 
 }
