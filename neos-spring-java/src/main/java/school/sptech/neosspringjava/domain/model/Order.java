@@ -18,6 +18,7 @@ public class Order {
     @Column(name = "order_id")
     private Integer id;
 
+    @Column(name = "date_time")
     private LocalDateTime dateTime;
 
     @JoinColumn(name ="fk_status")

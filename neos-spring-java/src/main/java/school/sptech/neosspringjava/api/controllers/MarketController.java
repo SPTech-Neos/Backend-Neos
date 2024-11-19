@@ -28,4 +28,15 @@ public class MarketController {
         return ResponseEntity.ok(MarketMapper.toResponse(mService.findById(id)));
     }
 
+    @GetMapping("/establishmentId/{id}")
+    public ResponseEntity <List<MarketResponse>> findByEstablishmentId(@PathVariable Integer id){
+        return ResponseEntity.ok(MarketMapper.toResponse(mService.findByEstablishmentId(id)));
+    }
+
+    @GetMapping("/clientId/{id}")
+    public ResponseEntity<List<MarketResponse>> findByClientId(@PathVariable Integer id){
+        return ResponseEntity.ok(MarketMapper.toResponse(mService.findByClientId(id)));
+    }
+    
+
 }
