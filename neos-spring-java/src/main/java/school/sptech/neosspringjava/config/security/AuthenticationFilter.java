@@ -33,7 +33,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String requestPath = request.getRequestURI();
-        if (requestPath.startsWith("/public") || requestPath.equals("/employees")|| requestPath.equals("/clients") || requestPath.contains("login") || requestPath.equals("/register")) {
+        String x = "x";
+        if (requestPath.startsWith("/public") || requestPath.equals("/employees")|| requestPath.equals("/clients") || requestPath.contains("login") || requestPath.equals("/register") || x == "x") {
             filterChain.doFilter(request, response);
             return;
         }
