@@ -32,9 +32,9 @@ jobs:
           sudo systemctl start docker
           sudo systemctl enable docker
 
-          sed -i "s|localhost|${{ secrets.DB_HOST_PROD }}|g" /home/ubuntu/Backend-Neos/neos-spring-java/docker-compose.yml
           
           cd ./neos-spring-java
+          sed -i "s|localhost|${{ secrets.DB_HOST_PROD }}|g" ./docker-compose.yml
           docker compose -f docker-compose.yml build
       - name: publish
         run: |
