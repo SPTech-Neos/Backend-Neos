@@ -1,0 +1,40 @@
+name: CI BACKEND NEOS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: build
+        run: |
+          # Atualiza os pacotes e instala dependências necessárias
+          sudo apt-get update
+          sudo apt-get install ca-certificates curl -y
+
+          # Cria o diretório de keyrings e adiciona a chave GPG oficial do Docker
+          sudo install -m 0755 -d /etc/apt/keyrings
+          sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+          # Adiciona o repositório do Docker às fontes do Apt
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+          # Atualiza os pacotes e instala as versões mais recentes do Docker
+          sudo apt-get update
+          sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+
+          # Inicia o Docker e habilita para iniciar automaticamente no boot
+          sudo systemctl start docker
+          sudo systemctl enable docker
+          
+          cd ./neos-spring-java
+          docker compose -f docker-compose.yml build
+      - name: publish
+        run: |
+          docker login -u victorlcdpaula -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push victorlcdpaula/backend-neos:latest
