@@ -31,6 +31,8 @@ jobs:
           # Inicia o Docker e habilita para iniciar automaticamente no boot
           sudo systemctl start docker
           sudo systemctl enable docker
+
+          sed -i "s|localhost|${{ secrets.DB_HOST_PROD }}|g" /home/ubuntu/Backend-Neos/neos-spring-java/docker-compose.yml
           
           cd ./neos-spring-java
           docker compose -f docker-compose.yml build
