@@ -5,6 +5,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    image: victorlcdpaula/backend-neos
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://localhost:3307/blume
       DB_HOST_DEV: mysql
