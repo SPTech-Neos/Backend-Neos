@@ -2,7 +2,10 @@ package school.sptech.neosspringjava.service;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import school.sptech.neosspringjava.api.dtos.orderDto.OrderRequest;
 import school.sptech.neosspringjava.domain.repository.OrderRepository;
 import school.sptech.neosspringjava.domain.model.Client;
@@ -19,6 +22,18 @@ public class OrderService {
 
     public List<Order> findAll(){
         return oRep.findAll();
+    }
+    // public List<Order> findAllOrdersByEstablishment(Integer id){
+    //     return oRep.findAllOrdersByEstablishment(id);
+    // }
+    public List<Order> findAllOrdersByClient(Integer id){
+        Client c = clientService.findById(id);
+        if (c == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "cliente não encontrado");
+        }
+        List<Order> listOrder = oRep.findAllOrdersByClient(id);
+
+        return listOrder;
     }
 
     public Order findById(Integer id){
