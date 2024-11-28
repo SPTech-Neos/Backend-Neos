@@ -1,10 +1,7 @@
 name: CD BACKEND NEOS
 
 on:
-  workflow_run:
-    workflows: ["Terraform Configs"]
-    types:
-      - completed  # Executa o CD somente após a conclusão do CI
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -16,11 +13,13 @@ jobs:
 
       - name: Setup SSH for frontend and backend
         run: |
+          mkdir -p ~/.ssh
+        
           # Salvar a chave privada em um arquivo temporário
-          echo "$SSH_PRIVATE_KEY" > blume_key.pem
+          ssh-keygen -t rsa -b 2048 -f ~/.ssh/blume_key.pem
           
           # Definir permissões de acesso corretas para a chave privada
-          chmod 600 blume_key.pem
+          chmod 400 ~/.ssh/blume_key.pem
 
       - name: Deploy Docker image to both backends via jump server
         env:
@@ -48,4 +47,4 @@ jobs:
 
       - name: Clean up private key
         run: |
-          rm -f blume_key.pem
+          rm -f ~/.ssh/blume_key.pem
