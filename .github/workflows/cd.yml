@@ -29,9 +29,17 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
+      - name: Add hostname to /etc/hosts
+        run: |
+          # Adicionar o hostname para garantir que seja resolvido corretamente
+          echo "127.0.0.1 workstation" | sudo tee -a /etc/hosts
+          
+          # Verificar se a adição foi bem-sucedida
+          cat /etc/hosts
+
       - name: Verify and add the public machine's SSH key
         env:
-          PUBLIC_IP: ${{ secrets.PUBLIC_IP }}
+          PUBLIC_IP: ${{ secrets.CLEAN_PUBLIC_IP }}
         run: |
           # Criar diretório .ssh caso não exista
           mkdir -p ~/.ssh
