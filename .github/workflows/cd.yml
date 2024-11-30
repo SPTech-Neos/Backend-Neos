@@ -29,14 +29,11 @@ jobs:
           for BACKEND in $BACKEND_IP_1 $BACKEND_IP_2; do
             echo "Deploying to $BACKEND..."
             
-            $SSH_CMD ubuntu@$BACKEND << 'EOF'
-              # Remover containers e imagens antigos
-              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
-              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
-
-              # Baixar a nova imagem e rodar o container
-              sudo docker pull victorlcdpaula/backend-neos:latest
-              sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
+            $SSH_CMD ubuntu@$BACKEND <<EOF
+            sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
+            sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
+            sudo docker pull victorlcdpaula/backend-neos:latest
+            sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
             EOF
           done
 
