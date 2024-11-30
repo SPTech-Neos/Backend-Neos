@@ -55,16 +55,16 @@ jobs:
 
       - name: Copy SSH keys to the jump server
         env:
-          PUBLIC_IP: ${{ secrets.PUBLIC_IP }}
+          PUBLIC_IP: ${{ secrets.CLEAN_PUBLIC_IP }}
         run: |
           # Copiar a chave privada para o jump server
-          scp -i ~/.ssh/blume_key.pem ~/.ssh/blume_key.pem $PUBLIC_IP:/home/ubuntu/
+          scp -i ~/.ssh/blume_key.pem ~/.ssh/blume_key.pem ubuntu@$PUBLIC_IP:/home/ubuntu/
           
           # Verificar se a cópia foi bem-sucedida
           echo "Chave privada copiada para o jump server com sucesso."
 
           # Copiar a chave pública para o jump server
-          scp -i ~/.ssh/blume_key.pem.pub ~/.ssh/blume_key.pem.pub $PUBLIC_IP:/home/ubuntu/
+          scp -i ~/.ssh/blume_key.pem.pub ~/.ssh/blume_key.pem.pub ubuntu@$PUBLIC_IP:/home/ubuntu/
 
           # Verificar se a chave pública foi copiada corretamente
           echo "Chave pública copiada para o jump server com sucesso."
