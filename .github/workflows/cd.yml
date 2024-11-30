@@ -21,7 +21,6 @@ jobs:
           chmod 600 ~/.ssh/blume_key.pem
           chmod 644 ~/.ssh/blume_key.pem.pub
           chmod 700 ~/.ssh
-          chmod 600 ~/.ssh/authorized_keys
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
