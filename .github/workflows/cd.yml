@@ -28,7 +28,7 @@ jobs:
         with:
           host: ${{ secrets.PUBLIC_IP }}
           username: ubuntu
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY_PUB }}
           script: |
             # Adicionar as chaves das máquinas privadas ao known_hosts
             ssh-keyscan -H $BACKEND_IP_1 >> ~/.ssh/known_hosts
