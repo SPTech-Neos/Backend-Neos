@@ -29,8 +29,8 @@ jobs:
           BACKEND_IP_2: ${{ secrets.PRIVATE_IP_2 }}
         run: |
           # Conectar ao primeiro backend via jump server (frontend) usando ProxyJump
-          scp -i blume_key.pem blume_key.pem $PUBLIC_IP:/home/ubuntu/
-          ssh -i blume_key.pem $PUBLIC_IP
+          scp -i ~/.ssh/blume_key.pem blume_key.pem $PUBLIC_IP:/home/ubuntu/
+          ssh -i ~/.ssh/blume_key.pem $PUBLIC_IP
 
           ssh -i blume_key.pem $BACKEND_IP_1
 
