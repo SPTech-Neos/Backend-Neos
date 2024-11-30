@@ -27,27 +27,29 @@ jobs:
           BACKEND_IP_2: ${{ secrets.PRIVATE_IP_2 }}
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         with:
-          host: ${{ secrets.PUBLIC_IP }}
+          host: ${{ secrets.PUBLIC_IP }}  # Use o IP público diretamente
           username: ubuntu
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}  # A chave privada aqui
           script: |
             # Adicionar as chaves das máquinas privadas ao known_hosts
             ssh-keyscan -H $BACKEND_IP_1 >> ~/.ssh/known_hosts
             ssh-keyscan -H $BACKEND_IP_2 >> ~/.ssh/known_hosts
             chmod 600 ~/.ssh/known_hosts
 
-            echo $SSH_KEY > blume_key.pem
-  
+            # Salvar a chave privada fornecida no arquivo .pem
+            echo "$SSH_KEY" > ~/.ssh/blume_key.pem
+            chmod 600 ~/.ssh/blume_key.pem  # Garanta permissões adequadas
+
             # Conectar à máquina privada 1 e atualizar o Docker
-            ssh -i blume_key.pem ubuntu@$BACKEND_IP_1 << 'PRIVATE_EOF'
+            ssh -i ~/.ssh/blume_key.pem ubuntu@$BACKEND_IP_1 << 'PRIVATE_EOF'
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
               sudo docker pull victorlcdpaula/backend-neos:latest
               sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
             PRIVATE_EOF
-  
+
             # Conectar à máquina privada 2 e atualizar o Docker
-            ssh -i blume_key.pem ubuntu@$BACKEND_IP_2 << 'PRIVATE_EOF'
+            ssh -i ~/.ssh/blume_key.pem ubuntu@$BACKEND_IP_2 << 'PRIVATE_EOF'
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
               sudo docker pull victorlcdpaula/backend-neos:latest
