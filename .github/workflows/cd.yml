@@ -31,6 +31,11 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY_PUB }}  # A chave privada aqui
           script: |
+            set -x  # Habilita o modo de depuração para mostrar todas as linhas de execução
+            
+            # Cria o diretório .ssh se necessário
+            mkdir -p ~/.ssh
+          
             # Adicionar as chaves das máquinas privadas ao known_hosts
             ssh-keyscan -H $BACKEND_IP_1 >> ~/.ssh/known_hosts
             ssh-keyscan -H $BACKEND_IP_2 >> ~/.ssh/known_hosts
