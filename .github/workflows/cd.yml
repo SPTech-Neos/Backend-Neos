@@ -13,13 +13,12 @@ jobs:
 
       - name: Setup SSH keys
         run: |
-          mkdir -p ~/.ssh
           # Criar uma nova chave privada para SSH
-          ssh-keygen -t rsa -b 2048 -f ~/.ssh/blume_key.pem -N ""
+          ssh-keygen -t rsa -b 2048 -f blume_key.pem -N ""
           
           # Definir permissões para as chaves
-          chmod 600 ~/.ssh/blume_key.pem
-          chmod 644 ~/.ssh/blume_key.pem.pub
+          chmod 600 blume_key.pem
+          chmod 644 blume_key.pem.pub
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -34,13 +33,13 @@ jobs:
           PUBLIC_IP: ${{ secrets.PUBLIC_IP }}
         run: |
           # Copiar a chave privada para o jump server
-          scp -i ~/.ssh/blume_key.pem ~/.ssh/blume_key.pem $PUBLIC_IP:/home/ubuntu/
+          scp -i blume_key.pem blume_key.pem $PUBLIC_IP:/home/ubuntu/
           
           # Verificar se a cópia foi bem-sucedida
           echo "Chave privada copiada para o jump server com sucesso."
 
           # Copiar a chave pública para o jump server
-          scp -i ~/.ssh/blume_key.pem.pub ~/.ssh/blume_key.pem.pub $PUBLIC_IP:/home/ubuntu/
+          scp -i blume_key.pem.pub blume_key.pem.pub $PUBLIC_IP:/home/ubuntu/
 
           # Verificar se a chave pública foi copiada corretamente
           echo "Chave pública copiada para o jump server com sucesso."
@@ -52,13 +51,13 @@ jobs:
           BACKEND_IP_2: ${{ secrets.PRIVATE_IP_2 }}
         run: |
           # Conectar ao jump server (pública)
-          ssh -i ~/.ssh/blume_key.pem ubuntu@$PUBLIC_IP << 'EOF'
+          ssh -i blume_key.pem ubuntu@$PUBLIC_IP << 'EOF'
             # Adicionar as chaves das máquinas privadas ao known_hosts
             ssh-keyscan -H ubuntu@$BACKEND_IP_1 >> ~/.ssh/known_hosts
             ssh-keyscan -H ubuntu@$BACKEND_IP_2 >> ~/.ssh/known_hosts
 
             # Conectar à máquina privada 1
-            ssh -i ~/.ssh/blume_key.pem ubuntu@$BACKEND_IP_1 << 'PRIVATE_EOF'
+            ssh -i blume_key.pem ubuntu@$BACKEND_IP_1 << 'PRIVATE_EOF'
               # Comandos a serem executados no backend 1
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
@@ -67,7 +66,7 @@ jobs:
             PRIVATE_EOF
 
             # Conectar à máquina privada 2
-            ssh -i ~/.ssh/blume_key.pem ubuntu@$BACKEND_IP_2 << 'PRIVATE_EOF'
+            ssh -i blume_key.pem ubuntu@$BACKEND_IP_2 << 'PRIVATE_EOF'
               # Comandos a serem executados no backend 2
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
