@@ -40,8 +40,8 @@ jobs:
           scp -i ~/.ssh/blume_key.pem.pub ~/.ssh/blume_key.pem.pub $PUBLIC_IP:/home/ubuntu/
 
           # Conectar ao Public IP e depois ao Backend 1
-          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no $PUBLIC_IP <<EOF
-            ssh -i ~/.ssh/blume_key.pem $BACKEND_IP_1 <<INNER_EOF
+          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $PUBLIC_IP <<EOF
+            ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@$BACKEND_IP_1 <<INNER_EOF
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
               sudo docker pull victorlcdpaula/backend-neos:latest
@@ -50,8 +50,8 @@ jobs:
           EOF
 
           # Conectar ao Public IP e depois ao Backend 2
-          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no $PUBLIC_IP <<EOF
-            ssh -i ~/.ssh/blume_key.pem $BACKEND_IP_2 <<INNER_EOF
+          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $PUBLIC_IP <<EOF
+            ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@$BACKEND_IP_2 <<INNER_EOF
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
               sudo docker pull victorlcdpaula/backend-neos:latest
