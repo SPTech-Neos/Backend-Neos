@@ -53,16 +53,6 @@ jobs:
           # Verificar se a chave foi adicionada corretamente
           cat ~/.ssh/known_hosts
 
-      - name: Copy SSH key PEM to the jump server
-        env:
-          PUBLIC_IP: ${{ secrets.CLEAN_PUBLIC_IP }}
-        run: |
-          # Copiar a chave privada para o jump server
-          scp -i ~/.ssh/blume_key.pem ~/.ssh/blume_key.pem ubuntu@$PUBLIC_IP:/home/ubuntu/
-          
-          # Verificar se a cópia foi bem-sucedida
-          echo "Chave privada copiada para o jump server com sucesso."
-
       - name: Copy SSH key PEM PUB to the jump server
         env:
           PUBLIC_IP: ${{ secrets.CLEAN_PUBLIC_IP }}
@@ -72,6 +62,16 @@ jobs:
 
           # Verificar se a chave pública foi copiada corretamente
           echo "Chave pública copiada para o jump server com sucesso."
+          
+      - name: Copy SSH key PEM to the jump server
+        env:
+          PUBLIC_IP: ${{ secrets.CLEAN_PUBLIC_IP }}
+        run: |
+          # Copiar a chave privada para o jump server
+          scp -i ~/.ssh/blume_key.pem ~/.ssh/blume_key.pem ubuntu@$PUBLIC_IP:/home/ubuntu/
+          
+          # Verificar se a cópia foi bem-sucedida
+          echo "Chave privada copiada para o jump server com sucesso."
 
       - name: Deploy Docker image to backend servers
         env:
