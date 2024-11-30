@@ -59,7 +59,7 @@ jobs:
           PUBLIC_IP: ${{ secrets.CLEAN_PUBLIC_IP }}
         run: |
           # Copiar a chave pública para o jump server
-          ssh-copy-id -i ~/.ssh/blume_key.pem.pub ubuntu@$PUBLIC_IP
+          sudo ssh-copy-id -i ~/.ssh/blume_key.pem.pub ubuntu@$PUBLIC_IP
 
           # Verificar se a chave pública foi copiada corretamente
           echo "Chave pública copiada para o jump server com sucesso."
@@ -69,7 +69,7 @@ jobs:
           PUBLIC_IP: ${{ secrets.CLEAN_PUBLIC_IP }}
         run: |
           # Copiar a chave privada para o jump server
-          ssh-copy-id -i ~/.ssh/blume_key.pem ubuntu@$PUBLIC_IP
+          sudo ssh-copy-id -i ~/.ssh/blume_key.pem ubuntu@$PUBLIC_IP
           
           # Verificar se a cópia foi bem-sucedida
           echo "Chave privada copiada para o jump server com sucesso."
