@@ -11,11 +11,28 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup SSH
+      # Etapa para limpar chave EC2 existente
+      - name: Cleanup existing EC2 keypair (if any)
+        run: |
+          aws ec2 delete-key-pair --key-name blume_key || echo "No key pair to delete"
+
+      - name: Setup SSH keys
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/blume_key.pem
-          chmod 400 ~/.ssh/blume_key.pem
+          
+          ssh-keygen -t rsa -b 2048 -f ~/.ssh/blume_key.pem
+
+          # Salvar a chave privada do GitHub Secrets em um arquivo temporário
+          chmod 600 ~/.ssh/blume_key.pem
+          chmod 644 ~/.ssh/blume_key.pem.pub
+
+      - name: Configure AWS credential
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: us-east-1 
 
       - name: Deploy Docker image to backend servers
         env:
@@ -23,19 +40,25 @@ jobs:
           BACKEND_IP_1: ${{ secrets.PRIVATE_IP_1 }}
           BACKEND_IP_2: ${{ secrets.PRIVATE_IP_2 }}
         run: |
-          # Definir o comando SSH com ProxyJump
-          SSH_CMD="ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -J ubuntu@$JUMP_SERVER"
+          # Copiar a chave privada para o jump server
+          scp -i ~/.ssh/blume_key.pem ~/.ssh/blume_key.pem ubuntu@$PUBLIC_IP:/home/ubuntu/
+          scp -i ~/.ssh/blume_key.pem.pub ~/.ssh/blume_key.pem.pub ubuntu@$PUBLIC_IP:/home/ubuntu/
 
-          for BACKEND in $BACKEND_IP_1 $BACKEND_IP_2; do
-            echo "Deploying to $BACKEND..."
-            
-            $SSH_CMD ubuntu@$BACKEND <<EOF
+          # Conectar ao primeiro backend via jump server (frontend) usando ProxyJump
+          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -J ubuntu@$PUBLIC_IP ubuntu@$BACKEND_IP_1 <<EOF
             sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
             sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
             sudo docker pull victorlcdpaula/backend-neos:latest
             sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
-            EOF
-          done
+          EOF
+
+          # Conectar ao segundo backend via jump server (frontend) usando ProxyJump
+          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -J ubuntu@$PUBLIC_IP ubuntu@$BACKEND_IP_2 <<EOF
+            sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
+            sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
+            sudo docker pull victorlcdpaula/backend-neos:latest
+            sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
+          EOF
 
       - name: Clean up private key
         run: |
