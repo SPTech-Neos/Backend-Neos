@@ -11,28 +11,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Etapa para limpar chave EC2 existente
-      - name: Cleanup existing EC2 keypair (if any)
-        run: |
-          aws ec2 delete-key-pair --key-name blume_key || echo "No key pair to delete"
-
       - name: Setup SSH keys
         run: |
           mkdir -p ~/.ssh
+          # Criar uma nova chave privada para SSH
+          ssh-keygen -t rsa -b 2048 -f ~/.ssh/blume_key.pem -N ""
           
-          ssh-keygen -t rsa -b 2048 -f ~/.ssh/blume_key.pem
-
-          # Salvar a chave privada do GitHub Secrets em um arquivo temporário
+          # Definir permissões para as chaves
           chmod 600 ~/.ssh/blume_key.pem
           chmod 644 ~/.ssh/blume_key.pem.pub
 
-      - name: Configure AWS credential
+      - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
-          aws-region: us-east-1 
+          aws-region: us-east-1
 
       - name: Deploy Docker image to backend servers
         env:
@@ -40,24 +35,28 @@ jobs:
           BACKEND_IP_1: ${{ secrets.PRIVATE_IP_1 }}
           BACKEND_IP_2: ${{ secrets.PRIVATE_IP_2 }}
         run: |
-          # Copiar a chave privada para o jump server
+          # Copiar as chaves para o jump server (public_ip)
           scp -i ~/.ssh/blume_key.pem ~/.ssh/blume_key.pem $PUBLIC_IP:/home/ubuntu/
           scp -i ~/.ssh/blume_key.pem.pub ~/.ssh/blume_key.pem.pub $PUBLIC_IP:/home/ubuntu/
 
-          # Conectar ao primeiro backend via jump server (frontend) usando ProxyJump
-          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -J $PUBLIC_IP ubuntu@$BACKEND_IP_1 <<EOF
-            sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
-            sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
-            sudo docker pull victorlcdpaula/backend-neos:latest
-            sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
+          # Conectar ao Public IP e depois ao Backend 1
+          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no $PUBLIC_IP <<EOF
+            ssh -i ~/.ssh/blume_key.pem $BACKEND_IP_1 <<INNER_EOF
+              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
+              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
+              sudo docker pull victorlcdpaula/backend-neos:latest
+              sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
+            INNER_EOF
           EOF
 
-          # Conectar ao segundo backend via jump server (frontend) usando ProxyJump
-          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -J $PUBLIC_IP ubuntu@$BACKEND_IP_2 <<EOF
-            sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
-            sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
-            sudo docker pull victorlcdpaula/backend-neos:latest
-            sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
+          # Conectar ao Public IP e depois ao Backend 2
+          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no $PUBLIC_IP <<EOF
+            ssh -i ~/.ssh/blume_key.pem $BACKEND_IP_2 <<INNER_EOF
+              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
+              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
+              sudo docker pull victorlcdpaula/backend-neos:latest
+              sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
+            INNER_EOF
           EOF
 
       - name: Clean up private key
