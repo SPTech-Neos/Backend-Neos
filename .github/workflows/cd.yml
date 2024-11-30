@@ -25,6 +25,7 @@ jobs:
           PUBLIC_IP: ${{ secrets.PUBLIC_IP }}
           BACKEND_IP_1: ${{ secrets.PRIVATE_IP_1 }}
           BACKEND_IP_2: ${{ secrets.PRIVATE_IP_2 }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY_PUB }}
         with:
           host: ${{ secrets.PUBLIC_IP }}
           username: ubuntu
@@ -35,7 +36,7 @@ jobs:
             ssh-keyscan -H $BACKEND_IP_2 >> ~/.ssh/known_hosts
             chmod 600 ~/.ssh/known_hosts
 
-            echo "${{ secrets.SSH_PRIVATE_KEY_PUB }}" > blume_key.pem
+            echo $SSH_KEY > blume_key.pem
   
             # Conectar à máquina privada 1 e atualizar o Docker
             ssh -i blume_key.pem ubuntu@$BACKEND_IP_1 << 'PRIVATE_EOF'
