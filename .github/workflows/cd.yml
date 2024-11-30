@@ -39,24 +39,36 @@ jobs:
           scp -i ~/.ssh/blume_key.pem ~/.ssh/blume_key.pem $PUBLIC_IP:/home/ubuntu/
           scp -i ~/.ssh/blume_key.pem.pub ~/.ssh/blume_key.pem.pub $PUBLIC_IP:/home/ubuntu/
 
-          # Conectar ao Public IP e depois ao Backend 1
-          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $PUBLIC_IP <<EOF
-            ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@$BACKEND_IP_1 <<INNER_EOF
-              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
-              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
-              sudo docker pull victorlcdpaula/backend-neos:latest
-              sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
-            INNER_EOF
-          EOF
+          # Conectar à máquina pública (jump server) e acessar as máquinas privadas
+          ssh -i ~/.ssh/blume_key.pem ubuntu@$PUBLIC_IP << 'EOF'
+            # Comandos executados na máquina pública (jump server)
+            echo "Acessando o jump server"
 
-          # Conectar ao Public IP e depois ao Backend 2
-          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $PUBLIC_IP <<EOF
-            ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null ubuntu@$BACKEND_IP_2 <<INNER_EOF
+            # Transferir a chave privada para a máquina pública
+            echo "${{ secrets.PRIVATE_SSH_KEY }}" > ~/private_key.pem
+            chmod 600 ~/private_key.pem
+            ssh-keyscan -H $BACKEND_IP_1 >> ~/.ssh/known_hosts
+            ssh-keyscan -H $BACKEND_IP_2 >> ~/.ssh/known_hosts
+
+            # Conectar à primeira máquina privada e executar comandos
+            echo "Acessando a máquina privada 1"
+            ssh -i ~/private_key.pem ubuntu@$BACKEND_IP_1 << 'PRIVATE_EOF'
+              # Comandos a serem executados no backend 1
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
               sudo docker pull victorlcdpaula/backend-neos:latest
               sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
-            INNER_EOF
+            PRIVATE_EOF
+
+            # Conectar à segunda máquina privada e executar comandos
+            echo "Acessando a máquina privada 2"
+            ssh -i ~/private_key.pem ubuntu@$BACKEND_IP_2 << 'PRIVATE_EOF'
+              # Comandos a serem executados no backend 2
+              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
+              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
+              sudo docker pull victorlcdpaula/backend-neos:latest
+              sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
+            PRIVATE_EOF
           EOF
 
       - name: Clean up private key
