@@ -13,12 +13,13 @@ jobs:
 
       - name: Setup SSH keys
         run: |
-          # Criar uma nova chave privada para SSH
-          ssh-keygen -t rsa -b 2048 -f blume_key.pem -N ""
-          
-          # Definir permissões para as chaves
-          chmod 600 blume_key.pem
-          chmod 644 blume_key.pem.pub
+            mkdir -p ~/.ssh
+            
+            ssh-keygen -t rsa -b 2048 -f ~/.ssh/blume_key.pem
+
+            # Salvar a chave privada do GitHub Secrets em um arquivo temporário
+            chmod 600 ~/.ssh/blume_key.pem
+            chmod 644 ~/.ssh/blume_key.pem.pub
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
