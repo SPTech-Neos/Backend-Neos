@@ -16,6 +16,7 @@ import school.sptech.neosspringjava.domain.model.Service;
 public interface EmployeeServicesRepository extends JpaRepository<EmployeeServices, Integer>{
     List<EmployeeServices> findAllByEmployee(Employee employeeId);
 
+    List<EmployeeServices> findAllByService(Service s);
 
     @Query("SELECT e FROM EmployeeServices es JOIN es.employee e WHERE e.establishment = :idEstab AND es.service = :idServ")
     List<Employee> findAllByEstablishmentAndService(@Param("idEstab") Establishment estab, @Param("idServ") Service serv);

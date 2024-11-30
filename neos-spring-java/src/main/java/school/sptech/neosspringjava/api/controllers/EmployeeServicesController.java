@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import school.sptech.neosspringjava.api.dtos.employeeServicesDto.EmployeeServicesRequest;
 import school.sptech.neosspringjava.api.dtos.employeeServicesDto.EmployeeServicesResponse;
+import school.sptech.neosspringjava.api.mappers.EmployeeServicesMapper;
 import school.sptech.neosspringjava.service.EmployeeServService;
+import school.sptech.neosspringjava.service.EmployeeService;
 
 
 @RestController
@@ -53,6 +55,10 @@ public class EmployeeServicesController {
     public ResponseEntity<List<EmployeeServicesResponse>> findAll() {
         return ResponseEntity.ok(employeeServService.findAll());
     }
-    
+
+    @GetMapping("/by-service/{id}")
+    public ResponseEntity<List<EmployeeServicesResponse>> findByService(@PathVariable Integer id){
+        return ResponseEntity.ok(EmployeeServicesMapper.toEmployeeServicesResponse(employeeServService.findByService(id)));
+    }
    
 }

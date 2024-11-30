@@ -2,6 +2,7 @@ package school.sptech.neosspringjava.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ import school.sptech.neosspringjava.domain.repository.ServiceRepository;
 @RequiredArgsConstructor
 public class EmployeeServService {
     private final EmployeeServicesRepository employeeServicesRepository;
+    private final ServiceService sService;
     private final EmployeeServicesMapper employeeServicesMapper;
     private final EmployeeRepository    employeeRepository;
     private final ServiceRepository serviceRepository;
@@ -66,6 +68,10 @@ public class EmployeeServService {
         }
 
         return services;
+    }
+
+    public List<EmployeeServices> findByService(Integer id){
+            return employeeServicesRepository.findAllByService(sService.findById(id));
     }
     
 }
