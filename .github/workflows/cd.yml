@@ -20,6 +20,7 @@ jobs:
           
           # Definir permissões de acesso corretas para a chave privada
           chmod 400 ~/.ssh/blume_key.pem
+          cd ~/.ssh/
 
       - name: Deploy Docker image to both backends via jump server
         env:
@@ -28,22 +29,34 @@ jobs:
           BACKEND_IP_2: ${{ secrets.PRIVATE_IP_2 }}
         run: |
           # Conectar ao primeiro backend via jump server (frontend) usando ProxyJump
-          ssh -o StrictHostKeyChecking=no -i blume_key.pem \
-            -o ProxyJump=ubuntu@$PUBLIC_IP \
-            ubuntu@$BACKEND_IP_1 << 'EOF'
-              # Comandos SSH para atualizar a imagem Docker na primeira VM do backend
-              sudo docker pull victorlcdpaula/backend-neos:latest
-              sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
-            EOF
+          scp -i blume_key.pem blume_key.pem $PUBLIC_IP:/home/ubuntu/
+          ssh -i blume_key.pem $PUBLIC_IP
 
-          # Conectar ao segundo backend via jump server (frontend) usando ProxyJump
-          ssh -o StrictHostKeyChecking=no -i blume_key.pem \
-            -o ProxyJump=ubuntu@$PUBLIC_IP \
-            ubuntu@$BACKEND_IP_2 << 'EOF'
-              # Comandos SSH para atualizar a imagem Docker na segunda VM do backend
-              sudo docker pull victorlcdpaula/backend-neos:latest
-              sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
-            EOF
+          ssh -i blume_key.pem $BACKEND_IP_1
+
+          sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest --format "{{.ID}}"
+          
+          sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
+          sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
+
+
+          sudo docker pull victorlcdpaula/backend-neos:latest
+          sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
+
+          exit
+
+          ssh -i blume_key.pem $BACKEND_IP_2
+
+          sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest --format "{{.ID}}"
+
+          sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
+          sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
+
+          sudo docker pull victorlcdpaula/backend-neos:latest
+          sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
+
+          exit
+          exit
 
       - name: Clean up private key
         run: |
