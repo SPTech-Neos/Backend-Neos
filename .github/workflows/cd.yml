@@ -29,6 +29,11 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
+      - name: Verify PUBLIC_IP value
+        env:
+          PUBLIC_IP: ${{ secrets.PUBLIC_IP }}
+        run: echo $PUBLIC_IP
+
       - name: Verify and add the public machine's SSH key
         env:
           PUBLIC_IP: ${{ secrets.PUBLIC_IP }}
