@@ -37,7 +37,7 @@ jobs:
               # Baixar a nova imagem e rodar o container
               sudo docker pull victorlcdpaula/backend-neos:latest
               sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
-              EOF
+            EOF
           done
 
       - name: Clean up private key
