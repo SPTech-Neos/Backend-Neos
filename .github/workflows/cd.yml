@@ -28,6 +28,13 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: us-east-1
 
+      - name: KeyGen knowhosts
+        env:
+          CLEAN_PUBLIC_IP: ${{ secrets.CLEAN_PUBLIC_IP }}
+        run: |
+          # GERANDO KNOW HOSTS
+          ssh-keygen -R CLEAN_PUBLIC_IP
+
       - name: Copy SSH keys to the jump server
         env:
           PUBLIC_IP: ${{ secrets.PUBLIC_IP }}
