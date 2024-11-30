@@ -36,13 +36,13 @@ jobs:
 
       - name: Deploy Docker image to backend servers
         env:
-          JUMP_SERVER: ${{ secrets.PUBLIC_IP }}
+          PUBLIC_IP: ${{ secrets.PUBLIC_IP }}
           BACKEND_IP_1: ${{ secrets.PRIVATE_IP_1 }}
           BACKEND_IP_2: ${{ secrets.PRIVATE_IP_2 }}
         run: |
           # Copiar a chave privada para o jump server
-          scp -i ~/.ssh/blume_key.pem ~/.ssh/blume_key.pem $PUBLIC_IP:/home/ubuntu/blume_key.pem
-          scp -i ~/.ssh/blume_key.pem.pub ~/.ssh/blume_key.pem.pub $PUBLIC_IP:/home/ubuntu/blume_key.pem.pub
+          scp -i ~/.ssh/blume_key.pem ~/.ssh/blume_key.pem $PUBLIC_IP:/home/ubuntu/
+          scp -i ~/.ssh/blume_key.pem.pub ~/.ssh/blume_key.pem.pub $PUBLIC_IP:/home/ubuntu/
 
           # Conectar ao primeiro backend via jump server (frontend) usando ProxyJump
           ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -J $PUBLIC_IP ubuntu@$BACKEND_IP_1 <<EOF
