@@ -14,10 +14,7 @@ jobs:
       - name: Setup SSH keys
         run: |
           mkdir -p ~/.ssh
-          # Criar uma nova chave privada para SSH
           ssh-keygen -t rsa -b 2048 -f ~/.ssh/blume_key.pem -N ""
-          
-          # Definir permissões para as chaves
           chmod 600 ~/.ssh/blume_key.pem
           chmod 644 ~/.ssh/blume_key.pem.pub
           chmod 700 ~/.ssh
@@ -32,10 +29,7 @@ jobs:
 
       - name: Add hostname to /etc/hosts
         run: |
-          # Adicionar o hostname para garantir que seja resolvido corretamente
           echo "127.0.0.1 workstation" | sudo tee -a /etc/hosts
-          
-          # Verificar se a adição foi bem-sucedida
           cat /etc/hosts
 
       - name: Verify and add the public machine's SSH key
@@ -45,20 +39,16 @@ jobs:
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
           ssh-keyscan -H $PUBLIC_IP >> ~/.ssh/known_hosts
-          cat ~/.ssh/known_hosts
           chmod 600 ~/.ssh/known_hosts
-          cd ~/.ssh/
-          ls
-          sudo ssh -i blume_key.pem ubuntu@$PUBLIC_IP
+          cat ~/.ssh/known_hosts
+          # Adding the `-o StrictHostKeyChecking=no` option to avoid verification prompt
+          sudo ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no ubuntu@$PUBLIC_IP
 
       - name: Copy SSH key PEM PUB to the jump server
         env:
           PUBLIC_IP: ${{ secrets.CLEAN_PUBLIC_IP }}
         run: |
-          # Copiar a chave pública para o jump server
           sudo ssh-copy-id -i ~/.ssh/blume_key.pem.pub ubuntu@$PUBLIC_IP
-
-          # Verificar se a chave pública foi copiada corretamente
           echo "Chave pública copiada para o jump server com sucesso."
 
       - name: Deploy Docker image to backend servers
@@ -68,14 +58,14 @@ jobs:
           BACKEND_IP_2: ${{ secrets.PRIVATE_IP_2 }}
         run: |
           # Conectar ao jump server (pública)
-          ssh -i ~/.ssh/blume_key.pem ubuntu@$PUBLIC_IP << 'EOF'
+          ssh -i ~/.ssh/blume_key.pem -t ubuntu@$PUBLIC_IP << 'EOF'
             # Adicionar as chaves das máquinas privadas ao known_hosts
-            ssh-keyscan -H ubuntu@$BACKEND_IP_1 >> ~/.ssh/known_hosts
-            ssh-keyscan -H ubuntu@$BACKEND_IP_2 >> ~/.ssh/known_hosts
+            ssh-keyscan -H $BACKEND_IP_1 >> ~/.ssh/known_hosts
+            ssh-keyscan -H $BACKEND_IP_2 >> ~/.ssh/known_hosts
+            chmod 600 ~/.ssh/known_hosts
 
             # Conectar à máquina privada 1
-            ssh -i ~/.ssh/blume_key.pem ubuntu@$BACKEND_IP_1 << 'PRIVATE_EOF'
-              # Comandos a serem executados no backend 1
+            ssh -i ~/.ssh/blume_key.pem -t ubuntu@$BACKEND_IP_1 << 'PRIVATE_EOF'
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
               sudo docker pull victorlcdpaula/backend-neos:latest
@@ -83,8 +73,7 @@ jobs:
             PRIVATE_EOF
 
             # Conectar à máquina privada 2
-            ssh -i ~/.ssh/blume_key.pem ubuntu@$BACKEND_IP_2 << 'PRIVATE_EOF'
-              # Comandos a serem executados no backend 2
+            ssh -i ~/.ssh/blume_key.pem -t ubuntu@$BACKEND_IP_2 << 'PRIVATE_EOF'
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
               sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
               sudo docker pull victorlcdpaula/backend-neos:latest
