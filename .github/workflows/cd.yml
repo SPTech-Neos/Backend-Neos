@@ -41,11 +41,11 @@ jobs:
           BACKEND_IP_2: ${{ secrets.PRIVATE_IP_2 }}
         run: |
           # Copiar a chave privada para o jump server
-          scp -i ~/.ssh/blume_key.pem ~/.ssh/blume_key.pem ubuntu@$PUBLIC_IP:/home/ubuntu/
-          scp -i ~/.ssh/blume_key.pem.pub ~/.ssh/blume_key.pem.pub ubuntu@$PUBLIC_IP:/home/ubuntu/
+          scp -i ~/.ssh/blume_key.pem ~/.ssh/blume_key.pem $PUBLIC_IP:/home/ubuntu/
+          scp -i ~/.ssh/blume_key.pem.pub ~/.ssh/blume_key.pem.pub $PUBLIC_IP:/home/ubuntu/
 
           # Conectar ao primeiro backend via jump server (frontend) usando ProxyJump
-          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -J ubuntu@$PUBLIC_IP ubuntu@$BACKEND_IP_1 <<EOF
+          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -J $PUBLIC_IP ubuntu@$BACKEND_IP_1 <<EOF
             sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
             sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
             sudo docker pull victorlcdpaula/backend-neos:latest
@@ -53,7 +53,7 @@ jobs:
           EOF
 
           # Conectar ao segundo backend via jump server (frontend) usando ProxyJump
-          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -J ubuntu@$PUBLIC_IP ubuntu@$BACKEND_IP_2 <<EOF
+          ssh -i ~/.ssh/blume_key.pem -o StrictHostKeyChecking=no -J $PUBLIC_IP ubuntu@$BACKEND_IP_2 <<EOF
             sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
             sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
             sudo docker pull victorlcdpaula/backend-neos:latest
