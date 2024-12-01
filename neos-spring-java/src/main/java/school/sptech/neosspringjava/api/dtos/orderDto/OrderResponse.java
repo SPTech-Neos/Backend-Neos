@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Builder
 public record OrderResponse(
         Integer id,
-        LocalDateTime dateTime,
+        String dateTime,
         Status status,
         Client client
 

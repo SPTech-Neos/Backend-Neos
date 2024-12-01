@@ -8,6 +8,7 @@ import school.sptech.neosspringjava.domain.repository.OrderRepository;
 import school.sptech.neosspringjava.domain.model.Client;
 import school.sptech.neosspringjava.domain.model.Order;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -27,8 +28,9 @@ public class OrderService {
 
     public Order save(OrderRequest oReq){
         Order o = new Order();
+        LocalDateTime datetime = LocalDateTime.parse(oReq.dateTime());
 
-        o.setDateTime(oReq.dateTime());
+        o.setDateTime(datetime);
         o.setStatus(sService.findById(oReq.fkStatus()));
         o.setClient(clientService.findById(oReq.fkClient()));
 
@@ -43,9 +45,11 @@ public class OrderService {
     public Order updateOrder(Integer id, OrderRequest updateInformations){
         Order o = findById(id);
 
-        if(updateInformations.dateTime() != null ){
-        o.setDateTime(updateInformations.dateTime());
-        }
+        LocalDateTime dateTime = LocalDateTime.parse(updateInformations.dateTime());
+
+        if(dateTime != null ){
+            o.setDateTime(dateTime);
+            }
         if(updateInformations.fkClient() != null ){
             Client  c = clientService.findById(updateInformations.fkClient());
             o.setClient(c);
