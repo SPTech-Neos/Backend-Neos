@@ -13,6 +13,7 @@ import school.sptech.neosspringjava.domain.model.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Integer>{
 
+
     List<Product> findAllByEstablishment(Establishment establishmentId);
 
     @Query("SELECT p FROM Product p WHERE p.establishment.id = :id")

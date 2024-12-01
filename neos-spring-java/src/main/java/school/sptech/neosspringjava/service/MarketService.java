@@ -7,10 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.persistence.EntityNotFoundException;
+import school.sptech.neosspringjava.api.dtos.marketDto.MarketRequest;
+import school.sptech.neosspringjava.api.mappers.MarketMapper;
 import school.sptech.neosspringjava.domain.model.Client;
 import school.sptech.neosspringjava.domain.model.Establishment;
 import school.sptech.neosspringjava.domain.model.Market;
 import school.sptech.neosspringjava.domain.repository.MarketRepository;
+import school.sptech.neosspringjava.domain.repository.ProductRepository;
 
 import java.util.List;
 
@@ -20,9 +23,20 @@ public class MarketService {
     private final MarketRepository mRepo;
     private final EstablishmentService establishmentService;
     private final ClientService clientService;
+    private final OrderService oService;
+    private final ProductRepository pRepo;
 
     public List<Market> findAll(){
         return mRepo.findAll();
+    }
+
+    public Market register(MarketRequest r){
+        Market m = new Market();
+        m.setOrder(oService.findById(r.fkOrder()));
+        m.setProduct(pRepo.findById(r.fkProduct()).get());
+        m.setQuantity(r.quantity());
+
+        return mRepo.save(m);
     }
 
     public Market findById(Integer id){

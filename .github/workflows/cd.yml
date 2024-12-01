@@ -1,10 +1,7 @@
 name: CD BACKEND NEOS
 
 on:
-  workflow_run:
-    workflows: ["Terraform Configs"]
-    types:
-      - completed  # Executa o CD somente após a conclusão do CI
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -14,38 +11,56 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup SSH for frontend and backend
-        run: |
-          # Salvar a chave privada em um arquivo temporário
-          echo "$SSH_PRIVATE_KEY" > blume_key.pem
-          
-          # Definir permissões de acesso corretas para a chave privada
-          chmod 600 blume_key.pem
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+          aws-region: us-east-1
 
-      - name: Deploy Docker image to both backends via jump server
+      - name: Deploy Docker image to backend servers
+        uses: appleboy/ssh-action@master
         env:
           PUBLIC_IP: ${{ secrets.PUBLIC_IP }}
           BACKEND_IP_1: ${{ secrets.PRIVATE_IP_1 }}
           BACKEND_IP_2: ${{ secrets.PRIVATE_IP_2 }}
-        run: |
-          # Conectar ao primeiro backend via jump server (frontend) usando ProxyJump
-          ssh -o StrictHostKeyChecking=no -i blume_key.pem \
-            -o ProxyJump=ubuntu@$PUBLIC_IP \
-            ubuntu@$BACKEND_IP_1 << 'EOF'
-              # Comandos SSH para atualizar a imagem Docker na primeira VM do backend
-              sudo docker pull victorlcdpaula/backend-neos:latest
-              sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
-            EOF
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY_PUB }}
+        with:
+          host: ${{ secrets.PUBLIC_IP }}  # Use o IP público diretamente
+          username: ubuntu
+          key: ${{ secrets.SSH_PRIVATE_KEY_PUB }}  # A chave privada aqui
+          script: |
+            set -x  # Habilita o modo de depuração para mostrar todas as linhas de execução
+            
+            # Cria o diretório .ssh se necessário
+            mkdir -p ~/.ssh
+          
+            # Adicionar as chaves das máquinas privadas ao known_hosts
+            ssh-keyscan -H $BACKEND_IP_1 >> ~/.ssh/known_hosts
+            ssh-keyscan -H $BACKEND_IP_2 >> ~/.ssh/known_hosts
+            chmod 600 ~/.ssh/known_hosts
 
-          # Conectar ao segundo backend via jump server (frontend) usando ProxyJump
-          ssh -o StrictHostKeyChecking=no -i blume_key.pem \
-            -o ProxyJump=ubuntu@$PUBLIC_IP \
-            ubuntu@$BACKEND_IP_2 << 'EOF'
-              # Comandos SSH para atualizar a imagem Docker na segunda VM do backend
+            # Salvar a chave privada fornecida no arquivo .pem
+            echo "$SSH_KEY" > ~/.ssh/blume_key.pem
+            chmod 600 ~/.ssh/blume_key.pem  # Garanta permissões adequadas
+
+            # Conectar à máquina privada 1 e atualizar o Docker
+            ssh -i ~/.ssh/blume_key.pem ubuntu@$BACKEND_IP_1 << 'PRIVATE_EOF'
+              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
+              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
               sudo docker pull victorlcdpaula/backend-neos:latest
               sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
-            EOF
+            PRIVATE_EOF
+
+            # Conectar à máquina privada 2 e atualizar o Docker
+            ssh -i ~/.ssh/blume_key.pem ubuntu@$BACKEND_IP_2 << 'PRIVATE_EOF'
+              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker stop
+              sudo docker ps -a --filter ancestor=victorlcdpaula/backend-neos:latest -q | xargs -r sudo docker rm
+              sudo docker pull victorlcdpaula/backend-neos:latest
+              sudo docker run -d -p 8080:8080 victorlcdpaula/backend-neos:latest
+            PRIVATE_EOF
 
       - name: Clean up private key
         run: |
-          rm -f blume_key.pem
+          rm -f ~/.ssh/blume_key.pem

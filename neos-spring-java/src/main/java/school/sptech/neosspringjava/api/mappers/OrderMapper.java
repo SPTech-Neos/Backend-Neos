@@ -4,14 +4,17 @@ import school.sptech.neosspringjava.api.dtos.orderDto.OrderRequest;
 import school.sptech.neosspringjava.api.dtos.orderDto.OrderResponse;
 import school.sptech.neosspringjava.domain.model.Order;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class OrderMapper {
     public static OrderResponse toResponse(Order o){
+        DateTimeFormatter datetime = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
         return new OrderResponse(
             o.getId(),
-            o.getDateTime(),
+            datetime.toString(),
             o.getStatus(),
             o.getClient()
         );

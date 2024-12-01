@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public record OrderRequest(
         @FutureOrPresent
         @NotNull
-        LocalDateTime dateTime,
+        String dateTime,
         @NotNull
         Integer fkStatus,
         @NotNull
