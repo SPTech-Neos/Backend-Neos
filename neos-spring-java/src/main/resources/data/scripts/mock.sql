@@ -118,27 +118,27 @@ INSERT INTO product_type (name, specification) VALUES
 ('Creme de modelagem', 'Cabelo');
 
 
-INSERT INTO product (name, brand, img_url, price, fk_product_type, fk_establishment, fk_status) VALUES
-('Shampoo', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 1, 1, 1),
-('Condicionador', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 4.00, 2, 1, 1),
-('Máscara', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 3.00, 3, 1, 1),
-('Finalizador', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 2.50, 4, 1, 1),
-('Óleo', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 5, 1, 1),
-('Creme', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 4.00, 6, 1, 1),
-('Tônico', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 3.00, 7, 1, 1),
-('Leave-in', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg.jpg', 2.50, 8, 1, 1),
-('Protetor', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 9, 1, 1),
-('Gel', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 4.00, 10, 1, 1),
-('Pomada', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 3.00, 11, 1, 1),
-('Spray', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 2.50, 12, 1, 1),
-('Mousse', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 13, 1, 1),
-('Creme de pentear', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-pentear.jpg', 4.00, 14, 1, 1),
-('Creme de tratamento', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-tratamento.jpg', 3.00, 15, 1, 1),
-('Creme de hidratação', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-hidratacao.jpg', 2.50, 16, 1, 1),
-('Creme de reconstrução', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-reconstrucao.jpg', 5.50, 17, 1, 1),
-('Creme de nutrição', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-nutricao.jpg', 4.00, 18, 1, 1),
-('Creme de definição', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-definicao.jpg', 3.00, 19, 1, 1),
-('Clear men', 'Clear men', 'https://www.drogariaminasbrasil.com.br/media/product/bed/shampoo-anticaspa-men-limpeza-profunda-400ml-clear-d6a.jpg', 2.50, 20, 1, 1);
+INSERT INTO product (aditum_id, name, brand, img_url, price, fk_product_type, fk_establishment, fk_status) VALUES
+('f905651c-53ea-498a-a32b-5eceb939895d', 'Shampoo', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 1, 1, 1),
+('AAA-AA0', 'Condicionador', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 4.00, 2, 1, 1),
+('BBB-BB1', 'Máscara', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 3.00, 3, 1, 1),
+('CCC-CC3', 'Finalizador', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 2.50, 4, 1, 1),
+('DDD-DD4', 'Óleo', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 5, 1, 1),
+('EEE-EE5', 'Creme', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 4.00, 6, 1, 1),
+('FFF-FF6', 'Tônico', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 3.00, 7, 1, 1),
+('GGG-GG7', 'Leave-in', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg.jpg', 2.50, 8, 1, 1),
+('HHH-HH8', 'Protetor', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 9, 1, 1),
+('III-II9', 'Gel', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 4.00, 10, 1, 1),
+('KKK-KK2', 'Pomada', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 3.00, 11, 1, 1),
+('JJJ-JJ1', 'Spray', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 2.50, 12, 1, 1),
+('LLL-LL1', 'Mousse', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 13, 1, 1),
+('MMM-MM2', 'Creme de pentear', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-pentear.jpg', 4.00, 14, 1, 1),
+('NNN-NN4', 'Creme de tratamento', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-tratamento.jpg', 3.00, 15, 1, 1),
+('OOO-OO1', 'Creme de hidratação', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-hidratacao.jpg', 2.50, 16, 1, 1),
+('PPP-PP2', 'Creme de reconstrução', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-reconstrucao.jpg', 5.50, 17, 1, 1),
+('AAA-N12', 'Creme de nutrição', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-nutricao.jpg', 4.00, 18, 1, 1),
+('KKL-02A', 'Creme de definição', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-definicao.jpg', 3.00, 19, 1, 1),
+('AAA-AA0', 'Clear men', 'Clear men', 'https://www.drogariaminasbrasil.com.br/media/product/bed/shampoo-anticaspa-men-limpeza-profunda-400ml-clear-d6a.jpg', 2.50, 20, 1, 1);
 
 
 INSERT INTO service_category (name) VALUES
