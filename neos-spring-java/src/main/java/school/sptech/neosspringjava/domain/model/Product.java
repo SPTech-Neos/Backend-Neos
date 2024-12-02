@@ -30,6 +30,9 @@ public class Product {
 
     private String name;
 
+    @Column(name = "aditum_id")
+    private String aditumId;
+
     private String brand;
 
     private String imgUrl;

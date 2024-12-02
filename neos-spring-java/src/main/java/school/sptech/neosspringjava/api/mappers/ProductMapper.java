@@ -17,7 +17,7 @@ import school.sptech.neosspringjava.domain.model.Status;
 public class ProductMapper {
 
     public static ProductResponse toProductResponse(Product product) {
-        return new ProductResponse(product.getId(), product.getName(), product.getBrand(), product.getImgUrl(), product.getType(), product.getPrice(), product.getStatus(), product.getEstablishment());
+        return new ProductResponse(product.getId(), product.getName(), product.getBrand(), product.getImgUrl(),product.getAditumId(), product.getType(), product.getPrice(), product.getStatus(), product.getEstablishment());
     }
 
     public static List<ProductResponse> toProductResponse(List<Product> product) {
@@ -27,6 +27,7 @@ public class ProductMapper {
     public static Product toProduct(ProductRequest productRequest, ProductType productType, Establishment establishment, Status status){
         Product product = Product.builder()
                 .name(productRequest.name())
+                .aditumId(productRequest.aditumId())
                 .brand(productRequest.brand())
                 .type(productType)
                 .imgUrl(productRequest.imgUrl())
