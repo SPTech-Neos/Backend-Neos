@@ -37,7 +37,7 @@ import school.sptech.neosspringjava.service.CloudinaryService;
 import school.sptech.neosspringjava.service.ImageService;
 
 @Controller
-@RequestMapping("/api/files")
+@RequestMapping("/files")
 @RequiredArgsConstructor
 public class ImageController {
    
