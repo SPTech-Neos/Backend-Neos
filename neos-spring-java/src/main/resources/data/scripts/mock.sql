@@ -1,5 +1,7 @@
 use blume;
 
+
+-- crie uma massa de dados com 20 addresses
 INSERT INTO address (public_place, city, zip_code, uf) VALUES
 ('Rua 1', 'São Paulo', '01010101', 'SP'),
 ('Rua 2', 'São Paulo', '02020202', 'SP'),
@@ -22,6 +24,7 @@ INSERT INTO address (public_place, city, zip_code, uf) VALUES
 ('Rua 19', 'São Paulo', '19191919', 'SP'),
 ('Rua 20', 'São Paulo', '20202020', 'SP');
 
+-- crie uma massa de dados com 20 locals
 
 INSERT INTO local (number, floor, complement, block, fk_address) VALUES
 ('1', 1, 'Apto 101', 'A', 1),
@@ -45,6 +48,7 @@ INSERT INTO local (number, floor, complement, block, fk_address) VALUES
 ('19', 19, 'Apto 1919', 'S', 19),
 ('20', 20, 'Apto 2020', 'T', 20);
 
+-- crie uma massa de dados com 20 phones
 
 INSERT INTO phone (country_code, area_code, number) VALUES
 ('+55', '11', '912345678'),
@@ -76,6 +80,7 @@ insert INTO status (name, type) VALUES
 ('Concluído', 'completed');
 
 
+-- crie uma massa de dados com 20 establishments
 
 
 INSERT INTO establishment (aditum_id, name, img_url, fk_local, fk_phone, fk_status, start_shift, end_shift, description, cnpj) VALUES
@@ -94,6 +99,8 @@ INSERT INTO establishment (aditum_id, name, img_url, fk_local, fk_phone, fk_stat
 ('EST-013', 'Salão de Beleza 13', 'http://image-url.com/salao13.jpg', 13, 13, 1, '08:00:00', '18:00:00', 'Salão de beleza com diversos serviços de beleza', ''),
 ('EST-014', 'Salão de Beleza 14', 'http://image-url.com/salao14.jpg', 14, 14, 1, '08:00:00', '18:00:00', 'Salão de beleza com diversos serviços de beleza', '');
 
+-- crie uma massa de dados com 20 product_types com o conexto abaixo
+-- Tenho uma aplicação onde o foco é salão de beleza e agendamentos no salão entao a ideia seria montar um mock de dados para esse sql com o foco em salao de beleza, blume é o nome do projeto
 
 INSERT INTO product_type (name, specification) VALUES
 ('Shampoo', 'Cabelo'),
@@ -117,29 +124,31 @@ INSERT INTO product_type (name, specification) VALUES
 ('Creme de definição', 'Cabelo'),
 ('Creme de modelagem', 'Cabelo');
 
+-- crie uma massa de dados com 20 products
 
-INSERT INTO product (name, brand, img_url, price, fk_product_type, fk_establishment, fk_status) VALUES
-('Shampoo', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 1, 1, 1),
-('Condicionador', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 4.00, 2, 1, 1),
-('Máscara', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 3.00, 3, 1, 1),
-('Finalizador', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 2.50, 4, 1, 1),
-('Óleo', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 5, 1, 1),
-('Creme', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 4.00, 6, 1, 1),
-('Tônico', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 3.00, 7, 1, 1),
-('Leave-in', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg.jpg', 2.50, 8, 1, 1),
-('Protetor', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 9, 1, 1),
-('Gel', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 4.00, 10, 1, 1),
-('Pomada', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 3.00, 11, 1, 1),
-('Spray', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 2.50, 12, 1, 1),
-('Mousse', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 13, 1, 1),
-('Creme de pentear', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-pentear.jpg', 4.00, 14, 1, 1),
-('Creme de tratamento', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-tratamento.jpg', 3.00, 15, 1, 1),
-('Creme de hidratação', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-hidratacao.jpg', 2.50, 16, 1, 1),
-('Creme de reconstrução', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-reconstrucao.jpg', 5.50, 17, 1, 1),
-('Creme de nutrição', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-nutricao.jpg', 4.00, 18, 1, 1),
-('Creme de definição', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-definicao.jpg', 3.00, 19, 1, 1),
-('Clear men', 'Clear men', 'https://www.drogariaminasbrasil.com.br/media/product/bed/shampoo-anticaspa-men-limpeza-profunda-400ml-clear-d6a.jpg', 2.50, 20, 1, 1);
+INSERT INTO product (aditum_id, name, brand, img_url, price, fk_product_type, fk_establishment, fk_status) VALUES
+('f905651c-53ea-498a-a32b-5eceb939895d', 'Shampoo', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 1, 1, 1),
+('AAA-AA0', 'Condicionador', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 4.00, 2, 1, 1),
+('BBB-BB1', 'Máscara', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 3.00, 3, 1, 1),
+('CCC-CC3', 'Finalizador', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 2.50, 4, 1, 1),
+('DDD-DD4', 'Óleo', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 5, 1, 1),
+('EEE-EE5', 'Creme', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 4.00, 6, 1, 1),
+('FFF-FF6', 'Tônico', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 3.00, 7, 1, 1),
+('GGG-GG7', 'Leave-in', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg.jpg', 2.50, 8, 1, 1),
+('HHH-HH8', 'Protetor', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 9, 1, 1),
+('III-II9', 'Gel', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 4.00, 10, 1, 1),
+('KKK-KK2', 'Pomada', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 3.00, 11, 1, 1),
+('JJJ-JJ1', 'Spray', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 2.50, 12, 1, 1),
+('LLL-LL1', 'Mousse', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg', 5.50, 13, 1, 1),
+('MMM-MM2', 'Creme de pentear', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-pentear.jpg', 4.00, 14, 1, 1),
+('NNN-NN4', 'Creme de tratamento', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-tratamento.jpg', 3.00, 15, 1, 1),
+('OOO-OO1', 'Creme de hidratação', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-hidratacao.jpg', 2.50, 16, 1, 1),
+('PPP-PP2', 'Creme de reconstrução', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-reconstrucao.jpg', 5.50, 17, 1, 1),
+('AAA-N12', 'Creme de nutrição', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-nutricao.jpg', 4.00, 18, 1, 1),
+('KKL-02A', 'Creme de definição', 'Loreal', 'https://images.tcdn.com.br/img/img_prod/943474/loreal_pro_longer_shampoo_renovacao_crescimento_300ml_35809_1_b8c6e7275571aaf215f5393b189f5e82.jpg-definicao.jpg', 3.00, 19, 1, 1),
+('AAA-AA0', 'Clear men', 'Clear men', 'https://www.drogariaminasbrasil.com.br/media/product/bed/shampoo-anticaspa-men-limpeza-profunda-400ml-clear-d6a.jpg', 2.50, 20, 1, 1);
 
+-- crie uma massa de dados com 20 service_categories
 
 INSERT INTO service_category (name) VALUES
 ('Cabelo'),
@@ -155,6 +164,7 @@ INSERT INTO service_category (name) VALUES
 ('Dia do noivo'),
 ('Dia da debutante');
 
+-- crie uma massa de dados com 20 service_types
 
 INSERT INTO service_type (name, fk_service_category) VALUES
 ('Corte de cabelo', 1),
@@ -178,6 +188,7 @@ INSERT INTO service_type (name, fk_service_category) VALUES
 ('Dia da noiva', 10),
 ('Dia do noivo', 11);
 
+-- crie uma massa de dados com 20 services
 
 INSERT INTO service (specification, aditum_id, price, img_url, fk_service_type, fk_status) VALUES
 ('Corte de cabelo', 'SRV-001', 0.00, 'http://image-url.com/corte.jpg', 1, 1),
@@ -201,6 +212,7 @@ INSERT INTO service (specification, aditum_id, price, img_url, fk_service_type, 
 ('Dia da noiva', 'SRV-019', 90.00, 'http://image-url.com/dia-da-noiva.jpg', 19, 1),
 ('Dia do noivo', 'SRV-020', 95.00, 'http://image-url.com/dia-do-noivo.jpg', 20, 1);
 
+-- crie uma massa de dados com 20 employee_types
 
 INSERT INTO employee_type (name) VALUES
 ('Cabeleireiro'),
@@ -216,9 +228,18 @@ INSERT INTO employee_type (name) VALUES
 ('Dia do noivo'),
 ('Dia da debutante');
 
+-- crie uma massa de dados com 20 employees
 
 INSERT INTO employee (name, email, password, img_url, fk_establishment, fk_employee_type, fk_phone, fk_local, fk_status) VALUES
+('Carlos Dias', 'exemplo01@teste.com', '$2a$10$hleet8CAQHml3gRwovtmIeA52jxwrpLZ/MsOQyO0dAOIoBTTdd/W6','https://publish-p47754-e237306.adobeaemcloud.com/adobe/dynamicmedia/deliver/dm-aid--914bcfe0-f610-4610-a77e-6ea53c53f630/_330603286208.app.webp?preferwebp=true&width=312', 1, 1, 1, 1, 1),
+('Maria Silva', 'exemplo02@teste.com', '$2a$10$hleet8CAQHml3gRwovtmIeA52jxwrpLZ/MsOQyO0dAOIoBTTdd/W6','https://publish-p47754-e237306.adobeaemcloud.com/adobe/dynamicmedia/deliver/dm-aid--914bcfe0-f610-4610-a77e-6ea53c53f630/_330603286208.app.webp?preferwebp=true&width=312', 2, 2, 2, 2, 1),
+('João Santos', 'exemplo03@teste.com', '$2a$10$hleet8CAQHml3gRwovtmIeA52jxwrpLZ/MsOQyO0dAOIoBTTdd/W6','https://publish-p47754-e237306.adobeaemcloud.com/adobe/dynamicmedia/deliver/dm-aid--914bcfe0-f610-4610-a77e-6ea53c53f630/_330603286208.app.webp?preferwebp=true&width=312', 3, 3, 3, 3, 1),
+('Ana Souza', 'exemplo04@teste.com', '$2a$10$hleet8CAQHml3gRwovtmIeA52jxwrpLZ/MsOQyO0dAOIoBTTdd/W6','https://publish-p47754-e237306.adobeaemcloud.com/adobe/dynamicmedia/deliver/dm-aid--914bcfe0-f610-4610-a77e-6ea53c53f630/_330603286208.app.webp?preferwebp=true&width=312', 4, 4, 4, 4, 1),
+('Pedro Oliveira', 'exemplo05@teste.com', '$2a$10$hleet8CAQHml3gRwovtmIeA52jxwrpLZ/MsOQyO0dAOIoBTTdd/W6','https://publish-p47754-e237306.adobeaemcloud.com/adobe/dynamicmedia/deliver/dm-aid--914bcfe0-f610-4610-a77e-6ea53c53f630/_330603286208.app.webp?preferwebp=true&width=312', 5, 5, 5, 5, 1),
+('Julia Pereira', 'exemplo06@teste.com', '$2a$10$hleet8CAQHml3gRwovtmIeA52jxwrpLZ/MsOQyO0dAOIoBTTdd/W6','https://publish-p47754-e237306.adobeaemcloud.com/adobe/dynamicmedia/deliver/dm-aid--914bcfe0-f610-4610-a77e-6ea53c53f630/_330603286208.app.webp?preferwebp=true&width=312', 6, 6, 6, 6, 1),
+('Lucas Costa', 'exemplo07@teste.com', '$2a$10$hleet8CAQHml3gRwovtmIeA52jxwrpLZ/MsOQyO0dAOIoBTTdd/W6','https://publish-p47754-e237306.adobeaemcloud.com/adobe/dynamicmedia/deliver/dm-aid--914bcfe0-f610-4610-a77e-6ea53c53f630/_330603286208.app.webp?preferwebp=true&width=312', 7, 7, 7, 7, 1);
 
+-- crie uma massa de dados com 20 employee_services
 
 INSERT INTO employee_services (hours_spent, expertise, fk_employee, fk_service, fk_status) VALUES
 (1, 1, 1, 1, 1),
@@ -232,6 +253,7 @@ INSERT INTO employee_services (hours_spent, expertise, fk_employee, fk_service, 
 (6, 6, 6, 6, 1),
 (7, 7, 7, 7, 1);
 
+-- crie uma massa de dados com 20 clients -- todo email é exemplo02@teste.com e a senha é 123456
 
 INSERT INTO client (name, email, password, img_url, cpf, fk_local, fk_phone) VALUES
 ('Fernando Oliveira', 'exemplo08@teste.com', '$2a$10$hleet8CAQHml3gRwovtmIeA52jxwrpLZ/MsOQyO0dAOIoBTTdd/W6', 'https://negociosdebeleza.beautyfair.com.br/wp-content/uploads/2022/12/cabeleireira-811x526.png', '12345678901', 1, 1),
@@ -242,6 +264,7 @@ INSERT INTO client (name, email, password, img_url, cpf, fk_local, fk_phone) VAL
 ('Bruno Costa', 'exemplo13@teste.com', '$2a$10$hleet8CAQHml3gRwovtmIeA52jxwrpLZ/MsOQyO0dAOIoBTTdd/W6', 'https://negociosdebeleza.beautyfair.com.br/wp-content/uploads/2022/12/cabeleireira-811x526.png', '12345678906', 6, 6),
 ('Patricia Dias', 'exemplo14@teste.com', '$2a$10$hleet8CAQHml3gRwovtmIeA52jxwrpLZ/MsOQyO0dAOIoBTTdd/W6', 'https://negociosdebeleza.beautyfair.com.br/wp-content/uploads/2022/12/cabeleireira-811x526.png', '12345678907', 7, 7);
 
+-- crie uma massa de dados com 20 ratings
 
 INSERT INTO rating (avaliation, fk_establishment, fk_employee, fk_service, fk_client, fk_product) VALUES
 (1, 1, 1, 1, 1, 1),
@@ -255,6 +278,7 @@ INSERT INTO rating (avaliation, fk_establishment, fk_employee, fk_service, fk_cl
 (4, 4, 4, 4, 4, 4),
 (5, 5, 5, 5, 5, 5);
 
+-- crie uma massa de dados com 20 schedules
 
 INSERT INTO schedule (date_time, fk_service, fk_status, fk_client, fk_employee) VALUES
 ('2024-08-31 08:00:00', 1, 1, 1, 1),
@@ -262,6 +286,7 @@ INSERT INTO schedule (date_time, fk_service, fk_status, fk_client, fk_employee) 
 ('2024-08-31 10:00:00', 3, 1, 3, 3),
 ('2024-08-31 11:00:00', 4, 1, 4, 4);
 
+-- crie uma massa de dados com 20 orders
 
 INSERT INTO orders (date_time, fk_status, fk_client) VALUES
 ('2024-08-31 08:00:00', 1, 1),
@@ -273,6 +298,7 @@ INSERT INTO orders (date_time, fk_status, fk_client) VALUES
 ('2024-08-31 14:00:00', 1, 4),
 ('2024-08-31 15:00:00', 1, 4),
 ('2024-08-31 20:00:00', 1, 4);
+-- crie uma massa de dados com 20 markets
 
 INSERT INTO market (quantity, fk_product, fk_order) VALUES
 (1, 1, 1),
@@ -280,6 +306,7 @@ INSERT INTO market (quantity, fk_product, fk_order) VALUES
 (3, 3, 3),
 (4, 4, 4);
 
+-- crie uma massa de dados com 20 payments
 
 INSERT INTO payment (date_payment, fk_schedule, fk_market, fk_status) VALUES
 ('2024-08-31 08:00:00', 1, 1, 1),
@@ -287,6 +314,7 @@ INSERT INTO payment (date_payment, fk_schedule, fk_market, fk_status) VALUES
 ('2024-08-31 10:00:00', 3, 3, 1),
 ('2024-08-31 11:00:00', 4, 4, 1);
 
+-- crie uma massa de dados com 20 images
 
 INSERT INTO image (name, path, file_extension, file_size, fk_client, fk_product, fk_service, fk_employee, fk_establishment) VALUES
 ('Imagem 1', 'http://image-url.com/imagem1', '.jpg', 1.5, 1, null, null, null, null),

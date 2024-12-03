@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS product_type (
 CREATE TABLE IF NOT EXISTS product (
   product_id INT PRIMARY KEY auto_increment,
   name VARCHAR(45),
+  aditum_id VARCHAR(300),
   brand VARCHAR(45),
   img_url VARCHAR(500),
   price DECIMAL,
